@@ -25,10 +25,6 @@ venv/
 ENV/
 env/
 
-# Output directory
-output/
-*.zip
-
 # IDE
 .vscode/
 .idea/

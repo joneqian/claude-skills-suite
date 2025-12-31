@@ -169,7 +169,7 @@ echo ""
 # Use Python agent detector
 DETECTED_AGENTS=$(python3 -c "
 import sys
-sys.path.insert(0, 'src')
+sys.path.insert(0, '.')
 from skill_seekers.mcp.agent_detector import AgentDetector
 detector = AgentDetector()
 agents = detector.detect_agents()
@@ -345,7 +345,7 @@ if [ "$DETECTED_AGENTS" != "NONE" ]; then
                 # Generate config using Python
                 GENERATED_CONFIG=$(python3 -c "
 import sys
-sys.path.insert(0, 'src')
+sys.path.insert(0, '.')
 from skill_seekers.mcp.agent_detector import AgentDetector
 detector = AgentDetector()
 
@@ -369,7 +369,7 @@ print(config)
                         python3 -c "
 import sys
 import json
-sys.path.insert(0, 'src')
+sys.path.insert(0, '.')
 
 # Read existing config
 try:
@@ -567,7 +567,7 @@ else
     echo "    \"skill-seeker\": {"
     echo "      \"command\": \"python3\","
     echo "      \"args\": ["
-    echo "        \"$REPO_PATH/src/skill_seekers/mcp/server_fastmcp.py\""
+    echo "        \"$REPO_PATH/skill_seekers/mcp/server_fastmcp.py\""
     echo "      ],"
     echo "      \"cwd\": \"$REPO_PATH\""
     echo "    }"
@@ -631,7 +631,7 @@ echo "Documentation:"
 echo "=========================================================="
 echo "  • MCP Setup Guide:     ${YELLOW}docs/MCP_SETUP.md${NC}"
 echo "  • HTTP Transport:      ${YELLOW}docs/HTTP_TRANSPORT.md${NC}"
-echo "  • Agent Detection:     ${YELLOW}src/skill_seekers/mcp/agent_detector.py${NC}"
+echo "  • Agent Detection:     ${YELLOW}skill_seekers/mcp/agent_detector.py${NC}"
 echo "  • Full Documentation:  ${YELLOW}README.md${NC}"
 echo ""
 
