@@ -19,12 +19,17 @@
   },
   "categories": {
     "getting_started": ["installation", "editor-setup", "intellisense"],
-    "core_concepts": ["utility-first", "responsive", "hover-focus", "dark-mode"],
+    "core_concepts": [
+      "utility-first",
+      "responsive",
+      "hover-focus",
+      "dark-mode"
+    ],
     "layout": ["container", "columns", "flex", "grid"],
     "typography": ["font-family", "font-size", "text-align", "text-color"],
     "backgrounds": ["background-color", "background-image", "gradient"],
     "customization": ["configuration", "theme", "plugins"]
   },
   "rate_limit": 0.5,
-  "max_pages": 100
+  "max_pages": 200
 }
