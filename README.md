@@ -20,6 +20,7 @@
 将原始 FAQ 文档转换为 RAG 优化的结构化格式。
 
 **功能特性：**
+
 - 支持多种格式的 FAQ 文档分析（Excel、Word、PDF、文本）
 - 识别结构和内容质量问题
 - 自动生成分类和关键词
@@ -27,12 +28,14 @@
 - 输出标准化的 Excel 格式供 RAG 系统使用
 
 **使用场景：**
+
 - 知识库准备
 - 客服 FAQ 组织整理
 - RAG 系统数据准备
 - FAQ 质量改进
 
 **使用示例：**
+
 ```
 用户：处理我的 FAQ.xlsx 并转换为 RAG 格式
 
@@ -52,6 +55,7 @@ Claude 会自动使用该技能帮助你完成任务。
 完整的浏览器自动化测试工具，基于 Playwright。
 
 **功能特性：**
+
 - 自动检测开发服务器
 - 编写干净的测试脚本到 /tmp 目录
 - 测试页面功能
@@ -64,12 +68,14 @@ Claude 会自动使用该技能帮助你完成任务。
 - 自动化任何浏览器任务
 
 **使用场景：**
+
 - 网站功能测试
 - 浏览器交互自动化
 - Web 功能验证
 - 任何基于浏览器的测试任务
 
 **使用示例：**
+
 ```
 用户：测试营销页面是否美观
 
@@ -101,6 +107,7 @@ Claude：我会测试登录流程。首先检查运行中的服务器...
 ```
 
 **关键特性：**
+
 - 自动检测本地开发服务器
 - 默认使用可见浏览器模式便于调试
 - 测试文件写入 /tmp 自动清理
@@ -118,6 +125,7 @@ Claude：我会测试登录流程。首先检查运行中的服务器...
 使用 D3.js 创建交互式数据可视化。
 
 **功能特性：**
+
 - 自定义图表和图形
 - 网络图和层次结构可视化
 - 地理可视化
@@ -127,6 +135,7 @@ Claude：我会测试登录流程。首先检查运行中的服务器...
 - 支持各种 JavaScript 环境（React、Vue、Svelte、原生 JS）
 
 **适用场景：**
+
 - 需要独特视觉编码或布局的自定义可视化
 - 具有复杂交互的数据探索
 - 网络/图可视化（力导向布局、树图、层次结构、弦图）
@@ -136,6 +145,7 @@ Claude：我会测试登录流程。首先检查运行中的服务器...
 - 标准库中没有的新颖图表类型
 
 **支持的可视化类型：**
+
 - 柱状图
 - 折线图
 - 散点图
@@ -145,6 +155,7 @@ Claude：我会测试登录流程。首先检查运行中的服务器...
 - 力导向网络图
 
 **使用示例：**
+
 ```javascript
 // 创建响应式条形图
 import * as d3 from 'd3';
@@ -158,13 +169,15 @@ function drawBarChart(data, svgElement) {
   const height = 400 - margin.top - margin.bottom;
 
   // 创建比例尺
-  const xScale = d3.scaleBand()
-    .domain(data.map(d => d.category))
+  const xScale = d3
+    .scaleBand()
+    .domain(data.map((d) => d.category))
     .range([0, width])
     .padding(0.1);
 
-  const yScale = d3.scaleLinear()
-    .domain([0, d3.max(data, d => d.value)])
+  const yScale = d3
+    .scaleLinear()
+    .domain([0, d3.max(data, (d) => d.value)])
     .range([height, 0]);
 
   // 绘制图表...
@@ -172,6 +185,7 @@ function drawBarChart(data, svgElement) {
 ```
 
 **核心功能：**
+
 - 支持多种比例尺类型（线性、对数、时间、序数等）
 - 丰富的交互能力（工具提示、缩放、点击）
 - 平滑的过渡和动画效果
@@ -185,6 +199,9 @@ function drawBarChart(data, svgElement) {
 ## Skill Seeker - 自动化技能生成工具
 
 Skill Seeker 是一款强大的自动化工具，能够将文档网站、GitHub 仓库和 PDF 文件转化为可直接投入生产的 Claude AI 技能。
+
+> **项目来源**：[Skill Seekers GitHub 仓库](https://github.com/yusufkaraaslan/Skill_Seekers)
+> 本项目集成了 Skill Seeker 工具，用于自动化生成 Claude 技能。
 
 ### 主要特性
 
@@ -205,6 +222,7 @@ Skill Seeker 是一款强大的自动化工具，能够将文档网站、GitHub 
 ```
 
 该脚本会自动：
+
 - 检测你的 Python 环境
 - 安装必要的依赖（mcp、fastmcp、requests、beautifulsoup4、uvicorn）
 - 检测已安装的 AI 代理（Claude Code、Cursor、Windsurf 等）
@@ -238,26 +256,31 @@ Skill Seeker 是一款强大的自动化工具，能够将文档网站、GitHub 
 ### 可用的 MCP 工具（17 个）
 
 **配置工具：**
+
 - `generate_config` - 为任何文档站点创建配置文件
 - `list_configs` - 显示所有可用的预设配置
 - `validate_config` - 验证配置文件结构
 
 **抓取工具：**
+
 - `estimate_pages` - 在抓取前估算页面数
 - `scrape_docs` - 抓取文档并构建技能
 - `scrape_github` - 抓取 GitHub 仓库
 - `scrape_pdf` - 从 PDF 文件提取内容
 
 **打包工具：**
+
 - `package_skill` - 将技能打包为 .zip 文件
 - `upload_skill` - 上传技能到 Claude
 - `install_skill` - 安装已上传的技能
 
 **拆分工具：**
+
 - `split_config` - 拆分大型文档配置
 - `generate_router` - 生成路由/中枢技能
 
 **配置源工具：**
+
 - `fetch_config` - 从远程源下载配置
 - `submit_config` - 提交配置到社区
 - `add_config_source` - 添加自定义配置源
@@ -309,6 +332,7 @@ python3 -m skill_seekers.mcp.server_fastmcp --http --port 3000
 ```
 
 然后使用：
+
 ```
 "使用 configs/my-config.json 生成技能"
 ```
@@ -316,14 +340,17 @@ python3 -m skill_seekers.mcp.server_fastmcp --http --port 3000
 ### 故障排除
 
 **Python 环境问题：**
+
 - 确保 Python 3.10+ 已安装
 - 建议使用虚拟环境
 
 **MCP 服务器问题：**
+
 - 检查服务器日志：`tail -f /tmp/skill-seekers-mcp.log`
 - 测试连接：`curl http://127.0.0.1:3000/health`
 
 **代理配置问题：**
+
 - 查看代理日志（Claude Code: `~/Library/Logs/Claude Code/`）
 - 验证配置文件语法：`jq empty ~/.config/claude-code/mcp.json`
 
@@ -353,12 +380,14 @@ python3 -m skill_seekers.mcp.server_fastmcp --http --port 3000
 ### 手动安装技能
 
 1. 克隆此仓库：
+
 ```bash
 git clone https://github.com/jone_qian/claude-skills-suite.git
 cd claude-skills-suite
 ```
 
 2. 为你想使用的技能安装依赖：
+
 ```bash
 # 对于 process-faq
 pip install -r output/process-faq/requirements.txt
@@ -368,6 +397,7 @@ cd output/playwright-skill && npm run setup
 ```
 
 3. 将技能复制到 Claude 的技能目录：
+
 ```bash
 # 个人使用
 cp -r output/process-faq ~/.claude/skills/
@@ -386,6 +416,7 @@ cp -r output/d3js .claude/skills/
 ### 验证安装
 
 启动 Claude Code 并询问：
+
 ```
 可用的技能有哪些？
 ```
@@ -401,6 +432,7 @@ cp -r output/d3js .claude/skills/
 Claude Code 支持两种技能存放位置：
 
 #### 1. 全局技能（所有项目可用）
+
 ```
 ~/.claude/skills/
 ├── process-faq/
@@ -418,6 +450,7 @@ Claude Code 支持两种技能存放位置：
 ```
 
 #### 2. 项目特定技能（仅当前项目可用）
+
 ```
 your-project/
 ├── .claude/
@@ -445,6 +478,7 @@ allowed-tools: Read, Write, Bash, AskUserQuestion
 ```
 
 **YAML 前置元数据说明：**
+
 - `name`: 技能的唯一标识符
 - `description`: 简短描述，帮助 Claude 决定何时使用此技能
 - `allowed-tools`: 该技能可以使用的 Claude Code 工具列表
@@ -467,6 +501,7 @@ allowed-tools: Read, Write, Bash, AskUserQuestion
 ### 技能优先级
 
 当多个技能都可能适用时：
+
 1. **项目特定技能**优先于全局技能
 2. Claude 会根据 `description` 字段选择最匹配的技能
 3. 你可以明确指定要使用的技能
@@ -476,16 +511,19 @@ allowed-tools: Read, Write, Bash, AskUserQuestion
 如果技能没有按预期工作：
 
 1. **检查技能是否正确安装：**
+
    ```
    "列出所有可用的技能"
    ```
 
 2. **查看技能文档：**
+
    ```
    "显示 process-faq 技能的文档"
    ```
 
 3. **检查依赖是否安装：**
+
    ```bash
    # Python 技能
    pip list | grep -i pandas
@@ -512,6 +550,7 @@ export PLAYWRIGHT_BROWSERS_PATH="$HOME/.playwright"
 ### 最佳实践
 
 1. **保持技能更新**：定期拉取最新版本
+
    ```bash
    cd claude-skills-suite && git pull
    ```
@@ -538,6 +577,7 @@ export PLAYWRIGHT_BROWSERS_PATH="$HOME/.playwright"
 想要创建自定义技能？请参阅 [Claude Code Skills 文档](https://github.com/anthropics/claude-code)。
 
 每个技能应该包含：
+
 - `SKILL.md` - 带有 YAML 前置元数据的技能定义
 - `README.md` - 文档
 - `requirements.txt` 或 `package.json` - 依赖（如需要）
@@ -637,6 +677,7 @@ allowed-tools: Read, Write, Bash, Glob, Grep, AskUserQuestion
 ## 技能路线图
 
 计划中的技能：
+
 - `analyze-code-quality` - 代码质量分析和建议
 - `optimize-database` - 数据库架构优化
 - `generate-tests` - 自动化测试生成
@@ -649,6 +690,7 @@ allowed-tools: Read, Write, Bash, Glob, Grep, AskUserQuestion
 ## 支持
 
 遇到问题或有疑问：
+
 - 在 GitHub 上提交 issue
 - 查看各个技能的文档
 - 询问 Claude 寻求帮助
@@ -689,7 +731,7 @@ MIT License - 欢迎自由使用和修改这些技能。
 
 - [Claude Code 官方文档](https://github.com/anthropics/claude-code)
 - [Model Context Protocol (MCP)](https://modelcontextprotocol.io/)
-- [Skill Seeker 详细文档](docs/)
+- [Skill Seekers 原始仓库](https://github.com/yusufkaraaslan/Skill_Seekers) - 自动化技能生成工具
 - [示例配置文件](configs/)
 - [问题追踪](https://github.com/jone_qian/claude-skills-suite/issues)
 
