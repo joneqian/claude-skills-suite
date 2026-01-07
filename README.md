@@ -215,10 +215,10 @@ Skill Seeker 是一款强大的自动化工具，能够将文档网站、GitHub 
 
 #### 1. 一次性设置（需要约 5 分钟）
 
-在 Claude Code 中，直接询问：
+在命令行中运行：
 
-```
-运行 skill_seeker_setup_mcp.sh
+```bash
+./skill_seeker_setup_mcp.sh
 ```
 
 该脚本会自动：
@@ -233,11 +233,11 @@ Skill Seeker 是一款强大的自动化工具，能够将文档网站、GitHub 
 
 项目提供三个脚本来管理 MCP 服务：
 
-| 脚本 | 用途 | 何时使用 |
-|------|------|----------|
+| 脚本                        | 用途     | 何时使用           |
+| --------------------------- | -------- | ------------------ |
 | `skill_seeker_setup_mcp.sh` | 安装配置 | 首次安装或重新配置 |
 | `skill_seeker_start_mcp.sh` | 启动服务 | 日常启动 HTTP 服务 |
-| `skill_seeker_stop_mcp.sh` | 停止服务 | 停止运行中的服务 |
+| `skill_seeker_stop_mcp.sh`  | 停止服务 | 停止运行中的服务   |
 
 **启动服务：**
 
@@ -355,11 +355,11 @@ python3 -m skill_seekers.mcp.server_fastmcp --http --port 3000
 
 服务启动后会生成以下文件（在项目根目录）：
 
-| 文件 | 说明 |
-|------|------|
-| `.mcp-server.pid` | 存储服务进程 PID |
-| `.mcp-server.port` | 存储服务端口号 |
-| `.mcp-server.log` | 服务日志输出 |
+| 文件               | 说明             |
+| ------------------ | ---------------- |
+| `.mcp-server.pid`  | 存储服务进程 PID |
+| `.mcp-server.port` | 存储服务端口号   |
+| `.mcp-server.log`  | 服务日志输出     |
 
 #### 自定义配置
 
