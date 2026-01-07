@@ -49,23 +49,41 @@ claude-skills-suite/
 # Activate virtual environment
 source venv/bin/activate
 
-# Scrape documentation
-skill-seekers scrape --config configs/react.json
-
-# Scrape GitHub repo
-skill-seekers github --repo microsoft/TypeScript --name typescript
-
-# Multi-source scraping
-skill-seekers unified --config configs/react_unified.json
-
-# Package skill for upload
-skill-seekers package output/react/
-
-# Install to Claude Code
-skill-seekers install-agent output/react/ --agent claude
+# Show help
+skill-seekers --help
+skill-seekers <command> --help
 
 # Estimate pages before scraping
 skill-seekers estimate configs/godot.json
+
+# Scrape documentation website
+skill-seekers scrape --config configs/react.json
+
+# Scrape GitHub repository
+skill-seekers github --repo microsoft/TypeScript --name typescript
+
+# Extract from PDF file
+skill-seekers pdf --pdf docs/manual.pdf --name my-manual
+
+# Multi-source scraping (docs + GitHub + PDF)
+skill-seekers unified --config configs/react_unified.json
+
+# AI-powered enhancement (local, no API key)
+skill-seekers enhance output/react/
+
+# Package skill into .zip file
+skill-seekers package output/react/
+
+# Upload skill to Claude
+skill-seekers upload output/react.zip
+
+# Install skill to AI agent directories
+skill-seekers install-agent output/react/ --agent claude
+skill-seekers install-agent output/react/ --agent cursor
+skill-seekers install-agent output/react/ --agent all
+
+# Complete workflow: fetch → scrape → enhance → package → upload
+skill-seekers install --config react
 ```
 
 ### Python Development
@@ -84,6 +102,7 @@ python -m skill_seekers.mcp.server_fastmcp --http   # HTTP mode
 ### Skill Seeker Components
 
 1. **CLI Module** (`skill_seekers/cli/`): Command-line tools
+
    - `main.py` - Unified CLI entry point with git-style subcommands
    - `doc_scraper.py` - Website documentation scraper
    - `github_scraper.py` - GitHub repository scraper
@@ -93,6 +112,7 @@ python -m skill_seekers.mcp.server_fastmcp --http   # HTTP mode
    - `install_agent.py` - Install skills to AI agent directories
 
 2. **MCP Module** (`skill_seekers/mcp/`): Model Context Protocol server
+
    - `server_fastmcp.py` - Main FastMCP server (17 tools across 5 categories)
    - `tools/` - Individual tool implementations
    - Supports both stdio and HTTP transports
@@ -104,12 +124,14 @@ python -m skill_seekers.mcp.server_fastmcp --http   # HTTP mode
 ### Included Skills (`output/`)
 
 Each skill follows the Claude Code skill structure:
+
 - `SKILL.md` - Required: YAML frontmatter (name, description, allowed-tools) + documentation
 - Supporting scripts and dependencies
 
 ## Configuration Format
 
 Scraping configs use this structure:
+
 ```json
 {
   "name": "framework-name",
@@ -138,6 +160,7 @@ Scraping configs use this structure:
 ## Server Files
 
 When running HTTP mode, these files are created in project root:
+
 - `.mcp-server.pid` - Process ID
 - `.mcp-server.port` - Port number
 - `.mcp-server.log` - Server logs
