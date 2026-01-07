@@ -24,6 +24,8 @@ HTTP_PORT=3000
 HTTP_AGENTS=()
 STDIO_AGENTS=()
 SELECTED_AGENTS=()
+PID_FILE="$REPO_PATH/.mcp-server.pid"
+LOG_FILE="$REPO_PATH/.mcp-server.log"
 
 # =============================================================================
 # STEP 1: CHECK PYTHON VERSION
@@ -449,9 +451,30 @@ if [ ${#SELECTED_AGENTS[@]} -gt 0 ]; then
             1)
                 echo "Starting HTTP server on port $HTTP_PORT..."
 
+                # Check if server is already running
+                if [ -f "$PID_FILE" ]; then
+                    OLD_PID=$(cat "$PID_FILE")
+                    if kill -0 "$OLD_PID" 2>/dev/null; then
+                        echo -e "${YELLOW}⚠${NC} Server already running (PID: $OLD_PID)"
+                        read -p "Stop existing server and start new one? (y/n) " -n 1 -r
+                        echo ""
+                        if [[ $REPLY =~ ^[Yy]$ ]]; then
+                            kill "$OLD_PID" 2>/dev/null
+                            sleep 1
+                        else
+                            echo "Keeping existing server running"
+                            break
+                        fi
+                    fi
+                fi
+
                 # Start server in background
-                nohup python3 -m skill_seekers.mcp.server_fastmcp --http --port $HTTP_PORT > /tmp/skill-seekers-mcp.log 2>&1 &
+                nohup python3 -m skill_seekers.mcp.server_fastmcp --http --port $HTTP_PORT > "$LOG_FILE" 2>&1 &
                 SERVER_PID=$!
+
+                # Save PID to file
+                echo "$SERVER_PID" > "$PID_FILE"
+                echo "$HTTP_PORT" > "$REPO_PATH/.mcp-server.port"
 
                 sleep 2
 
@@ -459,22 +482,30 @@ if [ ${#SELECTED_AGENTS[@]} -gt 0 ]; then
                 if curl -s http://127.0.0.1:$HTTP_PORT/health > /dev/null 2>&1; then
                     echo -e "${GREEN}✓${NC} HTTP server started (PID: $SERVER_PID)"
                     echo "  Health check: http://127.0.0.1:$HTTP_PORT/health"
-                    echo "  Logs: /tmp/skill-seekers-mcp.log"
+                    echo "  Logs: $LOG_FILE"
+                    echo "  PID file: $PID_FILE"
                     echo ""
                     echo -e "${YELLOW}Note:${NC} Server is running in background. To stop:"
-                    echo "  kill $SERVER_PID"
+                    echo -e "  ${CYAN}./skill_seeker_stop_mcp.sh${NC}"
+                    echo "  or: kill $SERVER_PID"
                 else
                     echo -e "${RED}✗${NC} Failed to start HTTP server"
-                    echo "  Check logs: /tmp/skill-seekers-mcp.log"
+                    echo "  Check logs: $LOG_FILE"
+                    rm -f "$PID_FILE" "$REPO_PATH/.mcp-server.port"
                 fi
                 ;;
             2)
-                echo "Manual start command:"
+                echo "To start the server later, use the start script:"
                 echo ""
+                echo -e "${GREEN}./skill_seeker_start_mcp.sh${NC}"
+                echo ""
+                echo "Options:"
+                echo -e "  ${CYAN}./skill_seeker_start_mcp.sh -p 8080${NC}     # Use custom port"
+                echo -e "  ${CYAN}./skill_seeker_start_mcp.sh -f${NC}          # Run in foreground"
+                echo -e "  ${CYAN}./skill_seeker_start_mcp.sh -h${NC}          # Show help"
+                echo ""
+                echo "Or run manually:"
                 echo -e "${GREEN}python3 -m skill_seekers.mcp.server_fastmcp --http --port $HTTP_PORT${NC}"
-                echo ""
-                echo "Or run in background:"
-                echo -e "${GREEN}nohup python3 -m skill_seekers.mcp.server_fastmcp --http --port $HTTP_PORT > /tmp/skill-seekers-mcp.log 2>&1 &${NC}"
                 ;;
             3)
                 echo "Skipping HTTP server start"
@@ -535,21 +566,21 @@ echo ""
 if [ ${#SELECTED_AGENTS[@]} -gt 0 ]; then
     echo -e "${GREEN}Next Steps:${NC}"
     echo ""
-    echo "1. ${YELLOW}Restart your AI coding agent(s)${NC}"
+    echo -e "1. ${YELLOW}Restart your AI coding agent(s)${NC}"
     echo "   (Completely quit and reopen, don't just close window)"
     echo ""
-    echo "2. ${YELLOW}Test the integration${NC}"
+    echo -e "2. ${YELLOW}Test the integration${NC}"
     echo "   Try commands like:"
-    echo "   • ${CYAN}List all available configs${NC}"
-    echo "   • ${CYAN}Generate config for React at https://react.dev${NC}"
-    echo "   • ${CYAN}Estimate pages for configs/godot.json${NC}"
+    echo -e "   • ${CYAN}List all available configs${NC}"
+    echo -e "   • ${CYAN}Generate config for React at https://react.dev${NC}"
+    echo -e "   • ${CYAN}Estimate pages for configs/godot.json${NC}"
     echo ""
 
     # HTTP-specific instructions
     if [ "$NEED_HTTP_SERVER" = true ]; then
-        echo "3. ${YELLOW}HTTP Server${NC}"
+        echo -e "3. ${YELLOW}HTTP Server${NC}"
         echo "   Make sure HTTP server is running on port $HTTP_PORT"
-        echo "   Test with: ${CYAN}curl http://127.0.0.1:$HTTP_PORT/health${NC}"
+        echo -e "   Test with: ${CYAN}curl http://127.0.0.1:$HTTP_PORT/health${NC}"
         echo ""
     fi
 else
@@ -559,7 +590,7 @@ else
     echo ""
 
     # Show stdio example
-    echo "${CYAN}For Claude Code (stdio):${NC}"
+    echo -e "${CYAN}For Claude Code (stdio):${NC}"
     echo "File: ~/.config/claude-code/mcp.json"
     echo ""
     echo -e "${GREEN}{"
@@ -577,10 +608,10 @@ else
 
     # Show HTTP example if available
     if [ "$HTTP_AVAILABLE" = true ]; then
-        echo "${CYAN}For Cursor/Windsurf (HTTP):${NC}"
+        echo -e "${CYAN}For Cursor/Windsurf (HTTP):${NC}"
         echo ""
         echo "1. Start HTTP server:"
-        echo "   ${GREEN}python3 -m skill_seekers.mcp.server_fastmcp --http --port 3000${NC}"
+        echo -e "   ${GREEN}python3 -m skill_seekers.mcp.server_fastmcp --http --port 3000${NC}"
         echo ""
         echo "2. Add to agent config:"
         echo -e "${GREEN}{"
@@ -598,27 +629,27 @@ echo "=========================================================="
 echo "Available MCP Tools (17 total):"
 echo "=========================================================="
 echo ""
-echo "${CYAN}Config Tools:${NC}"
+echo -e "${CYAN}Config Tools:${NC}"
 echo "  • generate_config    - Create config files for any docs site"
 echo "  • list_configs       - Show all available preset configs"
 echo "  • validate_config    - Validate config file structure"
 echo ""
-echo "${CYAN}Scraping Tools:${NC}"
+echo -e "${CYAN}Scraping Tools:${NC}"
 echo "  • estimate_pages     - Estimate page count before scraping"
 echo "  • scrape_docs        - Scrape documentation and build skills"
 echo "  • scrape_github      - Scrape GitHub repositories"
 echo "  • scrape_pdf         - Extract content from PDF files"
 echo ""
-echo "${CYAN}Packaging Tools:${NC}"
+echo -e "${CYAN}Packaging Tools:${NC}"
 echo "  • package_skill      - Package skills into .zip files"
 echo "  • upload_skill       - Upload skills to Claude"
 echo "  • install_skill      - Install uploaded skills"
 echo ""
-echo "${CYAN}Splitting Tools:${NC}"
+echo -e "${CYAN}Splitting Tools:${NC}"
 echo "  • split_config       - Split large documentation configs"
 echo "  • generate_router    - Generate router/hub skills"
 echo ""
-echo "${CYAN}Config Source Tools (NEW):${NC}"
+echo -e "${CYAN}Config Source Tools (NEW):${NC}"
 echo "  • fetch_config       - Download configs from remote sources"
 echo "  • submit_config      - Submit configs to community"
 echo "  • add_config_source  - Add custom config sources"
@@ -629,10 +660,10 @@ echo ""
 echo "=========================================================="
 echo "Documentation:"
 echo "=========================================================="
-echo "  • MCP Setup Guide:     ${YELLOW}docs/MCP_SETUP.md${NC}"
-echo "  • HTTP Transport:      ${YELLOW}docs/HTTP_TRANSPORT.md${NC}"
-echo "  • Agent Detection:     ${YELLOW}skill_seekers/mcp/agent_detector.py${NC}"
-echo "  • Full Documentation:  ${YELLOW}README.md${NC}"
+echo -e "  • MCP Setup Guide:     ${YELLOW}docs/MCP_SETUP.md${NC}"
+echo -e "  • HTTP Transport:      ${YELLOW}docs/HTTP_TRANSPORT.md${NC}"
+echo -e "  • Agent Detection:     ${YELLOW}skill_seekers/mcp/agent_detector.py${NC}"
+echo -e "  • Full Documentation:  ${YELLOW}README.md${NC}"
 echo ""
 
 echo "=========================================================="
@@ -644,17 +675,20 @@ echo "    - Cursor: ~/.cursor/logs/"
 echo "    - VS Code: ~/.config/Code/logs/"
 echo ""
 echo "  • Test MCP server:"
-echo "    ${CYAN}python3 -m skill_seekers.mcp.server_fastmcp${NC}"
+    echo -e "    ${CYAN}python3 -m skill_seekers.mcp.server_fastmcp${NC}"
 echo ""
 echo "  • Test HTTP server:"
-echo "    ${CYAN}python3 -m skill_seekers.mcp.server_fastmcp --http${NC}"
-echo "    ${CYAN}curl http://127.0.0.1:8000/health${NC}"
+    echo -e "    ${CYAN}python3 -m skill_seekers.mcp.server_fastmcp --http${NC}"
+    echo -e "    ${CYAN}curl http://127.0.0.1:${HTTP_PORT}/health${NC}"
 echo ""
 echo "  • Run tests:"
-echo "    ${CYAN}pytest tests/test_mcp_server.py -v${NC}"
+    echo -e "    ${CYAN}pytest tests/test_mcp_server.py -v${NC}"
+echo ""
+echo "  • Stop HTTP server:"
+    echo -e "    ${CYAN}./skill_seeker_stop_mcp.sh${NC}"
 echo ""
 echo "  • View server logs (if HTTP):"
-echo "    ${CYAN}tail -f /tmp/skill-seekers-mcp.log${NC}"
+    echo -e "    ${CYAN}tail -f $REPO_PATH/.mcp-server.log${NC}"
 echo ""
 
 echo "Happy skill creating! 🚀"

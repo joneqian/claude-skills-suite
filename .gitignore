@@ -52,3 +52,11 @@ htmlcov/
 # Build artifacts
 .build/
 skill-seekers-configs/
+
+# Logs
+.mcp-server.log
+
+
+# PID
+.mcp-server.pid
+.mcp-server.port

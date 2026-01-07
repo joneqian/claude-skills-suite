@@ -229,6 +229,38 @@ Skill Seeker 是一款强大的自动化工具，能够将文档网站、GitHub 
 - 自动配置 MCP 服务器
 - 启动 HTTP 服务器（如需要）
 
+#### 服务管理脚本
+
+项目提供三个脚本来管理 MCP 服务：
+
+| 脚本 | 用途 | 何时使用 |
+|------|------|----------|
+| `skill_seeker_setup_mcp.sh` | 安装配置 | 首次安装或重新配置 |
+| `skill_seeker_start_mcp.sh` | 启动服务 | 日常启动 HTTP 服务 |
+| `skill_seeker_stop_mcp.sh` | 停止服务 | 停止运行中的服务 |
+
+**启动服务：**
+
+```bash
+# 默认启动（后台运行，端口 3000）
+./skill_seeker_start_mcp.sh
+
+# 指定端口
+./skill_seeker_start_mcp.sh -p 8080
+
+# 前台运行（方便调试，Ctrl+C 停止）
+./skill_seeker_start_mcp.sh -f
+
+# 查看帮助
+./skill_seeker_start_mcp.sh -h
+```
+
+**停止服务：**
+
+```bash
+./skill_seeker_stop_mcp.sh
+```
+
 #### 2. 使用 Skill Seeker
 
 设置完成后，在 Claude Code 中直接询问：
@@ -314,8 +346,20 @@ Skill Seeker 内置了多个流行框架和工具的配置：
 对于需要 HTTP 传输的 AI 代理（如 Cursor、Windsurf），Skill Seeker 可以运行 HTTP 模式：
 
 ```bash
+# 推荐：使用启动脚本
+./skill_seeker_start_mcp.sh -p 3000
+
+# 或手动运行
 python3 -m skill_seekers.mcp.server_fastmcp --http --port 3000
 ```
+
+服务启动后会生成以下文件（在项目根目录）：
+
+| 文件 | 说明 |
+|------|------|
+| `.mcp-server.pid` | 存储服务进程 PID |
+| `.mcp-server.port` | 存储服务端口号 |
+| `.mcp-server.log` | 服务日志输出 |
 
 #### 自定义配置
 
@@ -346,8 +390,10 @@ python3 -m skill_seekers.mcp.server_fastmcp --http --port 3000
 
 **MCP 服务器问题：**
 
-- 检查服务器日志：`tail -f /tmp/skill-seekers-mcp.log`
+- 检查服务器日志：`tail -f .mcp-server.log`
 - 测试连接：`curl http://127.0.0.1:3000/health`
+- 检查服务状态：`cat .mcp-server.pid`
+- 停止服务：`./skill_seeker_stop_mcp.sh`
 
 **代理配置问题：**
 
