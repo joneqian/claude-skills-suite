@@ -1,5 +1,5 @@
 ---
-name: vue development skill
+name: vue-development-skill
 description: Vue.js progressive JavaScript framework. Use for Vue components, reactivity, composition API, and frontend development.
 ---
 
