@@ -17,6 +17,17 @@ This skill should be triggered when:
 - Debugging vue code
 - Learning vue best practices
 
+## Related Agent
+
+When you need to **implement a complete Vue3 application** (not just learn or debug), you should launch the `vue3-frontend-developer` agent. This agent specializes in:
+
+- Developing Vue PC pages and web applications
+- Building complete Vue3 + TypeScript + Tailwind CSS projects
+- Converting design specifications into working code
+- Creating dashboards, admin panels, and e-commerce frontends
+
+**Usage**: After loading this skill for Vue knowledge, use `Task` tool with `subagent_type="vue3-frontend-developer"` to execute the implementation.
+
 ## Quick Reference
 
 ### Common Patterns
