@@ -1,0 +1,32 @@
+{
+  "name": "wechat-miniprogram",
+  "description": "WeChat Mini Program development framework. Use for building WeChat mini apps, WXML templates, WXSS styles, WXS scripting, component development, and WeChat API integration.",
+  "base_url": "https://developers.weixin.qq.com/",
+  "start_urls": [
+    "https://developers.weixin.qq.com/miniprogram/dev/framework/",
+    "https://developers.weixin.qq.com/miniprogram/dev/framework/quickstart/",
+    "https://developers.weixin.qq.com/miniprogram/dev/component/",
+    "https://developers.weixin.qq.com/miniprogram/dev/api/",
+    "https://developers.weixin.qq.com/miniprogram/dev/reference/"
+  ],
+  "selectors": {
+    "main_content": ".content-area, .markdown-section, article",
+    "title": "h1, .title",
+    "code_blocks": "pre code"
+  },
+  "url_patterns": {
+    "include": ["/miniprogram/dev/framework/", "/miniprogram/dev/component/", "/miniprogram/dev/api/", "/miniprogram/dev/reference/"],
+    "exclude": ["/community/", "/blog/", "/news/", "/qa/"]
+  },
+  "categories": {
+    "getting_started": ["quickstart", "intro", "getstart", "小程序介绍"],
+    "framework": ["framework", "app", "page", "runtime", "运行时"],
+    "view": ["wxml", "wxss", "wxs", "view", "template", "视图"],
+    "components": ["component", "组件"],
+    "api": ["api", "接口"],
+    "tools": ["devtools", "tool", "工具"],
+    "cloud": ["cloud", "云开发"]
+  },
+  "rate_limit": 1.0,
+  "max_pages": 500
+}
