@@ -1,0 +1,47 @@
+{
+  "name": "tdesign-miniprogram",
+  "skip_llms_txt": true,
+  "description": "TDesign Mini Program UI component library by Tencent. Use for building WeChat mini apps with TDesign components, design system, and best practices.",
+  "base_url": "https://tdesign.tencent.com/",
+  "start_urls": [
+    "https://tdesign.tencent.com/miniprogram/overview",
+    "https://tdesign.tencent.com/miniprogram/getting-started",
+    "https://tdesign.tencent.com/miniprogram/changelog",
+    "https://tdesign.tencent.com/miniprogram/components/button",
+    "https://tdesign.tencent.com/miniprogram/components/icon",
+    "https://tdesign.tencent.com/miniprogram/components/cell",
+    "https://tdesign.tencent.com/miniprogram/components/grid",
+    "https://tdesign.tencent.com/miniprogram/components/image",
+    "https://tdesign.tencent.com/miniprogram/components/input",
+    "https://tdesign.tencent.com/miniprogram/components/picker",
+    "https://tdesign.tencent.com/miniprogram/components/popup",
+    "https://tdesign.tencent.com/miniprogram/components/dialog",
+    "https://tdesign.tencent.com/miniprogram/components/toast",
+    "https://tdesign.tencent.com/miniprogram/components/tabs",
+    "https://tdesign.tencent.com/miniprogram/components/navbar",
+    "https://tdesign.tencent.com/miniprogram/components/tabbar"
+  ],
+  "selectors": {
+    "main_content": ".TDesign-doc-content, .markdown-body, article, main, .content",
+    "title": "h1, .doc-title",
+    "code_blocks": "pre code, .code-block code"
+  },
+  "url_patterns": {
+    "include": ["/miniprogram/"],
+    "exclude": ["/vue/", "/react/", "/mobile-vue/", "/mobile-react/", "/flutter/", "/design/"]
+  },
+  "categories": {
+    "getting_started": ["overview", "getting-started", "changelog", "faq", "快速开始"],
+    "basic": ["button", "icon", "cell", "link", "fab", "divider"],
+    "layout": ["grid", "layout", "flex", "sticky", "footer"],
+    "form": ["input", "textarea", "radio", "checkbox", "switch", "slider", "stepper", "upload", "picker", "date-time-picker", "cascader", "search", "rate", "form"],
+    "data_display": ["avatar", "badge", "count-down", "image", "image-viewer", "progress", "result", "skeleton", "swiper", "tag", "empty", "table", "collapse", "list"],
+    "feedback": ["action-sheet", "dialog", "drawer", "loading", "message", "notification", "overlay", "popup", "progress", "pull-down-refresh", "swipe-cell", "toast"],
+    "navigation": ["back-top", "indexes", "navbar", "side-bar", "steps", "tab-bar", "tabs", "dropdown-menu"]
+  },
+  "rate_limit": 1.0,
+  "max_pages": 150,
+  "use_playwright": true,
+  "wait_for_selector": ".TDesign-doc-content, .markdown-body",
+  "wait_timeout": 5000
+}
