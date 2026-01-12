@@ -1,0 +1,1471 @@
+<!DOCTYPE html><html class=" " style="--brand-main: #0052D9;"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>TDesign</title>
+  <!--[if lte IE 9]>
+  <style>
+    #app {
+      display: none;
+    }
+  </style>
+  <![endif]-->
+  <script type="module" crossorigin="" src="https://static.tdesign.tencent.com/miniprogram/assets/site-B8dv1OeK.js"></script>
+  <link rel="stylesheet" crossorigin="" href="https://static.tdesign.tencent.com/miniprogram/assets/site-Dupek2VA.css">
+<style id="custom-theme" type="text/css">:root,
+:root[theme-mode="light"] {
+  --td-brand-color-1: #f2f3ff;
+  --td-brand-color-2: #d9e1ff;
+  --td-brand-color-3: #b5c7ff;
+  --td-brand-color-4: #8eabff;
+  --td-brand-color-5: #618dff;
+  --td-brand-color-6: #366ef4;
+  --td-brand-color-7: #0052d9;
+  --td-brand-color-8: #003cab;
+  --td-brand-color-9: #002a7c;
+  --td-brand-color-10: #001a57;
+  --td-warning-color-1: #fff1e9;
+  --td-warning-color-2: #ffd9c2;
+  --td-warning-color-3: #ffb98c;
+  --td-warning-color-4: #fa9550;
+  --td-warning-color-5: #e37318;
+  --td-warning-color-6: #be5a00;
+  --td-warning-color-7: #954500;
+  --td-warning-color-8: #713300;
+  --td-warning-color-9: #532300;
+  --td-warning-color-10: #3b1700;
+  --td-error-color-1: #fff0ed;
+  --td-error-color-2: #ffd8d2;
+  --td-error-color-3: #ffb9b0;
+  --td-error-color-4: #ff9285;
+  --td-error-color-5: #f6685d;
+  --td-error-color-6: #d54941;
+  --td-error-color-7: #ad352f;
+  --td-error-color-8: #881f1c;
+  --td-error-color-9: #68070a;
+  --td-error-color-10: #490002;
+  --td-success-color-1: #e3f9e9;
+  --td-success-color-2: #c6f3d7;
+  --td-success-color-3: #92dab2;
+  --td-success-color-4: #56c08d;
+  --td-success-color-5: #2ba471;
+  --td-success-color-6: #008858;
+  --td-success-color-7: #006c45;
+  --td-success-color-8: #005334;
+  --td-success-color-9: #003b23;
+  --td-success-color-10: #002515;
+  --td-gray-color-1: #f6f6f6;
+  --td-gray-color-2: #eeeceb;
+  --td-gray-color-3: #dddbdb;
+  --td-gray-color-4: #cac9c9;
+  --td-gray-color-5: #b6b6b6;
+  --td-gray-color-6: #a2a2a2;
+  --td-gray-color-7: #8f8f8f;
+  --td-gray-color-8: #7b7c7c;
+  --td-gray-color-9: #6a6b6b;
+  --td-gray-color-10: #585a5a;
+  --td-gray-color-11: #494a4a;
+  --td-gray-color-12: #3a3b3b;
+  --td-gray-color-13: #2c2e2e;
+  --td-gray-color-14: #202222;
+  --td-font-white-1: rgba(255, 255, 255, 1);
+  --td-font-white-2: rgba(255, 255, 255, .55);
+  --td-font-white-3: rgba(255, 255, 255, .35);
+  --td-font-white-4: rgba(255, 255, 255, .22);
+  --td-font-gray-1: rgba(0, 0, 0, .9);
+  --td-font-gray-2: rgba(0, 0, 0, .6);
+  --td-font-gray-3: rgba(0, 0, 0, .4);
+  --td-font-gray-4: rgba(0, 0, 0, .26);
+  --td-brand-color: var(--td-brand-color-7);
+  --td-warning-color: var(--td-warning-color-5);
+  --td-error-color: var(--td-error-color-6);
+  --td-success-color: var(--td-success-color-5);
+  --td-brand-color-focus: var(--td-brand-color-1);
+  --td-brand-color-active: var(--td-brand-color-8);
+  --td-brand-color-disabled: var(--td-brand-color-3);
+  --td-brand-color-light: var(--td-brand-color-1);
+  --td-brand-color-light-active: var(--td-brand-color-2);
+  --td-warning-color-active: var(--td-warning-color-6);
+  --td-warning-color-disabled: var(--td-warning-color-3);
+  --td-warning-color-focus: var(--td-warning-color-2);
+  --td-warning-color-light: var(--td-warning-color-1);
+  --td-warning-color-light-active: var(--td-warning-color-2);
+  --td-error-color-focus: var(--td-error-color-2);
+  --td-error-color-active: var(--td-error-color-7);
+  --td-error-color-disabled: var(--td-error-color-3);
+  --td-error-color-light: var(--td-error-color-1);
+  --td-error-color-light-active: var(--td-error-color-2);
+  --td-success-color-focus: var(--td-success-color-2);
+  --td-success-color-active: var(--td-success-color-6);
+  --td-success-color-disabled: var(--td-success-color-3);
+  --td-success-color-light: var(--td-success-color-1);
+  --td-success-color-light-active: var(--td-success-color-2);
+  --td-mask-active: rgba(0, 0, 0, .6);
+  --td-mask-disabled: rgba(255, 255, 255, .6);
+  --td-bg-color-page: var(--td-gray-color-1);
+  --td-bg-color-container: var(--td-font-white-1);
+  --td-bg-color-container-active: var(--td-gray-color-3);
+  --td-bg-color-secondarycontainer: var(--td-gray-color-1);
+  --td-bg-color-secondarycontainer-active: var(--td-gray-color-4);
+  --td-bg-color-component: var(--td-gray-color-3);
+  --td-bg-color-component-active: var(--td-gray-color-6);
+  --td-bg-color-component-disabled: var(--td-gray-color-2);
+  --td-bg-color-secondarycomponent: var(--td-gray-color-4);
+  --td-bg-color-secondarycomponent-active: var(--td-gray-color-6);
+  --td-bg-color-specialcomponent: #fff;
+  --td-text-color-primary: var(--td-font-gray-1);
+  --td-text-color-secondary: var(--td-font-gray-2);
+  --td-text-color-placeholder: var(--td-font-gray-3);
+  --td-text-color-disabled: var(--td-font-gray-4);
+  --td-text-color-anti: var(--td-font-white-1);
+  --td-text-color-brand: var(--td-brand-color);
+  --td-text-color-link: var(--td-brand-color);
+  --td-border-level-1-color: var(--td-gray-color-3);
+  --td-component-stroke: var(--td-gray-color-3);
+  --td-border-level-2-color: var(--td-gray-color-4);
+  --td-component-border: var(--td-gray-color-4);
+  --td-shadow-1: 0 1px 10px rgba(0, 0, 0, 5%), 0 4px 5px rgba(0, 0, 0, 8%), 0 2px 4px -1px rgba(0, 0, 0, 12%);
+  --td-shadow-2: 0 3px 14px 2px rgba(0, 0, 0, 5%), 0 8px 10px 1px rgba(0, 0, 0, 6%), 0 5px 5px -3px rgba(0, 0, 0, 10%);
+  --td-shadow-3: 0 6px 30px 5px rgba(0, 0, 0, 5%), 0 16px 24px 2px rgba(0, 0, 0, 4%), 0 8px 10px -5px rgba(0, 0, 0, 8%);
+  --td-shadow-4: 0 2px 8px 0 rgba(0, 0, 0, 6%);
+  --td-shadow-inset-top: inset 0 .5px 0 #dcdcdc;
+  --td-shadow-inset-right: inset .5px 0 0 #dcdcdc;
+  --td-shadow-inset-bottom: inset 0 -.5px 0 #dcdcdc;
+  --td-shadow-inset-left: inset -.5px 0 0 #dcdcdc;
+  --td-table-shadow-color: rgba(0, 0, 0, .08);
+  --td-scrollbar-color: rgba(0, 0, 0, .1);
+  --td-scrollbar-hover-color: rgba(0, 0, 0, .3);
+  --td-scroll-track-color: #fff;
+}</style><style id="custom-theme-dark" type="text/css">:root[theme-mode="dark"] {
+  --td-brand-color-1: #1b2f51;
+  --td-brand-color-2: #173463;
+  --td-brand-color-3: #143975;
+  --td-brand-color-4: #103d88;
+  --td-brand-color-5: #0d429a;
+  --td-brand-color-6: #054bbe;
+  --td-brand-color-7: #2667d4;
+  --td-brand-color-8: #4582e6;
+  --td-brand-color-9: #699ef5;
+  --td-brand-color-10: #96bbf8;
+  --td-warning-color-1: #3b1700;
+  --td-warning-color-2: #532300;
+  --td-warning-color-3: #713300;
+  --td-warning-color-4: #954500;
+  --td-warning-color-5: #be5a00;
+  --td-warning-color-6: #e37318;
+  --td-warning-color-7: #fa9550;
+  --td-warning-color-8: #ffb98c;
+  --td-warning-color-9: #ffd9c2;
+  --td-warning-color-10: #fff1e9;
+  --td-error-color-1: #490002;
+  --td-error-color-2: #68070a;
+  --td-error-color-3: #881f1c;
+  --td-error-color-4: #ad352f;
+  --td-error-color-5: #d54941;
+  --td-error-color-6: #f6685d;
+  --td-error-color-7: #ff9285;
+  --td-error-color-8: #ffb9b0;
+  --td-error-color-9: #ffd8d2;
+  --td-error-color-10: #fff0ed;
+  --td-success-color-1: #002515;
+  --td-success-color-2: #003b23;
+  --td-success-color-3: #005334;
+  --td-success-color-4: #006c45;
+  --td-success-color-5: #008858;
+  --td-success-color-6: #2ba471;
+  --td-success-color-7: #56c08d;
+  --td-success-color-8: #92dab2;
+  --td-success-color-9: #c6f3d7;
+  --td-success-color-10: #e3f9e9;
+  --td-gray-color-1: #f6f6f6;
+  --td-gray-color-2: #eeeceb;
+  --td-gray-color-3: #dddbdb;
+  --td-gray-color-4: #cac9c9;
+  --td-gray-color-5: #b6b6b6;
+  --td-gray-color-6: #a2a2a2;
+  --td-gray-color-7: #8f8f8f;
+  --td-gray-color-8: #7b7c7c;
+  --td-gray-color-9: #6a6b6b;
+  --td-gray-color-10: #585a5a;
+  --td-gray-color-11: #494a4a;
+  --td-gray-color-12: #3a3b3b;
+  --td-gray-color-13: #2c2e2e;
+  --td-gray-color-14: #202222;
+  --td-font-white-1: rgba(255, 255, 255, .9);
+  --td-font-white-2: rgba(255, 255, 255, .55);
+  --td-font-white-3: rgba(255, 255, 255, .35);
+  --td-font-white-4: rgba(255, 255, 255, .22);
+  --td-font-gray-1: rgba(0, 0, 0, .9);
+  --td-font-gray-2: rgba(0, 0, 0, .6);
+  --td-font-gray-3: rgba(0, 0, 0, .4);
+  --td-font-gray-4: rgba(0, 0, 0, .26);
+  --td-brand-color: var(--td-brand-color-8);
+  --td-warning-color: var(--td-warning-color-5);
+  --td-error-color: var(--td-error-color-6);
+  --td-success-color: var(--td-success-color-5);
+  --td-brand-color-focus: var(--td-brand-color-1);
+  --td-brand-color-active: var(--td-brand-color-9);
+  --td-brand-color-disabled: var(--td-brand-color-3);
+  --td-brand-color-light: var(--td-brand-color-1);
+  --td-brand-color-light-active: var(--td-brand-color-2);
+  --td-warning-color-focus: var(--td-warning-color-2);
+  --td-warning-color-active: var(--td-warning-color-4);
+  --td-warning-color-disabled: var(--td-warning-color-3);
+  --td-warning-color-light: var(--td-warning-color-1);
+  --td-warning-color-light-active: var(--td-warning-color-2);
+  --td-error-color-focus: var(--td-error-color-2);
+  --td-error-color-active: var(--td-error-color-5);
+  --td-error-color-disabled: var(--td-error-color-3);
+  --td-error-color-light: var(--td-error-color-1);
+  --td-error-color-light-active: var(--td-error-color-2);
+  --td-success-color-focus: var(--td-success-color-2);
+  --td-success-color-active: var(--td-success-color-4);
+  --td-success-color-disabled: var(--td-success-color-3);
+  --td-success-color-light: var(--td-success-color-1);
+  --td-success-color-light-active: var(--td-success-color-2);
+  --td-mask-active: rgba(0, 0, 0, .4);
+  --td-mask-disabled: rgba(0, 0, 0, .6);
+  --td-bg-color-page: var(--td-gray-color-14);
+  --td-bg-color-container: var(--td-gray-color-13);
+  --td-bg-color-secondarycontainer: var(--td-gray-color-12);
+  --td-bg-color-component: var(--td-gray-color-11);
+  --td-bg-color-container-active: var(--td-gray-color-12);
+  --td-bg-color-secondarycontainer-active: var(--td-gray-color-11);
+  --td-bg-color-component-active: var(--td-gray-color-10);
+  --td-bg-color-component-disabled: var(--td-gray-color-12);
+  --td-bg-color-specialcomponent: transparent;
+  --td-text-color-primary: var(--td-font-white-1);
+  --td-text-color-secondary: var(--td-font-white-2);
+  --td-text-color-placeholder: var(--td-font-white-3);
+  --td-text-color-disabled: var(--td-font-white-4);
+  --td-text-color-anti: var(--td-font-white-1);
+  --td-text-color-brand: var(--td-brand-color-8);
+  --td-text-color-link: var(--td-brand-color-8);
+  --td-border-level-1-color: var(--td-gray-color-11);
+  --td-component-stroke: var(--td-gray-color-11);
+  --td-border-level-2-color: var(--td-gray-color-9);
+  --td-component-border: var(--td-gray-color-9);
+  --td-shadow-1: 0 4px 6px rgba(0, 0, 0, 6%), 0 1px 10px rgba(0, 0, 0, 8%), 0 2px 4px rgba(0, 0, 0, 12%);
+  --td-shadow-2: 0 8px 10px rgba(0, 0, 0, 12%), 0 3px 14px rgba(0, 0, 0, 10%), 0 5px 5px rgba(0, 0, 0, 16%);
+  --td-shadow-3: 0 16px 24px rgba(0, 0, 0, 14%), 0 6px 30px rgba(0, 0, 0, 12%), 0 8px 10px rgba(0, 0, 0, 20%);
+  --td-shadow-inset-top: inset 0 .5px 0 #5e5e5e;
+  --td-shadow-inset-right: inset .5px 0 0 #5e5e5e;
+  --td-shadow-inset-bottom: inset 0 -.5px 0 #5e5e5e;
+  --td-shadow-inset-left: inset -.5px 0 0 #5e5e5e;
+  --td-table-shadow-color: rgba(0, 0, 0, .55);
+  --td-scrollbar-color: rgba(255, 255, 255, .1);
+  --td-scroll-track-color: #333;
+}</style><style id="custom-theme-extra" type="text/css">:root {
+    --td-font-family: pingfang sc, microsoft yahei, arial regular;
+    --td-font-family-medium: pingfang sc, microsoft yahei, arial medium;
+    --td-font-size-link-small: 12px;
+    --td-font-size-link-medium: 14px;
+    --td-font-size-link-large: 16px;
+    --td-font-size-mark-extraSmall: 10px;
+    --td-font-size-mark-small: 12px;
+    --td-font-size-mark-medium: 14px;
+    --td-font-size-mark-large: 16px;
+    --td-font-size-body-extraSmall: 10px;
+    --td-font-size-body-small: 12px;
+    --td-font-size-body-medium: 14px;
+    --td-font-size-body-large: 16px;
+    --td-font-size-title-small: 14px;
+    --td-font-size-title-medium: 16px;
+    --td-font-size-title-large: 18px;
+    --td-font-size-title-extraLarge: 20px;
+    --td-font-size-headline-small: 24px;
+    --td-font-size-headline-medium: 28px;
+    --td-font-size-headline-large: 36px;
+    --td-font-size-display-medium: 48px;
+    --td-font-size-display-large: 64px;
+    --td-font-size: 10px;
+    --td-font-size-xs: var(--td-font-size-body-extraSmall);
+    --td-font-size-s: var(--td-font-size-body-small);
+    --td-font-size-base: var(--td-font-size-title-small);
+    --td-font-size-m: var(--td-font-size-title-medium);
+    --td-font-size-l: var(--td-font-size-title-large);
+    --td-font-size-xl: var(--td-font-size-title-extraLarge);
+    --td-font-size-xxl: var(--td-font-size-headline-large);
+    
+    --td-radius-small: 3px;
+    --td-radius-default: 6px;
+    --td-radius-large: 9px;
+    --td-radius-extraLarge: 12px;
+    --td-radius-round: 999px;
+    --td-radius-circle: 50%;
+}</style><style id="TDESIGN_GENERATOR_SYMBOL" type="text/css">:root,
+:root[theme-mode='light'] {
+  --shadow-1: 0 1px 10px rgba(0, 0, 0, .05), 0 4px 5px rgba(0, 0, 0, .08), 0 2px 4px -1px rgba(0, 0, 0, .12);
+  --shadow-2: 0 3px 14px 2px rgba(0, 0, 0, .05), 0 8px 10px 1px rgba(0, 0, 0, .06), 0 5px 5px -3px rgba(0, 0, 0, .1);
+  --shadow-3: 0 6px 30px 5px rgba(0, 0, 0, .05), 0 16px 24px 2px rgba(0, 0, 0, .04),
+    0 8px 10px -5px rgba(0, 0, 0, .08);
+  --shadow-inset-top: inset 0 .5px 0 #dcdcdc;
+  --shadow-inset-right: inset .5px 0 0 #dcdcdc;
+  --shadow-inset-bottom: inset 0 -.5px 0 #dcdcdc;
+  --shadow-inset-left: inset -.5px 0 0 #dcdcdc;
+  --anim-time-fn-easing: cubic-bezier(.38, 0, .24, 1);
+  --anim-time-fn-ease-out: cubic-bezier(0, 0, .15, 1);
+  --anim-time-fn-ease-in: cubic-bezier(.82, 0, 1, .9);
+  --anim-duration-base: .2s;
+  --anim-duration-moderate: .24s;
+  --anim-duration-slow: .28s;
+  --bg-color-page: #f5f5f5;
+  --bg-color-secondarypage: #f5f5f5;
+  --bg-color-demo: #fff;
+  --bg-color-demo-secondary: #eee;
+  --bg-color-code: #f3f3f3;
+  --bg-color-code-linear: linear-gradient(180deg, rgba(243, 243, 243, 1) 0%, rgba(243, 243, 243, 0) 100%);
+  --bg-color-footer: #eee;
+  --bg-color-secondaryfooter: #e7e7e7;
+  --bg-color-docpage: #fff;
+  --bg-color-container: #fff;
+  --bg-color-container-transparent: rgba(255, 255, 255, .9);
+  --bg-color-secondarycontainer: #f5f5f5;
+  --bg-color-component: #eee;
+  --bg-color-component-transparent: rgba(238, 238, 238, .9);
+  --bg-color-tag: #eee;
+  --bg-color-tab: #eee;
+  --bg-color-table: #fff;
+  --bg-color-thead: #dcdcdc;
+  --bg-color-navigation: #fff;
+  --bg-color-card: #fff;
+  --component-stroke: #eee;
+  --component-border: #e7e7e7;
+  --bg-color-demo-hover: rgba(0, 0, 0, .05);
+  --bg-color-demo-select: rgba(0, 0, 0, .1);
+  --bg-color-code-hover: #e7e7e7;
+  --bg-color-code-select: #dcdcdc;
+  --bg-color-container-hover: #f3f3f3;
+  --bg-color-container-select: #eee;
+  --bg-color-component-hover: #dcdcdc;
+  --bg-color-component-select: #a6a6a6;
+  --bg-color-tab-select: #fff;
+  --bg-color-table-hover: #f5f5f5;
+  --bg-color-navigation-hover: #f3f3f3;
+  --bg-color-navigation-select: #e7e7e7;
+  --bg-color-card-hover: #f3f3f3;
+  --bg-color-scroll: rgba(0, 0, 0, .14);
+  --bg-color-component-disabled: #eee;
+  --text-primary: rgba(0, 0, 0, .9);
+  --text-secondary: rgba(0, 0, 0, .6);
+  --text-placeholder: rgba(0, 0, 0, .4);
+  --text-disabled: rgba(0, 0, 0, .26);
+  --text-anti: #fff;
+  --text-interactive: var(--td-brand-color);
+  --brand-main: var(--td-brand-color);
+  --brand-main-hover: var(--td-brand-color-hover, var(--td-brand-color-active)); 
+  --brand-main-focus: var(--td-brand-color-focus);
+  --brand-main-disabled: var(--td-brand-color-disabled);
+  --brand-main-light: rgba(0, 82, 217, .1);
+  --error-1: #fff0ed;
+  --error-8: #881f1c;
+  --error-main: #d54941;
+  --error-main-hover: #f6685d;
+  --error-main-disabled: #ffb9b0;
+  --error-main-light: rgba(213, 73, 65, .1);
+  --warning-main: #e37318;
+  --warning-main-hover: #fa9550;
+  --warning-main-disabled: #ffb98c;
+  --warning-main-light: rgba(227, 115, 24, .1);
+  --success-main: #2ba471;
+  --success-main-disabled: rgba(43, 164, 113, .25);
+  --success-main-light: rgba(43, 164, 113, .1);
+  --bg-color-theme-transparent: rgba(238, 238, 238, .6);
+  --bg-color-theme-secondary: #f3f3f3;
+  --bg-color-theme-surface: #fff;
+  --bg-color-theme-tertiary: #e7e7e7;
+  --theme-component-border: rgba(0, 0, 0, .06);
+}
+
+:root[theme-mode='dark'] {
+  --shadow-1: 0 4px 6px rgba(0, 0, 0, .06), 0 1px 10px rgba(0, 0, 0, .08), 0 2px 4px rgba(0, 0, 0, .12);
+  --shadow-2: 0 8px 10px rgba(0, 0, 0, .12), 0 3px 14px rgba(0, 0, 0, .1), 0 5px 5px rgba(0, 0, 0, .16);
+  --shadow-3: 0 16px 24px rgba(0, 0, 0, .14), 0 6px 30px rgba(0, 0, 0, .12), 0 8px 10px rgba(0, 0, 0, .2);
+  --shadow-inset-top: inset 0 .5px 0 #5e5e5e;
+  --shadow-inset-right: inset .5px 0 0 #5e5e5e;
+  --shadow-inset-bottom: inset 0 -.5px 0 #5e5e5e;
+  --shadow-inset-left: inset -.5px 0 0 #5e5e5e;
+  --bg-color-page: #242424;
+  --bg-color-secondarypage: #181818;
+  --bg-color-demo: #181818;
+  --bg-color-demo-secondary: #181818;
+  --bg-color-code: #2c2c2c;
+  --bg-color-code-linear: linear-gradient(180deg, rgba(44, 44, 44, 1) 0%, rgba(44, 44, 44, 0) 100%);
+  --bg-color-footer: #181818;
+  --bg-color-secondaryfooter: #101010;
+  --bg-color-docpage: #242424;
+  --bg-color-container: #242424;
+  --bg-color-container-transparent: rgba(44, 44, 44, .9);
+  --bg-color-secondarycontainer: #383838;
+  --bg-color-component: #383838;
+  --bg-color-component-transparent: rgba(75, 75, 75, .9);
+  --bg-color-tag: #4b4b4b;
+  --bg-color-tab: #383838;
+  --bg-color-table: #242424;
+  --bg-color-thead: #4b4b4b;
+  --bg-color-navigation: #2c2c2c;
+  --bg-color-card: #383838;
+  --component-stroke: #383838;
+  --component-border: #4b4b4b;
+  --bg-color-demo-hover: rgba(255, 255, 255, .05);
+  --bg-color-demo-select: rgba(255, 255, 255, .1);
+  --bg-color-code-hover: #383838;
+  --bg-color-code-select: #4b4b4b;
+  --bg-color-container-hover: #383838;
+  --bg-color-container-select: #4b4b4b;
+  --bg-color-component-hover: #5e5e5e;
+  --bg-color-component-select: #777;
+  --bg-color-tab-select: #4b4b4b;
+  --bg-color-table-hover: #2c2c2c;
+  --bg-color-navigation-hover: #383838;
+  --bg-color-navigation-select: #4b4b4b;
+  --bg-color-card-hover: #4b4b4b;
+  --bg-color-scroll: rgba(255, 255, 255, .14);
+  --bg-color-component-disabled: #242424;
+  --text-primary: rgba(255, 255, 255, .9);
+  --text-secondary: rgba(255, 255, 255, .55);
+  --text-placeholder: rgba(255, 255, 255, .35);
+  --text-disabled: rgba(255, 255, 255, .22);
+  --text-anti: #fff;
+  --brand-main-light: rgba(69, 130, 230, .2);
+  --error-1: #472324;
+  --error-8: #ec888e;
+  --error-main: #c64751;
+  --error-main-hover: #a03f46;
+  --error-main-disabled: #951114;
+  --warning-main: #cf6e2d;
+  --warning-main-hover: #a75d2b;
+  --warning-main-disabled: #733c23;
+  --success-main: #059465;
+  --success-main-hover: #0d7a55;
+  --success-main-disabled: rgba(0, 168, 112, .25);
+  --success-main-light: rgba(0, 168, 112, .1);
+  --bg-color-theme-transparent: rgba(44, 44, 44, .6);
+  --bg-color-theme-secondary: #424242;
+  --bg-color-theme-surface: #4d4d4d;
+  --bg-color-theme-tertiary: #5e5e5e;
+  --theme-component-border: rgba(255, 255, 255, .06);
+}
+</style><link rel="modulepreload" as="script" crossorigin="" href="https://static.tdesign.tencent.com/miniprogram/assets/README-DqTzfuZ0.js"><link rel="modulepreload" as="script" crossorigin="" href="https://static.tdesign.tencent.com/miniprogram/assets/component-D2PRT6vD.js"><link rel="stylesheet" crossorigin="" href="https://static.tdesign.tencent.com/miniprogram/assets/component-iTlV8w7T.css"><script async="" id="horizon-tracker" type="text/javascript" data-account="tdesign" src="https://static.codesign.qq.com/analytics.js"></script><script async="" id="__td_tcss__" type="text/javascript" src="https://pingjs.qq.com/tcss.ping.https.js"></script></head>
+
+<body>
+  <!--[if lte IE 9]>
+    <h1 style="position: absolute; width: 100%; text-align:center; top: 45%">请使用 IE 10 以及更新版本的浏览器访问，建议使用 <a href="https://www.google.cn/chrome/">Chrome</a></h1>
+  <![endif]-->
+
+  <td-stats data-account="tdesign"></td-stats>
+  <div id="app" data-v-app=""><td-doc-layout direction="row"><td-header slot="header" framework="miniprogram" platform="web"><div slot="search" style="display: flex; align-items: center;"><td-ai-button framework="miniprogram" demo-request-body="{&quot;files&quot;:{}}" style="margin-right: 8px;"></td-ai-button><td-doc-search>
+        <style>.TDesign-doc-search{position:relative;width:200px;height:32px;box-sizing:border-box;display:inline-flex;align-items:center}.TDesign-doc-search__icon{position:absolute;right:8px;top:50%;width:20px;height:20px;margin-top:-10px;color:var(--text-secondary)}.TDesign-doc-search__inner{width:100%;height:100%;padding:4px 36px 4px 8px;box-sizing:border-box;color:var(--text-secondary);border-radius:var(--border-radius);line-height:22px;font-size:14px;border:1px solid var(--component-border);transition:all .2s linear;outline:none;background:transparent}.TDesign-doc-search__inner::placeholder{line-height:22px}.TDesign-doc-search__inner:hover{border-color:var(--brand-main)}.TDesign-doc-search__inner:focus{border-color:var(--brand-main);box-shadow:0 0 0 2px var(--brand-main-focus)}</style>
+        <style>.algolia-autocomplete{width:100%;height:100%}.algolia-autocomplete .ds-dropdown-menu{width:480px;top:-6px;border-radius:6px;margin:8px 0 0;padding:0;text-align:left;height:auto;position:relative;border:0;z-index:999;max-width:600px;min-width:500px;box-shadow:var(--popup-box-shadow);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);background-color:var(--bg-color-container-transparent)}.algolia-autocomplete .ds-dropdown-menu .ds-suggestions{position:relative;z-index:1000;border-bottom:1px solid var(--component-stroke);padding:8px}.algolia-autocomplete .ds-dropdown-menu [class^=ds-dataset-]{position:relative;border-radius:6px;overflow:auto;border:1px solid var(--component-border)}.algolia-autocomplete .ds-dropdown-menu *{box-sizing:border-box}.algolia-autocomplete .algolia-docsearch-suggestion{display:block;position:relative;color:var(--text-primary);overflow:hidden}.algolia-autocomplete .algolia-docsearch-suggestion--category-header{display:none}.algolia-autocomplete .algolia-docsearch-suggestion--subcategory-column{float:left;width:30%;text-align:right;position:relative;padding:8px;color:var(--text-secondary);font-size:14px;word-wrap:break-word}.algolia-autocomplete .algolia-docsearch-suggestion--content{display:block;float:right;width:70%;position:relative;padding:8px 16px;cursor:pointer;border-radius:0 3px 3px 0}.algolia-autocomplete .algolia-docsearch-suggestion--content .algolia-docsearch-suggestion--subcategory-inline{display:none}.algolia-autocomplete .algolia-docsearch-suggestion--content:before{content:"";position:absolute;display:block;top:0;height:100%;width:1px;background:var(--component-border);left:-1px}.algolia-autocomplete .ds-dropdown-menu .ds-suggestion.ds-cursor .algolia-docsearch-suggestion.suggestion-layout-simple,.algolia-autocomplete .ds-dropdown-menu .ds-suggestion.ds-cursor .algolia-docsearch-suggestion:not(.suggestion-layout-simple) .algolia-docsearch-suggestion--content{background:var(--bg-color-container-hover);transition:all .2s linear}.algolia-autocomplete .algolia-docsearch-suggestion--title{font-weight:700;color:var(--text-primary);margin-bottom:0;font-size:16px;line-height:24px}.algolia-autocomplete .algolia-docsearch-suggestion--title+.algolia-docsearch-suggestion--text{margin-top:4px}.algolia-autocomplete .algolia-docsearch-suggestion--text{font-size:14px;line-height:22px;color:var(--text-secondary)}.algolia-autocomplete .algolia-docsearch-suggestion--highlight{padding:1px 4px;border-radius:3px;color:var(--brand-main);background-color:var(--brand-main-light);text-decoration:underline;text-decoration-color:var(--brand-main)}.algolia-autocomplete .algolia-docsearch-suggestion--no-results{width:100%;padding:8px 0;text-align:center;font-size:14px}.algolia-autocomplete .algolia-docsearch-footer{width:134px;height:26px;z-index:2000;margin:4px 8px;float:right;font-size:0;line-height:0}.algolia-autocomplete .algolia-docsearch-footer--logo{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='168' height='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M78.988.938h16.594a2.968 2.968 0 0 1 2.966 2.966V20.5a2.967 2.967 0 0 1-2.966 2.964H78.988a2.967 2.967 0 0 1-2.966-2.964V3.897A2.961 2.961 0 0 1 78.988.938zm41.937 17.866c-4.386.02-4.386-3.54-4.386-4.106l-.007-13.336 2.675-.424v13.254c0 .322 0 2.358 1.718 2.364v2.248zm-10.846-2.18c.821 0 1.43-.047 1.855-.129v-2.719a6.334 6.334 0 0 0-1.574-.199 5.7 5.7 0 0 0-.897.069 2.699 2.699 0 0 0-.814.24c-.24.116-.439.28-.582.491-.15.212-.219.335-.219.656 0 .628.219.991.616 1.23s.938.362 1.615.362zm-.233-9.7c.883 0 1.629.109 2.231.328.602.218 1.088.525 1.444.915.363.396.609.922.76 1.483.157.56.232 1.175.232 1.85v6.874a32.5 32.5 0 0 1-1.868.314c-.834.123-1.772.185-2.813.185-.69 0-1.327-.069-1.895-.198a4.001 4.001 0 0 1-1.471-.636 3.085 3.085 0 0 1-.951-1.134c-.226-.465-.343-1.12-.343-1.803 0-.656.13-1.073.384-1.525a3.24 3.24 0 0 1 1.047-1.106c.445-.287.95-.492 1.532-.615a8.8 8.8 0 0 1 1.82-.185 8.404 8.404 0 0 1 1.972.24v-.438c0-.307-.035-.6-.11-.874a1.88 1.88 0 0 0-.384-.73 1.784 1.784 0 0 0-.724-.493 3.164 3.164 0 0 0-1.143-.205c-.616 0-1.177.075-1.69.164a7.735 7.735 0 0 0-1.26.307l-.321-2.192c.335-.117.834-.233 1.478-.349a10.98 10.98 0 0 1 2.073-.178zm52.842 9.626c.822 0 1.43-.048 1.854-.13V13.7a6.347 6.347 0 0 0-1.574-.199c-.294 0-.595.021-.896.069a2.7 2.7 0 0 0-.814.24 1.46 1.46 0 0 0-.582.491c-.15.212-.218.335-.218.656 0 .628.218.991.615 1.23.404.245.938.362 1.615.362zm-.226-9.694c.883 0 1.629.108 2.231.327.602.219 1.088.526 1.444.915.355.39.609.923.759 1.483a6.8 6.8 0 0 1 .233 1.852v6.873c-.41.088-1.034.19-1.868.314-.834.123-1.772.184-2.813.184-.69 0-1.327-.068-1.895-.198a4.001 4.001 0 0 1-1.471-.635 3.085 3.085 0 0 1-.951-1.134c-.226-.465-.343-1.12-.343-1.804 0-.656.13-1.073.384-1.524.26-.45.608-.82 1.047-1.107.445-.286.95-.491 1.532-.614a8.803 8.803 0 0 1 2.751-.13c.329.034.671.096 1.04.185v-.437a3.3 3.3 0 0 0-.109-.875 1.873 1.873 0 0 0-.384-.731 1.784 1.784 0 0 0-.724-.492 3.165 3.165 0 0 0-1.143-.205c-.616 0-1.177.075-1.69.164a7.75 7.75 0 0 0-1.26.307l-.321-2.193c.335-.116.834-.232 1.478-.348a11.633 11.633 0 0 1 2.073-.177zm-8.034-1.271a1.626 1.626 0 0 1-1.628-1.62c0-.895.725-1.62 1.628-1.62.904 0 1.63.725 1.63 1.62 0 .895-.733 1.62-1.63 1.62zm1.348 13.22h-2.689V7.27l2.69-.423v11.956zm-4.714 0c-4.386.02-4.386-3.54-4.386-4.107l-.008-13.336 2.676-.424v13.254c0 .322 0 2.358 1.718 2.364v2.248zm-8.698-5.903c0-1.156-.253-2.119-.746-2.788-.493-.677-1.183-1.01-2.067-1.01-.882 0-1.574.333-2.065 1.01-.493.676-.733 1.632-.733 2.788 0 1.168.246 1.953.74 2.63.492.683 1.183 1.018 2.066 1.018.882 0 1.574-.342 2.067-1.019.492-.683.738-1.46.738-2.63zm2.737-.007c0 .902-.13 1.584-.397 2.33a5.52 5.52 0 0 1-1.128 1.906 4.986 4.986 0 0 1-1.752 1.223c-.685.286-1.739.45-2.265.45-.528-.006-1.574-.157-2.252-.45a5.096 5.096 0 0 1-1.744-1.223c-.487-.527-.863-1.162-1.137-1.906a6.345 6.345 0 0 1-.41-2.33c0-.902.123-1.77.397-2.508a5.554 5.554 0 0 1 1.15-1.892 5.133 5.133 0 0 1 1.75-1.216c.679-.287 1.425-.423 2.232-.423.808 0 1.553.142 2.237.423a4.88 4.88 0 0 1 1.753 1.216 5.644 5.644 0 0 1 1.135 1.892c.287.738.431 1.606.431 2.508zm-20.138 0c0 1.12.246 2.363.738 2.882.493.52 1.13.78 1.91.78.424 0 .828-.062 1.204-.178.377-.116.677-.253.917-.417V9.33a10.476 10.476 0 0 0-1.766-.226c-.971-.028-1.71.37-2.23 1.004-.513.636-.773 1.75-.773 2.788zm7.438 5.274c0 1.824-.466 3.156-1.404 4.004-.936.846-2.367 1.27-4.296 1.27-.705 0-2.17-.137-3.34-.396l.431-2.118c.98.205 2.272.26 2.95.26 1.074 0 1.84-.219 2.299-.656.459-.437.684-1.086.684-1.948v-.437a8.07 8.07 0 0 1-1.047.397c-.43.13-.93.198-1.492.198-.739 0-1.41-.116-2.018-.349a4.206 4.206 0 0 1-1.567-1.025c-.431-.45-.774-1.017-1.013-1.694-.24-.677-.363-1.885-.363-2.773 0-.834.13-1.88.384-2.577.26-.696.629-1.298 1.129-1.796.493-.498 1.095-.881 1.8-1.162a6.605 6.605 0 0 1 2.428-.457c.87 0 1.67.109 2.45.24.78.129 1.444.265 1.985.415V18.17z' fill='%235468FF'/%3E%3Cpath d='M6.972 6.677v1.627c-.712-.446-1.52-.67-2.425-.67-.585 0-1.045.13-1.38.391a1.24 1.24 0 0 0-.502 1.03c0 .425.164.765.494 1.02.33.256.835.532 1.516.83.447.192.795.356 1.045.495.25.138.537.332.862.582.324.25.563.548.718.894.154.345.23.741.23 1.188 0 .947-.334 1.691-1.004 2.234-.67.542-1.537.814-2.601.814-1.18 0-2.16-.229-2.936-.686v-1.708c.84.628 1.814.942 2.92.942.585 0 1.048-.136 1.388-.407.34-.271.51-.646.51-1.125 0-.287-.1-.55-.302-.79-.203-.24-.42-.42-.655-.542-.234-.123-.585-.29-1.053-.503a61.27 61.27 0 0 1-.582-.271 13.67 13.67 0 0 1-.55-.287 4.275 4.275 0 0 1-.567-.351 6.92 6.92 0 0 1-.455-.4c-.18-.17-.31-.34-.39-.51-.08-.17-.155-.37-.224-.598a2.553 2.553 0 0 1-.104-.742c0-.915.333-1.638.998-2.17.664-.532 1.523-.798 2.576-.798.968 0 1.793.17 2.473.51zm7.468 5.696v-.287c-.022-.607-.187-1.088-.495-1.444-.309-.357-.75-.535-1.324-.535-.532 0-.99.194-1.373.583-.382.388-.622.949-.717 1.683h3.909zm1.005 2.792v1.404c-.596.34-1.383.51-2.362.51-1.255 0-2.255-.377-3-1.132-.744-.755-1.116-1.744-1.116-2.968 0-1.297.34-2.316 1.021-3.055.68-.74 1.548-1.11 2.6-1.11 1.033 0 1.852.323 2.458.966.606.644.91 1.572.91 2.784 0 .33-.033.676-.096 1.038h-5.314c.107.702.405 1.239.894 1.611.49.372 1.106.558 1.85.558.862 0 1.58-.202 2.155-.606zm6.605-1.77h-1.212c-.596 0-1.045.116-1.349.35-.303.234-.454.532-.454.894 0 .372.117.664.35.877.235.213.575.32 1.022.32.51 0 .912-.142 1.204-.424.293-.281.44-.651.44-1.108v-.91zm-4.068-2.554V9.325c.627-.361 1.457-.542 2.489-.542 2.116 0 3.175 1.026 3.175 3.08V17h-1.548v-.957c-.415.68-1.143 1.02-2.186 1.02-.766 0-1.38-.22-1.843-.661-.462-.442-.694-1.003-.694-1.684 0-.776.293-1.38.878-1.81.585-.431 1.404-.647 2.457-.647h1.34V11.8c0-.554-.133-.971-.399-1.253-.266-.282-.707-.423-1.324-.423a4.07 4.07 0 0 0-2.345.718zm9.333-1.93v1.42c.394-1 1.101-1.5 2.123-1.5.148 0 .313.016.494.048v1.531a1.885 1.885 0 0 0-.75-.143c-.542 0-.989.24-1.34.718-.351.479-.527 1.048-.527 1.707V17h-1.563V8.91h1.563zm5.01 4.084c.022.82.272 1.492.75 2.019.479.526 1.15.79 2.01.79.639 0 1.235-.176 1.788-.527v1.404c-.521.319-1.186.479-1.995.479-1.265 0-2.276-.4-3.031-1.197-.755-.798-1.133-1.792-1.133-2.984 0-1.16.38-2.151 1.14-2.975.761-.825 1.79-1.237 3.088-1.237.702 0 1.346.149 1.93.447v1.436a3.242 3.242 0 0 0-1.77-.495c-.84 0-1.513.266-2.019.798-.505.532-.758 1.213-.758 2.042zM40.24 5.72v4.579c.458-1 1.293-1.5 2.505-1.5.787 0 1.42.245 1.899.734.479.49.718 1.17.718 2.042V17h-1.564v-5.106c0-.553-.14-.98-.422-1.284-.282-.303-.652-.455-1.11-.455-.531 0-1.002.202-1.411.606-.41.405-.615 1.022-.615 1.851V17h-1.563V5.72h1.563zm14.966 10.02c.596 0 1.096-.253 1.5-.758.404-.506.606-1.157.606-1.955 0-.915-.202-1.62-.606-2.114-.404-.495-.92-.742-1.548-.742-.553 0-1.05.224-1.491.67-.442.447-.662 1.133-.662 2.058 0 .958.212 1.67.638 2.138.425.469.946.703 1.563.703zM53.004 5.72v4.42c.574-.894 1.388-1.341 2.44-1.341 1.022 0 1.857.383 2.506 1.149.649.766.973 1.781.973 3.047 0 1.138-.309 2.109-.925 2.912-.617.803-1.463 1.205-2.537 1.205-1.075 0-1.894-.447-2.457-1.34V17h-1.58V5.72h1.58zm9.908 11.104l-3.223-7.913h1.739l1.005 2.632 1.26 3.415c.096-.32.48-1.458 1.15-3.415l.909-2.632h1.66l-2.92 7.866c-.777 2.074-1.963 3.11-3.559 3.11a2.92 2.92 0 0 1-.734-.079v-1.34c.17.042.351.064.543.064 1.032 0 1.755-.57 2.17-1.708z' fill='%235D6494'/%3E%3Cpath d='M89.632 5.967v-.772a.978.978 0 0 0-.978-.977h-2.28a.978.978 0 0 0-.978.977v.793c0 .088.082.15.171.13a7.127 7.127 0 0 1 1.984-.28c.65 0 1.295.088 1.917.259.082.02.164-.04.164-.13m-6.248 1.01l-.39-.389a.977.977 0 0 0-1.382 0l-.465.465a.973.973 0 0 0 0 1.38l.383.383c.062.061.15.047.205-.014.226-.307.472-.601.746-.874.281-.28.568-.526.883-.751.068-.042.075-.137.02-.2m4.16 2.453v3.341c0 .096.104.165.192.117l2.97-1.537c.068-.034.089-.117.055-.184a3.695 3.695 0 0 0-3.08-1.866c-.068 0-.136.054-.136.13m0 8.048a4.489 4.489 0 0 1-4.49-4.482 4.488 4.488 0 0 1 4.49-4.482 4.488 4.488 0 0 1 4.489 4.482 4.484 4.484 0 0 1-4.49 4.482m0-10.85a6.363 6.363 0 1 0 0 12.729 6.37 6.37 0 0 0 6.372-6.368 6.358 6.358 0 0 0-6.371-6.36' fill='%23FFF'/%3E%3C/g%3E%3C/svg%3E");background-repeat:no-repeat;background-position:50%;background-size:100%;overflow:hidden;text-indent:-9000px;width:100%;height:100%;display:block}</style>
+        <div class="TDesign-doc-search">
+          <span class="algolia-autocomplete" style="position: relative; display: inline-block; direction: ltr;"><input id="TDSearch" class="TDesign-doc-search__inner ds-input" placeholder="搜索" type="text" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-label="search input" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style="position: relative; vertical-align: top;"><pre aria-hidden="true" style="position: absolute; visibility: hidden; white-space: pre; font-family: Arial; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 400; word-spacing: 0px; letter-spacing: normal; text-indent: 0px; text-rendering: auto; text-transform: none;"></pre><span class="ds-dropdown-menu" role="listbox" id="algolia-autocomplete-listbox-0" style="position: absolute; top: 100%; z-index: 100; display: none; left: 0px; right: auto;"><div class="ds-dataset-1"></div></span></span>
+          <span class="TDesign-doc-search__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M8.125 2.5C5.0184 2.5 2.5 5.0184 2.5 8.125C2.5 11.2316 5.0184 13.75 8.125 13.75C9.22568 13.75 10.2525 13.4339 11.1197 12.8874L15.8839 17.6517L16.7678 16.7678L12.1025 12.1025C13.1204 11.0846 13.75 9.6783 13.75 8.125C13.75 5.0184 11.2316 2.5 8.125 2.5ZM8.125 3.75C10.5412 3.75 12.5 5.70875 12.5 8.125C12.5 10.5412 10.5412 12.5 8.125 12.5C5.70875 12.5 3.75 10.5412 3.75 8.125C3.75 5.70875 5.70875 3.75 8.125 3.75Z"></path>
+</svg>
+</span>
+        </div>
+      </td-doc-search></div></td-header><td-doc-aside title="WeChat MiniProgram" style="--aside-top: 96px;"><div slot="__render_content__">
+      <aside class="TDesign-doc-aside">
+        <div class="TDesign-doc-aside-collapse">
+          <i class="icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M3.99902 7.97265L27.9978 8.00026L28.0001 6.00026L4.00132 5.97266L3.99902 7.97265Z" fill="currentColor"></path>
+  <path d="M15.0002 17.0003H27.999V15.0003H15.0002V17.0003Z" fill="currentColor"></path>
+  <path d="M3.99902 25.9727L27.9978 26.0003L28.0001 24.0003L4.00132 23.9727L3.99902 25.9727Z" fill="currentColor"></path>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9335 15.1864C12.4668 15.5864 12.4668 16.3864 11.9335 16.7864L5.60017 21.5364C4.94094 22.0308 4.00017 21.5604 4.00017 20.7364L4.00017 11.2364C4.00017 10.4124 4.94094 9.94197 5.60017 10.4364L11.9335 15.1864ZM6.00017 13.2364L9.66684 15.9864L6.00017 18.7364L6.00017 13.2364Z" fill="currentColor"></path>
+</svg>
+</i>
+        </div>
+        <div class="TDesign-doc-sidenav">
+          <h2 class="TDesign-doc-aside__title">WeChat MiniProgram</h2>
+          <slot class="TDesign-doc-aside__extra" name="extra"></slot>
+          
+      <div class="TDesign-doc-sidenav-group TDesign-doc-sidenav-group--deep0">
+        <span class="TDesign-doc-sidenav-group__title">开始</span>
+        <div class="TDesign-doc-sidenav-group__children">
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/getting-started">
+        快速开始 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/used">
+        谁在用 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/changelog">
+        更新日志 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/custom-style">
+        样式覆盖 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/custom-theme">
+        自定义主题 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/overview">
+        组件概览 
+        
+      </a>
+    </div>
+  </div>
+      </div>
+    
+      <div class="TDesign-doc-sidenav-group TDesign-doc-sidenav-group--deep0">
+        <span class="TDesign-doc-sidenav-group__title">全局配置</span>
+        <div class="TDesign-doc-sidenav-group__children">
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/dark-mode">
+        深色模式 
+        
+      </a>
+    </div>
+  </div>
+      </div>
+    
+      <div class="TDesign-doc-sidenav-group TDesign-doc-sidenav-group--deep0">
+        <span class="TDesign-doc-sidenav-group__title">高阶组件</span>
+        <div class="TDesign-doc-sidenav-group__children">
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram-chat">
+        AI Chat 对话 
+        
+      </a>
+    </div>
+  </div>
+      </div>
+    
+      <div class="TDesign-doc-sidenav-group TDesign-doc-sidenav-group--deep0">
+        <span class="TDesign-doc-sidenav-group__title">基础</span>
+        <div class="TDesign-doc-sidenav-group__children">
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/button">
+        Button 按钮 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/divider">
+        Divider 分割线 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/fab">
+        Fab 悬浮按钮 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/icon">
+        Icon 图标 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/layout">
+        Layout 布局 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/link">
+        Link 链接 
+        
+      </a>
+    </div>
+  </div>
+      </div>
+    
+      <div class="TDesign-doc-sidenav-group TDesign-doc-sidenav-group--deep0">
+        <span class="TDesign-doc-sidenav-group__title">导航</span>
+        <div class="TDesign-doc-sidenav-group__children">
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/back-top">
+        BackTop 返回顶部 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/drawer">
+        Drawer 抽屉 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/indexes">
+        Indexes 索引 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/navbar">
+        Navbar 导航栏 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/side-bar">
+        SideBar 侧边栏 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/steps">
+        Steps 步骤条 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/tab-bar">
+        TabBar 底部标签栏 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/tabs">
+        Tabs 选项卡 
+        
+      </a>
+    </div>
+  </div>
+      </div>
+    
+      <div class="TDesign-doc-sidenav-group TDesign-doc-sidenav-group--deep0">
+        <span class="TDesign-doc-sidenav-group__title">输入</span>
+        <div class="TDesign-doc-sidenav-group__children">
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/calendar">
+        Calendar 日历 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link active" href="/miniprogram/components/cascader">
+        Cascader 级联选择器 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/checkbox">
+        Checkbox 多选框 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/color-picker">
+        ColorPicker 颜色选择器 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/date-time-picker">
+        DateTimePicker 时间选择器 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/input">
+        Input 输入框 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/picker">
+        Picker 选择器 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/radio">
+        Radio 单选框 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/rate">
+        Rate 评分 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/search">
+        Search 搜索框 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/slider">
+        Slider 滑动选择器 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/stepper">
+        Stepper 步进器 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/switch">
+        Switch 开关 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/textarea">
+        Textarea 多行文本框 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/tree-select">
+        TreeSelect 树形选择器 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/upload">
+        Upload 上传 
+        
+      </a>
+    </div>
+  </div>
+      </div>
+    
+      <div class="TDesign-doc-sidenav-group TDesign-doc-sidenav-group--deep0">
+        <span class="TDesign-doc-sidenav-group__title">数据展示</span>
+        <div class="TDesign-doc-sidenav-group__children">
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/avatar">
+        Avatar 头像 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/badge">
+        Badge 徽标 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/cell">
+        Cell 单元格 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/collapse">
+        Collapse 折叠面板 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/count-down">
+        CountDown 倒计时 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/empty">
+        Empty 空状态 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/footer">
+        Footer 页脚 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/grid">
+        Grid 宫格 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/image">
+        Image 图片 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/image-viewer">
+        ImageViewer 图片预览 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/progress">
+        Progress 进度条 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/qrcode">
+        QRCode 二维码 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/result">
+        Result 结果 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/skeleton">
+        Skeleton 骨架屏 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/sticky">
+        Sticky 吸顶容器 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/swiper">
+        Swiper 轮播图 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/tag">
+        Tag 标签 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/watermark">
+        Watermark 水印 
+        
+      </a>
+    </div>
+  </div>
+      </div>
+    
+      <div class="TDesign-doc-sidenav-group TDesign-doc-sidenav-group--deep0">
+        <span class="TDesign-doc-sidenav-group__title">反馈</span>
+        <div class="TDesign-doc-sidenav-group__children">
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/action-sheet">
+        ActionSheet 动作面板 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/dialog">
+        Dialog 对话框 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/dropdown-menu">
+        DropdownMenu 下拉菜单 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/guide">
+        Guide 引导 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/loading">
+        Loading 加载 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/message">
+        Message 消息通知 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/notice-bar">
+        NoticeBar 公告栏 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/overlay">
+        Overlay 遮罩层 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/popover">
+        Popover 弹出气泡 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/popup">
+        Popup 弹出层 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/pull-down-refresh">
+        PullDownRefresh 下拉刷新 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/swipe-cell">
+        SwipeCell 滑动操作 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/toast">
+        Toast 轻提示 
+        
+      </a>
+    </div>
+  </div>
+      </div>
+    
+        </div>
+      </aside>
+      <div class="TDesign-doc-aside-mask"></div>
+    </div></td-doc-aside><td-doc-content platform="mobile" page-status="show" style="visibility: visible;"><td-doc-header platform="mobile" slot="doc-header"><h1 id="__td_doc_title__">Cascader 级联选择器</h1></td-doc-header><td-doc-tabs tab="demo" auto-scroll=""></td-doc-tabs><div class="td-doc-main"><div name="DEMO"><div style="background: #ecf2fe; display: flex; align-items: center; line-height: 20px; padding: 14px 24px; border-radius: 3px; color: #555a65">
+  <svg fill="none" viewBox="0 0 16 16" width="16px" height="16px" style="margin-right: 5px">
+    <path fill="#0052d9" d="M8 15A7 7 0 108 1a7 7 0 000 14zM7.4 4h1.2v1.2H7.4V4zm.1 2.5h1V12h-1V6.5z" fillopacity="0.9"></path>
+  </svg>
+  该组件于 0.23.0 版本上线，请留意版本。
+</div>
+<p><span class="coverages-badge" style="margin-right: 10px"><img src="https://img.shields.io/badge/coverages%3A%20lines-34%25-red"></span><span class="coverages-badge" style="margin-right: 10px"><img src="https://img.shields.io/badge/coverages%3A%20functions-5%25-red"></span><span class="coverages-badge" style="margin-right: 10px"><img src="https://img.shields.io/badge/coverages%3A%20statements-34%25-red"></span><span class="coverages-badge" style="margin-right: 10px"><img src="https://img.shields.io/badge/coverages%3A%20branches-50%25-red"></span></p>
+<h2 id="引入">引入 <a class="header-anchor" href="#引入"></a></h2>
+<p>全局引入，在 miniprogram 根目录下的<code>app.json</code>中配置，局部引入，在需要引入的页面或组件的<code>index.json</code>中配置。</p>
+<div class="language-json"><pre v-pre="" class="language-json" tabindex="0"><code class="language-json"><span class="token property">"usingComponents"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+  <span class="token property">"t-cascader"</span><span class="token operator">:</span> <span class="token string">"tdesign-miniprogram/cascader/cascader"</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><h2 id="代码演示">代码演示 <a class="header-anchor" href="#代码演示"></a></h2>
+<p><a href="https://developers.weixin.qq.com/s/WOWeTNmJ8X5B" title="在开发者工具中预览效果" target="_blank" rel="noopener noreferrer"> 在开发者工具中预览效果 </a></p>
+<blockquote style="background-color: #d9e1ff; font-size: 15px; line-height: 26px;margin: 16px 0 0;padding: 16px; border-radius: 6px; color: #0052d9">
+<p>Tips: 请确保开发者工具为打开状态。导入开发者工具后，依次执行：npm i &gt; 构建npm包 &gt; 勾选 "将JS编译成ES5"</p>
+</blockquote>
+<h3 id="基础用法">基础用法 <a class="header-anchor" href="#基础用法"></a></h3>
+<td-code-block panel="WXML">
+  <pre slot="WXML" lang="html">%3Ct-cell%20title%3D%22%E5%9C%B0%E5%9D%80%22%20note%3D%22%7B%7Bnote%7D%7D%22%20bind%3Aclick%3D%22showCascader%22%20arrow%20%2F%3E%0A%0A%3Ct-cascader%0A%20%20visible%3D%22%7B%7Bvisible%7D%7D%22%0A%20%20value%3D%22%7B%7Bvalue%7D%7D%22%0A%20%20options%3D%22%7B%7Boptions%7D%7D%22%0A%20%20title%3D%22%E8%AF%B7%E9%80%89%E6%8B%A9%E5%9C%B0%E5%9D%80%22%0A%20%20bind%3Achange%3D%22onChange%22%0A%20%20bind%3Apick%3D%22onPick%22%0A%2F%3E%0A</pre>
+  <pre slot="JS" lang="javascript">const%20data%20%3D%20%7B%0A%20%20areaList%3A%20%5B%0A%20%20%20%20%7B%0A%20%20%20%20%20%20label%3A%20'%E5%8C%97%E4%BA%AC%E5%B8%82'%2C%0A%20%20%20%20%20%20value%3A%20'110000'%2C%0A%20%20%20%20%20%20children%3A%20%5B%0A%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20value%3A%20'110100'%2C%0A%20%20%20%20%20%20%20%20%20%20label%3A%20'%E5%8C%97%E4%BA%AC%E5%B8%82'%2C%0A%20%20%20%20%20%20%20%20%20%20children%3A%20%5B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110101'%2C%20label%3A%20'%E4%B8%9C%E5%9F%8E%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110102'%2C%20label%3A%20'%E8%A5%BF%E5%9F%8E%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110105'%2C%20label%3A%20'%E6%9C%9D%E9%98%B3%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110106'%2C%20label%3A%20'%E4%B8%B0%E5%8F%B0%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110107'%2C%20label%3A%20'%E7%9F%B3%E6%99%AF%E5%B1%B1%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110108'%2C%20label%3A%20'%E6%B5%B7%E6%B7%80%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110109'%2C%20label%3A%20'%E9%97%A8%E5%A4%B4%E6%B2%9F%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110111'%2C%20label%3A%20'%E6%88%BF%E5%B1%B1%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110112'%2C%20label%3A%20'%E9%80%9A%E5%B7%9E%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110113'%2C%20label%3A%20'%E9%A1%BA%E4%B9%89%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110114'%2C%20label%3A%20'%E6%98%8C%E5%B9%B3%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110115'%2C%20label%3A%20'%E5%A4%A7%E5%85%B4%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110116'%2C%20label%3A%20'%E6%80%80%E6%9F%94%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110117'%2C%20label%3A%20'%E5%B9%B3%E8%B0%B7%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110118'%2C%20label%3A%20'%E5%AF%86%E4%BA%91%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110119'%2C%20label%3A%20'%E5%BB%B6%E5%BA%86%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%7D%2C%0A%20%20%20%20%7B%0A%20%20%20%20%20%20label%3A%20'%E5%A4%A9%E6%B4%A5%E5%B8%82'%2C%0A%20%20%20%20%20%20value%3A%20'120000'%2C%0A%20%20%20%20%20%20children%3A%20%5B%0A%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20value%3A%20'120100'%2C%0A%20%20%20%20%20%20%20%20%20%20label%3A%20'%E5%A4%A9%E6%B4%A5%E5%B8%82'%2C%0A%20%20%20%20%20%20%20%20%20%20children%3A%20%5B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120101'%2C%20label%3A%20'%E5%92%8C%E5%B9%B3%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120102'%2C%20label%3A%20'%E6%B2%B3%E4%B8%9C%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120103'%2C%20label%3A%20'%E6%B2%B3%E8%A5%BF%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120104'%2C%20label%3A%20'%E5%8D%97%E5%BC%80%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120105'%2C%20label%3A%20'%E6%B2%B3%E5%8C%97%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120106'%2C%20label%3A%20'%E7%BA%A2%E6%A1%A5%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120110'%2C%20label%3A%20'%E4%B8%9C%E4%B8%BD%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120111'%2C%20label%3A%20'%E8%A5%BF%E9%9D%92%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120112'%2C%20label%3A%20'%E6%B4%A5%E5%8D%97%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120113'%2C%20label%3A%20'%E5%8C%97%E8%BE%B0%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120114'%2C%20label%3A%20'%E6%AD%A6%E6%B8%85%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120115'%2C%20label%3A%20'%E5%AE%9D%E5%9D%BB%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120116'%2C%20label%3A%20'%E6%BB%A8%E6%B5%B7%E6%96%B0%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120117'%2C%20label%3A%20'%E5%AE%81%E6%B2%B3%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120118'%2C%20label%3A%20'%E9%9D%99%E6%B5%B7%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120119'%2C%20label%3A%20'%E8%93%9F%E5%B7%9E%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%7D%2C%0A%20%20%5D%2C%0A%7D%3B%0A%0AComponent(%7B%0A%20%20data%3A%20%7B%0A%20%20%20%20options%3A%20data.areaList%2C%0A%20%20%20%20note%3A%20'%E8%AF%B7%E9%80%89%E6%8B%A9%E5%9C%B0%E5%9D%80'%2C%0A%20%20%20%20visible%3A%20false%2C%0A%20%20%20%20value%3A%20''%2C%0A%20%20%7D%2C%0A%20%20methods%3A%20%7B%0A%20%20%20%20showCascader()%20%7B%0A%20%20%20%20%20%20this.setData(%7B%20visible%3A%20true%20%7D)%3B%0A%20%20%20%20%7D%2C%0A%20%20%20%20onPick(e)%20%7B%0A%20%20%20%20%20%20console.log(e.detail)%3B%0A%20%20%20%20%7D%2C%0A%20%20%20%20onChange(e)%20%7B%0A%20%20%20%20%20%20const%20%7B%20selectedOptions%2C%20value%20%7D%20%3D%20e.detail%3B%0A%0A%20%20%20%20%20%20this.setData(%7B%0A%20%20%20%20%20%20%20%20value%2C%0A%20%20%20%20%20%20%20%20note%3A%20selectedOptions.map((item)%20%3D%3E%20item.label).join('%2F')%2C%0A%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%7D)%3B%0A</pre>
+  <pre slot="CSS" lang="css"></pre>
+  <pre slot="JSON" lang="javascript">%7B%0A%20%20%22component%22%3A%20true%2C%0A%20%20%22usingComponents%22%3A%20%7B%0A%20%20%20%20%22t-cell%22%3A%20%22tdesign-miniprogram%2Fcell%2Fcell%22%2C%0A%20%20%20%20%22t-cascader%22%3A%20%22tdesign-miniprogram%2Fcascader%2Fcascader%22%0A%20%20%7D%0A%7D%0A</pre>
+</td-code-block>
+<h3 id="选项卡风格">选项卡风格 <a class="header-anchor" href="#选项卡风格"></a></h3>
+<td-code-block panel="WXML">
+  <pre slot="WXML" lang="html">%3Ct-cell%20title%3D%22%E5%9C%B0%E5%9D%80%22%20note%3D%22%7B%7Bnote%7D%7D%22%20bind%3Aclick%3D%22showCascader%22%20arrow%3E%3C%2Ft-cell%3E%0A%0A%3Ct-cascader%0A%20%20visible%3D%22%7B%7Bvisible%7D%7D%22%0A%20%20theme%3D%22tab%22%0A%20%20options%3D%22%7B%7Boptions%7D%7D%22%0A%20%20title%3D%22%E8%AF%B7%E9%80%89%E6%8B%A9%E5%9C%B0%E5%9D%80%22%0A%20%20bind%3Achange%3D%22onChange%22%0A%3E%3C%2Ft-cascader%3E%0A</pre>
+  <pre slot="JS" lang="javascript">const%20data%20%3D%20%7B%0A%20%20areaList%3A%20%5B%0A%20%20%20%20%7B%0A%20%20%20%20%20%20label%3A%20'%E5%8C%97%E4%BA%AC%E5%B8%82'%2C%0A%20%20%20%20%20%20value%3A%20'110000'%2C%0A%20%20%20%20%20%20children%3A%20%5B%0A%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20value%3A%20'110100'%2C%0A%20%20%20%20%20%20%20%20%20%20label%3A%20'%E5%8C%97%E4%BA%AC%E5%B8%82'%2C%0A%20%20%20%20%20%20%20%20%20%20children%3A%20%5B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110101'%2C%20label%3A%20'%E4%B8%9C%E5%9F%8E%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110102'%2C%20label%3A%20'%E8%A5%BF%E5%9F%8E%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110105'%2C%20label%3A%20'%E6%9C%9D%E9%98%B3%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110106'%2C%20label%3A%20'%E4%B8%B0%E5%8F%B0%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110107'%2C%20label%3A%20'%E7%9F%B3%E6%99%AF%E5%B1%B1%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110108'%2C%20label%3A%20'%E6%B5%B7%E6%B7%80%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110109'%2C%20label%3A%20'%E9%97%A8%E5%A4%B4%E6%B2%9F%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110111'%2C%20label%3A%20'%E6%88%BF%E5%B1%B1%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110112'%2C%20label%3A%20'%E9%80%9A%E5%B7%9E%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110113'%2C%20label%3A%20'%E9%A1%BA%E4%B9%89%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110114'%2C%20label%3A%20'%E6%98%8C%E5%B9%B3%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110115'%2C%20label%3A%20'%E5%A4%A7%E5%85%B4%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110116'%2C%20label%3A%20'%E6%80%80%E6%9F%94%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110117'%2C%20label%3A%20'%E5%B9%B3%E8%B0%B7%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110118'%2C%20label%3A%20'%E5%AF%86%E4%BA%91%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110119'%2C%20label%3A%20'%E5%BB%B6%E5%BA%86%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%7D%2C%0A%20%20%20%20%7B%0A%20%20%20%20%20%20label%3A%20'%E5%A4%A9%E6%B4%A5%E5%B8%82'%2C%0A%20%20%20%20%20%20value%3A%20'120000'%2C%0A%20%20%20%20%20%20children%3A%20%5B%0A%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20value%3A%20'120100'%2C%0A%20%20%20%20%20%20%20%20%20%20label%3A%20'%E5%A4%A9%E6%B4%A5%E5%B8%82'%2C%0A%20%20%20%20%20%20%20%20%20%20children%3A%20%5B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120101'%2C%20label%3A%20'%E5%92%8C%E5%B9%B3%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120102'%2C%20label%3A%20'%E6%B2%B3%E4%B8%9C%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120103'%2C%20label%3A%20'%E6%B2%B3%E8%A5%BF%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120104'%2C%20label%3A%20'%E5%8D%97%E5%BC%80%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120105'%2C%20label%3A%20'%E6%B2%B3%E5%8C%97%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120106'%2C%20label%3A%20'%E7%BA%A2%E6%A1%A5%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120110'%2C%20label%3A%20'%E4%B8%9C%E4%B8%BD%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120111'%2C%20label%3A%20'%E8%A5%BF%E9%9D%92%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120112'%2C%20label%3A%20'%E6%B4%A5%E5%8D%97%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120113'%2C%20label%3A%20'%E5%8C%97%E8%BE%B0%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120114'%2C%20label%3A%20'%E6%AD%A6%E6%B8%85%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120115'%2C%20label%3A%20'%E5%AE%9D%E5%9D%BB%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120116'%2C%20label%3A%20'%E6%BB%A8%E6%B5%B7%E6%96%B0%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120117'%2C%20label%3A%20'%E5%AE%81%E6%B2%B3%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120118'%2C%20label%3A%20'%E9%9D%99%E6%B5%B7%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120119'%2C%20label%3A%20'%E8%93%9F%E5%B7%9E%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%7D%2C%0A%20%20%5D%2C%0A%7D%3B%0A%0AComponent(%7B%0A%20%20data%3A%20%7B%0A%20%20%20%20options%3A%20data.areaList%2C%0A%20%20%20%20note%3A%20'%E8%AF%B7%E9%80%89%E6%8B%A9%E5%9C%B0%E5%9D%80'%2C%0A%20%20%20%20visible%3A%20false%2C%0A%20%20%7D%2C%0A%20%20methods%3A%20%7B%0A%20%20%20%20showCascader()%20%7B%0A%20%20%20%20%20%20this.setData(%7B%20visible%3A%20true%20%7D)%3B%0A%20%20%20%20%7D%2C%0A%20%20%20%20onChange(e)%20%7B%0A%20%20%20%20%20%20const%20%7B%20selectedOptions%20%7D%20%3D%20e.detail%3B%0A%0A%20%20%20%20%20%20this.setData(%7B%0A%20%20%20%20%20%20%20%20note%3A%20selectedOptions.map((item)%20%3D%3E%20item.label).join('%2F')%2C%0A%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%7D)%3B%0A</pre>
+  <pre slot="CSS" lang="css"></pre>
+  <pre slot="JSON" lang="javascript">%7B%0A%20%20%22component%22%3A%20true%2C%0A%20%20%22usingComponents%22%3A%20%7B%0A%20%20%20%20%22t-cell%22%3A%20%22tdesign-miniprogram%2Fcell%2Fcell%22%2C%0A%20%20%20%20%22t-cascader%22%3A%20%22tdesign-miniprogram%2Fcascader%2Fcascader%22%0A%20%20%7D%0A%7D%0A</pre>
+</td-code-block>
+<h3 id="进阶">进阶 <a class="header-anchor" href="#进阶"></a></h3>
+<h4 id="带初始值">带初始值 <a class="header-anchor" href="#带初始值"></a></h4>
+<td-code-block panel="WXML">
+  <pre slot="WXML" lang="html">%3Ct-cell%20title%3D%22%E5%9C%B0%E5%9D%80%22%20note%3D%22%7B%7Bnote%7D%7D%22%20bind%3Aclick%3D%22showCascader%22%20arrow%3E%3C%2Ft-cell%3E%0A%0A%3Ct-cascader%0A%20%20visible%3D%22%7B%7Bvisible%7D%7D%22%0A%20%20value%3D%22120119%22%0A%20%20options%3D%22%7B%7Boptions%7D%7D%22%0A%20%20title%3D%22%E8%AF%B7%E9%80%89%E6%8B%A9%E5%9C%B0%E5%9D%80%22%0A%20%20bind%3Achange%3D%22onChange%22%0A%3E%3C%2Ft-cascader%3E%0A</pre>
+  <pre slot="JS" lang="javascript">const%20data%20%3D%20%7B%0A%20%20areaList%3A%20%5B%0A%20%20%20%20%7B%0A%20%20%20%20%20%20label%3A%20'%E5%8C%97%E4%BA%AC%E5%B8%82'%2C%0A%20%20%20%20%20%20value%3A%20'110000'%2C%0A%20%20%20%20%20%20children%3A%20%5B%0A%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20value%3A%20'110100'%2C%0A%20%20%20%20%20%20%20%20%20%20label%3A%20'%E5%8C%97%E4%BA%AC%E5%B8%82'%2C%0A%20%20%20%20%20%20%20%20%20%20children%3A%20%5B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110101'%2C%20label%3A%20'%E4%B8%9C%E5%9F%8E%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110102'%2C%20label%3A%20'%E8%A5%BF%E5%9F%8E%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110105'%2C%20label%3A%20'%E6%9C%9D%E9%98%B3%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110106'%2C%20label%3A%20'%E4%B8%B0%E5%8F%B0%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110107'%2C%20label%3A%20'%E7%9F%B3%E6%99%AF%E5%B1%B1%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110108'%2C%20label%3A%20'%E6%B5%B7%E6%B7%80%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110109'%2C%20label%3A%20'%E9%97%A8%E5%A4%B4%E6%B2%9F%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110111'%2C%20label%3A%20'%E6%88%BF%E5%B1%B1%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110112'%2C%20label%3A%20'%E9%80%9A%E5%B7%9E%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110113'%2C%20label%3A%20'%E9%A1%BA%E4%B9%89%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110114'%2C%20label%3A%20'%E6%98%8C%E5%B9%B3%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110115'%2C%20label%3A%20'%E5%A4%A7%E5%85%B4%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110116'%2C%20label%3A%20'%E6%80%80%E6%9F%94%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110117'%2C%20label%3A%20'%E5%B9%B3%E8%B0%B7%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110118'%2C%20label%3A%20'%E5%AF%86%E4%BA%91%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110119'%2C%20label%3A%20'%E5%BB%B6%E5%BA%86%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%7D%2C%0A%20%20%20%20%7B%0A%20%20%20%20%20%20label%3A%20'%E5%A4%A9%E6%B4%A5%E5%B8%82'%2C%0A%20%20%20%20%20%20value%3A%20'120000'%2C%0A%20%20%20%20%20%20children%3A%20%5B%0A%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20value%3A%20'120100'%2C%0A%20%20%20%20%20%20%20%20%20%20label%3A%20'%E5%A4%A9%E6%B4%A5%E5%B8%82'%2C%0A%20%20%20%20%20%20%20%20%20%20children%3A%20%5B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120101'%2C%20label%3A%20'%E5%92%8C%E5%B9%B3%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120102'%2C%20label%3A%20'%E6%B2%B3%E4%B8%9C%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120103'%2C%20label%3A%20'%E6%B2%B3%E8%A5%BF%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120104'%2C%20label%3A%20'%E5%8D%97%E5%BC%80%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120105'%2C%20label%3A%20'%E6%B2%B3%E5%8C%97%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120106'%2C%20label%3A%20'%E7%BA%A2%E6%A1%A5%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120110'%2C%20label%3A%20'%E4%B8%9C%E4%B8%BD%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120111'%2C%20label%3A%20'%E8%A5%BF%E9%9D%92%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120112'%2C%20label%3A%20'%E6%B4%A5%E5%8D%97%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120113'%2C%20label%3A%20'%E5%8C%97%E8%BE%B0%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120114'%2C%20label%3A%20'%E6%AD%A6%E6%B8%85%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120115'%2C%20label%3A%20'%E5%AE%9D%E5%9D%BB%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120116'%2C%20label%3A%20'%E6%BB%A8%E6%B5%B7%E6%96%B0%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120117'%2C%20label%3A%20'%E5%AE%81%E6%B2%B3%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120118'%2C%20label%3A%20'%E9%9D%99%E6%B5%B7%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120119'%2C%20label%3A%20'%E8%93%9F%E5%B7%9E%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%7D%2C%0A%20%20%5D%2C%0A%7D%3B%0A%0AComponent(%7B%0A%20%20data%3A%20%7B%0A%20%20%20%20options%3A%20data.areaList%2C%0A%20%20%20%20note%3A%20'%E8%AF%B7%E9%80%89%E6%8B%A9%E5%9C%B0%E5%9D%80'%2C%0A%20%20%20%20visible%3A%20false%2C%0A%20%20%7D%2C%0A%20%20methods%3A%20%7B%0A%20%20%20%20showCascader()%20%7B%0A%20%20%20%20%20%20this.setData(%7B%20visible%3A%20true%20%7D)%3B%0A%20%20%20%20%7D%2C%0A%20%20%20%20onChange(e)%20%7B%0A%20%20%20%20%20%20const%20%7B%20selectedOptions%20%7D%20%3D%20e.detail%3B%0A%0A%20%20%20%20%20%20this.setData(%7B%0A%20%20%20%20%20%20%20%20note%3A%20selectedOptions.map((item)%20%3D%3E%20item.label).join('%2F')%2C%0A%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%7D)%3B%0A</pre>
+  <pre slot="CSS" lang="css"></pre>
+  <pre slot="JSON" lang="javascript">%7B%0A%20%20%22component%22%3A%20true%2C%0A%20%20%22usingComponents%22%3A%20%7B%0A%20%20%20%20%22t-cell%22%3A%20%22tdesign-miniprogram%2Fcell%2Fcell%22%2C%0A%20%20%20%20%22t-cascader%22%3A%20%22tdesign-miniprogram%2Fcascader%2Fcascader%22%0A%20%20%7D%0A%7D%0A</pre>
+</td-code-block>
+<h4 id="自定义-keys">自定义 keys <a class="header-anchor" href="#自定义-keys"></a></h4>
+<td-code-block panel="WXML">
+  <pre slot="WXML" lang="html">%3Ct-cell%20title%3D%22%E5%9C%B0%E5%9D%80%22%20note%3D%22%7B%7Bnote%7D%7D%22%20bind%3Aclick%3D%22showCascader%22%20arrow%3E%3C%2Ft-cell%3E%0A%0A%3Ct-cascader%0A%20%20class%3D%22demo%22%0A%20%20visible%3D%22%7B%7Bvisible%7D%7D%22%0A%20%20keys%3D%22%7B%7Bkeys%7D%7D%22%0A%20%20options%3D%22%7B%7Boptions%7D%7D%22%0A%20%20title%3D%22%E8%AF%B7%E9%80%89%E6%8B%A9%E5%9C%B0%E5%9D%80%22%0A%20%20placeholder%3D%22%E6%9C%AA%E9%80%89%E4%B8%AD%E6%97%B6%E7%9A%84%E6%8F%90%E7%A4%BA%E6%96%87%E6%A1%88%22%0A%20%20bind%3Achange%3D%22onChange%22%0A%3E%3C%2Ft-cascader%3E%0A</pre>
+  <pre slot="JS" lang="javascript">const%20data%20%3D%20%7B%0A%20%20areaList%3A%20%5B%0A%20%20%20%20%7B%0A%20%20%20%20%20%20name%3A%20'%E5%8C%97%E4%BA%AC%E5%B8%82'%2C%0A%20%20%20%20%20%20id%3A%20'110000'%2C%0A%20%20%20%20%20%20sub%3A%20%5B%0A%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20id%3A%20'110100'%2C%0A%20%20%20%20%20%20%20%20%20%20name%3A%20'%E5%8C%97%E4%BA%AC%E5%B8%82'%2C%0A%20%20%20%20%20%20%20%20%20%20sub%3A%20%5B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'110101'%2C%20name%3A%20'%E4%B8%9C%E5%9F%8E%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'110102'%2C%20name%3A%20'%E8%A5%BF%E5%9F%8E%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'110105'%2C%20name%3A%20'%E6%9C%9D%E9%98%B3%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'110106'%2C%20name%3A%20'%E4%B8%B0%E5%8F%B0%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'110107'%2C%20name%3A%20'%E7%9F%B3%E6%99%AF%E5%B1%B1%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'110108'%2C%20name%3A%20'%E6%B5%B7%E6%B7%80%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'110109'%2C%20name%3A%20'%E9%97%A8%E5%A4%B4%E6%B2%9F%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'110111'%2C%20name%3A%20'%E6%88%BF%E5%B1%B1%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'110112'%2C%20name%3A%20'%E9%80%9A%E5%B7%9E%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'110113'%2C%20name%3A%20'%E9%A1%BA%E4%B9%89%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'110114'%2C%20name%3A%20'%E6%98%8C%E5%B9%B3%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'110115'%2C%20name%3A%20'%E5%A4%A7%E5%85%B4%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'110116'%2C%20name%3A%20'%E6%80%80%E6%9F%94%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'110117'%2C%20name%3A%20'%E5%B9%B3%E8%B0%B7%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'110118'%2C%20name%3A%20'%E5%AF%86%E4%BA%91%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'110119'%2C%20name%3A%20'%E5%BB%B6%E5%BA%86%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%7D%2C%0A%20%20%20%20%7B%0A%20%20%20%20%20%20name%3A%20'%E5%A4%A9%E6%B4%A5%E5%B8%82'%2C%0A%20%20%20%20%20%20id%3A%20'120000'%2C%0A%20%20%20%20%20%20sub%3A%20%5B%0A%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20id%3A%20'120100'%2C%0A%20%20%20%20%20%20%20%20%20%20name%3A%20'%E5%A4%A9%E6%B4%A5%E5%B8%82'%2C%0A%20%20%20%20%20%20%20%20%20%20sub%3A%20%5B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'120101'%2C%20name%3A%20'%E5%92%8C%E5%B9%B3%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'120102'%2C%20name%3A%20'%E6%B2%B3%E4%B8%9C%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'120103'%2C%20name%3A%20'%E6%B2%B3%E8%A5%BF%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'120104'%2C%20name%3A%20'%E5%8D%97%E5%BC%80%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'120105'%2C%20name%3A%20'%E6%B2%B3%E5%8C%97%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'120106'%2C%20name%3A%20'%E7%BA%A2%E6%A1%A5%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'120110'%2C%20name%3A%20'%E4%B8%9C%E4%B8%BD%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'120111'%2C%20name%3A%20'%E8%A5%BF%E9%9D%92%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'120112'%2C%20name%3A%20'%E6%B4%A5%E5%8D%97%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'120113'%2C%20name%3A%20'%E5%8C%97%E8%BE%B0%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'120114'%2C%20name%3A%20'%E6%AD%A6%E6%B8%85%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'120115'%2C%20name%3A%20'%E5%AE%9D%E5%9D%BB%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'120116'%2C%20name%3A%20'%E6%BB%A8%E6%B5%B7%E6%96%B0%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'120117'%2C%20name%3A%20'%E5%AE%81%E6%B2%B3%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'120118'%2C%20name%3A%20'%E9%9D%99%E6%B5%B7%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20id%3A%20'120119'%2C%20name%3A%20'%E8%93%9F%E5%B7%9E%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%7D%2C%0A%20%20%5D%2C%0A%7D%3B%0A%0AComponent(%7B%0A%20%20data%3A%20%7B%0A%20%20%20%20options%3A%20data.areaList%2C%0A%20%20%20%20note%3A%20'%E8%AF%B7%E9%80%89%E6%8B%A9%E5%9C%B0%E5%9D%80'%2C%0A%20%20%20%20visible%3A%20false%2C%0A%20%20%20%20keys%3A%20%7B%0A%20%20%20%20%20%20label%3A%20'name'%2C%0A%20%20%20%20%20%20value%3A%20'id'%2C%0A%20%20%20%20%20%20children%3A%20'sub'%2C%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%20%20methods%3A%20%7B%0A%20%20%20%20showCascader()%20%7B%0A%20%20%20%20%20%20this.setData(%7B%20visible%3A%20true%20%7D)%3B%0A%20%20%20%20%7D%2C%0A%20%20%20%20onChange(e)%20%7B%0A%20%20%20%20%20%20const%20%7B%20selectedOptions%20%7D%20%3D%20e.detail%3B%0A%0A%20%20%20%20%20%20this.setData(%7B%0A%20%20%20%20%20%20%20%20note%3A%20selectedOptions.map((item)%20%3D%3E%20item.name).join('%2F')%2C%0A%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%7D)%3B%0A</pre>
+  <pre slot="CSS" lang="css">page%20.demo%20%7B%0A%20%20--td-cascader-active-color%3A%20green%3B%0A%7D%0A</pre>
+  <pre slot="JSON" lang="javascript">%7B%0A%20%20%22component%22%3A%20true%2C%0A%20%20%22usingComponents%22%3A%20%7B%0A%20%20%20%20%22t-cell%22%3A%20%22tdesign-miniprogram%2Fcell%2Fcell%22%2C%0A%20%20%20%20%22t-cascader%22%3A%20%22tdesign-miniprogram%2Fcascader%2Fcascader%22%0A%20%20%7D%0A%7D%0A</pre>
+</td-code-block>
+<h4 id="使用次级标题">使用次级标题 <a class="header-anchor" href="#使用次级标题"></a></h4>
+<td-code-block panel="WXML">
+  <pre slot="WXML" lang="html">%3Ct-cell%20title%3D%22%E5%9C%B0%E5%9D%80%22%20note%3D%22%7B%7Bnote%7D%7D%22%20bind%3Aclick%3D%22showCascader%22%20arrow%3E%3C%2Ft-cell%3E%0A%0A%3Ct-cascader%0A%20%20visible%3D%22%7B%7Bvisible%7D%7D%22%0A%20%20options%3D%22%7B%7Boptions%7D%7D%22%0A%20%20title%3D%22%E8%AF%B7%E9%80%89%E6%8B%A9%E5%9C%B0%E5%9D%80%22%0A%20%20sub-titles%3D%22%7B%7BsubTitles%7D%7D%22%0A%20%20bind%3Achange%3D%22onChange%22%0A%3E%3C%2Ft-cascader%3E%0A</pre>
+  <pre slot="JS" lang="javascript">const%20data%20%3D%20%7B%0A%20%20areaList%3A%20%5B%0A%20%20%20%20%7B%0A%20%20%20%20%20%20label%3A%20'%E5%8C%97%E4%BA%AC%E5%B8%82'%2C%0A%20%20%20%20%20%20value%3A%20'110000'%2C%0A%20%20%20%20%20%20children%3A%20%5B%0A%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20value%3A%20'110100'%2C%0A%20%20%20%20%20%20%20%20%20%20label%3A%20'%E5%8C%97%E4%BA%AC%E5%B8%82'%2C%0A%20%20%20%20%20%20%20%20%20%20children%3A%20%5B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110101'%2C%20label%3A%20'%E4%B8%9C%E5%9F%8E%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110102'%2C%20label%3A%20'%E8%A5%BF%E5%9F%8E%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110105'%2C%20label%3A%20'%E6%9C%9D%E9%98%B3%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110106'%2C%20label%3A%20'%E4%B8%B0%E5%8F%B0%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110107'%2C%20label%3A%20'%E7%9F%B3%E6%99%AF%E5%B1%B1%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110108'%2C%20label%3A%20'%E6%B5%B7%E6%B7%80%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110109'%2C%20label%3A%20'%E9%97%A8%E5%A4%B4%E6%B2%9F%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110111'%2C%20label%3A%20'%E6%88%BF%E5%B1%B1%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110112'%2C%20label%3A%20'%E9%80%9A%E5%B7%9E%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110113'%2C%20label%3A%20'%E9%A1%BA%E4%B9%89%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110114'%2C%20label%3A%20'%E6%98%8C%E5%B9%B3%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110115'%2C%20label%3A%20'%E5%A4%A7%E5%85%B4%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110116'%2C%20label%3A%20'%E6%80%80%E6%9F%94%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110117'%2C%20label%3A%20'%E5%B9%B3%E8%B0%B7%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110118'%2C%20label%3A%20'%E5%AF%86%E4%BA%91%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110119'%2C%20label%3A%20'%E5%BB%B6%E5%BA%86%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%7D%2C%0A%20%20%20%20%7B%0A%20%20%20%20%20%20label%3A%20'%E5%A4%A9%E6%B4%A5%E5%B8%82'%2C%0A%20%20%20%20%20%20value%3A%20'120000'%2C%0A%20%20%20%20%20%20children%3A%20%5B%0A%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20value%3A%20'120100'%2C%0A%20%20%20%20%20%20%20%20%20%20label%3A%20'%E5%A4%A9%E6%B4%A5%E5%B8%82'%2C%0A%20%20%20%20%20%20%20%20%20%20children%3A%20%5B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120101'%2C%20label%3A%20'%E5%92%8C%E5%B9%B3%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120102'%2C%20label%3A%20'%E6%B2%B3%E4%B8%9C%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120103'%2C%20label%3A%20'%E6%B2%B3%E8%A5%BF%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120104'%2C%20label%3A%20'%E5%8D%97%E5%BC%80%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120105'%2C%20label%3A%20'%E6%B2%B3%E5%8C%97%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120106'%2C%20label%3A%20'%E7%BA%A2%E6%A1%A5%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120110'%2C%20label%3A%20'%E4%B8%9C%E4%B8%BD%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120111'%2C%20label%3A%20'%E8%A5%BF%E9%9D%92%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120112'%2C%20label%3A%20'%E6%B4%A5%E5%8D%97%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120113'%2C%20label%3A%20'%E5%8C%97%E8%BE%B0%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120114'%2C%20label%3A%20'%E6%AD%A6%E6%B8%85%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120115'%2C%20label%3A%20'%E5%AE%9D%E5%9D%BB%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120116'%2C%20label%3A%20'%E6%BB%A8%E6%B5%B7%E6%96%B0%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120117'%2C%20label%3A%20'%E5%AE%81%E6%B2%B3%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120118'%2C%20label%3A%20'%E9%9D%99%E6%B5%B7%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120119'%2C%20label%3A%20'%E8%93%9F%E5%B7%9E%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%7D%2C%0A%20%20%5D%2C%0A%7D%3B%0A%0AComponent(%7B%0A%20%20data%3A%20%7B%0A%20%20%20%20options%3A%20data.areaList%2C%0A%20%20%20%20note%3A%20'%E8%AF%B7%E9%80%89%E6%8B%A9%E5%9C%B0%E5%9D%80'%2C%0A%20%20%20%20visible%3A%20false%2C%0A%20%20%20%20subTitles%3A%20%5B'%E8%AF%B7%E9%80%89%E6%8B%A9%E7%9C%81%E4%BB%BD'%2C%20'%E8%AF%B7%E9%80%89%E6%8B%A9%E5%9F%8E%E5%B8%82'%2C%20'%E8%AF%B7%E9%80%89%E6%8B%A9%E5%8C%BA%2F%E5%8E%BF'%5D%2C%0A%20%20%7D%2C%0A%20%20methods%3A%20%7B%0A%20%20%20%20showCascader()%20%7B%0A%20%20%20%20%20%20this.setData(%7B%20visible%3A%20true%20%7D)%3B%0A%20%20%20%20%7D%2C%0A%20%20%20%20onChange(e)%20%7B%0A%20%20%20%20%20%20const%20%7B%20selectedOptions%20%7D%20%3D%20e.detail%3B%0A%0A%20%20%20%20%20%20this.setData(%7B%0A%20%20%20%20%20%20%20%20note%3A%20selectedOptions.map((item)%20%3D%3E%20item.label).join('%2F')%2C%0A%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%7D)%3B%0A</pre>
+  <pre slot="CSS" lang="css"></pre>
+  <pre slot="JSON" lang="javascript">%7B%0A%20%20%22component%22%3A%20true%2C%0A%20%20%22usingComponents%22%3A%20%7B%0A%20%20%20%20%22t-cell%22%3A%20%22tdesign-miniprogram%2Fcell%2Fcell%22%2C%0A%20%20%20%20%22t-cascader%22%3A%20%22tdesign-miniprogram%2Fcascader%2Fcascader%22%0A%20%20%7D%0A%7D%0A</pre>
+</td-code-block>
+<h4 id="选择任意一项">选择任意一项 <a class="header-anchor" href="#选择任意一项"></a></h4>
+<td-code-block panel="WXML">
+  <pre slot="WXML" lang="html">%3Ct-cell%20title%3D%22%E5%9C%B0%E5%9D%80%22%20note%3D%22%7B%7Bnote%7D%7D%22%20bind%3Aclick%3D%22showCascader%22%20arrow%20%2F%3E%0A%0A%3Ct-cascader%0A%20%20close-btn%3D%22%7B%7Bfalse%7D%7D%22%0A%20%20check-strictly%3D%22%7B%7Btrue%7D%7D%22%0A%20%20visible%3D%22%7B%7Bvisible%7D%7D%22%0A%20%20value%3D%22%7B%7Bvalue%7D%7D%22%0A%20%20options%3D%22%7B%7Boptions%7D%7D%22%0A%20%20title%3D%22%E8%AF%B7%E9%80%89%E6%8B%A9%E5%9C%B0%E5%9D%80%22%0A%20%20bind%3Achange%3D%22onChange%22%0A%20%20bind%3Apick%3D%22onPick%22%0A%3E%0A%20%20%3Ctext%20class%3D%22confirm-btn%22%20slot%3D%22close-btn%22%3E%E7%A1%AE%E5%AE%9A%3C%2Ftext%3E%0A%3C%2Ft-cascader%3E%0A</pre>
+  <pre slot="JS" lang="javascript">const%20data%20%3D%20%7B%0A%20%20areaList%3A%20%5B%0A%20%20%20%20%7B%0A%20%20%20%20%20%20label%3A%20'%E5%8C%97%E4%BA%AC%E5%B8%82'%2C%0A%20%20%20%20%20%20value%3A%20'110000'%2C%0A%20%20%20%20%20%20children%3A%20%5B%0A%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20value%3A%20'110100'%2C%0A%20%20%20%20%20%20%20%20%20%20label%3A%20'%E5%8C%97%E4%BA%AC%E5%B8%82'%2C%0A%20%20%20%20%20%20%20%20%20%20children%3A%20%5B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110101'%2C%20label%3A%20'%E4%B8%9C%E5%9F%8E%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110102'%2C%20label%3A%20'%E8%A5%BF%E5%9F%8E%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110105'%2C%20label%3A%20'%E6%9C%9D%E9%98%B3%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110106'%2C%20label%3A%20'%E4%B8%B0%E5%8F%B0%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110107'%2C%20label%3A%20'%E7%9F%B3%E6%99%AF%E5%B1%B1%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110108'%2C%20label%3A%20'%E6%B5%B7%E6%B7%80%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110109'%2C%20label%3A%20'%E9%97%A8%E5%A4%B4%E6%B2%9F%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110111'%2C%20label%3A%20'%E6%88%BF%E5%B1%B1%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110112'%2C%20label%3A%20'%E9%80%9A%E5%B7%9E%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110113'%2C%20label%3A%20'%E9%A1%BA%E4%B9%89%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110114'%2C%20label%3A%20'%E6%98%8C%E5%B9%B3%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110115'%2C%20label%3A%20'%E5%A4%A7%E5%85%B4%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110116'%2C%20label%3A%20'%E6%80%80%E6%9F%94%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110117'%2C%20label%3A%20'%E5%B9%B3%E8%B0%B7%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110118'%2C%20label%3A%20'%E5%AF%86%E4%BA%91%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'110119'%2C%20label%3A%20'%E5%BB%B6%E5%BA%86%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%7D%2C%0A%20%20%20%20%7B%0A%20%20%20%20%20%20label%3A%20'%E5%A4%A9%E6%B4%A5%E5%B8%82'%2C%0A%20%20%20%20%20%20value%3A%20'120000'%2C%0A%20%20%20%20%20%20children%3A%20%5B%0A%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20value%3A%20'120100'%2C%0A%20%20%20%20%20%20%20%20%20%20label%3A%20'%E5%A4%A9%E6%B4%A5%E5%B8%82'%2C%0A%20%20%20%20%20%20%20%20%20%20children%3A%20%5B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120101'%2C%20label%3A%20'%E5%92%8C%E5%B9%B3%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120102'%2C%20label%3A%20'%E6%B2%B3%E4%B8%9C%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120103'%2C%20label%3A%20'%E6%B2%B3%E8%A5%BF%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120104'%2C%20label%3A%20'%E5%8D%97%E5%BC%80%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120105'%2C%20label%3A%20'%E6%B2%B3%E5%8C%97%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120106'%2C%20label%3A%20'%E7%BA%A2%E6%A1%A5%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120110'%2C%20label%3A%20'%E4%B8%9C%E4%B8%BD%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120111'%2C%20label%3A%20'%E8%A5%BF%E9%9D%92%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120112'%2C%20label%3A%20'%E6%B4%A5%E5%8D%97%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120113'%2C%20label%3A%20'%E5%8C%97%E8%BE%B0%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120114'%2C%20label%3A%20'%E6%AD%A6%E6%B8%85%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120115'%2C%20label%3A%20'%E5%AE%9D%E5%9D%BB%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120116'%2C%20label%3A%20'%E6%BB%A8%E6%B5%B7%E6%96%B0%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120117'%2C%20label%3A%20'%E5%AE%81%E6%B2%B3%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120118'%2C%20label%3A%20'%E9%9D%99%E6%B5%B7%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%7B%20value%3A%20'120119'%2C%20label%3A%20'%E8%93%9F%E5%B7%9E%E5%8C%BA'%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%7D%2C%0A%20%20%5D%2C%0A%7D%3B%0A%0AComponent(%7B%0A%20%20data%3A%20%7B%0A%20%20%20%20options%3A%20data.areaList%2C%0A%20%20%20%20note%3A%20'%E8%AF%B7%E9%80%89%E6%8B%A9%E5%9C%B0%E5%9D%80'%2C%0A%20%20%20%20visible%3A%20false%2C%0A%20%20%20%20value%3A%20''%2C%0A%20%20%7D%2C%0A%20%20methods%3A%20%7B%0A%20%20%20%20showCascader()%20%7B%0A%20%20%20%20%20%20this.setData(%7B%20visible%3A%20true%20%7D)%3B%0A%20%20%20%20%7D%2C%0A%20%20%20%20onPick(e)%20%7B%0A%20%20%20%20%20%20console.log(e.detail)%3B%0A%20%20%20%20%7D%2C%0A%20%20%20%20onChange(e)%20%7B%0A%20%20%20%20%20%20const%20%7B%20selectedOptions%2C%20value%20%7D%20%3D%20e.detail%3B%0A%20%20%20%20%20%20console.log(value)%3B%0A%20%20%20%20%20%20this.setData(%7B%0A%20%20%20%20%20%20%20%20value%2C%0A%20%20%20%20%20%20%20%20note%3A%20selectedOptions.map((item)%20%3D%3E%20item.label).join('%2F')%2C%0A%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%7D)%3B%0A</pre>
+  <pre slot="CSS" lang="css">.confirm-btn%20%7B%0A%20%20color%3A%20%230052d9%3B%0A%7D%0A</pre>
+  <pre slot="JSON" lang="javascript">%7B%0A%20%20%22component%22%3A%20true%2C%0A%20%20%22usingComponents%22%3A%20%7B%0A%20%20%20%20%22t-cell%22%3A%20%22tdesign-miniprogram%2Fcell%2Fcell%22%2C%0A%20%20%20%20%22t-cascader%22%3A%20%22tdesign-miniprogram%2Fcascader%2Fcascader%22%0A%20%20%7D%0A%7D%0A</pre>
+</td-code-block>
+</div><td-doc-phone><div class="qrcode__wrapper" slot="qrcode"><img class="qrcode" src="//tdesign.tencent.com/miniprogram/assets/qrcode/cascader.png"></div><div class="iframe-progress-bar"><div class="iframe-progress-bar__track"><div class="iframe-progress-bar__fill"></div></div></div></td-doc-phone><td-contributors platform="miniprogram" framework="wx" component-name="cascader"></td-contributors></div><div name="API" style="display: none;"><nav class="tdesign-toc_container"><ol class="tdesign-toc_list"><li class="tdesign-toc_list_item"><a class="tdesign-toc_list_item_a" href="#cascader-props">Cascader Props</a></li><li class="tdesign-toc_list_item"><a class="tdesign-toc_list_item_a" href="#cascader-events">Cascader Events</a></li><li class="tdesign-toc_list_item"><a class="tdesign-toc_list_item_a" href="#cascader-slots">Cascader Slots</a></li><li class="tdesign-toc_list_item"><a class="tdesign-toc_list_item_a" href="#css-variables">CSS Variables</a></li></ol></nav><h3 id="cascader-props">Cascader Props <a class="header-anchor" href="#cascader-props"></a></h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>默认值</th>
+<th>描述</th>
+<th>必传</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>style</td>
+<td>Object</td>
+<td>-</td>
+<td>样式</td>
+<td>N</td>
+</tr>
+<tr>
+<td>custom-style</td>
+<td>Object</td>
+<td>-</td>
+<td>样式，一般用于开启虚拟化组件节点场景</td>
+<td>N</td>
+</tr>
+<tr>
+<td>check-strictly</td>
+<td>Boolean</td>
+<td>false</td>
+<td>父子节点选中状态不再关联，可各自选中或取消</td>
+<td>N</td>
+</tr>
+<tr>
+<td>close-btn</td>
+<td>Boolean</td>
+<td>true</td>
+<td>关闭按钮</td>
+<td>N</td>
+</tr>
+<tr>
+<td>keys</td>
+<td>Object</td>
+<td>-</td>
+<td>用来定义 value / label / children / disabled 在 <code>options</code> 中对应的字段别名。TS 类型：<code>CascaderKeysType</code> <code>type CascaderKeysType = TreeKeysType</code>。<a href="https://github.com/Tencent/tdesign-miniprogram/blob/develop/packages/components/common/common.ts" target="_blank" rel="noopener noreferrer">通用类型定义</a>。<a href="https://github.com/Tencent/tdesign-miniprogram/blob/develop/packages/components/cascader/type.ts" target="_blank" rel="noopener noreferrer">详细类型定义</a></td>
+<td>N</td>
+</tr>
+<tr>
+<td>options</td>
+<td>Array</td>
+<td>[]</td>
+<td>可选项数据源。TS 类型：<code>Array&lt;CascaderOption&gt;</code></td>
+<td>N</td>
+</tr>
+<tr>
+<td>placeholder</td>
+<td>String</td>
+<td>选择选项</td>
+<td>未选中时的提示文案</td>
+<td>N</td>
+</tr>
+<tr>
+<td>sub-titles</td>
+<td>Array</td>
+<td>[]</td>
+<td>每级展示的次标题。TS 类型：<code>Array&lt;string&gt;</code></td>
+<td>N</td>
+</tr>
+<tr>
+<td>theme</td>
+<td>String</td>
+<td>step</td>
+<td>展示风格。可选项：step/tab</td>
+<td>N</td>
+</tr>
+<tr>
+<td>title</td>
+<td>String</td>
+<td>-</td>
+<td>标题</td>
+<td>N</td>
+</tr>
+<tr>
+<td>value</td>
+<td>String / Number</td>
+<td>null</td>
+<td>选项值</td>
+<td>N</td>
+</tr>
+<tr>
+<td>default-value</td>
+<td>String / Number</td>
+<td>undefined</td>
+<td>选项值。非受控属性</td>
+<td>N</td>
+</tr>
+<tr>
+<td>visible</td>
+<td>Boolean</td>
+<td>false</td>
+<td>是否展示</td>
+<td>N</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cascader-events">Cascader Events <a class="header-anchor" href="#cascader-events"></a></h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>change</td>
+<td><code>(value: string | number, selectedOptions: string[])</code></td>
+<td><code>1.0.1</code>。值发生变更时触发</td>
+</tr>
+<tr>
+<td>close</td>
+<td><code>(trigger: CascaderTriggerSource)</code></td>
+<td><code>1.0.1</code>。关闭时触发。<a href="https://github.com/Tencent/tdesign-miniprogram/blob/develop/packages/components/cascader/type.ts" target="_blank" rel="noopener noreferrer">详细类型定义</a>。<br><code>type CascaderTriggerSource = 'overlay' | 'close-btn' | 'finish'</code><br></td>
+</tr>
+<tr>
+<td>pick</td>
+<td><code>(value: string | number, label: string, index: number, level: number)</code></td>
+<td><code>1.0.1</code>。选择后触发</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cascader-slots">Cascader Slots <a class="header-anchor" href="#cascader-slots"></a></h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>close-btn</td>
+<td>自定义 <code>close-btn</code> 显示内容</td>
+</tr>
+<tr>
+<td>header</td>
+<td><code>1.9.1</code>。头部</td>
+</tr>
+<tr>
+<td>middle-content</td>
+<td>中间内容</td>
+</tr>
+<tr>
+<td>title</td>
+<td>自定义 <code>title</code> 显示内容</td>
+</tr>
+</tbody>
+</table>
+<h3 id="css-variables">CSS Variables <a class="header-anchor" href="#css-variables"></a></h3>
+<p>组件提供了下列 CSS 变量，可用于自定义样式。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>默认值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>--td-cascader-active-color</td>
+<td>@brand-color</td>
+<td>-</td>
+</tr>
+<tr>
+<td>--td-cascader-bg-color</td>
+<td>@bg-color-container</td>
+<td>-</td>
+</tr>
+<tr>
+<td>--td-cascader-border-color</td>
+<td>@component-stroke</td>
+<td>-</td>
+</tr>
+<tr>
+<td>--td-cascader-content-height</td>
+<td>78vh</td>
+<td>-</td>
+</tr>
+<tr>
+<td>--td-cascader-disabled-color</td>
+<td>@text-color-disabled</td>
+<td>-</td>
+</tr>
+<tr>
+<td>--td-cascader-options-height</td>
+<td>calc(100% - @cascader-step-height)</td>
+<td>-</td>
+</tr>
+<tr>
+<td>--td-cascader-options-title-color</td>
+<td>@text-color-placeholder</td>
+<td>-</td>
+</tr>
+<tr>
+<td>--td-cascader-step-arrow-color</td>
+<td>@text-color-placeholder</td>
+<td>-</td>
+</tr>
+<tr>
+<td>--td-cascader-step-dot-size</td>
+<td>16rpx</td>
+<td>-</td>
+</tr>
+<tr>
+<td>--td-cascader-step-height</td>
+<td>88rpx</td>
+<td>-</td>
+</tr>
+<tr>
+<td>--td-cascader-title-color</td>
+<td>@text-color-primary</td>
+<td>-</td>
+</tr>
+<tr>
+<td>--td-cascader-title-font</td>
+<td>@font-title-large</td>
+<td>-</td>
+</tr>
+<tr>
+<td>--td-cascader-title-padding</td>
+<td>@spacer-2</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+</div><div name="DESIGN" style="display: none;"><nav class="tdesign-toc_container"><ol class="tdesign-toc_list"><li class="tdesign-toc_list_item"><a class="tdesign-toc_list_item_a" href="#何时使用">何时使用</a></li><li class="tdesign-toc_list_item"><a class="tdesign-toc_list_item_a" href="#组件搭配使用">组件搭配使用</a><ol class="tdesign-toc_list"></ol></li><li class="tdesign-toc_list_item"><a class="tdesign-toc_list_item_a" href="#常见用法">常见用法</a><ol class="tdesign-toc_list"></ol></li><li class="tdesign-toc_list_item"><a class="tdesign-toc_list_item_a" href="#推荐-慎用示例">推荐/慎用示例</a><ol class="tdesign-toc_list"></ol></li><li class="tdesign-toc_list_item"><a class="tdesign-toc_list_item_a" href="#相似组件">相似组件</a></li></ol></nav><h3 id="何时使用">何时使用 <a class="header-anchor" href="#何时使用"></a></h3>
+<p>当一组选项由递进层级构成，且每个层级有大量的选项需要用户逐级选择时使用。</p>
+<h3 id="组件搭配使用">组件搭配使用 <a class="header-anchor" href="#组件搭配使用"></a></h3>
+<h5 id="级联选择器与索引组合使用，当每个层级选项较多时，配合索引有利于用户快速找到目标选项。">级联选择器与<a href="./indexes">索引</a>组合使用，当每个层级选项较多时，配合索引有利于用户快速找到目标选项。 <a class="header-anchor" href="#级联选择器与索引组合使用，当每个层级选项较多时，配合索引有利于用户快速找到目标选项。"></a></h5>
+<div class="item">
+  <img src="https://tdesign.gtimg.com/site/design/mobile-guide/cascader/cascader-1.png">
+</div>
+<h3 id="常见用法">常见用法 <a class="header-anchor" href="#常见用法"></a></h3>
+<h5 id="在表单中，级联选择器可放置于表单内容需要的顺序中，通常用于地址信息的选择和填写。">在表单中，级联选择器可放置于表单内容需要的顺序中，通常用于地址信息的选择和填写。 <a class="header-anchor" href="#在表单中，级联选择器可放置于表单内容需要的顺序中，通常用于地址信息的选择和填写。"></a></h5>
+<div class="legend">
+ <div class="item">
+  <img src="https://tdesign.gtimg.com/site/design/mobile-guide/cascader/cascader-2.png">
+ </div>
+</div>
+<h3 id="推荐-慎用示例">推荐/慎用示例 <a class="header-anchor" href="#推荐-慎用示例"></a></h3>
+<h5 id="级联选择器的层级不宜超过4层，层级过多时应调整数据结构或改用其他交互方式。">级联选择器的层级不宜超过4层，层级过多时应调整数据结构或改用其他交互方式。 <a class="header-anchor" href="#级联选择器的层级不宜超过4层，层级过多时应调整数据结构或改用其他交互方式。"></a></h5>
+<div class="legend">
+ <div class="item">
+  <img src="https://tdesign.gtimg.com/site/design/mobile-guide/cascader/cascader-3.png">
+  <img class="tag" src="https://tdesign.gtimg.com/site/doc/bad.png">
+ </div>
+</div>
+<hr>
+<h5 id="在多层级中，各层级选项的归属关系应具备逻辑相关性，数据层级由大到小，避免归属关系混乱。">在多层级中，各层级选项的归属关系应具备逻辑相关性，数据层级由大到小，避免归属关系混乱。 <a class="header-anchor" href="#在多层级中，各层级选项的归属关系应具备逻辑相关性，数据层级由大到小，避免归属关系混乱。"></a></h5>
+<div class="legend">
+  <div class="item">
+    <img src="https://tdesign.gtimg.com/site/design/mobile-guide/cascader/cascader-4.png">
+    <img class="tag" src="https://tdesign.gtimg.com/site/doc/good.png">
+  </div>
+  <div class="item">
+    <img src="https://tdesign.gtimg.com/site/design/mobile-guide/cascader/cascader-5.png">
+    <img class="tag" src="https://tdesign.gtimg.com/site/doc/bad.png">
+  </div>
+</div>
+<h3 id="相似组件">相似组件 <a class="header-anchor" href="#相似组件"></a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">组件名</th>
+<th style="text-align:left">何时使用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="./picker">选择器</a></td>
+<td style="text-align:left">当需要在有限的空间展示大量选项供用户选择，或者一组选项由递进层级构成需要用户逐级选择时使用。</td>
+</tr>
+</tbody>
+</table>
+</div><div style="margin-top: 48px;"><td-doc-history time="1767854475192"></td-doc-history></div><td-doc-footer slot="doc-footer" platform="mobile"></td-doc-footer></td-doc-content></td-doc-layout></div>
+
+
+<td-theme-generator device="mini-program"></td-theme-generator><div id="__td_portals__"><td-portal class="" data-popper-placement="bottom" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; min-width: 111px; transform: translate(1035px, 56px);"><style>.TDesign-base-components-links{display:flex;flex-direction:column;padding:16px;width:832px;box-sizing:border-box;row-gap:16px}.TDesign-base-components-links__web,.TDesign-base-components-links__mobile{display:flex;flex-direction:column;row-gap:8px}.TDesign-base-components-links__list{display:flex;flex-wrap:wrap;gap:4px}.TDesign-base-components-links .title{color:var(--text-placeholder);margin:0 8px;font-size:14px;line-height:22px}.TDesign-base-components-links .link{border-radius:6px;transition:all .2s linear;color:var(--text-secondary);text-decoration:none;padding:8px;display:inline-flex;align-items:center;width:264px;box-sizing:border-box}.TDesign-base-components-links .link:not(.disabled):hover{color:var(--text-primary);background:var(--bg-color-container-hover)}.TDesign-base-components-links .link .details{display:flex;flex-direction:column}.TDesign-base-components-links .link .name{font-size:14px;line-height:24px;height:24px}.TDesign-base-components-links .link .version{font-size:14px;line-height:22px;color:var(--text-placeholder)}.TDesign-base-components-links .link .icon{max-width:40px;max-height:40px;margin-right:8px}.TDesign-base-components-links .link.active{color:var(--text-primary);background:var(--bg-color-container-select)}.TDesign-base-components-links .link.disabled{cursor:no-drop}.TDesign-base-components-links .link .disable-tag,.TDesign-base-components-links .link .alpha-tag,.TDesign-base-components-links .link .beta-tag,.TDesign-base-components-links .link .rc-tag,.TDesign-base-components-links .link .stable-tag{font-size:12px;border-radius:var(--border-radius);padding:2px 4px;margin-left:4px;vertical-align:bottom}.TDesign-base-components-links .link .disable-tag{color:var(--text-secondary);background:var(--bg-color-tag)}.TDesign-base-components-links .link .alpha-tag{color:var(--brand-main);background:var(--brand-main-light);font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace}.TDesign-base-components-links .link .beta-tag,.TDesign-base-components-links .link .rc-tag{color:var(--success-main);background:var(--success-main-light);font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace}.TDesign-base-components-links .link .stable-tag{color:#029cd4;background:#029cd41a;font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace}@media screen and (max-width: 960px){.TDesign-base-components-links{display:none}}</style><div slot="content" class="TDesign-base-components-links">
+        <div class="TDesign-base-components-links__web">
+          <p class="title">Web 桌面端</p>
+          <div class="TDesign-base-components-links__list">
+            
+                <a class="link  " href="/vue/overview">
+                  <img class="icon" src="data:image/svg+xml,%3csvg%20width='40'%20height='40'%20viewBox='0%200%2040%2040'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M24.0133%205.06641L19.9833%2012.0465L15.9535%205.06641H2.5332L19.9835%2035.2915L37.4337%205.06641H24.0133Z'%20fill='%2342B983'/%3e%3cpath%20d='M24.0137%205.06641L19.9837%2012.0465L15.9538%205.06641H9.51367L19.9838%2023.2011L30.4539%205.06641H24.0137Z'%20fill='%2335495E'/%3e%3c/svg%3e">
+                  <div class="details">
+                    <span class="name"> Vue <span class="stable-tag">Stable</span> </span>
+                    <span class="version">
+                      Version：1.14.4
+                    </span>
+                  </div>
+                </a>
+              
+                <a class="link  " href="/vue-next/overview">
+                  <img class="icon" src="data:image/svg+xml,%3csvg%20width='40'%20height='40'%20viewBox='0%200%2040%2040'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M24.0133%205.06641L19.9833%2012.0465L15.9535%205.06641H2.5332L19.9835%2035.2915L37.4337%205.06641H24.0133Z'%20fill='%2342B983'/%3e%3cpath%20d='M24.0137%205.06641L19.9837%2012.0465L15.9538%205.06641H9.51367L19.9838%2023.2011L30.4539%205.06641H24.0137Z'%20fill='%2335495E'/%3e%3c/svg%3e">
+                  <div class="details">
+                    <span class="name"> Vue Next <span class="stable-tag">Stable</span> </span>
+                    <span class="version">
+                      Version：1.18.0
+                    </span>
+                  </div>
+                </a>
+              
+                <a class="link  " href="/react/overview">
+                  <img class="icon" src="data:image/svg+xml,%3csvg%20width='40'%20height='40'%20viewBox='0%200%2040%2040'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M28.1175%205.91895C28.521%206.15192%2028.9018%206.65217%2029.1092%207.6216C29.3165%208.59087%2029.316%209.89706%2029.0621%2011.4818C28.9831%2011.9749%2028.8805%2012.4888%2028.7548%2013.0205C27.3951%2012.7295%2025.934%2012.5052%2024.4005%2012.3569C23.5053%2011.103%2022.5805%209.94987%2021.6487%208.91778C22.0462%208.54307%2022.44%208.19733%2022.8276%207.88233C24.0731%206.87007%2025.204%206.21654%2026.1471%205.91145C27.0903%205.60631%2027.7139%205.68597%2028.1175%205.91895ZM18.3272%208.91778C17.9297%208.54307%2017.5359%208.19734%2017.1483%207.88235C15.9029%206.87009%2014.7719%206.21656%2013.8288%205.91147C12.8856%205.60633%2012.262%205.68599%2011.8585%205.91896C11.4549%206.15194%2011.0741%206.65219%2010.8668%207.62162C10.6595%208.59088%2010.66%209.89708%2010.9138%2011.4818C10.9929%2011.975%2011.0954%2012.4888%2011.2211%2013.0205C12.5809%2012.7295%2014.0419%2012.5052%2015.5755%2012.3569C16.4706%2011.103%2017.3954%209.94987%2018.3272%208.91778ZM19.988%207.21345C19.5394%206.78938%2019.0922%206.39612%2018.649%206.03591C17.2716%204.91642%2015.8816%204.07479%2014.5612%203.64762C13.2409%203.2205%2011.8585%203.17148%2010.6688%203.85837C9.47905%204.54526%208.83027%205.76701%208.54003%207.12395C8.24976%208.48106%208.28365%2010.1056%208.56444%2011.8582C8.65479%2012.4222%208.7718%2013.006%208.91475%2013.6065C8.32322%2013.783%207.75908%2013.9736%207.22554%2014.1773C5.56732%2014.8104%204.14347%2015.5934%203.11332%2016.5233C2.08329%2017.4531%201.34961%2018.6259%201.34961%2019.9996C1.34961%2021.3734%202.08329%2022.5461%203.11332%2023.476C4.14347%2024.4059%205.56732%2025.1888%207.22554%2025.822C7.75909%2026.0257%208.32324%2026.2163%208.91478%2026.3927C8.77182%2026.9933%208.65481%2027.5772%208.56445%2028.1411C8.28366%2029.8937%208.24976%2031.5183%208.54004%2032.8754C8.83028%2034.2323%209.47905%2035.4541%2010.6688%2036.141C11.8585%2036.8279%2013.241%2036.7788%2014.5612%2036.3517C15.8816%2035.9246%2017.2716%2035.0829%2018.649%2033.9634C19.0922%2033.6032%2019.5394%2033.21%2019.988%2032.7859C20.4365%2033.21%2020.8837%2033.6032%2021.3269%2033.9635C22.7043%2035.0829%2024.0943%2035.9246%2025.4147%2036.3517C26.735%2036.7789%2028.1174%2036.8279%2029.3071%2036.141C30.4969%2035.4541%2031.1456%2034.2324%2031.4359%2032.8754C31.7262%2031.5183%2031.6923%2029.8937%2031.4115%2028.1411C31.3211%2027.5772%2031.2041%2026.9933%2031.0611%2026.3928C31.6527%2026.2163%2032.2169%2026.0257%2032.7504%2025.822C34.4087%2025.1888%2035.8325%2024.4059%2036.8627%2023.476C37.8927%2022.5461%2038.6264%2021.3734%2038.6264%2019.9996C38.6264%2018.6259%2037.8927%2017.4531%2036.8627%2016.5233C35.8325%2015.5934%2034.4087%2014.8104%2032.7504%2014.1773C32.2169%2013.9736%2031.6527%2013.783%2031.0612%2013.6065C31.2041%2013.006%2031.3211%2012.4221%2031.4115%2011.8582C31.6923%2010.1056%2031.7262%208.48104%2031.4359%207.12393C31.1457%205.76699%2030.4969%204.54524%2029.3072%203.85835C28.1174%203.17147%2026.735%203.22049%2025.4147%203.6476C24.0943%204.07477%2022.7043%204.9164%2021.3269%206.03589C20.8837%206.3961%2020.4365%206.78938%2019.988%207.21345ZM28.1027%2015.3146C27.4695%2015.1824%2026.8097%2015.0649%2026.1268%2014.9637C26.3504%2015.3277%2026.5709%2015.6979%2026.7879%2016.0737C27.0049%2016.4496%2027.2152%2016.8256%2027.4186%2017.2013C27.6724%2016.5592%2027.9006%2015.9291%2028.1027%2015.3146ZM28.813%2019.9997C29.4514%2018.5974%2029.9876%2017.22%2030.4155%2015.8969C30.9388%2016.0538%2031.4351%2016.222%2031.9017%2016.4001C33.4011%2016.9726%2034.5326%2017.6253%2035.2683%2018.2895C36.0042%2018.9538%2036.247%2019.5337%2036.247%2019.9996C36.247%2020.4656%2036.0042%2021.0455%2035.2683%2021.7098C34.5326%2022.374%2033.4011%2023.0266%2031.9017%2023.5991C31.4351%2023.7773%2030.9388%2023.9454%2030.4155%2024.1024C29.9876%2022.7793%2029.4513%2021.4019%2028.813%2019.9997ZM26.183%2019.9997C25.7431%2019.097%2025.2576%2018.1819%2024.7273%2017.2634C24.197%2016.3449%2023.6473%2015.4669%2023.0854%2014.6346C22.0837%2014.5641%2021.0485%2014.5271%2019.988%2014.5271C18.9274%2014.5271%2017.8922%2014.5641%2016.8905%2014.6346C16.3286%2015.4669%2015.7789%2016.3449%2015.2486%2017.2634C14.7183%2018.1819%2014.2328%2019.0969%2013.7929%2019.9997C14.2328%2020.9024%2014.7183%2021.8175%2015.2486%2022.736C15.7789%2023.6544%2016.3286%2024.5324%2016.8904%2025.3647C17.8921%2025.4351%2018.9274%2025.4722%2019.988%2025.4722C21.0485%2025.4722%2022.0838%2025.4351%2023.0855%2025.3647C23.6474%2024.5324%2024.1971%2023.6544%2024.7273%2022.7359C25.2576%2021.8175%2025.7431%2020.9024%2026.183%2019.9997ZM26.1268%2025.0356C26.3504%2024.6716%2026.5709%2024.3015%2026.7879%2023.9256C27.0049%2023.5498%2027.2152%2023.1738%2027.4186%2022.7981C27.6724%2023.4401%2027.9006%2024.0702%2028.1027%2024.6847C27.4695%2024.8169%2026.8097%2024.9343%2026.1268%2025.0356ZM21.2798%2027.834C20.8528%2027.8456%2020.422%2027.8515%2019.988%2027.8515C19.554%2027.8515%2019.1232%2027.8456%2018.6961%2027.834C19.1252%2028.3748%2019.5568%2028.8875%2019.988%2029.3698C20.4191%2028.8875%2020.8507%2028.3748%2021.2798%2027.834ZM21.6487%2031.0816C22.5805%2030.0495%2023.5053%2028.8963%2024.4005%2027.6424C25.934%2027.4941%2027.3951%2027.2698%2028.7548%2026.9788C28.8805%2027.5105%2028.9831%2028.0244%2029.0621%2028.5175C29.316%2030.1023%2029.3165%2031.4085%2029.1091%2032.3777C28.9018%2033.3472%2028.521%2033.8474%2028.1175%2034.0804C27.7139%2034.3134%2027.0903%2034.393%2026.1471%2034.0879C25.204%2033.7828%2024.0731%2033.1293%2022.8276%2032.117C22.44%2031.802%2022.0462%2031.4563%2021.6487%2031.0816ZM18.3272%2031.0816C17.3954%2030.0495%2016.4706%2028.8963%2015.5754%2027.6424C14.0419%2027.494%2012.5809%2027.2698%2011.2211%2026.9788C11.0954%2027.5105%2010.9929%2028.0244%2010.9139%2028.5175C10.66%2030.1023%2010.6595%2031.4085%2010.8668%2032.3777C11.0741%2033.3472%2011.4549%2033.8474%2011.8585%2034.0804C12.262%2034.3134%2012.8856%2034.393%2013.8288%2034.0879C14.7719%2033.7828%2015.9029%2033.1293%2017.1483%2032.117C17.5359%2031.802%2017.9297%2031.4563%2018.3272%2031.0816ZM11.8732%2024.6847C12.5064%2024.8169%2013.1662%2024.9343%2013.8491%2025.0356C13.6255%2024.6716%2013.405%2024.3015%2013.188%2023.9256C12.971%2023.5498%2012.7607%2023.1738%2012.5573%2022.7981C12.3035%2023.4401%2012.0754%2024.0702%2011.8732%2024.6847ZM12.5573%2017.2012C12.7607%2016.8256%2012.971%2016.4496%2013.188%2016.0737C13.405%2015.6978%2013.6255%2015.3277%2013.8491%2014.9637C13.1662%2015.0649%2012.5064%2015.1824%2011.8732%2015.3146C12.0753%2015.9291%2012.3035%2016.5592%2012.5573%2017.2012ZM11.1629%2019.9997C10.5246%2021.4019%209.98831%2022.7793%209.56042%2024.1023C9.03713%2023.9454%208.54083%2023.7773%208.07426%2023.5991C6.57488%2023.0266%205.44343%2022.374%204.70768%2021.7098C3.9718%2021.0455%203.72898%2020.4656%203.72898%2019.9996C3.72898%2019.5337%203.9718%2018.9538%204.70768%2018.2895C5.44343%2017.6253%206.57488%2016.9726%208.07426%2016.4001C8.54082%2016.222%209.03711%2016.0539%209.56038%2015.8969C9.98828%2017.22%2010.5246%2018.5974%2011.1629%2019.9997ZM18.6962%2012.1653C19.1232%2012.1536%2019.554%2012.1477%2019.988%2012.1477C20.422%2012.1477%2020.8527%2012.1536%2021.2797%2012.1652C20.8506%2011.6245%2020.419%2011.1119%2019.988%2010.6295C19.5569%2011.1119%2019.1253%2011.6245%2018.6962%2012.1653ZM23.2393%2019.9997C23.2393%2021.7956%2021.7834%2023.2515%2019.9875%2023.2515C18.1916%2023.2515%2016.7357%2021.7956%2016.7357%2019.9997C16.7357%2018.2038%2018.1916%2016.7479%2019.9875%2016.7479C21.7834%2016.7479%2023.2393%2018.2038%2023.2393%2019.9997Z'%20fill='%2361DAFB'/%3e%3c/svg%3e">
+                  <div class="details">
+                    <span class="name"> React <span class="stable-tag">Stable</span> </span>
+                    <span class="version">
+                      Version：1.16.3
+                    </span>
+                  </div>
+                </a>
+              
+          </div>
+        </div>
+
+        <div class="TDesign-base-components-links__mobile">
+          <p class="title">Mobile 移动端</p>
+          <div class="TDesign-base-components-links__list">
+            
+                <a class="link  " href="/mobile-vue/overview">
+                  <img class="icon" src="data:image/svg+xml,%3csvg%20width='40'%20height='40'%20viewBox='0%200%2040%2040'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M24.0133%205.06641L19.9833%2012.0465L15.9535%205.06641H2.5332L19.9835%2035.2915L37.4337%205.06641H24.0133Z'%20fill='%2342B983'/%3e%3cpath%20d='M24.0137%205.06641L19.9837%2012.0465L15.9538%205.06641H9.51367L19.9838%2023.2011L30.4539%205.06641H24.0137Z'%20fill='%2335495E'/%3e%3c/svg%3e">
+                  <div class="details">
+                    <span class="name"> Vue Next <span class="stable-tag">Stable</span> </span>
+                    <span class="version">
+                      Version：1.12.1
+                    </span>
+                  </div>
+                </a>
+              
+                <a class="link  " href="/mobile-react/overview">
+                  <img class="icon" src="data:image/svg+xml,%3csvg%20width='40'%20height='40'%20viewBox='0%200%2040%2040'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M28.1175%205.91895C28.521%206.15192%2028.9018%206.65217%2029.1092%207.6216C29.3165%208.59087%2029.316%209.89706%2029.0621%2011.4818C28.9831%2011.9749%2028.8805%2012.4888%2028.7548%2013.0205C27.3951%2012.7295%2025.934%2012.5052%2024.4005%2012.3569C23.5053%2011.103%2022.5805%209.94987%2021.6487%208.91778C22.0462%208.54307%2022.44%208.19733%2022.8276%207.88233C24.0731%206.87007%2025.204%206.21654%2026.1471%205.91145C27.0903%205.60631%2027.7139%205.68597%2028.1175%205.91895ZM18.3272%208.91778C17.9297%208.54307%2017.5359%208.19734%2017.1483%207.88235C15.9029%206.87009%2014.7719%206.21656%2013.8288%205.91147C12.8856%205.60633%2012.262%205.68599%2011.8585%205.91896C11.4549%206.15194%2011.0741%206.65219%2010.8668%207.62162C10.6595%208.59088%2010.66%209.89708%2010.9138%2011.4818C10.9929%2011.975%2011.0954%2012.4888%2011.2211%2013.0205C12.5809%2012.7295%2014.0419%2012.5052%2015.5755%2012.3569C16.4706%2011.103%2017.3954%209.94987%2018.3272%208.91778ZM19.988%207.21345C19.5394%206.78938%2019.0922%206.39612%2018.649%206.03591C17.2716%204.91642%2015.8816%204.07479%2014.5612%203.64762C13.2409%203.2205%2011.8585%203.17148%2010.6688%203.85837C9.47905%204.54526%208.83027%205.76701%208.54003%207.12395C8.24976%208.48106%208.28365%2010.1056%208.56444%2011.8582C8.65479%2012.4222%208.7718%2013.006%208.91475%2013.6065C8.32322%2013.783%207.75908%2013.9736%207.22554%2014.1773C5.56732%2014.8104%204.14347%2015.5934%203.11332%2016.5233C2.08329%2017.4531%201.34961%2018.6259%201.34961%2019.9996C1.34961%2021.3734%202.08329%2022.5461%203.11332%2023.476C4.14347%2024.4059%205.56732%2025.1888%207.22554%2025.822C7.75909%2026.0257%208.32324%2026.2163%208.91478%2026.3927C8.77182%2026.9933%208.65481%2027.5772%208.56445%2028.1411C8.28366%2029.8937%208.24976%2031.5183%208.54004%2032.8754C8.83028%2034.2323%209.47905%2035.4541%2010.6688%2036.141C11.8585%2036.8279%2013.241%2036.7788%2014.5612%2036.3517C15.8816%2035.9246%2017.2716%2035.0829%2018.649%2033.9634C19.0922%2033.6032%2019.5394%2033.21%2019.988%2032.7859C20.4365%2033.21%2020.8837%2033.6032%2021.3269%2033.9635C22.7043%2035.0829%2024.0943%2035.9246%2025.4147%2036.3517C26.735%2036.7789%2028.1174%2036.8279%2029.3071%2036.141C30.4969%2035.4541%2031.1456%2034.2324%2031.4359%2032.8754C31.7262%2031.5183%2031.6923%2029.8937%2031.4115%2028.1411C31.3211%2027.5772%2031.2041%2026.9933%2031.0611%2026.3928C31.6527%2026.2163%2032.2169%2026.0257%2032.7504%2025.822C34.4087%2025.1888%2035.8325%2024.4059%2036.8627%2023.476C37.8927%2022.5461%2038.6264%2021.3734%2038.6264%2019.9996C38.6264%2018.6259%2037.8927%2017.4531%2036.8627%2016.5233C35.8325%2015.5934%2034.4087%2014.8104%2032.7504%2014.1773C32.2169%2013.9736%2031.6527%2013.783%2031.0612%2013.6065C31.2041%2013.006%2031.3211%2012.4221%2031.4115%2011.8582C31.6923%2010.1056%2031.7262%208.48104%2031.4359%207.12393C31.1457%205.76699%2030.4969%204.54524%2029.3072%203.85835C28.1174%203.17147%2026.735%203.22049%2025.4147%203.6476C24.0943%204.07477%2022.7043%204.9164%2021.3269%206.03589C20.8837%206.3961%2020.4365%206.78938%2019.988%207.21345ZM28.1027%2015.3146C27.4695%2015.1824%2026.8097%2015.0649%2026.1268%2014.9637C26.3504%2015.3277%2026.5709%2015.6979%2026.7879%2016.0737C27.0049%2016.4496%2027.2152%2016.8256%2027.4186%2017.2013C27.6724%2016.5592%2027.9006%2015.9291%2028.1027%2015.3146ZM28.813%2019.9997C29.4514%2018.5974%2029.9876%2017.22%2030.4155%2015.8969C30.9388%2016.0538%2031.4351%2016.222%2031.9017%2016.4001C33.4011%2016.9726%2034.5326%2017.6253%2035.2683%2018.2895C36.0042%2018.9538%2036.247%2019.5337%2036.247%2019.9996C36.247%2020.4656%2036.0042%2021.0455%2035.2683%2021.7098C34.5326%2022.374%2033.4011%2023.0266%2031.9017%2023.5991C31.4351%2023.7773%2030.9388%2023.9454%2030.4155%2024.1024C29.9876%2022.7793%2029.4513%2021.4019%2028.813%2019.9997ZM26.183%2019.9997C25.7431%2019.097%2025.2576%2018.1819%2024.7273%2017.2634C24.197%2016.3449%2023.6473%2015.4669%2023.0854%2014.6346C22.0837%2014.5641%2021.0485%2014.5271%2019.988%2014.5271C18.9274%2014.5271%2017.8922%2014.5641%2016.8905%2014.6346C16.3286%2015.4669%2015.7789%2016.3449%2015.2486%2017.2634C14.7183%2018.1819%2014.2328%2019.0969%2013.7929%2019.9997C14.2328%2020.9024%2014.7183%2021.8175%2015.2486%2022.736C15.7789%2023.6544%2016.3286%2024.5324%2016.8904%2025.3647C17.8921%2025.4351%2018.9274%2025.4722%2019.988%2025.4722C21.0485%2025.4722%2022.0838%2025.4351%2023.0855%2025.3647C23.6474%2024.5324%2024.1971%2023.6544%2024.7273%2022.7359C25.2576%2021.8175%2025.7431%2020.9024%2026.183%2019.9997ZM26.1268%2025.0356C26.3504%2024.6716%2026.5709%2024.3015%2026.7879%2023.9256C27.0049%2023.5498%2027.2152%2023.1738%2027.4186%2022.7981C27.6724%2023.4401%2027.9006%2024.0702%2028.1027%2024.6847C27.4695%2024.8169%2026.8097%2024.9343%2026.1268%2025.0356ZM21.2798%2027.834C20.8528%2027.8456%2020.422%2027.8515%2019.988%2027.8515C19.554%2027.8515%2019.1232%2027.8456%2018.6961%2027.834C19.1252%2028.3748%2019.5568%2028.8875%2019.988%2029.3698C20.4191%2028.8875%2020.8507%2028.3748%2021.2798%2027.834ZM21.6487%2031.0816C22.5805%2030.0495%2023.5053%2028.8963%2024.4005%2027.6424C25.934%2027.4941%2027.3951%2027.2698%2028.7548%2026.9788C28.8805%2027.5105%2028.9831%2028.0244%2029.0621%2028.5175C29.316%2030.1023%2029.3165%2031.4085%2029.1091%2032.3777C28.9018%2033.3472%2028.521%2033.8474%2028.1175%2034.0804C27.7139%2034.3134%2027.0903%2034.393%2026.1471%2034.0879C25.204%2033.7828%2024.0731%2033.1293%2022.8276%2032.117C22.44%2031.802%2022.0462%2031.4563%2021.6487%2031.0816ZM18.3272%2031.0816C17.3954%2030.0495%2016.4706%2028.8963%2015.5754%2027.6424C14.0419%2027.494%2012.5809%2027.2698%2011.2211%2026.9788C11.0954%2027.5105%2010.9929%2028.0244%2010.9139%2028.5175C10.66%2030.1023%2010.6595%2031.4085%2010.8668%2032.3777C11.0741%2033.3472%2011.4549%2033.8474%2011.8585%2034.0804C12.262%2034.3134%2012.8856%2034.393%2013.8288%2034.0879C14.7719%2033.7828%2015.9029%2033.1293%2017.1483%2032.117C17.5359%2031.802%2017.9297%2031.4563%2018.3272%2031.0816ZM11.8732%2024.6847C12.5064%2024.8169%2013.1662%2024.9343%2013.8491%2025.0356C13.6255%2024.6716%2013.405%2024.3015%2013.188%2023.9256C12.971%2023.5498%2012.7607%2023.1738%2012.5573%2022.7981C12.3035%2023.4401%2012.0754%2024.0702%2011.8732%2024.6847ZM12.5573%2017.2012C12.7607%2016.8256%2012.971%2016.4496%2013.188%2016.0737C13.405%2015.6978%2013.6255%2015.3277%2013.8491%2014.9637C13.1662%2015.0649%2012.5064%2015.1824%2011.8732%2015.3146C12.0753%2015.9291%2012.3035%2016.5592%2012.5573%2017.2012ZM11.1629%2019.9997C10.5246%2021.4019%209.98831%2022.7793%209.56042%2024.1023C9.03713%2023.9454%208.54083%2023.7773%208.07426%2023.5991C6.57488%2023.0266%205.44343%2022.374%204.70768%2021.7098C3.9718%2021.0455%203.72898%2020.4656%203.72898%2019.9996C3.72898%2019.5337%203.9718%2018.9538%204.70768%2018.2895C5.44343%2017.6253%206.57488%2016.9726%208.07426%2016.4001C8.54082%2016.222%209.03711%2016.0539%209.56038%2015.8969C9.98828%2017.22%2010.5246%2018.5974%2011.1629%2019.9997ZM18.6962%2012.1653C19.1232%2012.1536%2019.554%2012.1477%2019.988%2012.1477C20.422%2012.1477%2020.8527%2012.1536%2021.2797%2012.1652C20.8506%2011.6245%2020.419%2011.1119%2019.988%2010.6295C19.5569%2011.1119%2019.1253%2011.6245%2018.6962%2012.1653ZM23.2393%2019.9997C23.2393%2021.7956%2021.7834%2023.2515%2019.9875%2023.2515C18.1916%2023.2515%2016.7357%2021.7956%2016.7357%2019.9997C16.7357%2018.2038%2018.1916%2016.7479%2019.9875%2016.7479C21.7834%2016.7479%2023.2393%2018.2038%2023.2393%2019.9997Z'%20fill='%2361DAFB'/%3e%3c/svg%3e">
+                  <div class="details">
+                    <span class="name"> React <span class="alpha-tag">Alpha</span> </span>
+                    <span class="version">
+                      Version：0.21.1
+                    </span>
+                  </div>
+                </a>
+              
+                <a class="link  " href="/flutter/overview">
+                  <img class="icon" src="data:image/svg+xml,%3csvg%20width='40'%20height='40'%20viewBox='0%200%2040%2040'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M23.1861%203.33301L6.5%2019.9997L11.6389%2025.1386L33.4222%203.34967H23.2042L23.1861%203.33301ZM23.2056%2018.7108L14.2181%2027.6788L23.2042%2036.665H33.4444L24.4722%2027.6816L33.4444%2018.7094L23.2056%2018.7108Z'%20fill='%2344D1FD'/%3e%3c/svg%3e">
+                  <div class="details">
+                    <span class="name"> Flutter <span class="alpha-tag">Alpha</span> </span>
+                    <span class="version">
+                      Version：alpha
+                    </span>
+                  </div>
+                </a>
+              
+                <a class="link  " href="/miniprogram/overview">
+                  <img class="icon" src="data:image/svg+xml,%3csvg%20width='40'%20height='40'%20viewBox='0%200%2040%2040'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cmask%20id='mask0_22539_139637'%20style='mask-type:alpha'%20maskUnits='userSpaceOnUse'%20x='0'%20y='0'%20width='40'%20height='40'%3e%3crect%20width='40'%20height='40'%20fill='white'/%3e%3c/mask%3e%3cg%20mask='url(%23mask0_22539_139637)'%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M32.4972%204.95434C35.1486%206.25306%2036.7951%208.81475%2037.3777%2012.1934C37.9432%2015.473%2036.4782%2018.0897%2034.8157%2019.8171C33.1907%2021.5055%2031.1401%2022.6188%2029.704%2023.0506C28.3818%2023.4482%2026.9876%2022.6987%2026.59%2021.3764C26.1924%2020.0542%2026.942%2018.66%2028.2642%2018.2624C28.8967%2018.0722%2030.1971%2017.4056%2031.2131%2016.3499C32.1915%2015.3333%2032.6572%2014.2419%2032.4504%2013.043C32.0677%2010.8235%2031.1629%209.86839%2030.2978%209.4446C29.3298%208.97047%2027.8151%208.86811%2025.7622%209.53967C23.2029%2010.3769%2022.7262%2012.1074%2022.6585%2012.7263V28.3271L22.6246%2028.5308C22.3096%2030.4256%2021.0062%2032.7905%2018.9145%2034.4353C16.6883%2036.1857%2013.5289%2037.1461%209.75544%2035.9603C5.964%2034.7689%203.98007%2032.1666%203.23478%2029.4408C2.53713%2026.8892%202.92557%2024.2691%203.68407%2022.6241C4.14363%2021.6274%205.13716%2020.3341%206.39848%2019.2718C7.67494%2018.1968%209.53668%2017.0968%2011.7876%2017.0101C13.1673%2016.9569%2014.3289%2018.0322%2014.3821%2019.4119C14.4353%2020.7916%2013.3599%2021.9532%2011.9802%2022.0063C11.2523%2022.0344%2010.4251%2022.4177%209.61935%2023.0962C8.79849%2023.7876%208.31664%2024.5182%208.22464%2024.7177C7.94126%2025.3323%207.68144%2026.7458%208.05776%2028.1221C8.38644%2029.3243%209.19871%2030.5443%2011.2543%2031.1903C13.3279%2031.8419%2014.7885%2031.319%2015.8239%2030.5048C16.8991%2029.6594%2017.4928%2028.509%2017.6585%2027.8677V12.5293L17.6648%2012.4407C17.8097%2010.4042%2019.1476%206.44281%2024.2076%204.7875C26.9814%203.8801%2029.9486%203.70596%2032.4972%204.95434Z'%20fill='%2300A870'/%3e%3c/g%3e%3c/svg%3e">
+                  <div class="details">
+                    <span class="name"> 微信小程序 <span class="stable-tag">Stable</span> </span>
+                    <span class="version">
+                      Version：1.12.1
+                    </span>
+                  </div>
+                </a>
+              
+                <a class="link  " href="/qq-miniprogram/overview">
+                  <img class="icon" src="data:image/svg+xml,%3csvg%20width='40'%20height='40'%20viewBox='0%200%2040%2040'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cmask%20id='mask0_22539_139637'%20style='mask-type:alpha'%20maskUnits='userSpaceOnUse'%20x='0'%20y='0'%20width='40'%20height='40'%3e%3crect%20width='40'%20height='40'%20fill='white'/%3e%3c/mask%3e%3cg%20mask='url(%23mask0_22539_139637)'%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M32.4972%204.95434C35.1486%206.25306%2036.7951%208.81475%2037.3777%2012.1934C37.9432%2015.473%2036.4782%2018.0897%2034.8157%2019.8171C33.1907%2021.5055%2031.1401%2022.6188%2029.704%2023.0506C28.3818%2023.4482%2026.9876%2022.6987%2026.59%2021.3764C26.1924%2020.0542%2026.942%2018.66%2028.2642%2018.2624C28.8967%2018.0722%2030.1971%2017.4056%2031.2131%2016.3499C32.1915%2015.3333%2032.6572%2014.2419%2032.4504%2013.043C32.0677%2010.8235%2031.1629%209.86839%2030.2978%209.4446C29.3298%208.97047%2027.8151%208.86811%2025.7622%209.53967C23.2029%2010.3769%2022.7262%2012.1074%2022.6585%2012.7263V28.3271L22.6246%2028.5308C22.3096%2030.4256%2021.0062%2032.7905%2018.9145%2034.4353C16.6883%2036.1857%2013.5289%2037.1461%209.75544%2035.9603C5.964%2034.7689%203.98007%2032.1666%203.23478%2029.4408C2.53713%2026.8892%202.92557%2024.2691%203.68407%2022.6241C4.14363%2021.6274%205.13716%2020.3341%206.39848%2019.2718C7.67494%2018.1968%209.53668%2017.0968%2011.7876%2017.0101C13.1673%2016.9569%2014.3289%2018.0322%2014.3821%2019.4119C14.4353%2020.7916%2013.3599%2021.9532%2011.9802%2022.0063C11.2523%2022.0344%2010.4251%2022.4177%209.61935%2023.0962C8.79849%2023.7876%208.31664%2024.5182%208.22464%2024.7177C7.94126%2025.3323%207.68144%2026.7458%208.05776%2028.1221C8.38644%2029.3243%209.19871%2030.5443%2011.2543%2031.1903C13.3279%2031.8419%2014.7885%2031.319%2015.8239%2030.5048C16.8991%2029.6594%2017.4928%2028.509%2017.6585%2027.8677V12.5293L17.6648%2012.4407C17.8097%2010.4042%2019.1476%206.44281%2024.2076%204.7875C26.9814%203.8801%2029.9486%203.70596%2032.4972%204.95434Z'%20fill='%2300A870'/%3e%3c/g%3e%3c/svg%3e">
+                  <div class="details">
+                    <span class="name"> QQ 小程序 <span class="alpha-tag">Alpha</span> </span>
+                    <span class="version">
+                      Version：0.0.2
+                    </span>
+                  </div>
+                </a>
+              
+          </div>
+        </div>
+      </div></td-portal><td-portal class="" data-popper-placement="bottom-start" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; min-width: 32px; transform: translate(24px, 55px);"><style>.TDesign-header-logo__content{--menu-list-width: 400px;--list-direction: row;padding:16px;border-radius:6px;width:var(--menu-list-width);box-sizing:border-box}@media screen and (max-width: 750px){.TDesign-header-logo__content{--list-direction: column;--menu-list-width: 212px}}.TDesign-header-logo__content span.title:hover{cursor:auto;color:var(--text-primary);font-family:TencentSansW7}.TDesign-header-logo__content .title{color:var(--text-primary);display:inline-flex;align-items:flex-end;margin:0 16px 8px;line-height:22px;transition:color .2s linear;text-decoration:none;font-family:TencentSansW7}.TDesign-header-logo__content .title:hover{color:var(--brand-main)}.TDesign-header-logo__content .title i{width:16px;height:16px;margin-left:4px;margin-bottom:2px}.TDesign-header-logo__content .list{display:flex;flex-wrap:wrap;flex-direction:var(--list-direction);row-gap:8px;column-gap:8px}.TDesign-header-logo__content .list .item{text-decoration:none;padding:8px;width:180px;border-radius:var(--border-radius);box-sizing:border-box;display:flex;align-items:center;row-gap:8px;column-gap:8px;transition:all .2s linear}.TDesign-header-logo__content .list .item:hover{color:var(--text-primary);background:var(--bg-color-container-hover)}.TDesign-header-logo__content .list .item.active{color:var(--text-primary);background:var(--bg-color-container-select)}.TDesign-header-logo__content .list .item .icon{width:40px;height:40px}.TDesign-header-logo__content .list .item .details{display:flex;justify-content:center;flex-direction:column}.TDesign-header-logo__content .list .item .details .name{color:var(--text-primary);font-family:TencentSansW7}.TDesign-header-logo__content .list .item .details .desc{font-size:12px;line-height:20px;color:var(--text-secondary)}.TDesign-header-logo__content .line{width:100%;height:1px;margin:16px 0;background-color:var(--component-stroke)}</style><div slot="content" class="TDesign-header-logo__content">
+       <span class="title"> 腾讯设计 </span> 
+       <div class="list">
+     <a class="item" href="https://tdesign.tencent.com/?utm_source=tdc&amp;utm_medium=tdc.nav" target="_self">
+          <img class="icon" src="https://cdc.cdn-go.cn/tdc/latest/images/tdesign.svg">
+          <div class="details">
+            <span class="name">TDesign</span>
+            <span class="desc">企业级设计体系</span>
+          </div>
+        </a> <a class="item" href="https://codesign.qq.com/?utm_source=tdc&amp;utm_medium=tdc.nav" target="_blank">
+          <img class="icon" src="https://cdc.cdn-go.cn/tdc/latest/images/codesign.svg">
+          <div class="details">
+            <span class="name">CoDesign</span>
+            <span class="desc">一站式设计协作平台</span>
+          </div>
+        </a>
+  </div> 
+    </div></td-portal><td-portal class="" data-popper-placement="left-start" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(-408px, 389px);"><style></style><div slot="content" class="qrcode-wrapper"><div class="qrcode__wrapper" slot="qrcode"><img class="qrcode" src="//tdesign.tencent.com/miniprogram/assets/qrcode/cascader.png"></div></div></td-portal><td-portal class="TDesign-doc__qrcode-popup" data-popper-reference-hidden="" data-popper-escaped="" data-popper-placement="left-start" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(-240px, 3475px);"><style>.TDesign-doc__qrcode-inner{padding:12px;box-sizing:border-box;background-color:#fff;border-radius:6px}.TDesign-doc__qrcode-popup:after{position:absolute;content:"";width:16px;height:16px;transform:rotate(45deg);background:#fff;border-bottom:1px solid #fff;border-right:1px solid #fff;top:64px;right:-4px}</style><div slot="content" class="TDesign-doc__qrcode-inner">
+                  <img width="120" height="120" src="">
+                </div></td-portal></div></body></html>

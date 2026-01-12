@@ -1,0 +1,1675 @@
+<!DOCTYPE html><html class=" " style="--brand-main: #0052D9;"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>TDesign</title>
+  <!--[if lte IE 9]>
+  <style>
+    #app {
+      display: none;
+    }
+  </style>
+  <![endif]-->
+  <script type="module" crossorigin="" src="https://static.tdesign.tencent.com/miniprogram/assets/site-B8dv1OeK.js"></script>
+  <link rel="stylesheet" crossorigin="" href="https://static.tdesign.tencent.com/miniprogram/assets/site-Dupek2VA.css">
+<style id="custom-theme" type="text/css">:root,
+:root[theme-mode="light"] {
+  --td-brand-color-1: #f2f3ff;
+  --td-brand-color-2: #d9e1ff;
+  --td-brand-color-3: #b5c7ff;
+  --td-brand-color-4: #8eabff;
+  --td-brand-color-5: #618dff;
+  --td-brand-color-6: #366ef4;
+  --td-brand-color-7: #0052d9;
+  --td-brand-color-8: #003cab;
+  --td-brand-color-9: #002a7c;
+  --td-brand-color-10: #001a57;
+  --td-warning-color-1: #fff1e9;
+  --td-warning-color-2: #ffd9c2;
+  --td-warning-color-3: #ffb98c;
+  --td-warning-color-4: #fa9550;
+  --td-warning-color-5: #e37318;
+  --td-warning-color-6: #be5a00;
+  --td-warning-color-7: #954500;
+  --td-warning-color-8: #713300;
+  --td-warning-color-9: #532300;
+  --td-warning-color-10: #3b1700;
+  --td-error-color-1: #fff0ed;
+  --td-error-color-2: #ffd8d2;
+  --td-error-color-3: #ffb9b0;
+  --td-error-color-4: #ff9285;
+  --td-error-color-5: #f6685d;
+  --td-error-color-6: #d54941;
+  --td-error-color-7: #ad352f;
+  --td-error-color-8: #881f1c;
+  --td-error-color-9: #68070a;
+  --td-error-color-10: #490002;
+  --td-success-color-1: #e3f9e9;
+  --td-success-color-2: #c6f3d7;
+  --td-success-color-3: #92dab2;
+  --td-success-color-4: #56c08d;
+  --td-success-color-5: #2ba471;
+  --td-success-color-6: #008858;
+  --td-success-color-7: #006c45;
+  --td-success-color-8: #005334;
+  --td-success-color-9: #003b23;
+  --td-success-color-10: #002515;
+  --td-gray-color-1: #f6f6f6;
+  --td-gray-color-2: #eeeceb;
+  --td-gray-color-3: #dddbdb;
+  --td-gray-color-4: #cac9c9;
+  --td-gray-color-5: #b6b6b6;
+  --td-gray-color-6: #a2a2a2;
+  --td-gray-color-7: #8f8f8f;
+  --td-gray-color-8: #7b7c7c;
+  --td-gray-color-9: #6a6b6b;
+  --td-gray-color-10: #585a5a;
+  --td-gray-color-11: #494a4a;
+  --td-gray-color-12: #3a3b3b;
+  --td-gray-color-13: #2c2e2e;
+  --td-gray-color-14: #202222;
+  --td-font-white-1: rgba(255, 255, 255, 1);
+  --td-font-white-2: rgba(255, 255, 255, .55);
+  --td-font-white-3: rgba(255, 255, 255, .35);
+  --td-font-white-4: rgba(255, 255, 255, .22);
+  --td-font-gray-1: rgba(0, 0, 0, .9);
+  --td-font-gray-2: rgba(0, 0, 0, .6);
+  --td-font-gray-3: rgba(0, 0, 0, .4);
+  --td-font-gray-4: rgba(0, 0, 0, .26);
+  --td-brand-color: var(--td-brand-color-7);
+  --td-warning-color: var(--td-warning-color-5);
+  --td-error-color: var(--td-error-color-6);
+  --td-success-color: var(--td-success-color-5);
+  --td-brand-color-focus: var(--td-brand-color-1);
+  --td-brand-color-active: var(--td-brand-color-8);
+  --td-brand-color-disabled: var(--td-brand-color-3);
+  --td-brand-color-light: var(--td-brand-color-1);
+  --td-brand-color-light-active: var(--td-brand-color-2);
+  --td-warning-color-active: var(--td-warning-color-6);
+  --td-warning-color-disabled: var(--td-warning-color-3);
+  --td-warning-color-focus: var(--td-warning-color-2);
+  --td-warning-color-light: var(--td-warning-color-1);
+  --td-warning-color-light-active: var(--td-warning-color-2);
+  --td-error-color-focus: var(--td-error-color-2);
+  --td-error-color-active: var(--td-error-color-7);
+  --td-error-color-disabled: var(--td-error-color-3);
+  --td-error-color-light: var(--td-error-color-1);
+  --td-error-color-light-active: var(--td-error-color-2);
+  --td-success-color-focus: var(--td-success-color-2);
+  --td-success-color-active: var(--td-success-color-6);
+  --td-success-color-disabled: var(--td-success-color-3);
+  --td-success-color-light: var(--td-success-color-1);
+  --td-success-color-light-active: var(--td-success-color-2);
+  --td-mask-active: rgba(0, 0, 0, .6);
+  --td-mask-disabled: rgba(255, 255, 255, .6);
+  --td-bg-color-page: var(--td-gray-color-1);
+  --td-bg-color-container: var(--td-font-white-1);
+  --td-bg-color-container-active: var(--td-gray-color-3);
+  --td-bg-color-secondarycontainer: var(--td-gray-color-1);
+  --td-bg-color-secondarycontainer-active: var(--td-gray-color-4);
+  --td-bg-color-component: var(--td-gray-color-3);
+  --td-bg-color-component-active: var(--td-gray-color-6);
+  --td-bg-color-component-disabled: var(--td-gray-color-2);
+  --td-bg-color-secondarycomponent: var(--td-gray-color-4);
+  --td-bg-color-secondarycomponent-active: var(--td-gray-color-6);
+  --td-bg-color-specialcomponent: #fff;
+  --td-text-color-primary: var(--td-font-gray-1);
+  --td-text-color-secondary: var(--td-font-gray-2);
+  --td-text-color-placeholder: var(--td-font-gray-3);
+  --td-text-color-disabled: var(--td-font-gray-4);
+  --td-text-color-anti: var(--td-font-white-1);
+  --td-text-color-brand: var(--td-brand-color);
+  --td-text-color-link: var(--td-brand-color);
+  --td-border-level-1-color: var(--td-gray-color-3);
+  --td-component-stroke: var(--td-gray-color-3);
+  --td-border-level-2-color: var(--td-gray-color-4);
+  --td-component-border: var(--td-gray-color-4);
+  --td-shadow-1: 0 1px 10px rgba(0, 0, 0, 5%), 0 4px 5px rgba(0, 0, 0, 8%), 0 2px 4px -1px rgba(0, 0, 0, 12%);
+  --td-shadow-2: 0 3px 14px 2px rgba(0, 0, 0, 5%), 0 8px 10px 1px rgba(0, 0, 0, 6%), 0 5px 5px -3px rgba(0, 0, 0, 10%);
+  --td-shadow-3: 0 6px 30px 5px rgba(0, 0, 0, 5%), 0 16px 24px 2px rgba(0, 0, 0, 4%), 0 8px 10px -5px rgba(0, 0, 0, 8%);
+  --td-shadow-4: 0 2px 8px 0 rgba(0, 0, 0, 6%);
+  --td-shadow-inset-top: inset 0 .5px 0 #dcdcdc;
+  --td-shadow-inset-right: inset .5px 0 0 #dcdcdc;
+  --td-shadow-inset-bottom: inset 0 -.5px 0 #dcdcdc;
+  --td-shadow-inset-left: inset -.5px 0 0 #dcdcdc;
+  --td-table-shadow-color: rgba(0, 0, 0, .08);
+  --td-scrollbar-color: rgba(0, 0, 0, .1);
+  --td-scrollbar-hover-color: rgba(0, 0, 0, .3);
+  --td-scroll-track-color: #fff;
+}</style><style id="custom-theme-dark" type="text/css">:root[theme-mode="dark"] {
+  --td-brand-color-1: #1b2f51;
+  --td-brand-color-2: #173463;
+  --td-brand-color-3: #143975;
+  --td-brand-color-4: #103d88;
+  --td-brand-color-5: #0d429a;
+  --td-brand-color-6: #054bbe;
+  --td-brand-color-7: #2667d4;
+  --td-brand-color-8: #4582e6;
+  --td-brand-color-9: #699ef5;
+  --td-brand-color-10: #96bbf8;
+  --td-warning-color-1: #3b1700;
+  --td-warning-color-2: #532300;
+  --td-warning-color-3: #713300;
+  --td-warning-color-4: #954500;
+  --td-warning-color-5: #be5a00;
+  --td-warning-color-6: #e37318;
+  --td-warning-color-7: #fa9550;
+  --td-warning-color-8: #ffb98c;
+  --td-warning-color-9: #ffd9c2;
+  --td-warning-color-10: #fff1e9;
+  --td-error-color-1: #490002;
+  --td-error-color-2: #68070a;
+  --td-error-color-3: #881f1c;
+  --td-error-color-4: #ad352f;
+  --td-error-color-5: #d54941;
+  --td-error-color-6: #f6685d;
+  --td-error-color-7: #ff9285;
+  --td-error-color-8: #ffb9b0;
+  --td-error-color-9: #ffd8d2;
+  --td-error-color-10: #fff0ed;
+  --td-success-color-1: #002515;
+  --td-success-color-2: #003b23;
+  --td-success-color-3: #005334;
+  --td-success-color-4: #006c45;
+  --td-success-color-5: #008858;
+  --td-success-color-6: #2ba471;
+  --td-success-color-7: #56c08d;
+  --td-success-color-8: #92dab2;
+  --td-success-color-9: #c6f3d7;
+  --td-success-color-10: #e3f9e9;
+  --td-gray-color-1: #f6f6f6;
+  --td-gray-color-2: #eeeceb;
+  --td-gray-color-3: #dddbdb;
+  --td-gray-color-4: #cac9c9;
+  --td-gray-color-5: #b6b6b6;
+  --td-gray-color-6: #a2a2a2;
+  --td-gray-color-7: #8f8f8f;
+  --td-gray-color-8: #7b7c7c;
+  --td-gray-color-9: #6a6b6b;
+  --td-gray-color-10: #585a5a;
+  --td-gray-color-11: #494a4a;
+  --td-gray-color-12: #3a3b3b;
+  --td-gray-color-13: #2c2e2e;
+  --td-gray-color-14: #202222;
+  --td-font-white-1: rgba(255, 255, 255, .9);
+  --td-font-white-2: rgba(255, 255, 255, .55);
+  --td-font-white-3: rgba(255, 255, 255, .35);
+  --td-font-white-4: rgba(255, 255, 255, .22);
+  --td-font-gray-1: rgba(0, 0, 0, .9);
+  --td-font-gray-2: rgba(0, 0, 0, .6);
+  --td-font-gray-3: rgba(0, 0, 0, .4);
+  --td-font-gray-4: rgba(0, 0, 0, .26);
+  --td-brand-color: var(--td-brand-color-8);
+  --td-warning-color: var(--td-warning-color-5);
+  --td-error-color: var(--td-error-color-6);
+  --td-success-color: var(--td-success-color-5);
+  --td-brand-color-focus: var(--td-brand-color-1);
+  --td-brand-color-active: var(--td-brand-color-9);
+  --td-brand-color-disabled: var(--td-brand-color-3);
+  --td-brand-color-light: var(--td-brand-color-1);
+  --td-brand-color-light-active: var(--td-brand-color-2);
+  --td-warning-color-focus: var(--td-warning-color-2);
+  --td-warning-color-active: var(--td-warning-color-4);
+  --td-warning-color-disabled: var(--td-warning-color-3);
+  --td-warning-color-light: var(--td-warning-color-1);
+  --td-warning-color-light-active: var(--td-warning-color-2);
+  --td-error-color-focus: var(--td-error-color-2);
+  --td-error-color-active: var(--td-error-color-5);
+  --td-error-color-disabled: var(--td-error-color-3);
+  --td-error-color-light: var(--td-error-color-1);
+  --td-error-color-light-active: var(--td-error-color-2);
+  --td-success-color-focus: var(--td-success-color-2);
+  --td-success-color-active: var(--td-success-color-4);
+  --td-success-color-disabled: var(--td-success-color-3);
+  --td-success-color-light: var(--td-success-color-1);
+  --td-success-color-light-active: var(--td-success-color-2);
+  --td-mask-active: rgba(0, 0, 0, .4);
+  --td-mask-disabled: rgba(0, 0, 0, .6);
+  --td-bg-color-page: var(--td-gray-color-14);
+  --td-bg-color-container: var(--td-gray-color-13);
+  --td-bg-color-secondarycontainer: var(--td-gray-color-12);
+  --td-bg-color-component: var(--td-gray-color-11);
+  --td-bg-color-container-active: var(--td-gray-color-12);
+  --td-bg-color-secondarycontainer-active: var(--td-gray-color-11);
+  --td-bg-color-component-active: var(--td-gray-color-10);
+  --td-bg-color-component-disabled: var(--td-gray-color-12);
+  --td-bg-color-specialcomponent: transparent;
+  --td-text-color-primary: var(--td-font-white-1);
+  --td-text-color-secondary: var(--td-font-white-2);
+  --td-text-color-placeholder: var(--td-font-white-3);
+  --td-text-color-disabled: var(--td-font-white-4);
+  --td-text-color-anti: var(--td-font-white-1);
+  --td-text-color-brand: var(--td-brand-color-8);
+  --td-text-color-link: var(--td-brand-color-8);
+  --td-border-level-1-color: var(--td-gray-color-11);
+  --td-component-stroke: var(--td-gray-color-11);
+  --td-border-level-2-color: var(--td-gray-color-9);
+  --td-component-border: var(--td-gray-color-9);
+  --td-shadow-1: 0 4px 6px rgba(0, 0, 0, 6%), 0 1px 10px rgba(0, 0, 0, 8%), 0 2px 4px rgba(0, 0, 0, 12%);
+  --td-shadow-2: 0 8px 10px rgba(0, 0, 0, 12%), 0 3px 14px rgba(0, 0, 0, 10%), 0 5px 5px rgba(0, 0, 0, 16%);
+  --td-shadow-3: 0 16px 24px rgba(0, 0, 0, 14%), 0 6px 30px rgba(0, 0, 0, 12%), 0 8px 10px rgba(0, 0, 0, 20%);
+  --td-shadow-inset-top: inset 0 .5px 0 #5e5e5e;
+  --td-shadow-inset-right: inset .5px 0 0 #5e5e5e;
+  --td-shadow-inset-bottom: inset 0 -.5px 0 #5e5e5e;
+  --td-shadow-inset-left: inset -.5px 0 0 #5e5e5e;
+  --td-table-shadow-color: rgba(0, 0, 0, .55);
+  --td-scrollbar-color: rgba(255, 255, 255, .1);
+  --td-scroll-track-color: #333;
+}</style><style id="custom-theme-extra" type="text/css">:root {
+    --td-font-family: pingfang sc, microsoft yahei, arial regular;
+    --td-font-family-medium: pingfang sc, microsoft yahei, arial medium;
+    --td-font-size-link-small: 12px;
+    --td-font-size-link-medium: 14px;
+    --td-font-size-link-large: 16px;
+    --td-font-size-mark-extraSmall: 10px;
+    --td-font-size-mark-small: 12px;
+    --td-font-size-mark-medium: 14px;
+    --td-font-size-mark-large: 16px;
+    --td-font-size-body-extraSmall: 10px;
+    --td-font-size-body-small: 12px;
+    --td-font-size-body-medium: 14px;
+    --td-font-size-body-large: 16px;
+    --td-font-size-title-small: 14px;
+    --td-font-size-title-medium: 16px;
+    --td-font-size-title-large: 18px;
+    --td-font-size-title-extraLarge: 20px;
+    --td-font-size-headline-small: 24px;
+    --td-font-size-headline-medium: 28px;
+    --td-font-size-headline-large: 36px;
+    --td-font-size-display-medium: 48px;
+    --td-font-size-display-large: 64px;
+    --td-font-size: 10px;
+    --td-font-size-xs: var(--td-font-size-body-extraSmall);
+    --td-font-size-s: var(--td-font-size-body-small);
+    --td-font-size-base: var(--td-font-size-title-small);
+    --td-font-size-m: var(--td-font-size-title-medium);
+    --td-font-size-l: var(--td-font-size-title-large);
+    --td-font-size-xl: var(--td-font-size-title-extraLarge);
+    --td-font-size-xxl: var(--td-font-size-headline-large);
+    
+    --td-radius-small: 3px;
+    --td-radius-default: 6px;
+    --td-radius-large: 9px;
+    --td-radius-extraLarge: 12px;
+    --td-radius-round: 999px;
+    --td-radius-circle: 50%;
+}</style><style id="TDESIGN_GENERATOR_SYMBOL" type="text/css">:root,
+:root[theme-mode='light'] {
+  --shadow-1: 0 1px 10px rgba(0, 0, 0, .05), 0 4px 5px rgba(0, 0, 0, .08), 0 2px 4px -1px rgba(0, 0, 0, .12);
+  --shadow-2: 0 3px 14px 2px rgba(0, 0, 0, .05), 0 8px 10px 1px rgba(0, 0, 0, .06), 0 5px 5px -3px rgba(0, 0, 0, .1);
+  --shadow-3: 0 6px 30px 5px rgba(0, 0, 0, .05), 0 16px 24px 2px rgba(0, 0, 0, .04),
+    0 8px 10px -5px rgba(0, 0, 0, .08);
+  --shadow-inset-top: inset 0 .5px 0 #dcdcdc;
+  --shadow-inset-right: inset .5px 0 0 #dcdcdc;
+  --shadow-inset-bottom: inset 0 -.5px 0 #dcdcdc;
+  --shadow-inset-left: inset -.5px 0 0 #dcdcdc;
+  --anim-time-fn-easing: cubic-bezier(.38, 0, .24, 1);
+  --anim-time-fn-ease-out: cubic-bezier(0, 0, .15, 1);
+  --anim-time-fn-ease-in: cubic-bezier(.82, 0, 1, .9);
+  --anim-duration-base: .2s;
+  --anim-duration-moderate: .24s;
+  --anim-duration-slow: .28s;
+  --bg-color-page: #f5f5f5;
+  --bg-color-secondarypage: #f5f5f5;
+  --bg-color-demo: #fff;
+  --bg-color-demo-secondary: #eee;
+  --bg-color-code: #f3f3f3;
+  --bg-color-code-linear: linear-gradient(180deg, rgba(243, 243, 243, 1) 0%, rgba(243, 243, 243, 0) 100%);
+  --bg-color-footer: #eee;
+  --bg-color-secondaryfooter: #e7e7e7;
+  --bg-color-docpage: #fff;
+  --bg-color-container: #fff;
+  --bg-color-container-transparent: rgba(255, 255, 255, .9);
+  --bg-color-secondarycontainer: #f5f5f5;
+  --bg-color-component: #eee;
+  --bg-color-component-transparent: rgba(238, 238, 238, .9);
+  --bg-color-tag: #eee;
+  --bg-color-tab: #eee;
+  --bg-color-table: #fff;
+  --bg-color-thead: #dcdcdc;
+  --bg-color-navigation: #fff;
+  --bg-color-card: #fff;
+  --component-stroke: #eee;
+  --component-border: #e7e7e7;
+  --bg-color-demo-hover: rgba(0, 0, 0, .05);
+  --bg-color-demo-select: rgba(0, 0, 0, .1);
+  --bg-color-code-hover: #e7e7e7;
+  --bg-color-code-select: #dcdcdc;
+  --bg-color-container-hover: #f3f3f3;
+  --bg-color-container-select: #eee;
+  --bg-color-component-hover: #dcdcdc;
+  --bg-color-component-select: #a6a6a6;
+  --bg-color-tab-select: #fff;
+  --bg-color-table-hover: #f5f5f5;
+  --bg-color-navigation-hover: #f3f3f3;
+  --bg-color-navigation-select: #e7e7e7;
+  --bg-color-card-hover: #f3f3f3;
+  --bg-color-scroll: rgba(0, 0, 0, .14);
+  --bg-color-component-disabled: #eee;
+  --text-primary: rgba(0, 0, 0, .9);
+  --text-secondary: rgba(0, 0, 0, .6);
+  --text-placeholder: rgba(0, 0, 0, .4);
+  --text-disabled: rgba(0, 0, 0, .26);
+  --text-anti: #fff;
+  --text-interactive: var(--td-brand-color);
+  --brand-main: var(--td-brand-color);
+  --brand-main-hover: var(--td-brand-color-hover, var(--td-brand-color-active)); 
+  --brand-main-focus: var(--td-brand-color-focus);
+  --brand-main-disabled: var(--td-brand-color-disabled);
+  --brand-main-light: rgba(0, 82, 217, .1);
+  --error-1: #fff0ed;
+  --error-8: #881f1c;
+  --error-main: #d54941;
+  --error-main-hover: #f6685d;
+  --error-main-disabled: #ffb9b0;
+  --error-main-light: rgba(213, 73, 65, .1);
+  --warning-main: #e37318;
+  --warning-main-hover: #fa9550;
+  --warning-main-disabled: #ffb98c;
+  --warning-main-light: rgba(227, 115, 24, .1);
+  --success-main: #2ba471;
+  --success-main-disabled: rgba(43, 164, 113, .25);
+  --success-main-light: rgba(43, 164, 113, .1);
+  --bg-color-theme-transparent: rgba(238, 238, 238, .6);
+  --bg-color-theme-secondary: #f3f3f3;
+  --bg-color-theme-surface: #fff;
+  --bg-color-theme-tertiary: #e7e7e7;
+  --theme-component-border: rgba(0, 0, 0, .06);
+}
+
+:root[theme-mode='dark'] {
+  --shadow-1: 0 4px 6px rgba(0, 0, 0, .06), 0 1px 10px rgba(0, 0, 0, .08), 0 2px 4px rgba(0, 0, 0, .12);
+  --shadow-2: 0 8px 10px rgba(0, 0, 0, .12), 0 3px 14px rgba(0, 0, 0, .1), 0 5px 5px rgba(0, 0, 0, .16);
+  --shadow-3: 0 16px 24px rgba(0, 0, 0, .14), 0 6px 30px rgba(0, 0, 0, .12), 0 8px 10px rgba(0, 0, 0, .2);
+  --shadow-inset-top: inset 0 .5px 0 #5e5e5e;
+  --shadow-inset-right: inset .5px 0 0 #5e5e5e;
+  --shadow-inset-bottom: inset 0 -.5px 0 #5e5e5e;
+  --shadow-inset-left: inset -.5px 0 0 #5e5e5e;
+  --bg-color-page: #242424;
+  --bg-color-secondarypage: #181818;
+  --bg-color-demo: #181818;
+  --bg-color-demo-secondary: #181818;
+  --bg-color-code: #2c2c2c;
+  --bg-color-code-linear: linear-gradient(180deg, rgba(44, 44, 44, 1) 0%, rgba(44, 44, 44, 0) 100%);
+  --bg-color-footer: #181818;
+  --bg-color-secondaryfooter: #101010;
+  --bg-color-docpage: #242424;
+  --bg-color-container: #242424;
+  --bg-color-container-transparent: rgba(44, 44, 44, .9);
+  --bg-color-secondarycontainer: #383838;
+  --bg-color-component: #383838;
+  --bg-color-component-transparent: rgba(75, 75, 75, .9);
+  --bg-color-tag: #4b4b4b;
+  --bg-color-tab: #383838;
+  --bg-color-table: #242424;
+  --bg-color-thead: #4b4b4b;
+  --bg-color-navigation: #2c2c2c;
+  --bg-color-card: #383838;
+  --component-stroke: #383838;
+  --component-border: #4b4b4b;
+  --bg-color-demo-hover: rgba(255, 255, 255, .05);
+  --bg-color-demo-select: rgba(255, 255, 255, .1);
+  --bg-color-code-hover: #383838;
+  --bg-color-code-select: #4b4b4b;
+  --bg-color-container-hover: #383838;
+  --bg-color-container-select: #4b4b4b;
+  --bg-color-component-hover: #5e5e5e;
+  --bg-color-component-select: #777;
+  --bg-color-tab-select: #4b4b4b;
+  --bg-color-table-hover: #2c2c2c;
+  --bg-color-navigation-hover: #383838;
+  --bg-color-navigation-select: #4b4b4b;
+  --bg-color-card-hover: #4b4b4b;
+  --bg-color-scroll: rgba(255, 255, 255, .14);
+  --bg-color-component-disabled: #242424;
+  --text-primary: rgba(255, 255, 255, .9);
+  --text-secondary: rgba(255, 255, 255, .55);
+  --text-placeholder: rgba(255, 255, 255, .35);
+  --text-disabled: rgba(255, 255, 255, .22);
+  --text-anti: #fff;
+  --brand-main-light: rgba(69, 130, 230, .2);
+  --error-1: #472324;
+  --error-8: #ec888e;
+  --error-main: #c64751;
+  --error-main-hover: #a03f46;
+  --error-main-disabled: #951114;
+  --warning-main: #cf6e2d;
+  --warning-main-hover: #a75d2b;
+  --warning-main-disabled: #733c23;
+  --success-main: #059465;
+  --success-main-hover: #0d7a55;
+  --success-main-disabled: rgba(0, 168, 112, .25);
+  --success-main-light: rgba(0, 168, 112, .1);
+  --bg-color-theme-transparent: rgba(44, 44, 44, .6);
+  --bg-color-theme-secondary: #424242;
+  --bg-color-theme-surface: #4d4d4d;
+  --bg-color-theme-tertiary: #5e5e5e;
+  --theme-component-border: rgba(255, 255, 255, .06);
+}
+</style><link rel="modulepreload" as="script" crossorigin="" href="https://static.tdesign.tencent.com/miniprogram/assets/README-C7oG8b8h.js"><link rel="modulepreload" as="script" crossorigin="" href="https://static.tdesign.tencent.com/miniprogram/assets/component-D2PRT6vD.js"><link rel="stylesheet" crossorigin="" href="https://static.tdesign.tencent.com/miniprogram/assets/component-iTlV8w7T.css"><script async="" id="horizon-tracker" type="text/javascript" data-account="tdesign" src="https://static.codesign.qq.com/analytics.js"></script><script async="" id="__td_tcss__" type="text/javascript" src="https://pingjs.qq.com/tcss.ping.https.js"></script></head>
+
+<body>
+  <!--[if lte IE 9]>
+    <h1 style="position: absolute; width: 100%; text-align:center; top: 45%">请使用 IE 10 以及更新版本的浏览器访问，建议使用 <a href="https://www.google.cn/chrome/">Chrome</a></h1>
+  <![endif]-->
+
+  <td-stats data-account="tdesign"></td-stats>
+  <div id="app" data-v-app=""><td-doc-layout direction="row"><td-header slot="header" framework="miniprogram" platform="web"><div slot="search" style="display: flex; align-items: center;"><td-ai-button framework="miniprogram" demo-request-body="{&quot;files&quot;:{}}" style="margin-right: 8px;"></td-ai-button><td-doc-search>
+        <style>.TDesign-doc-search{position:relative;width:200px;height:32px;box-sizing:border-box;display:inline-flex;align-items:center}.TDesign-doc-search__icon{position:absolute;right:8px;top:50%;width:20px;height:20px;margin-top:-10px;color:var(--text-secondary)}.TDesign-doc-search__inner{width:100%;height:100%;padding:4px 36px 4px 8px;box-sizing:border-box;color:var(--text-secondary);border-radius:var(--border-radius);line-height:22px;font-size:14px;border:1px solid var(--component-border);transition:all .2s linear;outline:none;background:transparent}.TDesign-doc-search__inner::placeholder{line-height:22px}.TDesign-doc-search__inner:hover{border-color:var(--brand-main)}.TDesign-doc-search__inner:focus{border-color:var(--brand-main);box-shadow:0 0 0 2px var(--brand-main-focus)}</style>
+        <style>.algolia-autocomplete{width:100%;height:100%}.algolia-autocomplete .ds-dropdown-menu{width:480px;top:-6px;border-radius:6px;margin:8px 0 0;padding:0;text-align:left;height:auto;position:relative;border:0;z-index:999;max-width:600px;min-width:500px;box-shadow:var(--popup-box-shadow);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);background-color:var(--bg-color-container-transparent)}.algolia-autocomplete .ds-dropdown-menu .ds-suggestions{position:relative;z-index:1000;border-bottom:1px solid var(--component-stroke);padding:8px}.algolia-autocomplete .ds-dropdown-menu [class^=ds-dataset-]{position:relative;border-radius:6px;overflow:auto;border:1px solid var(--component-border)}.algolia-autocomplete .ds-dropdown-menu *{box-sizing:border-box}.algolia-autocomplete .algolia-docsearch-suggestion{display:block;position:relative;color:var(--text-primary);overflow:hidden}.algolia-autocomplete .algolia-docsearch-suggestion--category-header{display:none}.algolia-autocomplete .algolia-docsearch-suggestion--subcategory-column{float:left;width:30%;text-align:right;position:relative;padding:8px;color:var(--text-secondary);font-size:14px;word-wrap:break-word}.algolia-autocomplete .algolia-docsearch-suggestion--content{display:block;float:right;width:70%;position:relative;padding:8px 16px;cursor:pointer;border-radius:0 3px 3px 0}.algolia-autocomplete .algolia-docsearch-suggestion--content .algolia-docsearch-suggestion--subcategory-inline{display:none}.algolia-autocomplete .algolia-docsearch-suggestion--content:before{content:"";position:absolute;display:block;top:0;height:100%;width:1px;background:var(--component-border);left:-1px}.algolia-autocomplete .ds-dropdown-menu .ds-suggestion.ds-cursor .algolia-docsearch-suggestion.suggestion-layout-simple,.algolia-autocomplete .ds-dropdown-menu .ds-suggestion.ds-cursor .algolia-docsearch-suggestion:not(.suggestion-layout-simple) .algolia-docsearch-suggestion--content{background:var(--bg-color-container-hover);transition:all .2s linear}.algolia-autocomplete .algolia-docsearch-suggestion--title{font-weight:700;color:var(--text-primary);margin-bottom:0;font-size:16px;line-height:24px}.algolia-autocomplete .algolia-docsearch-suggestion--title+.algolia-docsearch-suggestion--text{margin-top:4px}.algolia-autocomplete .algolia-docsearch-suggestion--text{font-size:14px;line-height:22px;color:var(--text-secondary)}.algolia-autocomplete .algolia-docsearch-suggestion--highlight{padding:1px 4px;border-radius:3px;color:var(--brand-main);background-color:var(--brand-main-light);text-decoration:underline;text-decoration-color:var(--brand-main)}.algolia-autocomplete .algolia-docsearch-suggestion--no-results{width:100%;padding:8px 0;text-align:center;font-size:14px}.algolia-autocomplete .algolia-docsearch-footer{width:134px;height:26px;z-index:2000;margin:4px 8px;float:right;font-size:0;line-height:0}.algolia-autocomplete .algolia-docsearch-footer--logo{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg width='168' height='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M78.988.938h16.594a2.968 2.968 0 0 1 2.966 2.966V20.5a2.967 2.967 0 0 1-2.966 2.964H78.988a2.967 2.967 0 0 1-2.966-2.964V3.897A2.961 2.961 0 0 1 78.988.938zm41.937 17.866c-4.386.02-4.386-3.54-4.386-4.106l-.007-13.336 2.675-.424v13.254c0 .322 0 2.358 1.718 2.364v2.248zm-10.846-2.18c.821 0 1.43-.047 1.855-.129v-2.719a6.334 6.334 0 0 0-1.574-.199 5.7 5.7 0 0 0-.897.069 2.699 2.699 0 0 0-.814.24c-.24.116-.439.28-.582.491-.15.212-.219.335-.219.656 0 .628.219.991.616 1.23s.938.362 1.615.362zm-.233-9.7c.883 0 1.629.109 2.231.328.602.218 1.088.525 1.444.915.363.396.609.922.76 1.483.157.56.232 1.175.232 1.85v6.874a32.5 32.5 0 0 1-1.868.314c-.834.123-1.772.185-2.813.185-.69 0-1.327-.069-1.895-.198a4.001 4.001 0 0 1-1.471-.636 3.085 3.085 0 0 1-.951-1.134c-.226-.465-.343-1.12-.343-1.803 0-.656.13-1.073.384-1.525a3.24 3.24 0 0 1 1.047-1.106c.445-.287.95-.492 1.532-.615a8.8 8.8 0 0 1 1.82-.185 8.404 8.404 0 0 1 1.972.24v-.438c0-.307-.035-.6-.11-.874a1.88 1.88 0 0 0-.384-.73 1.784 1.784 0 0 0-.724-.493 3.164 3.164 0 0 0-1.143-.205c-.616 0-1.177.075-1.69.164a7.735 7.735 0 0 0-1.26.307l-.321-2.192c.335-.117.834-.233 1.478-.349a10.98 10.98 0 0 1 2.073-.178zm52.842 9.626c.822 0 1.43-.048 1.854-.13V13.7a6.347 6.347 0 0 0-1.574-.199c-.294 0-.595.021-.896.069a2.7 2.7 0 0 0-.814.24 1.46 1.46 0 0 0-.582.491c-.15.212-.218.335-.218.656 0 .628.218.991.615 1.23.404.245.938.362 1.615.362zm-.226-9.694c.883 0 1.629.108 2.231.327.602.219 1.088.526 1.444.915.355.39.609.923.759 1.483a6.8 6.8 0 0 1 .233 1.852v6.873c-.41.088-1.034.19-1.868.314-.834.123-1.772.184-2.813.184-.69 0-1.327-.068-1.895-.198a4.001 4.001 0 0 1-1.471-.635 3.085 3.085 0 0 1-.951-1.134c-.226-.465-.343-1.12-.343-1.804 0-.656.13-1.073.384-1.524.26-.45.608-.82 1.047-1.107.445-.286.95-.491 1.532-.614a8.803 8.803 0 0 1 2.751-.13c.329.034.671.096 1.04.185v-.437a3.3 3.3 0 0 0-.109-.875 1.873 1.873 0 0 0-.384-.731 1.784 1.784 0 0 0-.724-.492 3.165 3.165 0 0 0-1.143-.205c-.616 0-1.177.075-1.69.164a7.75 7.75 0 0 0-1.26.307l-.321-2.193c.335-.116.834-.232 1.478-.348a11.633 11.633 0 0 1 2.073-.177zm-8.034-1.271a1.626 1.626 0 0 1-1.628-1.62c0-.895.725-1.62 1.628-1.62.904 0 1.63.725 1.63 1.62 0 .895-.733 1.62-1.63 1.62zm1.348 13.22h-2.689V7.27l2.69-.423v11.956zm-4.714 0c-4.386.02-4.386-3.54-4.386-4.107l-.008-13.336 2.676-.424v13.254c0 .322 0 2.358 1.718 2.364v2.248zm-8.698-5.903c0-1.156-.253-2.119-.746-2.788-.493-.677-1.183-1.01-2.067-1.01-.882 0-1.574.333-2.065 1.01-.493.676-.733 1.632-.733 2.788 0 1.168.246 1.953.74 2.63.492.683 1.183 1.018 2.066 1.018.882 0 1.574-.342 2.067-1.019.492-.683.738-1.46.738-2.63zm2.737-.007c0 .902-.13 1.584-.397 2.33a5.52 5.52 0 0 1-1.128 1.906 4.986 4.986 0 0 1-1.752 1.223c-.685.286-1.739.45-2.265.45-.528-.006-1.574-.157-2.252-.45a5.096 5.096 0 0 1-1.744-1.223c-.487-.527-.863-1.162-1.137-1.906a6.345 6.345 0 0 1-.41-2.33c0-.902.123-1.77.397-2.508a5.554 5.554 0 0 1 1.15-1.892 5.133 5.133 0 0 1 1.75-1.216c.679-.287 1.425-.423 2.232-.423.808 0 1.553.142 2.237.423a4.88 4.88 0 0 1 1.753 1.216 5.644 5.644 0 0 1 1.135 1.892c.287.738.431 1.606.431 2.508zm-20.138 0c0 1.12.246 2.363.738 2.882.493.52 1.13.78 1.91.78.424 0 .828-.062 1.204-.178.377-.116.677-.253.917-.417V9.33a10.476 10.476 0 0 0-1.766-.226c-.971-.028-1.71.37-2.23 1.004-.513.636-.773 1.75-.773 2.788zm7.438 5.274c0 1.824-.466 3.156-1.404 4.004-.936.846-2.367 1.27-4.296 1.27-.705 0-2.17-.137-3.34-.396l.431-2.118c.98.205 2.272.26 2.95.26 1.074 0 1.84-.219 2.299-.656.459-.437.684-1.086.684-1.948v-.437a8.07 8.07 0 0 1-1.047.397c-.43.13-.93.198-1.492.198-.739 0-1.41-.116-2.018-.349a4.206 4.206 0 0 1-1.567-1.025c-.431-.45-.774-1.017-1.013-1.694-.24-.677-.363-1.885-.363-2.773 0-.834.13-1.88.384-2.577.26-.696.629-1.298 1.129-1.796.493-.498 1.095-.881 1.8-1.162a6.605 6.605 0 0 1 2.428-.457c.87 0 1.67.109 2.45.24.78.129 1.444.265 1.985.415V18.17z' fill='%235468FF'/%3E%3Cpath d='M6.972 6.677v1.627c-.712-.446-1.52-.67-2.425-.67-.585 0-1.045.13-1.38.391a1.24 1.24 0 0 0-.502 1.03c0 .425.164.765.494 1.02.33.256.835.532 1.516.83.447.192.795.356 1.045.495.25.138.537.332.862.582.324.25.563.548.718.894.154.345.23.741.23 1.188 0 .947-.334 1.691-1.004 2.234-.67.542-1.537.814-2.601.814-1.18 0-2.16-.229-2.936-.686v-1.708c.84.628 1.814.942 2.92.942.585 0 1.048-.136 1.388-.407.34-.271.51-.646.51-1.125 0-.287-.1-.55-.302-.79-.203-.24-.42-.42-.655-.542-.234-.123-.585-.29-1.053-.503a61.27 61.27 0 0 1-.582-.271 13.67 13.67 0 0 1-.55-.287 4.275 4.275 0 0 1-.567-.351 6.92 6.92 0 0 1-.455-.4c-.18-.17-.31-.34-.39-.51-.08-.17-.155-.37-.224-.598a2.553 2.553 0 0 1-.104-.742c0-.915.333-1.638.998-2.17.664-.532 1.523-.798 2.576-.798.968 0 1.793.17 2.473.51zm7.468 5.696v-.287c-.022-.607-.187-1.088-.495-1.444-.309-.357-.75-.535-1.324-.535-.532 0-.99.194-1.373.583-.382.388-.622.949-.717 1.683h3.909zm1.005 2.792v1.404c-.596.34-1.383.51-2.362.51-1.255 0-2.255-.377-3-1.132-.744-.755-1.116-1.744-1.116-2.968 0-1.297.34-2.316 1.021-3.055.68-.74 1.548-1.11 2.6-1.11 1.033 0 1.852.323 2.458.966.606.644.91 1.572.91 2.784 0 .33-.033.676-.096 1.038h-5.314c.107.702.405 1.239.894 1.611.49.372 1.106.558 1.85.558.862 0 1.58-.202 2.155-.606zm6.605-1.77h-1.212c-.596 0-1.045.116-1.349.35-.303.234-.454.532-.454.894 0 .372.117.664.35.877.235.213.575.32 1.022.32.51 0 .912-.142 1.204-.424.293-.281.44-.651.44-1.108v-.91zm-4.068-2.554V9.325c.627-.361 1.457-.542 2.489-.542 2.116 0 3.175 1.026 3.175 3.08V17h-1.548v-.957c-.415.68-1.143 1.02-2.186 1.02-.766 0-1.38-.22-1.843-.661-.462-.442-.694-1.003-.694-1.684 0-.776.293-1.38.878-1.81.585-.431 1.404-.647 2.457-.647h1.34V11.8c0-.554-.133-.971-.399-1.253-.266-.282-.707-.423-1.324-.423a4.07 4.07 0 0 0-2.345.718zm9.333-1.93v1.42c.394-1 1.101-1.5 2.123-1.5.148 0 .313.016.494.048v1.531a1.885 1.885 0 0 0-.75-.143c-.542 0-.989.24-1.34.718-.351.479-.527 1.048-.527 1.707V17h-1.563V8.91h1.563zm5.01 4.084c.022.82.272 1.492.75 2.019.479.526 1.15.79 2.01.79.639 0 1.235-.176 1.788-.527v1.404c-.521.319-1.186.479-1.995.479-1.265 0-2.276-.4-3.031-1.197-.755-.798-1.133-1.792-1.133-2.984 0-1.16.38-2.151 1.14-2.975.761-.825 1.79-1.237 3.088-1.237.702 0 1.346.149 1.93.447v1.436a3.242 3.242 0 0 0-1.77-.495c-.84 0-1.513.266-2.019.798-.505.532-.758 1.213-.758 2.042zM40.24 5.72v4.579c.458-1 1.293-1.5 2.505-1.5.787 0 1.42.245 1.899.734.479.49.718 1.17.718 2.042V17h-1.564v-5.106c0-.553-.14-.98-.422-1.284-.282-.303-.652-.455-1.11-.455-.531 0-1.002.202-1.411.606-.41.405-.615 1.022-.615 1.851V17h-1.563V5.72h1.563zm14.966 10.02c.596 0 1.096-.253 1.5-.758.404-.506.606-1.157.606-1.955 0-.915-.202-1.62-.606-2.114-.404-.495-.92-.742-1.548-.742-.553 0-1.05.224-1.491.67-.442.447-.662 1.133-.662 2.058 0 .958.212 1.67.638 2.138.425.469.946.703 1.563.703zM53.004 5.72v4.42c.574-.894 1.388-1.341 2.44-1.341 1.022 0 1.857.383 2.506 1.149.649.766.973 1.781.973 3.047 0 1.138-.309 2.109-.925 2.912-.617.803-1.463 1.205-2.537 1.205-1.075 0-1.894-.447-2.457-1.34V17h-1.58V5.72h1.58zm9.908 11.104l-3.223-7.913h1.739l1.005 2.632 1.26 3.415c.096-.32.48-1.458 1.15-3.415l.909-2.632h1.66l-2.92 7.866c-.777 2.074-1.963 3.11-3.559 3.11a2.92 2.92 0 0 1-.734-.079v-1.34c.17.042.351.064.543.064 1.032 0 1.755-.57 2.17-1.708z' fill='%235D6494'/%3E%3Cpath d='M89.632 5.967v-.772a.978.978 0 0 0-.978-.977h-2.28a.978.978 0 0 0-.978.977v.793c0 .088.082.15.171.13a7.127 7.127 0 0 1 1.984-.28c.65 0 1.295.088 1.917.259.082.02.164-.04.164-.13m-6.248 1.01l-.39-.389a.977.977 0 0 0-1.382 0l-.465.465a.973.973 0 0 0 0 1.38l.383.383c.062.061.15.047.205-.014.226-.307.472-.601.746-.874.281-.28.568-.526.883-.751.068-.042.075-.137.02-.2m4.16 2.453v3.341c0 .096.104.165.192.117l2.97-1.537c.068-.034.089-.117.055-.184a3.695 3.695 0 0 0-3.08-1.866c-.068 0-.136.054-.136.13m0 8.048a4.489 4.489 0 0 1-4.49-4.482 4.488 4.488 0 0 1 4.49-4.482 4.488 4.488 0 0 1 4.489 4.482 4.484 4.484 0 0 1-4.49 4.482m0-10.85a6.363 6.363 0 1 0 0 12.729 6.37 6.37 0 0 0 6.372-6.368 6.358 6.358 0 0 0-6.371-6.36' fill='%23FFF'/%3E%3C/g%3E%3C/svg%3E");background-repeat:no-repeat;background-position:50%;background-size:100%;overflow:hidden;text-indent:-9000px;width:100%;height:100%;display:block}</style>
+        <div class="TDesign-doc-search">
+          <span class="algolia-autocomplete" style="position: relative; display: inline-block; direction: ltr;"><input id="TDSearch" class="TDesign-doc-search__inner ds-input" placeholder="搜索" type="text" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-label="search input" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style="position: relative; vertical-align: top;"><pre aria-hidden="true" style="position: absolute; visibility: hidden; white-space: pre; font-family: Arial; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 400; word-spacing: 0px; letter-spacing: normal; text-indent: 0px; text-rendering: auto; text-transform: none;"></pre><span class="ds-dropdown-menu" role="listbox" id="algolia-autocomplete-listbox-0" style="position: absolute; top: 100%; z-index: 100; display: none; left: 0px; right: auto;"><div class="ds-dataset-1"></div></span></span>
+          <span class="TDesign-doc-search__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M8.125 2.5C5.0184 2.5 2.5 5.0184 2.5 8.125C2.5 11.2316 5.0184 13.75 8.125 13.75C9.22568 13.75 10.2525 13.4339 11.1197 12.8874L15.8839 17.6517L16.7678 16.7678L12.1025 12.1025C13.1204 11.0846 13.75 9.6783 13.75 8.125C13.75 5.0184 11.2316 2.5 8.125 2.5ZM8.125 3.75C10.5412 3.75 12.5 5.70875 12.5 8.125C12.5 10.5412 10.5412 12.5 8.125 12.5C5.70875 12.5 3.75 10.5412 3.75 8.125C3.75 5.70875 5.70875 3.75 8.125 3.75Z"></path>
+</svg>
+</span>
+        </div>
+      </td-doc-search></div></td-header><td-doc-aside title="WeChat MiniProgram" style="--aside-top: 96px;"><div slot="__render_content__">
+      <aside class="TDesign-doc-aside" style="top: 96px;">
+        <div class="TDesign-doc-aside-collapse">
+          <i class="icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M3.99902 7.97265L27.9978 8.00026L28.0001 6.00026L4.00132 5.97266L3.99902 7.97265Z" fill="currentColor"></path>
+  <path d="M15.0002 17.0003H27.999V15.0003H15.0002V17.0003Z" fill="currentColor"></path>
+  <path d="M3.99902 25.9727L27.9978 26.0003L28.0001 24.0003L4.00132 23.9727L3.99902 25.9727Z" fill="currentColor"></path>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9335 15.1864C12.4668 15.5864 12.4668 16.3864 11.9335 16.7864L5.60017 21.5364C4.94094 22.0308 4.00017 21.5604 4.00017 20.7364L4.00017 11.2364C4.00017 10.4124 4.94094 9.94197 5.60017 10.4364L11.9335 15.1864ZM6.00017 13.2364L9.66684 15.9864L6.00017 18.7364L6.00017 13.2364Z" fill="currentColor"></path>
+</svg>
+</i>
+        </div>
+        <div class="TDesign-doc-sidenav">
+          <h2 class="TDesign-doc-aside__title">WeChat MiniProgram</h2>
+          <slot class="TDesign-doc-aside__extra" name="extra"></slot>
+          
+      <div class="TDesign-doc-sidenav-group TDesign-doc-sidenav-group--deep0">
+        <span class="TDesign-doc-sidenav-group__title">开始</span>
+        <div class="TDesign-doc-sidenav-group__children">
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/getting-started">
+        快速开始 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/used">
+        谁在用 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/changelog">
+        更新日志 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/custom-style">
+        样式覆盖 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/custom-theme">
+        自定义主题 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/overview">
+        组件概览 
+        
+      </a>
+    </div>
+  </div>
+      </div>
+    
+      <div class="TDesign-doc-sidenav-group TDesign-doc-sidenav-group--deep0">
+        <span class="TDesign-doc-sidenav-group__title">全局配置</span>
+        <div class="TDesign-doc-sidenav-group__children">
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/dark-mode">
+        深色模式 
+        
+      </a>
+    </div>
+  </div>
+      </div>
+    
+      <div class="TDesign-doc-sidenav-group TDesign-doc-sidenav-group--deep0">
+        <span class="TDesign-doc-sidenav-group__title">高阶组件</span>
+        <div class="TDesign-doc-sidenav-group__children">
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram-chat">
+        AI Chat 对话 
+        
+      </a>
+    </div>
+  </div>
+      </div>
+    
+      <div class="TDesign-doc-sidenav-group TDesign-doc-sidenav-group--deep0">
+        <span class="TDesign-doc-sidenav-group__title">基础</span>
+        <div class="TDesign-doc-sidenav-group__children">
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/button">
+        Button 按钮 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/divider">
+        Divider 分割线 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/fab">
+        Fab 悬浮按钮 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/icon">
+        Icon 图标 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/layout">
+        Layout 布局 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/link">
+        Link 链接 
+        
+      </a>
+    </div>
+  </div>
+      </div>
+    
+      <div class="TDesign-doc-sidenav-group TDesign-doc-sidenav-group--deep0">
+        <span class="TDesign-doc-sidenav-group__title">导航</span>
+        <div class="TDesign-doc-sidenav-group__children">
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/back-top">
+        BackTop 返回顶部 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/drawer">
+        Drawer 抽屉 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/indexes">
+        Indexes 索引 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/navbar">
+        Navbar 导航栏 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/side-bar">
+        SideBar 侧边栏 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/steps">
+        Steps 步骤条 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/tab-bar">
+        TabBar 底部标签栏 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/tabs">
+        Tabs 选项卡 
+        
+      </a>
+    </div>
+  </div>
+      </div>
+    
+      <div class="TDesign-doc-sidenav-group TDesign-doc-sidenav-group--deep0">
+        <span class="TDesign-doc-sidenav-group__title">输入</span>
+        <div class="TDesign-doc-sidenav-group__children">
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/calendar">
+        Calendar 日历 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/cascader">
+        Cascader 级联选择器 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/checkbox">
+        Checkbox 多选框 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/color-picker">
+        ColorPicker 颜色选择器 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/date-time-picker">
+        DateTimePicker 时间选择器 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/input">
+        Input 输入框 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/picker">
+        Picker 选择器 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/radio">
+        Radio 单选框 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/rate">
+        Rate 评分 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/search">
+        Search 搜索框 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/slider">
+        Slider 滑动选择器 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/stepper">
+        Stepper 步进器 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/switch">
+        Switch 开关 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/textarea">
+        Textarea 多行文本框 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/tree-select">
+        TreeSelect 树形选择器 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link active" href="/miniprogram/components/upload">
+        Upload 上传 
+        
+      </a>
+    </div>
+  </div>
+      </div>
+    
+      <div class="TDesign-doc-sidenav-group TDesign-doc-sidenav-group--deep0">
+        <span class="TDesign-doc-sidenav-group__title">数据展示</span>
+        <div class="TDesign-doc-sidenav-group__children">
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/avatar">
+        Avatar 头像 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/badge">
+        Badge 徽标 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/cell">
+        Cell 单元格 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/collapse">
+        Collapse 折叠面板 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/count-down">
+        CountDown 倒计时 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/empty">
+        Empty 空状态 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/footer">
+        Footer 页脚 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/grid">
+        Grid 宫格 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/image">
+        Image 图片 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/image-viewer">
+        ImageViewer 图片预览 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/progress">
+        Progress 进度条 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/qrcode">
+        QRCode 二维码 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/result">
+        Result 结果 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/skeleton">
+        Skeleton 骨架屏 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/sticky">
+        Sticky 吸顶容器 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/swiper">
+        Swiper 轮播图 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/tag">
+        Tag 标签 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/watermark">
+        Watermark 水印 
+        
+      </a>
+    </div>
+  </div>
+      </div>
+    
+      <div class="TDesign-doc-sidenav-group TDesign-doc-sidenav-group--deep0">
+        <span class="TDesign-doc-sidenav-group__title">反馈</span>
+        <div class="TDesign-doc-sidenav-group__children">
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/action-sheet">
+        ActionSheet 动作面板 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/dialog">
+        Dialog 对话框 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/dropdown-menu">
+        DropdownMenu 下拉菜单 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/guide">
+        Guide 引导 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/loading">
+        Loading 加载 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/message">
+        Message 消息通知 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/notice-bar">
+        NoticeBar 公告栏 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/overlay">
+        Overlay 遮罩层 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/popover">
+        Popover 弹出气泡 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/popup">
+        Popup 弹出层 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/pull-down-refresh">
+        PullDownRefresh 下拉刷新 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/swipe-cell">
+        SwipeCell 滑动操作 
+        
+      </a>
+    </div>
+  
+    <div class="TDesign-doc-sidenav-item">
+      <a class="TDesign-doc-sidenav-link " href="/miniprogram/components/toast">
+        Toast 轻提示 
+        
+      </a>
+    </div>
+  </div>
+      </div>
+    
+        </div>
+      </aside>
+      <div class="TDesign-doc-aside-mask"></div>
+    </div></td-doc-aside><td-doc-content platform="mobile" page-status="show" style="visibility: visible;"><td-doc-header platform="mobile" slot="doc-header"><h1 id="__td_doc_title__">Upload 上传</h1></td-doc-header><td-doc-tabs tab="demo" auto-scroll=""></td-doc-tabs><div class="td-doc-main"><div name="DEMO"><p><span class="coverages-badge" style="margin-right: 10px"><img src="https://img.shields.io/badge/coverages%3A%20lines-47%25-red"></span><span class="coverages-badge" style="margin-right: 10px"><img src="https://img.shields.io/badge/coverages%3A%20functions-62%25-red"></span><span class="coverages-badge" style="margin-right: 10px"><img src="https://img.shields.io/badge/coverages%3A%20statements-47%25-red"></span><span class="coverages-badge" style="margin-right: 10px"><img src="https://img.shields.io/badge/coverages%3A%20branches-79%25-red"></span></p>
+<h2 id="引入">引入 <a class="header-anchor" href="#引入"></a></h2>
+<p>全局引入，在 miniprogram 根目录下的<code>app.json</code>中配置，局部引入，在需要引入的页面或组件的<code>index.json</code>中配置。</p>
+<div class="language-json"><pre v-pre="" class="language-json" tabindex="0"><code class="language-json"><span class="token property">"usingComponents"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+  <span class="token property">"t-upload"</span><span class="token operator">:</span> <span class="token string">"tdesign-miniprogram/upload/upload"</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><h2 id="代码演示">代码演示 <a class="header-anchor" href="#代码演示"></a></h2>
+<p><a href="https://developers.weixin.qq.com/s/uXEjPNm68y52" title="在开发者工具中预览效果" target="_blank" rel="noopener noreferrer"> 在开发者工具中预览效果 </a></p>
+<blockquote style="background-color: #d9e1ff; font-size: 15px; line-height: 26px;margin: 16px 0 0;padding: 16px; border-radius: 6px; color: #0052d9">
+<p>Tips: 请确保开发者工具为打开状态。导入开发者工具后，依次执行：npm i &gt; 构建npm包 &gt; 勾选 "将JS编译成ES5"</p>
+</blockquote>
+<h3 id="单选上传图片">单选上传图片 <a class="header-anchor" href="#单选上传图片"></a></h3>
+<p>图片上传有两种方式：</p>
+<p>1 选择完所有图片之后，统一上传，因此选择完就直接展示</p>
+<p>2 每次选择图片都上传，展示每次上传图片的进度</p>
+<td-code-block panel="WXML">
+  <pre slot="WXML" lang="html">%3Cview%20class%3D%22wrapper%22%3E%0A%20%20%3Ct-upload%0A%20%20%20%20disabled%0A%20%20%20%20mediaType%3D%22%7B%7B%5B'video'%2C'image'%5D%7D%7D%22%0A%20%20%20%20max%3D%22%7B%7B1%7D%7D%22%0A%20%20%20%20files%3D%22%7B%7BfileList%7D%7D%22%0A%20%20%20%20bind%3Aadd%3D%22handleAdd%22%0A%20%20%20%20bind%3Aremove%3D%22handleRemove%22%0A%20%20%3E%0A%20%20%3C%2Ft-upload%3E%0A%3C%2Fview%3E%0A</pre>
+  <pre slot="JS" lang="javascript">Component(%7B%0A%20%20data%3A%20%7B%0A%20%20%20%20fileList%3A%20%5B%5D%2C%0A%20%20%7D%2C%0A%20%20methods%3A%20%7B%0A%20%20%20%20handleAdd(e)%20%7B%0A%20%20%20%20%20%20const%20%7B%20fileList%20%7D%20%3D%20this.data%3B%0A%20%20%20%20%20%20const%20%7B%20files%20%7D%20%3D%20e.detail%3B%0A%0A%20%20%20%20%20%20%2F%2F%20%E6%96%B9%E6%B3%951%EF%BC%9A%E9%80%89%E6%8B%A9%E5%AE%8C%E6%89%80%E6%9C%89%E5%9B%BE%E7%89%87%E4%B9%8B%E5%90%8E%EF%BC%8C%E7%BB%9F%E4%B8%80%E4%B8%8A%E4%BC%A0%EF%BC%8C%E5%9B%A0%E6%AD%A4%E9%80%89%E6%8B%A9%E5%AE%8C%E5%B0%B1%E7%9B%B4%E6%8E%A5%E5%B1%95%E7%A4%BA%0A%20%20%20%20%20%20this.setData(%7B%0A%20%20%20%20%20%20%20%20fileList%3A%20%5B...fileList%2C%20...files%5D%2C%20%2F%2F%20%E6%AD%A4%E6%97%B6%E8%AE%BE%E7%BD%AE%E4%BA%86%20fileList%20%E4%B9%8B%E5%90%8E%E6%89%8D%E4%BC%9A%E5%B1%95%E7%A4%BA%E9%80%89%E6%8B%A9%E7%9A%84%E5%9B%BE%E7%89%87%0A%20%20%20%20%20%20%7D)%3B%0A%0A%20%20%20%20%20%20%2F%2F%20%E6%96%B9%E6%B3%952%EF%BC%9A%E6%AF%8F%E6%AC%A1%E9%80%89%E6%8B%A9%E5%9B%BE%E7%89%87%E9%83%BD%E4%B8%8A%E4%BC%A0%EF%BC%8C%E5%B1%95%E7%A4%BA%E6%AF%8F%E6%AC%A1%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E7%9A%84%E8%BF%9B%E5%BA%A6%0A%20%20%20%20%20%20%2F%2F%20files.forEach(file%20%3D%3E%20this.uploadFile(file))%0A%20%20%20%20%7D%2C%0A%20%20%20%20onUpload(file)%20%7B%0A%20%20%20%20%20%20const%20%7B%20fileList%20%7D%20%3D%20this.data%3B%0A%0A%20%20%20%20%20%20this.setData(%7B%0A%20%20%20%20%20%20%20%20fileList%3A%20%5B...fileList%2C%20%7B%20...file%2C%20status%3A%20'loading'%20%7D%5D%2C%0A%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%20%20const%20%7B%20length%20%7D%20%3D%20fileList%3B%0A%0A%20%20%20%20%20%20const%20task%20%3D%20wx.uploadFile(%7B%0A%20%20%20%20%20%20%20%20url%3A%20'https%3A%2F%2Fexample.weixin.qq.com%2Fupload'%2C%20%2F%2F%20%E4%BB%85%E4%B8%BA%E7%A4%BA%E4%BE%8B%EF%BC%8C%E9%9D%9E%E7%9C%9F%E5%AE%9E%E7%9A%84%E6%8E%A5%E5%8F%A3%E5%9C%B0%E5%9D%80%0A%20%20%20%20%20%20%20%20filePath%3A%20file.url%2C%0A%20%20%20%20%20%20%20%20name%3A%20'file'%2C%0A%20%20%20%20%20%20%20%20formData%3A%20%7B%20user%3A%20'test'%20%7D%2C%0A%20%20%20%20%20%20%20%20success%3A%20()%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20this.setData(%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%5B%60fileList%5B%24%7Blength%7D%5D.status%60%5D%3A%20'done'%2C%0A%20%20%20%20%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%20%20task.onProgressUpdate((res)%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20this.setData(%7B%0A%20%20%20%20%20%20%20%20%20%20%5B%60fileList%5B%24%7Blength%7D%5D.percent%60%5D%3A%20res.progress%2C%0A%20%20%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%7D%2C%0A%20%20%20%20handleRemove(e)%20%7B%0A%20%20%20%20%20%20const%20%7B%20index%20%7D%20%3D%20e.detail%3B%0A%20%20%20%20%20%20const%20%7B%20fileList%20%7D%20%3D%20this.data%3B%0A%0A%20%20%20%20%20%20fileList.splice(index%2C%201)%3B%0A%20%20%20%20%20%20this.setData(%7B%0A%20%20%20%20%20%20%20%20fileList%2C%0A%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%7D)%3B%0A</pre>
+  <pre slot="CSS" lang="css"></pre>
+  <pre slot="JSON" lang="javascript">%7B%0A%20%20%22component%22%3A%20true%2C%0A%20%20%22usingComponents%22%3A%20%7B%0A%20%20%20%20%22t-upload%22%3A%20%22tdesign-miniprogram%2Fupload%2Fupload%22%0A%20%20%7D%0A%7D%0A</pre>
+</td-code-block>
+<h3 id="多选上传图片">多选上传图片 <a class="header-anchor" href="#多选上传图片"></a></h3>
+<td-code-block panel="WXML">
+  <pre slot="WXML" lang="html">%3Cview%20class%3D%22wrapper%22%3E%0A%20%20%3Ct-upload%0A%20%20%20%20disabled%0A%20%20%20%20media-type%3D%22%7B%7B%5B'video'%2C'image'%5D%7D%7D%22%0A%20%20%20%20files%3D%22%7B%7BoriginFiles%7D%7D%22%0A%20%20%20%20gridConfig%3D%22%7B%7BgridConfig%7D%7D%22%0A%20%20%20%20removeBtn%3D%22%7B%7Bfalse%7D%7D%22%0A%20%20%20%20bind%3Asuccess%3D%22handleSuccess%22%0A%20%20%20%20bind%3Aremove%3D%22handleRemove%22%0A%20%20%20%20bind%3Aclick%3D%22handleClick%22%0A%20%20%20%20bind%3Asort-end%3D%22handleSortEnd%22%0A%20%20%2F%3E%0A%3C%2Fview%3E%0A</pre>
+  <pre slot="JS" lang="javascript">Component(%7B%0A%20%20data%3A%20%7B%0A%20%20%20%20originFiles%3A%20%5B%0A%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20url%3A%20'https%3A%2F%2Ftdesign.gtimg.com%2Fmobile%2Fdemos%2Fexample4.png'%2C%0A%20%20%20%20%20%20%20%20name%3A%20'uploaded1.png'%2C%0A%20%20%20%20%20%20%20%20type%3A%20'image'%2C%0A%20%20%20%20%20%20%20%20removeBtn%3A%20true%2C%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20url%3A%20'https%3A%2F%2Ftdesign.gtimg.com%2Fmobile%2Fdemos%2Fexample6.png'%2C%0A%20%20%20%20%20%20%20%20name%3A%20'uploaded2.png'%2C%0A%20%20%20%20%20%20%20%20type%3A%20'image'%2C%0A%20%20%20%20%20%20%20%20removeBtn%3A%20true%2C%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20url%3A%20'https%3A%2F%2Ftdesign.gtimg.com%2Fmobile%2Fdemos%2Fexample5.png'%2C%0A%20%20%20%20%20%20%20%20name%3A%20'uploaded3.png'%2C%0A%20%20%20%20%20%20%20%20type%3A%20'image'%2C%0A%20%20%20%20%20%20%20%20removeBtn%3A%20true%2C%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%5D%2C%0A%20%20%20%20gridConfig%3A%20%7B%0A%20%20%20%20%20%20column%3A%204%2C%0A%20%20%20%20%20%20width%3A%20160%2C%0A%20%20%20%20%20%20height%3A%20160%2C%0A%20%20%20%20%7D%2C%0A%20%20%20%20config%3A%20%7B%0A%20%20%20%20%20%20count%3A%201%2C%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%20%20methods%3A%20%7B%0A%20%20%20%20handleSuccess(e)%20%7B%0A%20%20%20%20%20%20const%20%7B%20files%20%7D%20%3D%20e.detail%3B%0A%20%20%20%20%20%20this.setData(%7B%0A%20%20%20%20%20%20%20%20originFiles%3A%20files%2C%0A%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%7D%2C%0A%20%20%20%20handleRemove(e)%20%7B%0A%20%20%20%20%20%20const%20%7B%20index%20%7D%20%3D%20e.detail%3B%0A%20%20%20%20%20%20const%20%7B%20originFiles%20%7D%20%3D%20this.data%3B%0A%20%20%20%20%20%20originFiles.splice(index%2C%201)%3B%0A%20%20%20%20%20%20this.setData(%7B%0A%20%20%20%20%20%20%20%20originFiles%2C%0A%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%7D%2C%0A%20%20%20%20handleClick(e)%20%7B%0A%20%20%20%20%20%20console.log(e.detail.file)%3B%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%7D)%3B%0A</pre>
+  <pre slot="CSS" lang="css"></pre>
+  <pre slot="JSON" lang="javascript">%7B%0A%20%20%22component%22%3A%20true%2C%0A%20%20%22usingComponents%22%3A%20%7B%0A%20%20%20%20%22t-upload%22%3A%20%22tdesign-miniprogram%2Fupload%2Fupload%22%0A%20%20%7D%0A%7D%0A</pre>
+</td-code-block>
+<h3 id="长按拖拽排序图片">长按拖拽排序图片 <a class="header-anchor" href="#长按拖拽排序图片"></a></h3>
+<td-code-block panel="WXML">
+  <pre slot="WXML" lang="html">%3Cview%20class%3D%22wrapper%22%3E%0A%20%20%3Ct-upload%0A%20%20%20%20draggable%0A%20%20%20%20disabled%0A%20%20%20%20media-type%3D%22%7B%7B%5B'video'%2C'image'%5D%7D%7D%22%0A%20%20%20%20files%3D%22%7B%7BoriginFiles%7D%7D%22%0A%20%20%20%20gridConfig%3D%22%7B%7BgridConfig%7D%7D%22%0A%20%20%20%20bind%3Asuccess%3D%22handleSuccess%22%0A%20%20%20%20bind%3Aremove%3D%22handleRemove%22%0A%20%20%20%20bind%3Aclick%3D%22handleClick%22%0A%20%20%20%20bind%3Adrop%3D%22handleDrop%22%0A%20%20%2F%3E%0A%3C%2Fview%3E%0A</pre>
+  <pre slot="JS" lang="javascript">Component(%7B%0A%20%20data%3A%20%7B%0A%20%20%20%20originFiles%3A%20%5B%0A%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20url%3A%20'https%3A%2F%2Ftdesign.gtimg.com%2Fmobile%2Fdemos%2Fexample4.png'%2C%0A%20%20%20%20%20%20%20%20name%3A%20'uploaded1.png'%2C%0A%20%20%20%20%20%20%20%20type%3A%20'image'%2C%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20url%3A%20'https%3A%2F%2Ftdesign.gtimg.com%2Fmobile%2Fdemos%2Fexample6.png'%2C%0A%20%20%20%20%20%20%20%20name%3A%20'uploaded2.png'%2C%0A%20%20%20%20%20%20%20%20type%3A%20'image'%2C%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20url%3A%20'https%3A%2F%2Ftdesign.gtimg.com%2Fmobile%2Fdemos%2Fexample5.png'%2C%0A%20%20%20%20%20%20%20%20name%3A%20'uploaded3.png'%2C%0A%20%20%20%20%20%20%20%20type%3A%20'image'%2C%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%5D%2C%0A%20%20%20%20gridConfig%3A%20%7B%0A%20%20%20%20%20%20column%3A%204%2C%0A%20%20%20%20%20%20width%3A%20160%2C%0A%20%20%20%20%20%20height%3A%20160%2C%0A%20%20%20%20%7D%2C%0A%20%20%20%20config%3A%20%7B%0A%20%20%20%20%20%20count%3A%201%2C%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%20%20methods%3A%20%7B%0A%20%20%20%20handleSuccess(e)%20%7B%0A%20%20%20%20%20%20const%20%7B%20files%20%7D%20%3D%20e.detail%3B%0A%20%20%20%20%20%20this.setData(%7B%0A%20%20%20%20%20%20%20%20originFiles%3A%20files%2C%0A%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%7D%2C%0A%20%20%20%20handleRemove(e)%20%7B%0A%20%20%20%20%20%20const%20%7B%20index%20%7D%20%3D%20e.detail%3B%0A%20%20%20%20%20%20const%20%7B%20originFiles%20%7D%20%3D%20this.data%3B%0A%20%20%20%20%20%20originFiles.splice(index%2C%201)%3B%0A%20%20%20%20%20%20this.setData(%7B%0A%20%20%20%20%20%20%20%20originFiles%2C%0A%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%7D%2C%0A%20%20%20%20handleClick(e)%20%7B%0A%20%20%20%20%20%20console.log(e.detail.file)%3B%0A%20%20%20%20%7D%2C%0A%0A%20%20%20%20handleDrop(e)%20%7B%0A%20%20%20%20%20%20const%20%7B%20files%20%7D%20%3D%20e.detail%3B%0A%20%20%20%20%20%20this.setData(%7B%0A%20%20%20%20%20%20%20%20originFiles%3A%20files%2C%0A%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%7D)%3B%0A</pre>
+  <pre slot="CSS" lang="css"></pre>
+  <pre slot="JSON" lang="javascript">%7B%0A%20%20%22component%22%3A%20true%2C%0A%20%20%22usingComponents%22%3A%20%7B%0A%20%20%20%20%22t-upload%22%3A%20%22tdesign-miniprogram%2Fupload%2Fupload%22%0A%20%20%7D%0A%7D%0A</pre>
+</td-code-block>
+<h3 id="加载状态">加载状态 <a class="header-anchor" href="#加载状态"></a></h3>
+<p>支持多种状态：<code>loading</code>、<code>reload</code>、<code>failed</code>；</p>
+<p>其中 <code>loading</code> 还可以通过传入 <code>percent</code> 来区分是否展示进度。</p>
+<td-code-block panel="WXML">
+  <pre slot="WXML" lang="html">%3Cview%20class%3D%22wrapper%22%3E%0A%20%20%3Ct-upload%0A%20%20%20%20disabled%0A%20%20%20%20media-type%3D%22%7B%7B%5B'video'%2C'image'%5D%7D%7D%22%0A%20%20%20%20files%3D%22%7B%7BoriginFiles%7D%7D%22%0A%20%20%20%20gridConfig%3D%22%7B%7BgridConfig%7D%7D%22%0A%20%20%20%20bind%3Asuccess%3D%22handleSuccess%22%0A%20%20%20%20bind%3Aremove%3D%22handleRemove%22%0A%20%20%20%20bind%3Aclick%3D%22handleClick%22%0A%20%20%2F%3E%0A%3C%2Fview%3E%0A</pre>
+  <pre slot="JS" lang="javascript">Component(%7B%0A%20%20data%3A%20%7B%0A%20%20%20%20originFiles%3A%20%5B%0A%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20url%3A%20'https%3A%2F%2Ftdesign.gtimg.com%2Fmobile%2Fdemos%2Fexample4.png'%2C%0A%20%20%20%20%20%20%20%20name%3A%20'uploaded1.png'%2C%0A%20%20%20%20%20%20%20%20type%3A%20'image'%2C%0A%20%20%20%20%20%20%20%20status%3A%20'loading'%2C%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20url%3A%20'https%3A%2F%2Ftdesign.gtimg.com%2Fmobile%2Fdemos%2Fexample5.png'%2C%0A%20%20%20%20%20%20%20%20name%3A%20'uploaded2.png'%2C%0A%20%20%20%20%20%20%20%20type%3A%20'image'%2C%0A%20%20%20%20%20%20%20%20percent%3A%2068%2C%0A%20%20%20%20%20%20%20%20status%3A%20'loading'%2C%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20url%3A%20'https%3A%2F%2Ftdesign.gtimg.com%2Fmobile%2Fdemos%2Fexample6.png'%2C%0A%20%20%20%20%20%20%20%20name%3A%20'uploaded3.png'%2C%0A%20%20%20%20%20%20%20%20type%3A%20'image'%2C%0A%20%20%20%20%20%20%20%20status%3A%20'reload'%2C%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20url%3A%20'https%3A%2F%2Ftdesign.gtimg.com%2Fmobile%2Fdemos%2Fexample5.png'%2C%0A%20%20%20%20%20%20%20%20name%3A%20'uploaded4.png'%2C%0A%20%20%20%20%20%20%20%20type%3A%20'image'%2C%0A%20%20%20%20%20%20%20%20status%3A%20'failed'%2C%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%5D%2C%0A%20%20%20%20gridConfig%3A%20%7B%0A%20%20%20%20%20%20column%3A%204%2C%0A%20%20%20%20%20%20width%3A%20160%2C%0A%20%20%20%20%20%20height%3A%20160%2C%0A%20%20%20%20%7D%2C%0A%20%20%20%20config%3A%20%7B%0A%20%20%20%20%20%20count%3A%201%2C%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%20%20methods%3A%20%7B%0A%20%20%20%20handleSuccess(e)%20%7B%0A%20%20%20%20%20%20const%20%7B%20files%20%7D%20%3D%20e.detail%3B%0A%20%20%20%20%20%20this.setData(%7B%0A%20%20%20%20%20%20%20%20originFiles%3A%20files%2C%0A%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%7D%2C%0A%20%20%20%20handleRemove(e)%20%7B%0A%20%20%20%20%20%20const%20%7B%20index%20%7D%20%3D%20e.detail%3B%0A%20%20%20%20%20%20const%20%7B%20originFiles%20%7D%20%3D%20this.data%3B%0A%20%20%20%20%20%20originFiles.splice(index%2C%201)%3B%0A%20%20%20%20%20%20this.setData(%7B%0A%20%20%20%20%20%20%20%20originFiles%2C%0A%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%7D%2C%0A%20%20%20%20handleClick(e)%20%7B%0A%20%20%20%20%20%20console.log(e.detail.file)%3B%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%7D)%3B%0A</pre>
+  <pre slot="CSS" lang="css"></pre>
+  <pre slot="JSON" lang="javascript">%7B%0A%20%20%22component%22%3A%20true%2C%0A%20%20%22usingComponents%22%3A%20%7B%0A%20%20%20%20%22t-upload%22%3A%20%22tdesign-miniprogram%2Fupload%2Fupload%22%0A%20%20%7D%0A%7D%0A</pre>
+</td-code-block>
+<h3 id="从聊天记录上选">从聊天记录上选 <a class="header-anchor" href="#从聊天记录上选"></a></h3>
+<p>使用 <code>wx.chooseMessageFile</code> 实现，需要基础版本库 <code>2.5.0+</code></p>
+<td-code-block panel="WXML">
+  <pre slot="WXML" lang="html">%3Cview%20class%3D%22wrapper%22%3E%0A%20%20%3Ct-upload%0A%20%20%20%20disabled%0A%20%20%20%20mediaType%3D%22%7B%7B%5B'video'%2C'image'%5D%7D%7D%22%0A%20%20%20%20files%3D%22%7B%7BoriginFiles%7D%7D%22%0A%20%20%20%20gridConfig%3D%22%7B%7BgridConfig%7D%7D%22%0A%20%20%20%20config%3D%22%7B%7Bconfig%7D%7D%22%0A%20%20%20%20source%3D%22messageFile%22%0A%20%20%20%20bind%3Asuccess%3D%22handleSuccess%22%0A%20%20%20%20bind%3Aremove%3D%22handleRemove%22%0A%20%20%3E%0A%20%20%3C%2Ft-upload%3E%0A%3C%2Fview%3E%0A</pre>
+  <pre slot="JS" lang="javascript">Component(%7B%0A%20%20data%3A%20%7B%0A%20%20%20%20originFiles%3A%20%5B%0A%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20url%3A%20'https%3A%2F%2Ftdesign.gtimg.com%2Fmobile%2Fdemos%2Fexample4.png'%2C%0A%20%20%20%20%20%20%20%20name%3A%20'uploaded1.png'%2C%0A%20%20%20%20%20%20%20%20type%3A%20'image'%2C%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%5D%2C%0A%20%20%20%20gridConfig%3A%20%7B%0A%20%20%20%20%20%20column%3A%204%2C%0A%20%20%20%20%20%20width%3A%20160%2C%0A%20%20%20%20%20%20height%3A%20160%2C%0A%20%20%20%20%7D%2C%0A%20%20%20%20config%3A%20%7B%0A%20%20%20%20%20%20count%3A%201%2C%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%20%20methods%3A%20%7B%0A%20%20%20%20handleSuccess(e)%20%7B%0A%20%20%20%20%20%20const%20%7B%20files%20%7D%20%3D%20e.detail%3B%0A%20%20%20%20%20%20this.setData(%7B%0A%20%20%20%20%20%20%20%20originFiles%3A%20files%2C%0A%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%7D%2C%0A%20%20%20%20handleRemove(e)%20%7B%0A%20%20%20%20%20%20const%20%7B%20index%20%7D%20%3D%20e.detail%3B%0A%20%20%20%20%20%20const%20%7B%20originFiles%20%7D%20%3D%20this.data%3B%0A%20%20%20%20%20%20originFiles.splice(index%2C%201)%3B%0A%20%20%20%20%20%20this.setData(%7B%0A%20%20%20%20%20%20%20%20originFiles%2C%0A%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%7D)%3B%0A</pre>
+  <pre slot="CSS" lang="css"></pre>
+  <pre slot="JSON" lang="javascript">%7B%0A%20%20%22component%22%3A%20true%2C%0A%20%20%22usingComponents%22%3A%20%7B%0A%20%20%20%20%22t-upload%22%3A%20%22tdesign-miniprogram%2Fupload%2Fupload%22%0A%20%20%7D%0A%7D%0A</pre>
+</td-code-block>
+<h2 id="faq">FAQ <a class="header-anchor" href="#faq"></a></h2>
+<h3 id="为什么-upload-外层使用-display-flex-时会造成组件样式混乱？">为什么 <code>Upload</code> 外层使用 <code>display: flex</code> 时会造成组件样式混乱？ <a class="header-anchor" href="#为什么-upload-外层使用-display-flex-时会造成组件样式混乱？"></a></h3>
+<p><code>Upload</code> 是基于 <code>TGrid</code> 宫格实现，当外层使用 <code>display: flex</code> ，子元素会默认加上 <code>flex-grow: 0</code>，造成 <code>Upload</code> 组件整体宽度不足。可以通过给 <code>Upload</code> 组件节点加上 <code>flex-grow: 1</code> 处理。</p>
+</div><td-doc-phone><div class="qrcode__wrapper" slot="qrcode"><img class="qrcode" src="//tdesign.tencent.com/miniprogram/assets/qrcode/upload.png"></div><iframe src="//tdesign.tencent.com/miniprogram/live/m2w/program/miniprogram/#!pages/upload/upload.html" frameborder="0" width="100%" height="100%" class="mobile-iframe" style="box-sizing: border-box; border-radius: 0px 0px 6px 6px; overflow: hidden;"></iframe></td-doc-phone><td-contributors platform="miniprogram" framework="wx" component-name="upload"></td-contributors></div><div name="API" style="display: none;"><nav class="tdesign-toc_container"><ol class="tdesign-toc_list"><li class="tdesign-toc_list_item"><a class="tdesign-toc_list_item_a" href="#upload-props">Upload Props</a></li><li class="tdesign-toc_list_item"><a class="tdesign-toc_list_item_a" href="#upload-events">Upload Events</a></li><li class="tdesign-toc_list_item"><a class="tdesign-toc_list_item_a" href="#upload-slots">Upload Slots</a></li><li class="tdesign-toc_list_item"><a class="tdesign-toc_list_item_a" href="#css-variables">CSS Variables</a></li></ol></nav><h3 id="upload-props">Upload Props <a class="header-anchor" href="#upload-props"></a></h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>默认值</th>
+<th>描述</th>
+<th>必传</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>style</td>
+<td>Object</td>
+<td>-</td>
+<td>样式</td>
+<td>N</td>
+</tr>
+<tr>
+<td>custom-style</td>
+<td>Object</td>
+<td>-</td>
+<td>样式，一般用于开启虚拟化组件节点场景</td>
+<td>N</td>
+</tr>
+<tr>
+<td>add-btn</td>
+<td>Boolean</td>
+<td>true</td>
+<td>添加按钮</td>
+<td>N</td>
+</tr>
+<tr>
+<td>add-content</td>
+<td>String</td>
+<td>-</td>
+<td>添加按钮内容</td>
+<td>N</td>
+</tr>
+<tr>
+<td>allow-upload-duplicate-file</td>
+<td>Boolean</td>
+<td>false</td>
+<td><code>暂不支持</code>。是否允许重复上传相同文件名的文件</td>
+<td>N</td>
+</tr>
+<tr>
+<td>config</td>
+<td>Object</td>
+<td>-</td>
+<td>图片上传配置，视频上传配置，文件上传配置等，包含图片尺寸、图片来源、视频来源、视频拍摄最长时间等。更多细节查看小程序官网。<a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.chooseImage.html" target="_blank" rel="noopener noreferrer">图片上传</a>。<a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/video/wx.chooseVideo.html" target="_blank" rel="noopener noreferrer">视频上传</a>。TS 类型：<code>UploadMpConfig</code> <code>type UploadMpConfig = ImageConfig | VideoConfig</code> <code>interface ImageConfig { count?: number; sizeType?: Array&lt;SizeTypeValues&gt;; sourceType?: Array&lt;SourceTypeValues&gt; }</code> <code>type SizeTypeValues = 'original' | 'compressed'</code> <code>type SourceTypeValues = 'album' | 'camera'</code> <code>interface VideoConfig { sourceType?: Array&lt;SourceTypeValues&gt;; compressed?: boolean; maxDuration?: number; camera?: 'back' | 'front' }</code>。<a href="https://github.com/Tencent/tdesign-miniprogram/blob/develop/packages/components/upload/type.ts" target="_blank" rel="noopener noreferrer">详细类型定义</a></td>
+<td>N</td>
+</tr>
+<tr>
+<td>disabled</td>
+<td>Boolean</td>
+<td>undefined</td>
+<td>是否禁用组件</td>
+<td>N</td>
+</tr>
+<tr>
+<td>draggable</td>
+<td>Boolean / Object</td>
+<td>-</td>
+<td>是否支持拖拽排序。长按时是否振动，碰撞时是否振动。示例一：<code>true</code>。示例二：<code>{ vibrate: true, collisionVibrate: true }</code>。TS 类型：<code>boolean | {vibrate?: boolean; collisionVibrate?: boolean}</code></td>
+<td>N</td>
+</tr>
+<tr>
+<td>files</td>
+<td>Array</td>
+<td>-</td>
+<td>已上传文件列表。TS 类型：<code>Array&lt;UploadFile&gt;</code> <code>interface UploadFile { url: string; name?: string; size?: number; type?: 'image' | 'video'; percent?: number; status: 'loading' | 'reload' | 'failed' | 'done' }</code>。<a href="https://github.com/Tencent/tdesign-miniprogram/blob/develop/packages/components/upload/type.ts" target="_blank" rel="noopener noreferrer">详细类型定义</a></td>
+<td>N</td>
+</tr>
+<tr>
+<td>default-files</td>
+<td>Array</td>
+<td>undefined</td>
+<td>已上传文件列表。非受控属性。TS 类型：<code>Array&lt;UploadFile&gt;</code> <code>interface UploadFile { url: string; name?: string; size?: number; type?: 'image' | 'video'; percent?: number; status: 'loading' | 'reload' | 'failed' | 'done' }</code>。<a href="https://github.com/Tencent/tdesign-miniprogram/blob/develop/packages/components/upload/type.ts" target="_blank" rel="noopener noreferrer">详细类型定义</a></td>
+<td>N</td>
+</tr>
+<tr>
+<td>grid-config</td>
+<td>Object</td>
+<td>-</td>
+<td>upload组件每行上传图片列数以及图片的宽度和高度。TS 类型：<code>{column?: number;  width?: number; height?: number;}</code></td>
+<td>N</td>
+</tr>
+<tr>
+<td>gutter</td>
+<td>Number</td>
+<td>16</td>
+<td>预览窗格的 <code>gutter</code> 大小，单位 rpx</td>
+<td>N</td>
+</tr>
+<tr>
+<td>image-props</td>
+<td>Object</td>
+<td>-</td>
+<td>透传 Image 组件全部属性。TS 类型：<code>ImageProps</code>，<a href="./image?tab=api">Image API Documents</a>。<a href="https://github.com/Tencent/tdesign-miniprogram/blob/develop/packages/components/upload/type.ts" target="_blank" rel="noopener noreferrer">详细类型定义</a></td>
+<td>N</td>
+</tr>
+<tr>
+<td>max</td>
+<td>Number</td>
+<td>0</td>
+<td>用于控制文件上传数量，值为 0 则不限制</td>
+<td>N</td>
+</tr>
+<tr>
+<td>media-type</td>
+<td>Array</td>
+<td>['image', 'video']</td>
+<td>支持上传的文件类型，图片或视频。TS 类型：<code>Array&lt;MediaType&gt;</code> <code>type MediaType = 'image' | 'video'</code>。<a href="https://github.com/Tencent/tdesign-miniprogram/blob/develop/packages/components/upload/type.ts" target="_blank" rel="noopener noreferrer">详细类型定义</a></td>
+<td>N</td>
+</tr>
+<tr>
+<td>preview</td>
+<td>Boolean</td>
+<td>true</td>
+<td><code>1.9.5</code>。是否支持图片预览，文件没有预览</td>
+<td>N</td>
+</tr>
+<tr>
+<td>remove-btn</td>
+<td>Boolean</td>
+<td>true</td>
+<td>移除按钮</td>
+<td>N</td>
+</tr>
+<tr>
+<td>request-method</td>
+<td>Function</td>
+<td>-</td>
+<td>自定义上传方法</td>
+<td>N</td>
+</tr>
+<tr>
+<td>size-limit</td>
+<td>Number / Object</td>
+<td>-</td>
+<td>图片文件大小限制，默认单位 KB。可选单位有：<code>'B' | 'KB' | 'MB' | 'GB'</code>。示例一：<code>1000</code>。示例二：<code>{ size: 2, unit: 'MB', message: '图片大小不超过 {sizeLimit} MB' }</code>。TS 类型：<code>number | SizeLimitObj</code> <code>interface SizeLimitObj { size: number; unit: SizeUnit ; message?: string }</code> <code>type SizeUnitArray = ['B', 'KB', 'MB', 'GB']</code> <code>type SizeUnit = SizeUnitArray[number]</code>。<a href="https://github.com/Tencent/tdesign-miniprogram/blob/develop/packages/components/upload/type.ts" target="_blank" rel="noopener noreferrer">详细类型定义</a></td>
+<td>N</td>
+</tr>
+<tr>
+<td>source</td>
+<td>String</td>
+<td>media</td>
+<td>来源。可选项：media/messageFile</td>
+<td>N</td>
+</tr>
+<tr>
+<td>transition</td>
+<td>Object</td>
+<td backtransition:="" true,="" duration:="" 300,="" timingfunction:="" ease=""></td>
+<td>拖拽位置移动时的过渡参数,<code>duration</code>单位为ms。TS 类型：<code>Transition</code> <code>interface Transition { backTransition?: boolean, duration?: number, timingFunction?: string }</code>。<a href="https://github.com/Tencent/tdesign-miniprogram/blob/develop/packages/components/upload/type.ts" target="_blank" rel="noopener noreferrer">详细类型定义</a></td>
+<td>N</td>
+</tr>
+</tbody>
+</table>
+<h3 id="upload-events">Upload Events <a class="header-anchor" href="#upload-events"></a></h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>add</td>
+<td><code>(files: MediaContext)</code></td>
+<td>选择后触发，仅包含本次选择的照片；<code>url</code> 表示选定视频的临时文件路径 (本地路径)。<code>duration</code> 表示选定视频的时间长度。<code>size</code>选定视频的数据量大小。更多描述参考 wx.chooseMedia 小程序官网描述。<a href="https://github.com/Tencent/tdesign-miniprogram/blob/develop/packages/components/upload/type.ts" target="_blank" rel="noopener noreferrer">详细类型定义</a>。<br><code>type MediaContext = VideoContext[] | ImageContext[]</code><br><br><code>interface VideoContext { name?: string; type?: string; url?: string; duration?: number; size?: number; width?: number; height?: number; thumb: string; progress: number }</code><br><br><code>interface ImageContext { name: string; type: string; url: string;  size: number; width: number; height: number; progress: number  }</code><br></td>
+</tr>
+<tr>
+<td>click</td>
+<td><code>(index: number; file: VideoContext | ImageContext)</code></td>
+<td>点击已选文件时触发；常用于重新上传</td>
+</tr>
+<tr>
+<td>complete</td>
+<td>-</td>
+<td>上传成功或失败后触发</td>
+</tr>
+<tr>
+<td>drop</td>
+<td><code>(files: MediaContext) </code></td>
+<td>拖拽结束后触发，包含所有上传的文件（拖拽后的文件顺序）；<code>url</code> 表示选定视频的临时文件路径 (本地路径)。<code>duration</code> 表示选定视频的时间长度。<code>size</code> 选定视频的数据量大小。更多描述参考 wx.chooseMedia 小程序官网描述。<a href="https://github.com/Tencent/tdesign-miniprogram/blob/develop/packages/components/upload/type.ts" target="_blank" rel="noopener noreferrer">详细类型定义</a>。<br><code>type MediaContext = VideoContext[] | ImageContext[]; interface VideoContext { name?: string; type?: string; url?: string; duration?: number; size?: number; width?: number; height?: number; thumb: string; progress: number }; interface ImageContext { name: string; type: string; url: string;  size: number; width: number; height: number; progress: number}</code><br></td>
+</tr>
+<tr>
+<td>fail</td>
+<td>-</td>
+<td>上传失败后触发</td>
+</tr>
+<tr>
+<td>remove</td>
+<td><code>(index: number; file: UploadFile)</code></td>
+<td>移除文件时触发</td>
+</tr>
+<tr>
+<td>select-change</td>
+<td><code>(files: MediaContext[]; currentSelectedFiles: MediaContext[])</code></td>
+<td>选择文件或图片之后，上传之前，触发该事件。<br><code>files</code> 表示之前已经上传完成的文件列表。<br><code>currentSelectedFiles</code> 表示本次上传选中的文件列表</td>
+</tr>
+<tr>
+<td>success</td>
+<td><code>(files: MediaContext)</code></td>
+<td>上传成功后触发，包含所有上传的文件；<code>url</code> 表示选定视频的临时文件路径 (本地路径)。<code>duration</code> 表示选定视频的时间长度。<code>size</code>选定视频的数据量大小。更多描述参考 wx.chooseMedia 小程序官网描述。<a href="https://github.com/Tencent/tdesign-miniprogram/blob/develop/packages/components/upload/type.ts" target="_blank" rel="noopener noreferrer">详细类型定义</a>。<br><code>type MediaContext = VideoContext[] | ImageContext[]</code><br><br><code>interface VideoContext { name?: string; type?: string; url?: string; duration?: number; size?: number; width?: number; height?: number; thumb: string; progress: number }</code><br><br><code>interface ImageContext { name: string; type: string; url: string;  size: number; width: number; height: number; progress: number  }</code><br></td>
+</tr>
+</tbody>
+</table>
+<h3 id="upload-slots">Upload Slots <a class="header-anchor" href="#upload-slots"></a></h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>add-content</td>
+<td>自定义 <code>add-content</code> 显示内容</td>
+</tr>
+</tbody>
+</table>
+<h3 id="css-variables">CSS Variables <a class="header-anchor" href="#css-variables"></a></h3>
+<p>组件提供了下列 CSS 变量，可用于自定义样式。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>默认值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>--td-upload-add-bg-color</td>
+<td>@bg-color-secondarycontainer</td>
+<td>-</td>
+</tr>
+<tr>
+<td>--td-upload-add-color</td>
+<td>@text-color-placeholder</td>
+<td>-</td>
+</tr>
+<tr>
+<td>--td-upload-add-disabled-bg-color</td>
+<td>@bg-color-component-disabled</td>
+<td>-</td>
+</tr>
+<tr>
+<td>--td-upload-add-icon-disabled-color</td>
+<td>@text-color-disabled</td>
+<td>-</td>
+</tr>
+<tr>
+<td>--td-upload-add-icon-size</td>
+<td>56rpx</td>
+<td>-</td>
+</tr>
+<tr>
+<td>--td-upload-disabled-mask</td>
+<td>rgba(0, 0.6)</td>
+<td>-</td>
+</tr>
+<tr>
+<td>--td-upload-drag-transition-duration</td>
+<td>--td-upload-drag-transition-duration</td>
+<td>-</td>
+</tr>
+<tr>
+<td>--td-upload-drag-transition-timing-function</td>
+<td>--td-upload-drag-transition-timing-function</td>
+<td>-</td>
+</tr>
+<tr>
+<td>--td-upload-drag-z-index</td>
+<td>999</td>
+<td>-</td>
+</tr>
+<tr>
+<td>--td-upload-radius</td>
+<td>@radius-default</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+</div><div name="DESIGN" style="display: none;"><nav class="tdesign-toc_container"><ol class="tdesign-toc_list"><li class="tdesign-toc_list_item"><a class="tdesign-toc_list_item_a" href="#何时使用">何时使用</a></li><li class="tdesign-toc_list_item"><a class="tdesign-toc_list_item_a" href="#组件搭配使用">组件搭配使用</a><ol class="tdesign-toc_list"></ol></li><li class="tdesign-toc_list_item"><a class="tdesign-toc_list_item_a" href="#推荐-慎用示例">推荐/慎用示例</a><ol class="tdesign-toc_list"></ol></li></ol></nav><h3 id="何时使用">何时使用 <a class="header-anchor" href="#何时使用"></a></h3>
+<p>当需要进行图片上传时使用。</p>
+<h3 id="组件搭配使用">组件搭配使用 <a class="header-anchor" href="#组件搭配使用"></a></h3>
+<h5 id="通常用于图片上传，点击上传按钮可唤起动作面板，供用户选择不同渠道进行新的上传。">通常用于图片上传，点击上传按钮可唤起<a href="./action-sheet">动作面板</a>，供用户选择不同渠道进行新的上传。 <a class="header-anchor" href="#通常用于图片上传，点击上传按钮可唤起动作面板，供用户选择不同渠道进行新的上传。"></a></h5>
+<div class="item">
+  <img src="https://tdesign.gtimg.com/site/design/mobile-guide/upload/upload-1.png">
+</div>
+<hr>
+<h5 id="点击已经上传的图片可跳转图片预览，让用户对已上传的图片进行快速查看。">点击已经上传的图片可跳转<a href="./image-viewer">图片预览</a>，让用户对已上传的图片进行快速查看。 <a class="header-anchor" href="#点击已经上传的图片可跳转图片预览，让用户对已上传的图片进行快速查看。"></a></h5>
+<div class="item">
+  <img src="https://tdesign.gtimg.com/site/design/mobile-guide/upload/upload-2.png">
+</div>
+<h3 id="推荐-慎用示例">推荐/慎用示例 <a class="header-anchor" href="#推荐-慎用示例"></a></h3>
+<h5 id="若上传的文件有尺寸、格式、数量限制，推荐在文案中进行明确标识。">若上传的文件有尺寸、格式、数量限制，推荐在文案中进行明确标识。 <a class="header-anchor" href="#若上传的文件有尺寸、格式、数量限制，推荐在文案中进行明确标识。"></a></h5>
+<div class="item">
+  <img src="https://tdesign.gtimg.com/site/design/mobile-guide/upload/upload-3.png">
+  <img class="tag" src="https://tdesign.gtimg.com/site/doc/good.png">
+</div>
+<hr>
+<h5 id="上传特定证件图片，特别是涉及到证件正反面时，推荐结合图示进行上传指引，更加直观。">上传特定证件图片，特别是涉及到证件正反面时，推荐结合图示进行上传指引，更加直观。 <a class="header-anchor" href="#上传特定证件图片，特别是涉及到证件正反面时，推荐结合图示进行上传指引，更加直观。"></a></h5>
+<div class="legend">
+  <div class="item">
+    <img src="https://tdesign.gtimg.com/site/design/mobile-guide/upload/upload-4.png">
+    <img class="tag" src="https://tdesign.gtimg.com/site/doc/good.png">
+  </div>
+</div>
+</div><div style="margin-top: 48px;"><td-doc-history time="1767854475253"></td-doc-history></div><td-doc-footer slot="doc-footer" platform="mobile"><div slot="__render_content__">
+      <div class="TDesign-doc-footer" style="padding-right: 400px;">
+        <div class="TDesign-doc-footer__inner">
+          <div class="TDesign-doc-footer__content">
+            <div class="TDesign-doc-footer__qrcode">
+              <td-doc-popup placement="left-start" portal-class="TDesign-doc__qrcode-popup" portal-style=".TDesign-doc__qrcode-inner{padding:12px;box-sizing:border-box;background-color:#fff;border-radius:6px}.TDesign-doc__qrcode-popup:after{position:absolute;content:&quot;&quot;;width:16px;height:16px;transform:rotate(45deg);background:#fff;border-bottom:1px solid #fff;border-right:1px solid #fff;top:64px;right:-4px}" trigger-type="hover">
+                <div class="TDesign-doc-footer__qrcode-trigger">
+                  <div>
+                    <div class="qrcode">
+                      <i><svg width="1em" height="1em" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M24.0133 5.06641L19.9833 12.0465L15.9535 5.06641H2.5332L19.9835 35.2915L37.4337 5.06641H24.0133Z" fill="#42B983"></path>
+    <path d="M24.0137 5.06641L19.9837 12.0465L15.9538 5.06641H9.51367L19.9838 23.2011L30.4539 5.06641H24.0137Z" fill="#35495E"></path>
+</svg></i>
+                      <span>Vue 2</span>
+                    </div>
+                    <div class="qrcode">
+                      <i><svg width="1em" height="1em" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M24.0133 5.06641L19.9833 12.0465L15.9535 5.06641H2.5332L19.9835 35.2915L37.4337 5.06641H24.0133Z" fill="#42B983"></path>
+    <path d="M24.0137 5.06641L19.9837 12.0465L15.9538 5.06641H9.51367L19.9838 23.2011L30.4539 5.06641H24.0137Z" fill="#35495E"></path>
+</svg></i>
+                      <span>Vue 3</span>
+                    </div>
+                    <div class="qrcode">
+                      <i><svg width="1em" height="1em" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M28.1175 5.91895C28.521 6.15192 28.9018 6.65217 29.1092 7.6216C29.3165 8.59087 29.316 9.89706 29.0621 11.4818C28.9831 11.9749 28.8805 12.4888 28.7548 13.0205C27.3951 12.7295 25.934 12.5052 24.4005 12.3569C23.5053 11.103 22.5805 9.94987 21.6487 8.91778C22.0462 8.54307 22.44 8.19733 22.8276 7.88233C24.0731 6.87007 25.204 6.21654 26.1471 5.91145C27.0903 5.60631 27.7139 5.68597 28.1175 5.91895ZM18.3272 8.91778C17.9297 8.54307 17.5359 8.19734 17.1483 7.88235C15.9029 6.87009 14.7719 6.21656 13.8288 5.91147C12.8856 5.60633 12.262 5.68599 11.8585 5.91896C11.4549 6.15194 11.0741 6.65219 10.8668 7.62162C10.6595 8.59088 10.66 9.89708 10.9138 11.4818C10.9929 11.975 11.0954 12.4888 11.2211 13.0205C12.5809 12.7295 14.0419 12.5052 15.5755 12.3569C16.4706 11.103 17.3954 9.94987 18.3272 8.91778ZM19.988 7.21345C19.5394 6.78938 19.0922 6.39612 18.649 6.03591C17.2716 4.91642 15.8816 4.07479 14.5612 3.64762C13.2409 3.2205 11.8585 3.17148 10.6688 3.85837C9.47905 4.54526 8.83027 5.76701 8.54003 7.12395C8.24976 8.48106 8.28365 10.1056 8.56444 11.8582C8.65479 12.4222 8.7718 13.006 8.91475 13.6065C8.32322 13.783 7.75908 13.9736 7.22554 14.1773C5.56732 14.8104 4.14347 15.5934 3.11332 16.5233C2.08329 17.4531 1.34961 18.6259 1.34961 19.9996C1.34961 21.3734 2.08329 22.5461 3.11332 23.476C4.14347 24.4059 5.56732 25.1888 7.22554 25.822C7.75909 26.0257 8.32324 26.2163 8.91478 26.3927C8.77182 26.9933 8.65481 27.5772 8.56445 28.1411C8.28366 29.8937 8.24976 31.5183 8.54004 32.8754C8.83028 34.2323 9.47905 35.4541 10.6688 36.141C11.8585 36.8279 13.241 36.7788 14.5612 36.3517C15.8816 35.9246 17.2716 35.0829 18.649 33.9634C19.0922 33.6032 19.5394 33.21 19.988 32.7859C20.4365 33.21 20.8837 33.6032 21.3269 33.9635C22.7043 35.0829 24.0943 35.9246 25.4147 36.3517C26.735 36.7789 28.1174 36.8279 29.3071 36.141C30.4969 35.4541 31.1456 34.2324 31.4359 32.8754C31.7262 31.5183 31.6923 29.8937 31.4115 28.1411C31.3211 27.5772 31.2041 26.9933 31.0611 26.3928C31.6527 26.2163 32.2169 26.0257 32.7504 25.822C34.4087 25.1888 35.8325 24.4059 36.8627 23.476C37.8927 22.5461 38.6264 21.3734 38.6264 19.9996C38.6264 18.6259 37.8927 17.4531 36.8627 16.5233C35.8325 15.5934 34.4087 14.8104 32.7504 14.1773C32.2169 13.9736 31.6527 13.783 31.0612 13.6065C31.2041 13.006 31.3211 12.4221 31.4115 11.8582C31.6923 10.1056 31.7262 8.48104 31.4359 7.12393C31.1457 5.76699 30.4969 4.54524 29.3072 3.85835C28.1174 3.17147 26.735 3.22049 25.4147 3.6476C24.0943 4.07477 22.7043 4.9164 21.3269 6.03589C20.8837 6.3961 20.4365 6.78938 19.988 7.21345ZM28.1027 15.3146C27.4695 15.1824 26.8097 15.0649 26.1268 14.9637C26.3504 15.3277 26.5709 15.6979 26.7879 16.0737C27.0049 16.4496 27.2152 16.8256 27.4186 17.2013C27.6724 16.5592 27.9006 15.9291 28.1027 15.3146ZM28.813 19.9997C29.4514 18.5974 29.9876 17.22 30.4155 15.8969C30.9388 16.0538 31.4351 16.222 31.9017 16.4001C33.4011 16.9726 34.5326 17.6253 35.2683 18.2895C36.0042 18.9538 36.247 19.5337 36.247 19.9996C36.247 20.4656 36.0042 21.0455 35.2683 21.7098C34.5326 22.374 33.4011 23.0266 31.9017 23.5991C31.4351 23.7773 30.9388 23.9454 30.4155 24.1024C29.9876 22.7793 29.4513 21.4019 28.813 19.9997ZM26.183 19.9997C25.7431 19.097 25.2576 18.1819 24.7273 17.2634C24.197 16.3449 23.6473 15.4669 23.0854 14.6346C22.0837 14.5641 21.0485 14.5271 19.988 14.5271C18.9274 14.5271 17.8922 14.5641 16.8905 14.6346C16.3286 15.4669 15.7789 16.3449 15.2486 17.2634C14.7183 18.1819 14.2328 19.0969 13.7929 19.9997C14.2328 20.9024 14.7183 21.8175 15.2486 22.736C15.7789 23.6544 16.3286 24.5324 16.8904 25.3647C17.8921 25.4351 18.9274 25.4722 19.988 25.4722C21.0485 25.4722 22.0838 25.4351 23.0855 25.3647C23.6474 24.5324 24.1971 23.6544 24.7273 22.7359C25.2576 21.8175 25.7431 20.9024 26.183 19.9997ZM26.1268 25.0356C26.3504 24.6716 26.5709 24.3015 26.7879 23.9256C27.0049 23.5498 27.2152 23.1738 27.4186 22.7981C27.6724 23.4401 27.9006 24.0702 28.1027 24.6847C27.4695 24.8169 26.8097 24.9343 26.1268 25.0356ZM21.2798 27.834C20.8528 27.8456 20.422 27.8515 19.988 27.8515C19.554 27.8515 19.1232 27.8456 18.6961 27.834C19.1252 28.3748 19.5568 28.8875 19.988 29.3698C20.4191 28.8875 20.8507 28.3748 21.2798 27.834ZM21.6487 31.0816C22.5805 30.0495 23.5053 28.8963 24.4005 27.6424C25.934 27.4941 27.3951 27.2698 28.7548 26.9788C28.8805 27.5105 28.9831 28.0244 29.0621 28.5175C29.316 30.1023 29.3165 31.4085 29.1091 32.3777C28.9018 33.3472 28.521 33.8474 28.1175 34.0804C27.7139 34.3134 27.0903 34.393 26.1471 34.0879C25.204 33.7828 24.0731 33.1293 22.8276 32.117C22.44 31.802 22.0462 31.4563 21.6487 31.0816ZM18.3272 31.0816C17.3954 30.0495 16.4706 28.8963 15.5754 27.6424C14.0419 27.494 12.5809 27.2698 11.2211 26.9788C11.0954 27.5105 10.9929 28.0244 10.9139 28.5175C10.66 30.1023 10.6595 31.4085 10.8668 32.3777C11.0741 33.3472 11.4549 33.8474 11.8585 34.0804C12.262 34.3134 12.8856 34.393 13.8288 34.0879C14.7719 33.7828 15.9029 33.1293 17.1483 32.117C17.5359 31.802 17.9297 31.4563 18.3272 31.0816ZM11.8732 24.6847C12.5064 24.8169 13.1662 24.9343 13.8491 25.0356C13.6255 24.6716 13.405 24.3015 13.188 23.9256C12.971 23.5498 12.7607 23.1738 12.5573 22.7981C12.3035 23.4401 12.0754 24.0702 11.8732 24.6847ZM12.5573 17.2012C12.7607 16.8256 12.971 16.4496 13.188 16.0737C13.405 15.6978 13.6255 15.3277 13.8491 14.9637C13.1662 15.0649 12.5064 15.1824 11.8732 15.3146C12.0753 15.9291 12.3035 16.5592 12.5573 17.2012ZM11.1629 19.9997C10.5246 21.4019 9.98831 22.7793 9.56042 24.1023C9.03713 23.9454 8.54083 23.7773 8.07426 23.5991C6.57488 23.0266 5.44343 22.374 4.70768 21.7098C3.9718 21.0455 3.72898 20.4656 3.72898 19.9996C3.72898 19.5337 3.9718 18.9538 4.70768 18.2895C5.44343 17.6253 6.57488 16.9726 8.07426 16.4001C8.54082 16.222 9.03711 16.0539 9.56038 15.8969C9.98828 17.22 10.5246 18.5974 11.1629 19.9997ZM18.6962 12.1653C19.1232 12.1536 19.554 12.1477 19.988 12.1477C20.422 12.1477 20.8527 12.1536 21.2797 12.1652C20.8506 11.6245 20.419 11.1119 19.988 10.6295C19.5569 11.1119 19.1253 11.6245 18.6962 12.1653ZM23.2393 19.9997C23.2393 21.7956 21.7834 23.2515 19.9875 23.2515C18.1916 23.2515 16.7357 21.7956 16.7357 19.9997C16.7357 18.2038 18.1916 16.7479 19.9875 16.7479C21.7834 16.7479 23.2393 18.2038 23.2393 19.9997Z" fill="#61DAFB"></path>
+</svg></i>
+                      <span>React</span>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="qrcode">
+                      <i><svg width="1em" height="1em" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M23.1861 3.33301L6.5 19.9997L11.6389 25.1386L33.4222 3.34967H23.2042L23.1861 3.33301ZM23.2056 18.7108L14.2181 27.6788L23.2042 36.665H33.4444L24.4722 27.6816L33.4444 18.7094L23.2056 18.7108Z" fill="#44D1FD"></path>
+</svg></i>
+                      <span>Flutter</span>
+                    </div>
+                    <div class="qrcode">
+                      <i><svg width="1em" height="1em" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.00008 6.24984C5.00008 3.71853 7.05211 1.6665 9.58341 1.6665C12.1147 1.6665 14.1667 3.71853 14.1667 6.24984C14.1667 8.78114 12.1147 10.8332 9.58341 10.8332C7.05211 10.8332 5.00008 8.78114 5.00008 6.24984ZM9.58341 3.33317C7.97258 3.33317 6.66675 4.63901 6.66675 6.24984C6.66675 7.86067 7.97258 9.1665 9.58341 9.1665C11.1942 9.1665 12.5001 7.86067 12.5001 6.24984C12.5001 4.63901 11.1942 3.33317 9.58341 3.33317Z" fill="#009BFF" style="fill:#009BFF;fill:color(display-p3 0.0000 0.6078 1.0000);fill-opacity:1;"></path>
+    <path d="M6.66675 13.3332C4.8258 13.3332 3.33341 14.8256 3.33341 16.6665H10.0417V18.3332H1.66675V16.6665C1.66675 13.9051 3.90532 11.6665 6.66675 11.6665H10.0001V13.3332H6.66675Z" fill="#009BFF" style="fill:#009BFF;fill:color(display-p3 0.0000 0.6078 1.0000);fill-opacity:1;"></path>
+    <path d="M17.1668 14.1665C17.1668 13.7063 16.7937 13.3332 16.3335 13.3332C15.8733 13.3332 15.5002 13.7063 15.5002 14.1665C15.5002 14.6267 15.8733 14.9998 16.3335 14.9998C16.7937 14.9998 17.1668 14.6267 17.1668 14.1665Z" fill="#009BFF" style="fill:#009BFF;fill:color(display-p3 0.0000 0.6078 1.0000);fill-opacity:1;"></path>
+    <path d="M14.4585 12.9165C14.9187 12.9165 15.2918 13.2896 15.2918 13.7498C15.2918 14.2101 14.9187 14.5832 14.4585 14.5832C13.9983 14.5832 13.6252 14.2101 13.6252 13.7498C13.6252 13.2896 13.9983 12.9165 14.4585 12.9165Z" fill="#009BFF" style="fill:#009BFF;fill:color(display-p3 0.0000 0.6078 1.0000);fill-opacity:1;"></path>
+    <path d="M14.3336 15.4165C14.3336 14.9563 13.9605 14.5832 13.5002 14.5832C13.04 14.5832 12.6669 14.9563 12.6669 15.4165C12.6669 15.8767 13.04 16.2498 13.5002 16.2498C13.9605 16.2498 14.3336 15.8767 14.3336 15.4165Z" fill="#009BFF" style="fill:#009BFF;fill:color(display-p3 0.0000 0.6078 1.0000);fill-opacity:1;"></path>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.5258 15.0922C10.5258 12.6154 12.5336 10.6077 15.0103 10.6077C17.3669 10.6077 19.6693 12.3282 19.4929 14.9523C19.4146 16.1161 18.6159 16.9461 17.5183 17.2423C17.0946 17.3566 16.631 17.3276 16.3554 17.3103C16.3056 17.3072 16.2619 17.3045 16.2257 17.303C15.9081 17.2904 15.8703 17.3306 15.8676 17.3335C15.8099 17.3817 15.7898 17.4149 15.7839 17.426C15.7786 17.4361 15.7782 17.4406 15.778 17.4445C15.777 17.4595 15.7822 17.515 15.835 17.599L15.8445 17.6141C15.8787 17.6682 15.9419 17.7683 15.9952 17.8742C16.0478 17.9787 16.1432 18.1869 16.1508 18.4405C16.1603 18.7604 16.0246 19.1144 15.6816 19.3361C15.4129 19.5099 15.1083 19.5391 14.8834 19.5391C12.3795 19.5391 10.5258 17.5412 10.5258 15.0922ZM15.0103 12.2743C13.454 12.2743 12.1925 13.5359 12.1925 15.0922C12.1925 16.4074 12.9937 17.4555 14.1411 17.7732C14.1159 17.6364 14.1051 17.4916 14.1145 17.3406C14.1448 16.8572 14.3764 16.4081 14.798 16.0554C15.3211 15.6176 15.9343 15.6235 16.2918 15.6377C16.3958 15.6418 16.4847 15.6464 16.562 15.6504C16.8165 15.6635 16.9467 15.6702 17.0841 15.6332C17.5956 15.4951 17.8062 15.1947 17.83 14.8405C17.9241 13.4407 16.6866 12.2743 15.0103 12.2743Z" fill="#009BFF" style="fill:#009BFF;fill:color(display-p3 0.0000 0.6078 1.0000);fill-opacity:1;"></path>
+    <path d="M17.1667 14.1667C17.1667 13.7065 16.7936 13.3334 16.3333 13.3334C15.8731 13.3334 15.5 13.7065 15.5 14.1667C15.5 14.627 15.8731 15.0001 16.3333 15.0001C16.7936 15.0001 17.1667 14.627 17.1667 14.1667Z" fill="#4CEB1B" style="fill:#4CEB1B;fill:color(display-p3 0.2980 0.9216 0.1059);fill-opacity:1;"></path>
+    <path d="M14.4583 12.9167C14.9186 12.9167 15.2917 13.2898 15.2917 13.7501C15.2917 14.2103 14.9186 14.5834 14.4583 14.5834C13.9981 14.5834 13.625 14.2103 13.625 13.7501C13.625 13.2898 13.9981 12.9167 14.4583 12.9167Z" fill="#4CEB1B" style="fill:#4CEB1B;fill:color(display-p3 0.2980 0.9216 0.1059);fill-opacity:1;"></path>
+    <path d="M14.3334 15.4167C14.3334 14.9565 13.9603 14.5834 13.5001 14.5834C13.0398 14.5834 12.6667 14.9565 12.6667 15.4167C12.6667 15.877 13.0398 16.2501 13.5001 16.2501C13.9603 16.2501 14.3334 15.877 14.3334 15.4167Z" fill="#4CEB1B" style="fill:#4CEB1B;fill:color(display-p3 0.2980 0.9216 0.1059);fill-opacity:1;"></path>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.5256 15.0924C10.5256 12.6157 12.5334 10.6079 15.0101 10.6079C17.3667 10.6079 19.6692 12.3284 19.4927 14.9525C19.4145 16.1164 18.6157 16.9463 17.5181 17.2425C17.0944 17.3569 16.6308 17.3278 16.3552 17.3106C16.3054 17.3074 16.2618 17.3047 16.2256 17.3033C15.9079 17.2907 15.8701 17.3309 15.8675 17.3337C15.8098 17.382 15.7896 17.4152 15.7838 17.4262C15.7785 17.4363 15.7781 17.4408 15.7778 17.4448C15.7769 17.4597 15.782 17.5152 15.8348 17.5992L15.8444 17.6143C15.8786 17.6685 15.9418 17.7685 15.9951 17.8745C16.0476 17.9789 16.1431 18.1871 16.1506 18.4408C16.1602 18.7607 16.0244 19.1146 15.6814 19.3364C15.4127 19.5101 15.1081 19.5393 14.8832 19.5393C12.3794 19.5393 10.5256 17.5415 10.5256 15.0924ZM15.0101 12.2746C13.4539 12.2746 12.1923 13.5362 12.1923 15.0924C12.1923 16.4077 12.9935 17.4558 14.1409 17.7734C14.1157 17.6367 14.1049 17.4918 14.1144 17.3408C14.1446 16.8574 14.3762 16.4084 14.7978 16.0556C15.321 15.6179 15.9342 15.6237 16.2917 15.6379C16.3957 15.6421 16.4845 15.6466 16.5618 15.6506C16.8163 15.6638 16.9466 15.6705 17.0839 15.6334C17.5955 15.4954 17.806 15.195 17.8298 14.8407C17.9239 13.441 16.6864 12.2746 15.0101 12.2746Z" fill="#4CEB1B" style="fill:#4CEB1B;fill:color(display-p3 0.2980 0.9216 0.1059);fill-opacity:1;"></path>
+</svg></i>
+                      <span>Design</span>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="qrcode">
+                      <i><svg width="1em" height="1em" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <mask id="mask0_22539_139637" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="40" height="40">
+        <rect width="40" height="40" fill="white"></rect>
+    </mask>
+    <g mask="url(#mask0_22539_139637)">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M32.4972 4.95434C35.1486 6.25306 36.7951 8.81475 37.3777 12.1934C37.9432 15.473 36.4782 18.0897 34.8157 19.8171C33.1907 21.5055 31.1401 22.6188 29.704 23.0506C28.3818 23.4482 26.9876 22.6987 26.59 21.3764C26.1924 20.0542 26.942 18.66 28.2642 18.2624C28.8967 18.0722 30.1971 17.4056 31.2131 16.3499C32.1915 15.3333 32.6572 14.2419 32.4504 13.043C32.0677 10.8235 31.1629 9.86839 30.2978 9.4446C29.3298 8.97047 27.8151 8.86811 25.7622 9.53967C23.2029 10.3769 22.7262 12.1074 22.6585 12.7263V28.3271L22.6246 28.5308C22.3096 30.4256 21.0062 32.7905 18.9145 34.4353C16.6883 36.1857 13.5289 37.1461 9.75544 35.9603C5.964 34.7689 3.98007 32.1666 3.23478 29.4408C2.53713 26.8892 2.92557 24.2691 3.68407 22.6241C4.14363 21.6274 5.13716 20.3341 6.39848 19.2718C7.67494 18.1968 9.53668 17.0968 11.7876 17.0101C13.1673 16.9569 14.3289 18.0322 14.3821 19.4119C14.4353 20.7916 13.3599 21.9532 11.9802 22.0063C11.2523 22.0344 10.4251 22.4177 9.61935 23.0962C8.79849 23.7876 8.31664 24.5182 8.22464 24.7177C7.94126 25.3323 7.68144 26.7458 8.05776 28.1221C8.38644 29.3243 9.19871 30.5443 11.2543 31.1903C13.3279 31.8419 14.7885 31.319 15.8239 30.5048C16.8991 29.6594 17.4928 28.509 17.6585 27.8677V12.5293L17.6648 12.4407C17.8097 10.4042 19.1476 6.44281 24.2076 4.7875C26.9814 3.8801 29.9486 3.70596 32.4972 4.95434Z" fill="#00A870"></path>
+    </g>
+</svg></i>
+                      <span>MiniProgram</span>
+                    </div>
+                  </div>
+                </div>
+                
+              </td-doc-popup>
+              <h4 class="TDesign-doc-footer__qrcode-title">企业微信群</h4>
+              <p class="TDesign-doc-footer__qrcode-desc">欢迎微信扫码联系我们</p>
+            </div>
+
+            
+                <div class="TDesign-doc-footer__content-block">
+                  <p class="title">资源</p>
+                  
+                      <a class="link" href="/source" target="_self">
+                        <span>设计资源</span>
+                      </a>
+                    
+                      <a class="link" href="https://tdesign.tencent.com/starter/" target="_self">
+                        <span>TDesign Starter</span>
+                      </a>
+                    
+                </div>
+              
+                <div class="TDesign-doc-footer__content-block">
+                  <p class="title">腾讯设计</p>
+                  
+                      <a class="link" href="https://codesign.qq.com/" target="_blank">
+                        <span>CoDesign</span>
+                      </a>
+                    
+                      <a class="link" href="https://tdesign.tencent.com" target="_self">
+                        <span>TDesign</span>
+                      </a>
+                    
+                </div>
+              
+                <div class="TDesign-doc-footer__content-block">
+                  <p class="title">关于</p>
+                  
+                      <a class="link" href="/about/introduce" target="_self">
+                        <span>关于我们</span>
+                      </a>
+                    
+                      <a class="link" href="/about/contact" target="_self">
+                        <span>联系我们</span>
+                      </a>
+                    
+                </div>
+              
+          </div>
+        </div>
+      </div>
+      <div class="TDesign-doc-footer__bottom" style="padding-right: 400px;">
+        <div class="TDesign-doc-footer__inner">
+          <p class="copyright">
+            Copyright © 1998 - 2026 Tencent. All Rights Reserved. 腾讯公司 版权所有
+          </p>
+          <div class="TDesign-doc-footer__logos">
+            <i class="logo"><svg width="169" height="34" viewBox="0 0 169 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M50.6977 5.8872L48.0412 20.4756H46.233L47.2822 14.8947H46.0545C45.6415 16.9485 45.1615 18.8683 44.6927 20.4756H42.8845C43.4203 18.7232 43.9002 16.8257 44.3132 14.7608C45.0387 11.2672 45.608 7.91864 46.1103 4.84916H49.4588C50.4298 4.84916 50.7759 5.00543 50.6977 5.8872ZM48.1305 10.5416H46.9027C46.7353 11.4904 46.5567 12.4726 46.3781 13.399H47.5948L48.1305 10.5416ZM48.4654 6.36716H47.5724L47.1148 9.09062H48.3426L48.7891 6.71317C48.8449 6.42297 48.7444 6.36716 48.4654 6.36716ZM55.7428 18.3214H49.5816L49.336 16.9261H56.033L55.7428 18.3214ZM60.5312 12.2717L60.0624 13.8455C59.2652 13.6668 58.5082 13.3413 57.8301 12.8856L57.3948 14.7943H58.2765C58.9016 14.7943 59.3369 14.9059 59.203 15.6537C58.9909 17.0154 58.6672 18.8794 58.3658 20.4756H53.4993L53.1756 19.0804H56.6581C56.8367 18.2879 57.0264 17.3615 57.1604 16.6136C57.1604 16.3569 57.1604 16.2676 56.9036 16.2676H50.6977L51.2558 13.3544C50.7037 13.5968 50.1276 13.7801 49.5369 13.9013L49.9164 12.1154C51.036 11.819 52.069 11.2604 52.9301 10.4858H50.2624L50.5526 9.09062H53.9011C54.0409 8.82317 54.1639 8.54732 54.2695 8.26465H50.6977L50.9768 6.80247H52.2157L51.8139 4.68174H53.7002C53.823 5.39609 53.9681 6.06579 54.1244 6.83595H54.7383C54.9326 6.03014 55.0521 5.20814 55.0954 4.38037H56.9929C56.9377 5.1973 56.8107 6.00779 56.6134 6.80247H57.3948C57.6949 6.11083 57.9558 5.40279 58.1761 4.68174H60.0513C59.7914 5.40561 59.4895 6.11373 59.1472 6.80247H60.4642L60.1294 8.23117H56.2116C56.1 8.49905 55.9884 8.78925 55.8656 9.05713H60.7433L60.3973 10.4523H57.5845C58.3406 11.371 59.3814 12.0113 60.5424 12.2717H60.5312ZM55.5531 14.7943L55.8433 13.4995C55.8433 13.2539 55.8433 13.1646 55.5977 13.1646H52.2492L53.0863 13.7339L52.8743 14.8501L55.5531 14.7943ZM55.0508 10.4858C54.6613 10.9647 54.2237 11.4023 53.7449 11.7918H56.5576C56.2115 11.4011 55.9256 10.9609 55.7093 10.4858H55.0508Z" fill="currentColor"></path>
+  <path d="M65.3532 16.7144C66.0898 16.1787 66.9381 15.4978 67.7194 14.8727L67.2953 17.1944C65.815 18.3602 64.2643 19.4338 62.652 20.409L64.4602 10.6424H62.6185L62.8864 9.03516H66.7149L65.3532 16.7144ZM65.3532 8.1199L64.6834 4.3584H66.5475L67.3065 8.1199H65.3532ZM77.8878 6.03266C77.1511 10.129 76.3475 14.75 75.6554 18.8128H77.8878L77.2516 20.4759H73.3226C73.8584 17.373 74.3272 14.6607 74.7625 12.2944H71.9051L70.4764 20.4759H68.4896L69.9183 12.2944H67.4404L67.7418 10.7764H70.1527L70.8336 6.93676L72.5748 8.23152L72.1283 10.7764H75.0304C75.2759 9.32537 75.5103 8.01944 75.7224 6.90327C75.8117 6.43448 75.6108 6.38983 75.209 6.38983H68.5566L68.1994 4.81603H76.7381C77.8766 4.81603 78.0552 5.12856 77.8878 6.03266Z" fill="currentColor"></path>
+  <path d="M84.1831 13.9229L83.279 20.4748H79.8188L79.3389 18.901H81.5712L82.1516 14.6149L80.3992 15.1507L79.5956 13.6773C80.522 13.4318 81.4708 13.1639 82.4083 12.896L82.8883 9.36888H80.522L80.7564 7.79508H83.1227L83.5692 4.56934H85.4778L85.0313 7.79508H86.7726L86.5382 9.36888H84.8193L84.4063 12.2709C85.0871 12.0477 85.7569 11.8356 86.3596 11.6236L86.114 13.2532C85.5225 13.4987 84.8751 13.6885 84.1831 13.9229ZM92.5878 8.56524L92.2641 11.0543H94.8983C95.4899 11.0543 95.6127 11.2552 95.6127 11.6347C95.6249 12.1644 95.4685 12.6842 95.1662 13.1192C94.1971 14.4731 93.0733 15.7093 91.8177 16.8026C92.9405 18.0871 94.129 19.3128 95.3783 20.4748H92.532C91.7882 19.6921 91.0841 18.8725 90.4225 18.0192C89.3241 18.9177 88.1641 19.7383 86.9512 20.4748H83.9598C85.8541 19.3306 87.6633 18.0511 89.3733 16.6463C88.5808 15.5302 87.8106 14.414 87.1409 13.2978H89.2058C89.6784 14.0478 90.1926 14.7708 90.7461 15.4632C91.6784 14.663 92.5138 13.7565 93.2352 12.762C93.3022 12.6504 93.2352 12.6169 93.1571 12.6169H86.7168L86.9512 11.0766H90.2997L90.6234 8.58756H87.0963L87.3307 7.01376H90.802L91.1368 4.49121H93.1124L92.7776 7.01376H96.7288L96.5168 8.58756L92.5878 8.56524Z" fill="currentColor"></path>
+  <path d="M103.895 10.151C102.736 13.2402 101.321 16.2271 99.6643 19.0804H97.0859C99.0203 16.3072 100.61 13.3086 101.819 10.151H103.895ZM114.666 7.56146L114.42 9.29153H107.544L106.015 20.4979H103.85L105.39 9.24688H98.6932L98.9723 7.51682H105.669L106.105 4.38037H108.214L107.79 7.51682L114.666 7.56146ZM110.603 10.151C111.351 13.1739 112.26 16.1546 113.326 19.0804H110.971C110.402 17.4619 109.051 12.0931 108.661 10.151H110.603ZM110.837 7.33823C110.58 6.62388 110.301 5.57468 110.067 4.63709H111.786C112.082 5.55597 112.428 6.45773 112.824 7.33823H110.837Z" fill="currentColor"></path>
+  <path d="M123.997 13.4214H131.565L131.375 14.9059H128.54C127.324 16.0119 126.033 17.0337 124.678 17.9642C126.732 18.8013 129.064 19.6943 131.141 20.4867H126.486C125.191 19.9621 124.064 19.3706 122.892 18.9241C121.776 19.4487 120.503 20.0403 119.309 20.4867H114.621C116.731 19.7836 118.874 19.0357 120.827 18.1763L117.858 16.982C118.639 16.2788 119.376 15.5979 120.09 14.917H115.994L116.206 13.4325H121.597C122.01 13.0195 122.401 12.6066 122.78 12.1936H125.147C124.745 12.6289 124.365 13.0307 123.997 13.4214ZM119.276 12.3833H116.117C117.609 11.5364 119.001 10.5256 120.269 9.36966H122.725C121.658 10.4652 120.504 11.473 119.276 12.3833ZM132.179 7.51682L131.967 8.91203H125.537L125.091 11.8476H123.026L123.517 8.91203H117.032L117.233 7.51682H123.752L123.964 6.25554C122.1 6.33367 120.146 6.40064 118.383 6.43413L118.572 5.00543C123.037 4.91613 127.792 4.70406 131.319 4.38037L131.062 5.8872C129.701 5.98766 127.904 6.09928 125.95 6.18857L125.761 7.51682H132.179ZM122.546 14.9059C121.999 15.4751 121.497 16.022 120.995 16.4797C121.363 16.6471 122.01 16.9261 122.725 17.2164C123.834 16.5215 124.893 15.7494 125.895 14.9059H122.546ZM131.888 12.3833H129.21C128.328 11.5685 127.234 10.4412 126.274 9.36966H128.596C129.633 10.4386 130.732 11.445 131.888 12.3833Z" fill="currentColor"></path>
+  <path d="M145.238 20.4754C143.879 19.5623 142.575 18.571 141.331 17.5064C140.125 18.8248 138.626 19.8417 136.956 20.4754H132.714C135.438 19.5601 139.166 18.098 140.17 15.821C140.466 15.0772 140.676 14.302 140.795 13.5105H142.872C142.743 14.6743 142.415 15.8072 141.9 16.859H143.017C144.868 18.2462 146.844 19.457 148.921 20.4754H145.238ZM137.213 17.5734H135.081L136.052 10.7759H146.934C148.051 10.7759 148.352 11.1777 148.184 12.1711L147.448 17.5734H145.327L146.041 12.6176C146.041 12.439 146.041 12.3497 145.807 12.3497H137.916L137.213 17.5734ZM147.827 9.76016H136.8L137.536 4.67041H147.202C148.318 4.67041 148.508 5.02758 148.318 6.14376L147.827 9.76016ZM146.019 6.22189H139.322L139.054 8.231H145.952L146.198 6.51209C146.254 6.33351 146.22 6.22189 146.019 6.22189Z" fill="currentColor"></path>
+  <path d="M154.636 11.1441H151.712C153.853 9.16979 155.769 6.965 157.426 4.56982H163.498C164.157 4.56982 164.358 4.89351 164.614 5.42928C165.732 7.4117 166.969 9.32392 168.32 11.1552H165.664C164.701 9.62053 163.818 8.03718 163.018 6.41151C162.929 6.23292 162.784 6.19944 162.572 6.19944H158.632C157.393 7.91834 155.853 9.78235 154.636 11.1441ZM152.404 12.9523H167.048L166.78 14.6154H159.235C158.175 15.9953 157.035 17.311 155.819 18.5555H162.46C161.869 17.5509 161.277 16.4905 160.719 15.4413H162.951C163.965 17.1783 165.083 18.852 166.3 20.453H163.543L162.773 19.2028L162.215 20.319H151.723C153.561 18.5724 155.239 16.6634 156.734 14.6154H152.169L152.404 12.9523ZM156.623 9.03451H164.179L163.978 10.6641H156.422L156.623 9.03451Z" fill="currentColor"></path>
+  <path d="M46.6572 24.6613H45.2731L44.4137 29.539H43.398L44.2574 24.6613H42.8845L43.0296 23.8242H46.8358L46.6572 24.6613Z" fill="currentColor"></path>
+  <path d="M50.8654 26.1012C50.8748 26.2126 50.8748 26.3246 50.8654 26.436L50.7649 27.0276C50.6421 27.6973 50.3854 27.9317 49.7603 27.9317H48.0749V28.1661C48.0655 28.2775 48.0655 28.3895 48.0749 28.5009C48.0749 28.7577 48.2089 28.8246 48.6442 28.8246H50.1622L49.8496 29.5836H48.3875C47.4052 29.5836 47.0592 29.3381 47.0592 28.7242C47.0439 28.5496 47.0439 28.3741 47.0592 28.1996L47.3494 26.503C47.3882 26.148 47.5409 25.8151 47.7847 25.5542C48.1674 25.3046 48.6259 25.1979 49.0795 25.2529H49.5929C50.4412 25.2529 50.8654 25.465 50.8654 26.1012ZM49.9166 26.2463C49.9166 26.0565 49.805 26.0119 49.459 26.0119H48.9232C48.5772 26.0119 48.4098 26.0119 48.3316 26.503L48.2089 27.195H49.4925C49.7045 27.195 49.7827 27.1169 49.8162 26.916L49.8943 26.436C49.9114 26.3743 49.9189 26.3103 49.9166 26.2463Z" fill="currentColor"></path>
+  <path d="M56.0111 26.0797C55.9946 26.3876 55.9536 26.6937 55.8883 26.995L55.4418 29.5845H54.5043L54.9507 27.062C54.9953 26.8447 55.0251 26.6247 55.04 26.4034C55.04 26.169 54.9172 26.0797 54.415 26.0797H53.4662L52.8635 29.5845H51.9259L52.6737 25.3096H54.7275C55.6762 25.3096 56.0111 25.5216 56.0111 26.0797Z" fill="currentColor"></path>
+  <path d="M57.395 28.5899C57.4029 28.3201 57.4328 28.0513 57.4843 27.7863L57.6629 26.8041C57.6792 26.3677 57.8447 25.95 58.1317 25.6209C58.5105 25.3618 58.9712 25.2506 59.4265 25.3084H60.8217L60.5091 26.0674H59.393C59.2942 26.0537 59.1937 26.0605 59.0976 26.0874C59.0016 26.1143 58.9122 26.1606 58.8349 26.2236C58.7148 26.387 58.6415 26.5799 58.6228 26.7817L58.4442 27.7863C58.3992 27.9997 58.3693 28.216 58.3549 28.4337C58.3549 28.7574 58.5224 28.8243 59.0246 28.8243H60.3417L60.018 29.5833H58.7679C57.808 29.5833 57.395 29.3154 57.395 28.5899Z" fill="currentColor"></path>
+  <path d="M65.6547 26.1011C65.6641 26.2126 65.6641 26.3246 65.6547 26.436L65.5542 27.0276C65.4314 27.6973 65.1859 27.9317 64.5608 27.9317H62.8642V28.1661C62.8555 28.2775 62.8555 28.3895 62.8642 28.5009C62.8642 28.7576 62.9982 28.8246 63.4446 28.8246H64.8733L64.572 29.5836H63.1768C62.1945 29.5836 61.8485 29.338 61.8485 28.7241C61.8332 28.5496 61.8332 28.3741 61.8485 28.1995L62.1387 26.503C62.1765 26.1455 62.3338 25.8112 62.5852 25.5542C62.9629 25.3026 63.4186 25.1956 63.8688 25.2529H64.3822C65.2082 25.2529 65.6547 25.4649 65.6547 26.1011ZM64.7059 26.2462C64.7059 26.0565 64.5943 26.0118 64.2483 26.0118H63.7125C63.3665 26.0118 63.1991 26.0118 63.121 26.503L62.9982 27.195H64.2818C64.4938 27.195 64.572 27.1169 64.6055 26.9159L64.6836 26.436C64.7007 26.3743 64.7082 26.3103 64.7059 26.2462Z" fill="currentColor"></path>
+  <path d="M70.789 26.0797C70.7716 26.3869 70.7343 26.6926 70.6774 26.995L70.2198 29.5845H69.2822L69.7287 27.062C69.779 26.8457 69.8089 26.6252 69.818 26.4034C69.818 26.169 69.6952 26.0797 69.1929 26.0797H68.2553L67.6414 29.5845H66.7039L67.4405 25.3096H69.4943C70.4765 25.3096 70.789 25.5216 70.789 26.0797Z" fill="currentColor"></path>
+  <path d="M73.5348 27.7855C73.4759 28.0273 73.4385 28.2738 73.4232 28.5222C73.4232 28.8124 73.6129 28.8235 74.1041 28.8235H74.6175L74.2938 29.5825H73.7469C72.8986 29.5825 72.4745 29.3593 72.4745 28.7008C72.4923 28.393 72.5333 28.0871 72.5972 27.7855L72.8986 26.0666H72.3293L72.4745 25.3076H73.0214L73.2446 24.0352H74.1822L73.959 25.3076H75.1533L75.0193 26.0666H73.8362L73.5348 27.7855Z" fill="currentColor"></path>
+  <path d="M83.0671 24.6613H81.6496L80.8348 29.5837H79.8191L80.6339 24.6613H79.2386L79.3949 23.8242H83.1899L83.0671 24.6613Z" fill="currentColor"></path>
+  <path d="M87.2415 26.1011C87.2509 26.2126 87.2509 26.3246 87.2415 26.436L87.141 27.0276C87.0182 27.6973 86.7727 27.9317 86.1476 27.9317H84.451V28.1661C84.4423 28.2775 84.4423 28.3895 84.451 28.5009C84.451 28.7576 84.585 28.8246 85.0314 28.8246H86.4155L86.1141 29.5836H84.7635C83.7813 29.5836 83.4353 29.338 83.4353 28.7241C83.42 28.5496 83.42 28.3741 83.4353 28.1995L83.7255 26.503C83.7632 26.1455 83.9206 25.8112 84.172 25.5542C84.5497 25.3026 85.0054 25.1956 85.4556 25.2529H85.969C86.8173 25.2529 87.2415 25.4649 87.2415 26.1011ZM86.2927 26.2462C86.2927 26.0565 86.1811 26.0118 85.8351 26.0118H85.2993C84.9533 26.0118 84.7859 26.0118 84.7077 26.503L84.585 27.195H85.8686C86.0806 27.195 86.1588 27.1169 86.1923 26.9159L86.2704 26.436C86.2875 26.3743 86.295 26.3103 86.2927 26.2462Z" fill="currentColor"></path>
+  <path d="M88.3909 28.5908C88.4042 28.3208 88.4377 28.0522 88.4913 27.7872L88.6699 26.805C88.6816 26.3676 88.8477 25.9485 89.1387 25.6218C89.5166 25.3608 89.9781 25.2494 90.4335 25.3093H91.8287L91.505 26.0683H90.3888C90.29 26.0539 90.1893 26.0604 90.0932 26.0873C89.9971 26.1142 89.9077 26.161 89.8307 26.2246C89.7107 26.3879 89.6374 26.5808 89.6187 26.7826L89.4401 27.7872C89.3893 27.9996 89.3594 28.2164 89.3508 28.4346C89.3508 28.7583 89.507 28.8252 90.0093 28.8252H91.3264L91.0027 29.5842H89.7638C88.7927 29.5842 88.3909 29.3164 88.3909 28.5908Z" fill="currentColor"></path>
+  <path d="M96.8742 26.0796C96.8577 26.3875 96.8167 26.6935 96.7514 26.9949L96.2938 29.5844H95.345L95.7915 27.0618C95.8419 26.8456 95.8718 26.6251 95.8808 26.4033C95.8808 26.1689 95.7692 26.0796 95.2557 26.0796H94.307L93.6931 29.5844H92.7778L93.827 23.5459H94.7646L94.4521 25.2871H95.5683C96.5393 25.3095 96.8742 25.5215 96.8742 26.0796Z" fill="currentColor"></path>
+  <path d="M102.287 26.0797C102.265 26.3871 102.224 26.6927 102.165 26.995L101.707 29.5845H100.769L101.216 27.062C101.266 26.8457 101.296 26.6252 101.305 26.4034C101.305 26.169 101.182 26.0797 100.68 26.0797H99.7425L99.1286 29.5845H98.191L98.9389 25.3096H100.993C101.953 25.3096 102.287 25.5216 102.287 26.0797Z" fill="currentColor"></path>
+  <path d="M104.341 25.3091H105.279L104.531 29.584H103.604L104.341 25.3091ZM104.62 23.646H105.591L105.39 24.6617H104.43L104.62 23.646Z" fill="currentColor"></path>
+  <path d="M106.506 28.5905C106.52 28.3205 106.553 28.0519 106.607 27.7869L106.774 26.8046C106.794 26.3669 106.963 25.9491 107.254 25.6215C107.628 25.3602 108.086 25.2486 108.538 25.309H109.933L109.62 26.068H108.504C108.406 26.0536 108.305 26.0601 108.209 26.087C108.113 26.1139 108.023 26.1606 107.946 26.2242C107.826 26.3876 107.753 26.5805 107.734 26.7823L107.556 27.7869C107.503 27.9992 107.469 28.2159 107.455 28.4343C107.455 28.7579 107.623 28.8249 108.125 28.8249H109.442L109.118 29.5839H107.879C106.919 29.5839 106.506 29.316 106.506 28.5905Z" fill="currentColor"></path>
+  <path d="M114.777 26.0782C114.765 26.3292 114.735 26.5791 114.688 26.8261L114.197 29.583H111.965C111.474 29.583 110.994 29.4379 110.994 28.8463C111.005 28.6063 111.035 28.3674 111.083 28.132V27.8753C111.195 27.2949 111.362 27.0605 111.73 26.96C112.017 26.9018 112.309 26.8793 112.601 26.893H113.717C113.759 26.7246 113.785 26.5527 113.795 26.3796C113.795 26.1564 113.661 26.0782 113.237 26.0782H111.719L111.596 25.3192H113.55C114.454 25.3081 114.777 25.5425 114.777 26.0782ZM113.427 28.824L113.639 27.6185H112.456C112.154 27.6185 112.054 27.7078 112.009 27.9869V28.1431C112.009 28.3887 111.942 28.5785 111.942 28.6454C111.942 28.7124 112.032 28.824 112.221 28.824H113.427Z" fill="currentColor"></path>
+  <path d="M116.195 28.7469C116.206 28.4245 116.244 28.1035 116.307 27.787L117.054 23.5679H117.992L117.244 27.787C117.193 28.0299 117.16 28.2761 117.144 28.5237C117.144 28.8139 117.333 28.825 117.825 28.825H118.26L117.936 29.584H117.4C116.552 29.584 116.195 29.3831 116.195 28.7469Z" fill="currentColor"></path>
+  <path d="M122.323 28.4565C122.329 28.1453 122.363 27.8353 122.423 27.53L122.814 25.2977C122.825 25.0599 122.885 24.827 122.991 24.6138C123.096 24.4005 123.245 24.2115 123.428 24.0587C123.766 23.8652 124.156 23.7832 124.544 23.8243H126.43L126.084 24.6615H124.667C124.064 24.6615 123.952 24.907 123.818 25.6549L123.55 27.1617C123.474 27.5111 123.422 27.8654 123.394 28.2221C123.394 28.635 123.662 28.702 124.287 28.702H125.693L125.336 29.5391H123.874C122.769 29.5838 122.323 29.2936 122.323 28.4565Z" fill="currentColor"></path>
+  <path d="M127.19 28.6465C127.197 28.3766 127.227 28.1078 127.279 27.8428L127.48 26.7267C127.499 26.2908 127.664 25.874 127.949 25.5435C128.331 25.2939 128.79 25.1872 129.243 25.2421H129.768C130.717 25.2421 131.119 25.51 131.119 26.2355C131.105 26.5056 131.072 26.7742 131.018 27.0392L130.828 28.1553C130.806 28.5892 130.637 29.0027 130.348 29.3273C129.975 29.5887 129.517 29.7002 129.065 29.6399H128.54C127.58 29.6399 127.19 29.372 127.19 28.6465ZM129.132 28.8697C129.388 28.8697 129.567 28.8697 129.679 28.7246C129.794 28.5545 129.867 28.3593 129.891 28.1553L130.092 27.0392C130.135 26.8258 130.161 26.6093 130.17 26.3918C130.17 26.0681 130.002 26.0011 129.511 26.0011H129.188C129.09 25.9872 128.99 25.9928 128.894 26.0177C128.798 26.0426 128.708 26.0863 128.629 26.1462C128.5 26.313 128.426 26.5159 128.417 26.7267L128.216 27.8428C128.171 28.0562 128.142 28.2726 128.127 28.4902C128.127 28.8139 128.295 28.8697 128.786 28.8697H129.132Z" fill="currentColor"></path>
+  <path d="M138.742 26.0797C138.725 26.3876 138.684 26.6937 138.619 26.995L138.161 29.5845H137.224L137.67 27.062C137.722 26.8457 137.756 26.6254 137.771 26.4034C137.771 26.169 137.637 26.0797 137.146 26.0797H136.286L135.672 29.5845H134.735L135.349 26.0797H133.897L133.295 29.5845H132.357L133.105 25.3096H137.458C138.418 25.3096 138.742 25.5216 138.742 26.0797Z" fill="currentColor"></path>
+  <path d="M146.443 26.0797C146.431 26.3874 146.394 26.6935 146.332 26.995L145.863 29.5845H144.936L145.383 27.062C145.427 26.8447 145.457 26.6247 145.472 26.4034C145.472 26.169 145.349 26.0797 144.847 26.0797H143.988L143.34 29.5845H142.403L143.005 26.0797H141.566L140.952 29.5845H140.014L140.762 25.3096H145.126C146.12 25.3096 146.443 25.5216 146.443 26.0797Z" fill="currentColor"></path>
+  <path d="M148.508 25.3091H149.446L148.698 29.584H147.805L148.508 25.3091ZM148.798 23.646H149.758L149.58 24.6059H148.62L148.798 23.646Z" fill="currentColor"></path>
+  <path d="M152.024 27.7855C151.965 28.0273 151.928 28.2738 151.913 28.5222C151.913 28.8124 152.102 28.8235 152.593 28.8235H153.107L152.783 29.5825H152.27C151.433 29.5825 151.008 29.3593 151.008 28.7008C151.026 28.393 151.067 28.0871 151.131 27.7855L151.433 26.0666H150.863L150.997 25.3076H151.567L151.79 24.0352H152.727L152.504 25.3076H153.698L153.553 26.0666H152.37L152.024 27.7855Z" fill="currentColor"></path>
+  <path d="M155.842 27.7855C155.791 28.0284 155.757 28.2745 155.741 28.5222C155.741 28.8124 155.92 28.8235 156.411 28.8235H156.924L156.601 29.5825H156.054C155.205 29.5825 154.781 29.3593 154.781 28.7008C154.799 28.393 154.84 28.0871 154.904 27.7855L155.205 26.0666H154.647L154.781 25.3076H155.339L155.574 24.0352H156.5L156.277 25.3076H157.482L157.337 26.0666H156.143L155.842 27.7855Z" fill="currentColor"></path>
+  <path d="M162.226 26.101C162.236 26.2124 162.236 26.3245 162.226 26.4359L162.114 27.0275C161.992 27.6972 161.746 27.9316 161.121 27.9316H159.458V28.166C159.448 28.2774 159.448 28.3894 159.458 28.5008C159.458 28.7575 159.592 28.8245 160.027 28.8245H161.545L161.233 29.5835H159.849C158.866 29.5835 158.52 29.3379 158.52 28.724C158.51 28.5493 158.51 28.3742 158.52 28.1994L158.822 26.5029C158.851 26.1453 159.005 25.8095 159.257 25.5541C159.639 25.3027 160.098 25.1958 160.552 25.2527H161.054C161.802 25.2527 162.226 25.4648 162.226 26.101ZM161.288 26.2461C161.288 26.0564 161.177 26.0117 160.831 26.0117H160.295C159.949 26.0117 159.782 26.0117 159.692 26.5029L159.569 27.1949H160.853C161.065 27.1949 161.154 27.1167 161.177 26.9158L161.266 26.4359C161.278 26.3732 161.285 26.3098 161.288 26.2461Z" fill="currentColor"></path>
+  <path d="M167.17 26.1012C167.18 26.2126 167.18 26.3246 167.17 26.436L167.07 27.0276C166.947 27.6973 166.691 27.9317 166.065 27.9317H164.414V28.1661C164.404 28.2775 164.404 28.3895 164.414 28.5009C164.414 28.7577 164.547 28.8246 164.983 28.8246H166.501L166.188 29.5836H164.804C163.822 29.5836 163.476 29.3381 163.476 28.7242C163.479 28.548 163.498 28.3725 163.532 28.1996L163.822 26.503C163.861 26.148 164.013 25.8151 164.257 25.5542C164.64 25.3046 165.098 25.1979 165.552 25.2529H166.065C166.78 25.2529 167.17 25.465 167.17 26.1012ZM166.222 26.2463C166.222 26.0565 166.11 26.0119 165.764 26.0119H165.228C164.882 26.0119 164.715 26.0119 164.637 26.503L164.514 27.195H165.798C166.01 27.195 166.088 27.1169 166.121 26.916L166.199 26.436C166.217 26.3743 166.224 26.3103 166.222 26.2463Z" fill="currentColor"></path>
+  <path d="M33.4438 13.8888C33.3843 13.5911 33.3248 13.2935 33.2553 12.9959L33.1958 12.7776C33.1363 12.5494 33.0767 12.3212 33.0073 12.093L32.9478 11.9045C32.8684 11.6664 32.799 11.4382 32.7097 11.2001L32.6501 11.0513C32.5729 10.8186 32.4835 10.5901 32.3823 10.3667L23.1256 20.4667H26.4592L26.3005 20.8238L26.2211 20.9826C26.0155 21.4666 25.7734 21.9342 25.4968 22.3815C25.4569 22.4388 25.4204 22.4984 25.3877 22.5601L25.1793 22.8875C23.8216 24.9861 21.9405 26.6947 19.7215 27.845C17.5024 28.9953 15.0219 29.5476 12.5245 29.4474C10.027 29.3473 7.59868 28.5982 5.47884 27.2739C3.359 25.9496 1.62077 24.0959 0.435425 21.8953C0.439521 21.9316 0.439521 21.9682 0.435425 22.0045C0.554481 22.4013 0.693381 22.7982 0.842201 23.1851V23.2546C0.991022 23.6514 1.16961 24.0384 1.35811 24.4253L1.45733 24.6237C1.63591 24.9908 1.83434 25.348 2.04269 25.7051L2.17167 25.9036C2.38994 26.2607 2.61813 26.608 2.86616 26.9453C2.88693 26.98 2.91014 27.0132 2.93561 27.0445C3.18365 27.3719 3.43168 27.6993 3.69956 28.0367L3.79877 28.1557C4.07657 28.4732 4.36429 28.7709 4.66193 29.0685C4.72146 29.128 4.78099 29.1776 4.83059 29.2372C5.13816 29.5249 5.44572 29.8027 5.7632 30.0706L5.93187 30.1995C6.26919 30.4773 6.62636 30.7452 6.98353 31.0032C10.6964 33.5576 15.2711 34.5346 19.7036 33.7199C24.136 32.9052 28.0643 30.3653 30.6262 26.6576C31.9221 24.824 32.8389 22.75 33.3228 20.5574C33.8066 18.3647 33.8478 16.0975 33.4438 13.8888Z" fill="currentColor"></path>
+  <path d="M30.5072 7.05256V6.99303C30.3385 6.76484 30.16 6.54657 29.9814 6.31838C29.8028 6.09019 29.8325 6.12987 29.7631 6.04058C28.6422 4.73506 27.3351 3.60178 25.8838 2.67723C22.2316 0.336465 17.8204 -0.513599 13.5599 0.302329C9.2993 1.11826 5.51428 3.53796 2.9853 7.06248C1.06626 9.93676 0.126718 13.3539 0.306526 16.8053C0.566232 19.9909 2.03246 22.9571 4.40566 25.0979C6.77886 27.2388 9.87993 28.3927 13.0753 28.324C14.9161 28.3233 16.7356 27.931 18.413 27.1731C17.8495 27.2714 17.2786 27.3212 16.7066 27.3219C15.3082 27.3161 13.9255 27.0274 12.6416 26.4732C11.3577 25.9191 10.1992 25.111 9.23577 24.0975C8.38807 23.2127 7.71487 22.176 7.25149 21.0417C6.64995 19.6188 6.37461 18.0793 6.44569 16.5362C6.51676 14.993 6.93244 13.4853 7.66222 12.1237C8.392 10.7622 9.41736 9.58129 10.6631 8.66772C11.9088 7.75414 13.3432 7.13107 14.8612 6.84421C16.7984 6.48705 18.7977 6.70076 20.6156 7.45934C20.6156 7.45934 21.3895 7.80658 21.7565 8.00501H21.826L22.2625 8.26297L22.461 8.40187L22.7487 8.6003L23.0265 8.80864C23.0969 8.85603 23.1632 8.90912 23.2249 8.96739L23.5424 9.23526C23.5933 9.27296 23.6399 9.31622 23.6813 9.36424L23.969 9.63212L24.0385 9.71149C24.1674 9.84047 24.2964 9.96945 24.4155 10.1083C24.5345 10.2472 24.5345 10.2373 24.5841 10.3068L24.7826 10.5449C25.4846 11.4426 26.0374 12.4477 26.4196 13.5213L31.291 8.21336C31.0628 7.84627 30.785 7.43949 30.5072 7.05256Z" fill="currentColor"></path>
+</svg></i>
+            <a class="logo" href="https://cloud.tencent.com/" target="_blank"><svg width="105" height="28" viewBox="0 0 105 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g clip-path="url(#clip0_65_182)">
+    <path d="M82.8701 4.73254H71.4558V6.38476H74.8911V12.4065H70.9536V14.0573H74.8911V24.1623H76.708V14.0573H81.0532V23.945H84.4832V22.2914H82.8634L82.8701 4.73254ZM76.708 12.4065V6.38476H81.0532V12.4065H76.708Z" fill="currentColor"></path>
+    <path d="M60.2114 19.5378H51.2066V21.1901H60.2114V19.5378Z" fill="currentColor"></path>
+    <path d="M45.0702 16.4803C45.0702 19.4838 44.8272 21.7637 44.3278 23.7844C44.2751 23.9707 44.3278 24.0206 44.4304 24.0206H46.0866C46.5188 21.7971 46.7313 19.5365 46.7211 17.2714H49.0361V22.4008H47.3919C47.3123 22.4008 47.257 22.4521 47.2921 22.5668L47.7443 24.0517H50.6842V4.77441H45.0702V16.4803ZM46.7224 15.7933V11.8341H49.0361V15.7933H46.7224ZM49.0361 6.43338V10.348H46.7224V6.43338H49.0361Z" fill="currentColor"></path>
+    <path d="M60.85 11.4737H63.0678V9.98888H56.606C56.8095 9.48642 56.9866 8.97368 57.1365 8.45274H62.6615V6.96791H61.0416C61.3116 6.05001 61.6288 4.96607 61.6477 4.90398C61.6801 4.79329 61.6221 4.75145 61.5505 4.75145H60.1467L59.4947 6.96791H57.5037C57.69 6.1094 57.8506 5.15775 57.9977 4.08867C58.0153 3.96583 57.9491 3.94019 57.8627 3.94019H56.2686C56.1052 5.07541 55.9338 6.05406 55.7151 6.96791H54.7392L54.0872 4.75145H52.682C52.6105 4.75145 52.547 4.79329 52.5848 4.90398C52.6037 4.96607 52.9209 6.05001 53.1909 6.96791H51.6143V8.45274H55.2953C55.1238 8.9761 54.9218 9.48902 54.6906 9.98888H51.2093V11.4737H53.824C53.133 12.4726 52.2359 13.3118 51.1931 13.9345V15.6353C51.1931 15.7204 51.2606 15.8108 51.5306 15.6583C52.0629 15.3631 52.5768 15.0358 53.0694 14.6783H59.2207L59.168 16.9042H54.3086L54.3815 15.5732C54.382 15.5599 54.3798 15.5466 54.375 15.5341C54.3702 15.5217 54.3629 15.5104 54.3535 15.5009C54.3442 15.4914 54.333 15.4839 54.3206 15.4789C54.3082 15.474 54.2949 15.4716 54.2816 15.472H52.7319L52.5754 18.2891C52.5748 18.3026 52.577 18.316 52.5819 18.3285C52.5868 18.3411 52.5942 18.3525 52.6037 18.362C52.6133 18.3715 52.6246 18.3789 52.6372 18.3838C52.6497 18.3887 52.6632 18.3909 52.6766 18.3904H61.0551V22.4075H57.2756C57.1959 22.4075 57.1338 22.4602 57.177 22.5749L57.6292 24.0597H62.8693V16.9055H60.8176L60.8864 14.0141C61.5709 14.6491 62.328 15.2009 63.142 15.6583C63.412 15.8108 63.4781 15.7204 63.4781 15.6353V13.9304C62.4371 13.3081 61.541 12.4705 60.85 11.4737ZM58.8252 11.4737C59.1941 12.082 59.616 12.6566 60.0859 13.1907H54.6865C55.1417 12.6596 55.5428 12.0844 55.8839 11.4737H58.8252Z" fill="currentColor"></path>
+    <path d="M72.6072 18.3891L69.543 20.7109V9.97278H65.2991V11.7897H67.7396V22.0783L66.7637 22.8126L67.7599 24.13L72.7705 20.3329V18.4674C72.7707 18.4484 72.7655 18.4297 72.7554 18.4135C72.7454 18.3974 72.731 18.3844 72.7138 18.3762C72.6966 18.368 72.6775 18.3648 72.6586 18.3671C72.6397 18.3694 72.6219 18.377 72.6072 18.3891Z" fill="currentColor"></path>
+    <path d="M67.9786 8.34619H69.9642C69.9822 8.34637 70 8.34167 70.0156 8.33259C70.0311 8.32351 70.0439 8.31039 70.0527 8.29462C70.0614 8.27884 70.0657 8.26101 70.0651 8.24299C70.0645 8.22498 70.059 8.20747 70.0493 8.1923L67.5453 4.36682H65.5596C65.542 4.36677 65.5247 4.37131 65.5094 4.37999C65.4941 4.38867 65.4813 4.40119 65.4723 4.41632C65.4634 4.43145 65.4585 4.44865 65.4581 4.46625C65.4578 4.48384 65.4621 4.50122 65.4706 4.51666L67.9786 8.34619Z" fill="currentColor"></path>
+    <path d="M102.663 5.17407H88.3249V6.99097H102.663V5.17407Z" fill="currentColor"></path>
+    <path d="M93.5245 13.8562H104.682V12.0393H86.3055V13.8562H91.4039C90.351 16.6221 87.708 23.5603 87.6904 23.6102C87.6841 23.6253 87.6816 23.6417 87.6833 23.658C87.6849 23.6743 87.6907 23.6898 87.6999 23.7033C87.7092 23.7168 87.7218 23.7277 87.7364 23.735C87.751 23.7423 87.7672 23.7458 87.7836 23.7452H103.633C103.651 23.7453 103.667 23.741 103.682 23.7328C103.697 23.7246 103.71 23.7127 103.719 23.6983C103.728 23.6839 103.734 23.6674 103.735 23.6503C103.736 23.6333 103.733 23.6162 103.725 23.6008C103.708 23.5576 101.362 17.3915 101.362 17.3915H99.3882C99.3721 17.3916 99.3563 17.3956 99.342 17.4031C99.3277 17.4106 99.3155 17.4214 99.3062 17.4347C99.297 17.4479 99.291 17.4631 99.2889 17.479C99.2867 17.495 99.2884 17.5113 99.2937 17.5265C99.3194 17.5913 100.966 21.9283 100.966 21.9283H90.4563L93.5245 13.8562Z" fill="currentColor"></path>
+    <path d="M36.1274 12.7332C35.2963 11.8813 34.3031 11.2043 33.2063 10.742C32.1096 10.2798 30.9314 10.0416 29.7412 10.0416C27.572 10.0416 25.7038 10.788 24.0719 12.1163C23.3605 12.6954 22.6154 13.3879 21.6772 14.299C21.3654 14.6027 15.2182 20.5677 11.1808 24.4836C10.6192 24.4836 9.81201 24.4742 9.09524 24.4499C7.07856 24.3811 5.8556 23.6076 5.16042 22.9259C4.38377 22.1682 3.85042 21.1963 3.62842 20.1342C3.40641 19.0721 3.50581 17.9679 3.91393 16.9625C4.32205 15.9571 5.02039 15.0961 5.91988 14.4893C6.81938 13.8824 7.87925 13.5572 8.96431 13.5552C9.9092 13.5552 11.2078 13.8252 12.667 15.0401C13.3635 15.6178 14.9104 16.9785 15.5894 17.5899C15.6048 17.6053 15.6257 17.6139 15.6474 17.6139C15.6692 17.6139 15.69 17.6053 15.7055 17.5899L18.1028 15.2534C18.1127 15.2451 18.1207 15.2348 18.1262 15.2231C18.1316 15.2115 18.1345 15.1987 18.1345 15.1859C18.1345 15.173 18.1316 15.1602 18.1262 15.1486C18.1207 15.1369 18.1127 15.1266 18.1028 15.1184C16.9514 14.0776 15.3181 12.6211 14.3354 11.8895C13.3401 11.1273 12.1981 10.5791 10.981 10.2791H11.0188C11.3852 8.52687 12.2952 6.93492 13.6193 5.73007C14.9433 4.52523 16.6138 3.76894 18.3928 3.56895C20.1717 3.36896 21.9685 3.73547 23.527 4.61626C25.0855 5.49706 26.3263 6.84721 27.0726 8.47439C27.0785 8.49358 27.0917 8.5097 27.1094 8.51928C27.127 8.52887 27.1477 8.53116 27.1671 8.52569C28.2707 8.21981 29.4177 8.10073 30.5606 8.17337C30.6753 8.18147 30.7199 8.11668 30.6821 8.01274C29.7894 5.48899 28.08 3.3353 25.8248 1.89291C23.5697 0.450524 20.8977 -0.198078 18.2322 0.0498744C15.5667 0.297826 13.0602 1.42815 11.1097 3.26176C9.15931 5.09537 7.87652 7.52739 7.46462 10.1725H7.47272C5.84132 10.4504 4.31849 11.1739 3.07241 12.2629C1.82634 13.3519 0.905516 14.7642 0.411655 16.3437C-0.0822067 17.9232 -0.129889 19.6084 0.273874 21.2133C0.677638 22.8182 1.51713 24.2802 2.69964 25.438C4.05827 26.7686 5.81442 27.619 7.70084 27.8596C8.54769 27.9568 9.3997 28.0018 10.2521 27.9946C11.062 27.9946 26.5853 27.9946 27.2359 27.9946C28.5439 27.9946 29.3957 27.9946 30.3082 27.9258C32.4045 27.7732 34.3847 27.0038 35.987 25.4326C36.8304 24.6081 37.503 23.6256 37.9666 22.541C38.4301 21.4565 38.6754 20.2913 38.6884 19.112C38.7014 17.9326 38.482 16.7623 38.0425 15.6678C37.6031 14.5733 36.9523 13.5761 36.1274 12.7332ZM33.5303 22.9259C32.8419 23.6008 31.6135 24.3811 29.5955 24.4499C28.6627 24.4809 27.5707 24.485 27.0753 24.485H16.236L24.0098 16.9339C24.3675 16.587 25.172 15.8176 25.8645 15.1926C27.3885 13.8225 28.7586 13.5458 29.7277 13.5552C30.8127 13.5575 31.8724 13.8829 32.7717 14.4898C33.6709 15.0968 34.3691 15.9578 34.777 16.9631C35.185 17.9685 35.2843 19.0725 35.0622 20.1345C34.8402 21.1965 34.3069 22.1683 33.5303 22.9259Z" fill="currentColor"></path>
+  </g>
+  <defs>
+    <clipPath id="clip0_65_182">
+      <rect width="104.682" height="28" fill="currentColor"></rect>
+    </clipPath>
+  </defs>
+</svg></a>
+          </div>
+        </div>
+      </div>
+    </div></td-doc-footer></td-doc-content></td-doc-layout></div>
+
+
+<td-theme-generator device="mini-program"></td-theme-generator><div id="__td_portals__"><td-portal class="" data-popper-placement="bottom" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; min-width: 111px; transform: translate(1035px, 56px);"><style>.TDesign-base-components-links{display:flex;flex-direction:column;padding:16px;width:832px;box-sizing:border-box;row-gap:16px}.TDesign-base-components-links__web,.TDesign-base-components-links__mobile{display:flex;flex-direction:column;row-gap:8px}.TDesign-base-components-links__list{display:flex;flex-wrap:wrap;gap:4px}.TDesign-base-components-links .title{color:var(--text-placeholder);margin:0 8px;font-size:14px;line-height:22px}.TDesign-base-components-links .link{border-radius:6px;transition:all .2s linear;color:var(--text-secondary);text-decoration:none;padding:8px;display:inline-flex;align-items:center;width:264px;box-sizing:border-box}.TDesign-base-components-links .link:not(.disabled):hover{color:var(--text-primary);background:var(--bg-color-container-hover)}.TDesign-base-components-links .link .details{display:flex;flex-direction:column}.TDesign-base-components-links .link .name{font-size:14px;line-height:24px;height:24px}.TDesign-base-components-links .link .version{font-size:14px;line-height:22px;color:var(--text-placeholder)}.TDesign-base-components-links .link .icon{max-width:40px;max-height:40px;margin-right:8px}.TDesign-base-components-links .link.active{color:var(--text-primary);background:var(--bg-color-container-select)}.TDesign-base-components-links .link.disabled{cursor:no-drop}.TDesign-base-components-links .link .disable-tag,.TDesign-base-components-links .link .alpha-tag,.TDesign-base-components-links .link .beta-tag,.TDesign-base-components-links .link .rc-tag,.TDesign-base-components-links .link .stable-tag{font-size:12px;border-radius:var(--border-radius);padding:2px 4px;margin-left:4px;vertical-align:bottom}.TDesign-base-components-links .link .disable-tag{color:var(--text-secondary);background:var(--bg-color-tag)}.TDesign-base-components-links .link .alpha-tag{color:var(--brand-main);background:var(--brand-main-light);font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace}.TDesign-base-components-links .link .beta-tag,.TDesign-base-components-links .link .rc-tag{color:var(--success-main);background:var(--success-main-light);font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace}.TDesign-base-components-links .link .stable-tag{color:#029cd4;background:#029cd41a;font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace}@media screen and (max-width: 960px){.TDesign-base-components-links{display:none}}</style><div slot="content" class="TDesign-base-components-links">
+        <div class="TDesign-base-components-links__web">
+          <p class="title">Web 桌面端</p>
+          <div class="TDesign-base-components-links__list">
+            
+                <a class="link  " href="/vue/overview">
+                  <img class="icon" src="data:image/svg+xml,%3csvg%20width='40'%20height='40'%20viewBox='0%200%2040%2040'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M24.0133%205.06641L19.9833%2012.0465L15.9535%205.06641H2.5332L19.9835%2035.2915L37.4337%205.06641H24.0133Z'%20fill='%2342B983'/%3e%3cpath%20d='M24.0137%205.06641L19.9837%2012.0465L15.9538%205.06641H9.51367L19.9838%2023.2011L30.4539%205.06641H24.0137Z'%20fill='%2335495E'/%3e%3c/svg%3e">
+                  <div class="details">
+                    <span class="name"> Vue <span class="stable-tag">Stable</span> </span>
+                    <span class="version">
+                      Version：1.14.4
+                    </span>
+                  </div>
+                </a>
+              
+                <a class="link  " href="/vue-next/overview">
+                  <img class="icon" src="data:image/svg+xml,%3csvg%20width='40'%20height='40'%20viewBox='0%200%2040%2040'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M24.0133%205.06641L19.9833%2012.0465L15.9535%205.06641H2.5332L19.9835%2035.2915L37.4337%205.06641H24.0133Z'%20fill='%2342B983'/%3e%3cpath%20d='M24.0137%205.06641L19.9837%2012.0465L15.9538%205.06641H9.51367L19.9838%2023.2011L30.4539%205.06641H24.0137Z'%20fill='%2335495E'/%3e%3c/svg%3e">
+                  <div class="details">
+                    <span class="name"> Vue Next <span class="stable-tag">Stable</span> </span>
+                    <span class="version">
+                      Version：1.18.0
+                    </span>
+                  </div>
+                </a>
+              
+                <a class="link  " href="/react/overview">
+                  <img class="icon" src="data:image/svg+xml,%3csvg%20width='40'%20height='40'%20viewBox='0%200%2040%2040'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M28.1175%205.91895C28.521%206.15192%2028.9018%206.65217%2029.1092%207.6216C29.3165%208.59087%2029.316%209.89706%2029.0621%2011.4818C28.9831%2011.9749%2028.8805%2012.4888%2028.7548%2013.0205C27.3951%2012.7295%2025.934%2012.5052%2024.4005%2012.3569C23.5053%2011.103%2022.5805%209.94987%2021.6487%208.91778C22.0462%208.54307%2022.44%208.19733%2022.8276%207.88233C24.0731%206.87007%2025.204%206.21654%2026.1471%205.91145C27.0903%205.60631%2027.7139%205.68597%2028.1175%205.91895ZM18.3272%208.91778C17.9297%208.54307%2017.5359%208.19734%2017.1483%207.88235C15.9029%206.87009%2014.7719%206.21656%2013.8288%205.91147C12.8856%205.60633%2012.262%205.68599%2011.8585%205.91896C11.4549%206.15194%2011.0741%206.65219%2010.8668%207.62162C10.6595%208.59088%2010.66%209.89708%2010.9138%2011.4818C10.9929%2011.975%2011.0954%2012.4888%2011.2211%2013.0205C12.5809%2012.7295%2014.0419%2012.5052%2015.5755%2012.3569C16.4706%2011.103%2017.3954%209.94987%2018.3272%208.91778ZM19.988%207.21345C19.5394%206.78938%2019.0922%206.39612%2018.649%206.03591C17.2716%204.91642%2015.8816%204.07479%2014.5612%203.64762C13.2409%203.2205%2011.8585%203.17148%2010.6688%203.85837C9.47905%204.54526%208.83027%205.76701%208.54003%207.12395C8.24976%208.48106%208.28365%2010.1056%208.56444%2011.8582C8.65479%2012.4222%208.7718%2013.006%208.91475%2013.6065C8.32322%2013.783%207.75908%2013.9736%207.22554%2014.1773C5.56732%2014.8104%204.14347%2015.5934%203.11332%2016.5233C2.08329%2017.4531%201.34961%2018.6259%201.34961%2019.9996C1.34961%2021.3734%202.08329%2022.5461%203.11332%2023.476C4.14347%2024.4059%205.56732%2025.1888%207.22554%2025.822C7.75909%2026.0257%208.32324%2026.2163%208.91478%2026.3927C8.77182%2026.9933%208.65481%2027.5772%208.56445%2028.1411C8.28366%2029.8937%208.24976%2031.5183%208.54004%2032.8754C8.83028%2034.2323%209.47905%2035.4541%2010.6688%2036.141C11.8585%2036.8279%2013.241%2036.7788%2014.5612%2036.3517C15.8816%2035.9246%2017.2716%2035.0829%2018.649%2033.9634C19.0922%2033.6032%2019.5394%2033.21%2019.988%2032.7859C20.4365%2033.21%2020.8837%2033.6032%2021.3269%2033.9635C22.7043%2035.0829%2024.0943%2035.9246%2025.4147%2036.3517C26.735%2036.7789%2028.1174%2036.8279%2029.3071%2036.141C30.4969%2035.4541%2031.1456%2034.2324%2031.4359%2032.8754C31.7262%2031.5183%2031.6923%2029.8937%2031.4115%2028.1411C31.3211%2027.5772%2031.2041%2026.9933%2031.0611%2026.3928C31.6527%2026.2163%2032.2169%2026.0257%2032.7504%2025.822C34.4087%2025.1888%2035.8325%2024.4059%2036.8627%2023.476C37.8927%2022.5461%2038.6264%2021.3734%2038.6264%2019.9996C38.6264%2018.6259%2037.8927%2017.4531%2036.8627%2016.5233C35.8325%2015.5934%2034.4087%2014.8104%2032.7504%2014.1773C32.2169%2013.9736%2031.6527%2013.783%2031.0612%2013.6065C31.2041%2013.006%2031.3211%2012.4221%2031.4115%2011.8582C31.6923%2010.1056%2031.7262%208.48104%2031.4359%207.12393C31.1457%205.76699%2030.4969%204.54524%2029.3072%203.85835C28.1174%203.17147%2026.735%203.22049%2025.4147%203.6476C24.0943%204.07477%2022.7043%204.9164%2021.3269%206.03589C20.8837%206.3961%2020.4365%206.78938%2019.988%207.21345ZM28.1027%2015.3146C27.4695%2015.1824%2026.8097%2015.0649%2026.1268%2014.9637C26.3504%2015.3277%2026.5709%2015.6979%2026.7879%2016.0737C27.0049%2016.4496%2027.2152%2016.8256%2027.4186%2017.2013C27.6724%2016.5592%2027.9006%2015.9291%2028.1027%2015.3146ZM28.813%2019.9997C29.4514%2018.5974%2029.9876%2017.22%2030.4155%2015.8969C30.9388%2016.0538%2031.4351%2016.222%2031.9017%2016.4001C33.4011%2016.9726%2034.5326%2017.6253%2035.2683%2018.2895C36.0042%2018.9538%2036.247%2019.5337%2036.247%2019.9996C36.247%2020.4656%2036.0042%2021.0455%2035.2683%2021.7098C34.5326%2022.374%2033.4011%2023.0266%2031.9017%2023.5991C31.4351%2023.7773%2030.9388%2023.9454%2030.4155%2024.1024C29.9876%2022.7793%2029.4513%2021.4019%2028.813%2019.9997ZM26.183%2019.9997C25.7431%2019.097%2025.2576%2018.1819%2024.7273%2017.2634C24.197%2016.3449%2023.6473%2015.4669%2023.0854%2014.6346C22.0837%2014.5641%2021.0485%2014.5271%2019.988%2014.5271C18.9274%2014.5271%2017.8922%2014.5641%2016.8905%2014.6346C16.3286%2015.4669%2015.7789%2016.3449%2015.2486%2017.2634C14.7183%2018.1819%2014.2328%2019.0969%2013.7929%2019.9997C14.2328%2020.9024%2014.7183%2021.8175%2015.2486%2022.736C15.7789%2023.6544%2016.3286%2024.5324%2016.8904%2025.3647C17.8921%2025.4351%2018.9274%2025.4722%2019.988%2025.4722C21.0485%2025.4722%2022.0838%2025.4351%2023.0855%2025.3647C23.6474%2024.5324%2024.1971%2023.6544%2024.7273%2022.7359C25.2576%2021.8175%2025.7431%2020.9024%2026.183%2019.9997ZM26.1268%2025.0356C26.3504%2024.6716%2026.5709%2024.3015%2026.7879%2023.9256C27.0049%2023.5498%2027.2152%2023.1738%2027.4186%2022.7981C27.6724%2023.4401%2027.9006%2024.0702%2028.1027%2024.6847C27.4695%2024.8169%2026.8097%2024.9343%2026.1268%2025.0356ZM21.2798%2027.834C20.8528%2027.8456%2020.422%2027.8515%2019.988%2027.8515C19.554%2027.8515%2019.1232%2027.8456%2018.6961%2027.834C19.1252%2028.3748%2019.5568%2028.8875%2019.988%2029.3698C20.4191%2028.8875%2020.8507%2028.3748%2021.2798%2027.834ZM21.6487%2031.0816C22.5805%2030.0495%2023.5053%2028.8963%2024.4005%2027.6424C25.934%2027.4941%2027.3951%2027.2698%2028.7548%2026.9788C28.8805%2027.5105%2028.9831%2028.0244%2029.0621%2028.5175C29.316%2030.1023%2029.3165%2031.4085%2029.1091%2032.3777C28.9018%2033.3472%2028.521%2033.8474%2028.1175%2034.0804C27.7139%2034.3134%2027.0903%2034.393%2026.1471%2034.0879C25.204%2033.7828%2024.0731%2033.1293%2022.8276%2032.117C22.44%2031.802%2022.0462%2031.4563%2021.6487%2031.0816ZM18.3272%2031.0816C17.3954%2030.0495%2016.4706%2028.8963%2015.5754%2027.6424C14.0419%2027.494%2012.5809%2027.2698%2011.2211%2026.9788C11.0954%2027.5105%2010.9929%2028.0244%2010.9139%2028.5175C10.66%2030.1023%2010.6595%2031.4085%2010.8668%2032.3777C11.0741%2033.3472%2011.4549%2033.8474%2011.8585%2034.0804C12.262%2034.3134%2012.8856%2034.393%2013.8288%2034.0879C14.7719%2033.7828%2015.9029%2033.1293%2017.1483%2032.117C17.5359%2031.802%2017.9297%2031.4563%2018.3272%2031.0816ZM11.8732%2024.6847C12.5064%2024.8169%2013.1662%2024.9343%2013.8491%2025.0356C13.6255%2024.6716%2013.405%2024.3015%2013.188%2023.9256C12.971%2023.5498%2012.7607%2023.1738%2012.5573%2022.7981C12.3035%2023.4401%2012.0754%2024.0702%2011.8732%2024.6847ZM12.5573%2017.2012C12.7607%2016.8256%2012.971%2016.4496%2013.188%2016.0737C13.405%2015.6978%2013.6255%2015.3277%2013.8491%2014.9637C13.1662%2015.0649%2012.5064%2015.1824%2011.8732%2015.3146C12.0753%2015.9291%2012.3035%2016.5592%2012.5573%2017.2012ZM11.1629%2019.9997C10.5246%2021.4019%209.98831%2022.7793%209.56042%2024.1023C9.03713%2023.9454%208.54083%2023.7773%208.07426%2023.5991C6.57488%2023.0266%205.44343%2022.374%204.70768%2021.7098C3.9718%2021.0455%203.72898%2020.4656%203.72898%2019.9996C3.72898%2019.5337%203.9718%2018.9538%204.70768%2018.2895C5.44343%2017.6253%206.57488%2016.9726%208.07426%2016.4001C8.54082%2016.222%209.03711%2016.0539%209.56038%2015.8969C9.98828%2017.22%2010.5246%2018.5974%2011.1629%2019.9997ZM18.6962%2012.1653C19.1232%2012.1536%2019.554%2012.1477%2019.988%2012.1477C20.422%2012.1477%2020.8527%2012.1536%2021.2797%2012.1652C20.8506%2011.6245%2020.419%2011.1119%2019.988%2010.6295C19.5569%2011.1119%2019.1253%2011.6245%2018.6962%2012.1653ZM23.2393%2019.9997C23.2393%2021.7956%2021.7834%2023.2515%2019.9875%2023.2515C18.1916%2023.2515%2016.7357%2021.7956%2016.7357%2019.9997C16.7357%2018.2038%2018.1916%2016.7479%2019.9875%2016.7479C21.7834%2016.7479%2023.2393%2018.2038%2023.2393%2019.9997Z'%20fill='%2361DAFB'/%3e%3c/svg%3e">
+                  <div class="details">
+                    <span class="name"> React <span class="stable-tag">Stable</span> </span>
+                    <span class="version">
+                      Version：1.16.3
+                    </span>
+                  </div>
+                </a>
+              
+          </div>
+        </div>
+
+        <div class="TDesign-base-components-links__mobile">
+          <p class="title">Mobile 移动端</p>
+          <div class="TDesign-base-components-links__list">
+            
+                <a class="link  " href="/mobile-vue/overview">
+                  <img class="icon" src="data:image/svg+xml,%3csvg%20width='40'%20height='40'%20viewBox='0%200%2040%2040'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M24.0133%205.06641L19.9833%2012.0465L15.9535%205.06641H2.5332L19.9835%2035.2915L37.4337%205.06641H24.0133Z'%20fill='%2342B983'/%3e%3cpath%20d='M24.0137%205.06641L19.9837%2012.0465L15.9538%205.06641H9.51367L19.9838%2023.2011L30.4539%205.06641H24.0137Z'%20fill='%2335495E'/%3e%3c/svg%3e">
+                  <div class="details">
+                    <span class="name"> Vue Next <span class="stable-tag">Stable</span> </span>
+                    <span class="version">
+                      Version：1.12.1
+                    </span>
+                  </div>
+                </a>
+              
+                <a class="link  " href="/mobile-react/overview">
+                  <img class="icon" src="data:image/svg+xml,%3csvg%20width='40'%20height='40'%20viewBox='0%200%2040%2040'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M28.1175%205.91895C28.521%206.15192%2028.9018%206.65217%2029.1092%207.6216C29.3165%208.59087%2029.316%209.89706%2029.0621%2011.4818C28.9831%2011.9749%2028.8805%2012.4888%2028.7548%2013.0205C27.3951%2012.7295%2025.934%2012.5052%2024.4005%2012.3569C23.5053%2011.103%2022.5805%209.94987%2021.6487%208.91778C22.0462%208.54307%2022.44%208.19733%2022.8276%207.88233C24.0731%206.87007%2025.204%206.21654%2026.1471%205.91145C27.0903%205.60631%2027.7139%205.68597%2028.1175%205.91895ZM18.3272%208.91778C17.9297%208.54307%2017.5359%208.19734%2017.1483%207.88235C15.9029%206.87009%2014.7719%206.21656%2013.8288%205.91147C12.8856%205.60633%2012.262%205.68599%2011.8585%205.91896C11.4549%206.15194%2011.0741%206.65219%2010.8668%207.62162C10.6595%208.59088%2010.66%209.89708%2010.9138%2011.4818C10.9929%2011.975%2011.0954%2012.4888%2011.2211%2013.0205C12.5809%2012.7295%2014.0419%2012.5052%2015.5755%2012.3569C16.4706%2011.103%2017.3954%209.94987%2018.3272%208.91778ZM19.988%207.21345C19.5394%206.78938%2019.0922%206.39612%2018.649%206.03591C17.2716%204.91642%2015.8816%204.07479%2014.5612%203.64762C13.2409%203.2205%2011.8585%203.17148%2010.6688%203.85837C9.47905%204.54526%208.83027%205.76701%208.54003%207.12395C8.24976%208.48106%208.28365%2010.1056%208.56444%2011.8582C8.65479%2012.4222%208.7718%2013.006%208.91475%2013.6065C8.32322%2013.783%207.75908%2013.9736%207.22554%2014.1773C5.56732%2014.8104%204.14347%2015.5934%203.11332%2016.5233C2.08329%2017.4531%201.34961%2018.6259%201.34961%2019.9996C1.34961%2021.3734%202.08329%2022.5461%203.11332%2023.476C4.14347%2024.4059%205.56732%2025.1888%207.22554%2025.822C7.75909%2026.0257%208.32324%2026.2163%208.91478%2026.3927C8.77182%2026.9933%208.65481%2027.5772%208.56445%2028.1411C8.28366%2029.8937%208.24976%2031.5183%208.54004%2032.8754C8.83028%2034.2323%209.47905%2035.4541%2010.6688%2036.141C11.8585%2036.8279%2013.241%2036.7788%2014.5612%2036.3517C15.8816%2035.9246%2017.2716%2035.0829%2018.649%2033.9634C19.0922%2033.6032%2019.5394%2033.21%2019.988%2032.7859C20.4365%2033.21%2020.8837%2033.6032%2021.3269%2033.9635C22.7043%2035.0829%2024.0943%2035.9246%2025.4147%2036.3517C26.735%2036.7789%2028.1174%2036.8279%2029.3071%2036.141C30.4969%2035.4541%2031.1456%2034.2324%2031.4359%2032.8754C31.7262%2031.5183%2031.6923%2029.8937%2031.4115%2028.1411C31.3211%2027.5772%2031.2041%2026.9933%2031.0611%2026.3928C31.6527%2026.2163%2032.2169%2026.0257%2032.7504%2025.822C34.4087%2025.1888%2035.8325%2024.4059%2036.8627%2023.476C37.8927%2022.5461%2038.6264%2021.3734%2038.6264%2019.9996C38.6264%2018.6259%2037.8927%2017.4531%2036.8627%2016.5233C35.8325%2015.5934%2034.4087%2014.8104%2032.7504%2014.1773C32.2169%2013.9736%2031.6527%2013.783%2031.0612%2013.6065C31.2041%2013.006%2031.3211%2012.4221%2031.4115%2011.8582C31.6923%2010.1056%2031.7262%208.48104%2031.4359%207.12393C31.1457%205.76699%2030.4969%204.54524%2029.3072%203.85835C28.1174%203.17147%2026.735%203.22049%2025.4147%203.6476C24.0943%204.07477%2022.7043%204.9164%2021.3269%206.03589C20.8837%206.3961%2020.4365%206.78938%2019.988%207.21345ZM28.1027%2015.3146C27.4695%2015.1824%2026.8097%2015.0649%2026.1268%2014.9637C26.3504%2015.3277%2026.5709%2015.6979%2026.7879%2016.0737C27.0049%2016.4496%2027.2152%2016.8256%2027.4186%2017.2013C27.6724%2016.5592%2027.9006%2015.9291%2028.1027%2015.3146ZM28.813%2019.9997C29.4514%2018.5974%2029.9876%2017.22%2030.4155%2015.8969C30.9388%2016.0538%2031.4351%2016.222%2031.9017%2016.4001C33.4011%2016.9726%2034.5326%2017.6253%2035.2683%2018.2895C36.0042%2018.9538%2036.247%2019.5337%2036.247%2019.9996C36.247%2020.4656%2036.0042%2021.0455%2035.2683%2021.7098C34.5326%2022.374%2033.4011%2023.0266%2031.9017%2023.5991C31.4351%2023.7773%2030.9388%2023.9454%2030.4155%2024.1024C29.9876%2022.7793%2029.4513%2021.4019%2028.813%2019.9997ZM26.183%2019.9997C25.7431%2019.097%2025.2576%2018.1819%2024.7273%2017.2634C24.197%2016.3449%2023.6473%2015.4669%2023.0854%2014.6346C22.0837%2014.5641%2021.0485%2014.5271%2019.988%2014.5271C18.9274%2014.5271%2017.8922%2014.5641%2016.8905%2014.6346C16.3286%2015.4669%2015.7789%2016.3449%2015.2486%2017.2634C14.7183%2018.1819%2014.2328%2019.0969%2013.7929%2019.9997C14.2328%2020.9024%2014.7183%2021.8175%2015.2486%2022.736C15.7789%2023.6544%2016.3286%2024.5324%2016.8904%2025.3647C17.8921%2025.4351%2018.9274%2025.4722%2019.988%2025.4722C21.0485%2025.4722%2022.0838%2025.4351%2023.0855%2025.3647C23.6474%2024.5324%2024.1971%2023.6544%2024.7273%2022.7359C25.2576%2021.8175%2025.7431%2020.9024%2026.183%2019.9997ZM26.1268%2025.0356C26.3504%2024.6716%2026.5709%2024.3015%2026.7879%2023.9256C27.0049%2023.5498%2027.2152%2023.1738%2027.4186%2022.7981C27.6724%2023.4401%2027.9006%2024.0702%2028.1027%2024.6847C27.4695%2024.8169%2026.8097%2024.9343%2026.1268%2025.0356ZM21.2798%2027.834C20.8528%2027.8456%2020.422%2027.8515%2019.988%2027.8515C19.554%2027.8515%2019.1232%2027.8456%2018.6961%2027.834C19.1252%2028.3748%2019.5568%2028.8875%2019.988%2029.3698C20.4191%2028.8875%2020.8507%2028.3748%2021.2798%2027.834ZM21.6487%2031.0816C22.5805%2030.0495%2023.5053%2028.8963%2024.4005%2027.6424C25.934%2027.4941%2027.3951%2027.2698%2028.7548%2026.9788C28.8805%2027.5105%2028.9831%2028.0244%2029.0621%2028.5175C29.316%2030.1023%2029.3165%2031.4085%2029.1091%2032.3777C28.9018%2033.3472%2028.521%2033.8474%2028.1175%2034.0804C27.7139%2034.3134%2027.0903%2034.393%2026.1471%2034.0879C25.204%2033.7828%2024.0731%2033.1293%2022.8276%2032.117C22.44%2031.802%2022.0462%2031.4563%2021.6487%2031.0816ZM18.3272%2031.0816C17.3954%2030.0495%2016.4706%2028.8963%2015.5754%2027.6424C14.0419%2027.494%2012.5809%2027.2698%2011.2211%2026.9788C11.0954%2027.5105%2010.9929%2028.0244%2010.9139%2028.5175C10.66%2030.1023%2010.6595%2031.4085%2010.8668%2032.3777C11.0741%2033.3472%2011.4549%2033.8474%2011.8585%2034.0804C12.262%2034.3134%2012.8856%2034.393%2013.8288%2034.0879C14.7719%2033.7828%2015.9029%2033.1293%2017.1483%2032.117C17.5359%2031.802%2017.9297%2031.4563%2018.3272%2031.0816ZM11.8732%2024.6847C12.5064%2024.8169%2013.1662%2024.9343%2013.8491%2025.0356C13.6255%2024.6716%2013.405%2024.3015%2013.188%2023.9256C12.971%2023.5498%2012.7607%2023.1738%2012.5573%2022.7981C12.3035%2023.4401%2012.0754%2024.0702%2011.8732%2024.6847ZM12.5573%2017.2012C12.7607%2016.8256%2012.971%2016.4496%2013.188%2016.0737C13.405%2015.6978%2013.6255%2015.3277%2013.8491%2014.9637C13.1662%2015.0649%2012.5064%2015.1824%2011.8732%2015.3146C12.0753%2015.9291%2012.3035%2016.5592%2012.5573%2017.2012ZM11.1629%2019.9997C10.5246%2021.4019%209.98831%2022.7793%209.56042%2024.1023C9.03713%2023.9454%208.54083%2023.7773%208.07426%2023.5991C6.57488%2023.0266%205.44343%2022.374%204.70768%2021.7098C3.9718%2021.0455%203.72898%2020.4656%203.72898%2019.9996C3.72898%2019.5337%203.9718%2018.9538%204.70768%2018.2895C5.44343%2017.6253%206.57488%2016.9726%208.07426%2016.4001C8.54082%2016.222%209.03711%2016.0539%209.56038%2015.8969C9.98828%2017.22%2010.5246%2018.5974%2011.1629%2019.9997ZM18.6962%2012.1653C19.1232%2012.1536%2019.554%2012.1477%2019.988%2012.1477C20.422%2012.1477%2020.8527%2012.1536%2021.2797%2012.1652C20.8506%2011.6245%2020.419%2011.1119%2019.988%2010.6295C19.5569%2011.1119%2019.1253%2011.6245%2018.6962%2012.1653ZM23.2393%2019.9997C23.2393%2021.7956%2021.7834%2023.2515%2019.9875%2023.2515C18.1916%2023.2515%2016.7357%2021.7956%2016.7357%2019.9997C16.7357%2018.2038%2018.1916%2016.7479%2019.9875%2016.7479C21.7834%2016.7479%2023.2393%2018.2038%2023.2393%2019.9997Z'%20fill='%2361DAFB'/%3e%3c/svg%3e">
+                  <div class="details">
+                    <span class="name"> React <span class="alpha-tag">Alpha</span> </span>
+                    <span class="version">
+                      Version：0.21.1
+                    </span>
+                  </div>
+                </a>
+              
+                <a class="link  " href="/flutter/overview">
+                  <img class="icon" src="data:image/svg+xml,%3csvg%20width='40'%20height='40'%20viewBox='0%200%2040%2040'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M23.1861%203.33301L6.5%2019.9997L11.6389%2025.1386L33.4222%203.34967H23.2042L23.1861%203.33301ZM23.2056%2018.7108L14.2181%2027.6788L23.2042%2036.665H33.4444L24.4722%2027.6816L33.4444%2018.7094L23.2056%2018.7108Z'%20fill='%2344D1FD'/%3e%3c/svg%3e">
+                  <div class="details">
+                    <span class="name"> Flutter <span class="alpha-tag">Alpha</span> </span>
+                    <span class="version">
+                      Version：alpha
+                    </span>
+                  </div>
+                </a>
+              
+                <a class="link  " href="/miniprogram/overview">
+                  <img class="icon" src="data:image/svg+xml,%3csvg%20width='40'%20height='40'%20viewBox='0%200%2040%2040'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cmask%20id='mask0_22539_139637'%20style='mask-type:alpha'%20maskUnits='userSpaceOnUse'%20x='0'%20y='0'%20width='40'%20height='40'%3e%3crect%20width='40'%20height='40'%20fill='white'/%3e%3c/mask%3e%3cg%20mask='url(%23mask0_22539_139637)'%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M32.4972%204.95434C35.1486%206.25306%2036.7951%208.81475%2037.3777%2012.1934C37.9432%2015.473%2036.4782%2018.0897%2034.8157%2019.8171C33.1907%2021.5055%2031.1401%2022.6188%2029.704%2023.0506C28.3818%2023.4482%2026.9876%2022.6987%2026.59%2021.3764C26.1924%2020.0542%2026.942%2018.66%2028.2642%2018.2624C28.8967%2018.0722%2030.1971%2017.4056%2031.2131%2016.3499C32.1915%2015.3333%2032.6572%2014.2419%2032.4504%2013.043C32.0677%2010.8235%2031.1629%209.86839%2030.2978%209.4446C29.3298%208.97047%2027.8151%208.86811%2025.7622%209.53967C23.2029%2010.3769%2022.7262%2012.1074%2022.6585%2012.7263V28.3271L22.6246%2028.5308C22.3096%2030.4256%2021.0062%2032.7905%2018.9145%2034.4353C16.6883%2036.1857%2013.5289%2037.1461%209.75544%2035.9603C5.964%2034.7689%203.98007%2032.1666%203.23478%2029.4408C2.53713%2026.8892%202.92557%2024.2691%203.68407%2022.6241C4.14363%2021.6274%205.13716%2020.3341%206.39848%2019.2718C7.67494%2018.1968%209.53668%2017.0968%2011.7876%2017.0101C13.1673%2016.9569%2014.3289%2018.0322%2014.3821%2019.4119C14.4353%2020.7916%2013.3599%2021.9532%2011.9802%2022.0063C11.2523%2022.0344%2010.4251%2022.4177%209.61935%2023.0962C8.79849%2023.7876%208.31664%2024.5182%208.22464%2024.7177C7.94126%2025.3323%207.68144%2026.7458%208.05776%2028.1221C8.38644%2029.3243%209.19871%2030.5443%2011.2543%2031.1903C13.3279%2031.8419%2014.7885%2031.319%2015.8239%2030.5048C16.8991%2029.6594%2017.4928%2028.509%2017.6585%2027.8677V12.5293L17.6648%2012.4407C17.8097%2010.4042%2019.1476%206.44281%2024.2076%204.7875C26.9814%203.8801%2029.9486%203.70596%2032.4972%204.95434Z'%20fill='%2300A870'/%3e%3c/g%3e%3c/svg%3e">
+                  <div class="details">
+                    <span class="name"> 微信小程序 <span class="stable-tag">Stable</span> </span>
+                    <span class="version">
+                      Version：1.12.1
+                    </span>
+                  </div>
+                </a>
+              
+                <a class="link  " href="/qq-miniprogram/overview">
+                  <img class="icon" src="data:image/svg+xml,%3csvg%20width='40'%20height='40'%20viewBox='0%200%2040%2040'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cmask%20id='mask0_22539_139637'%20style='mask-type:alpha'%20maskUnits='userSpaceOnUse'%20x='0'%20y='0'%20width='40'%20height='40'%3e%3crect%20width='40'%20height='40'%20fill='white'/%3e%3c/mask%3e%3cg%20mask='url(%23mask0_22539_139637)'%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M32.4972%204.95434C35.1486%206.25306%2036.7951%208.81475%2037.3777%2012.1934C37.9432%2015.473%2036.4782%2018.0897%2034.8157%2019.8171C33.1907%2021.5055%2031.1401%2022.6188%2029.704%2023.0506C28.3818%2023.4482%2026.9876%2022.6987%2026.59%2021.3764C26.1924%2020.0542%2026.942%2018.66%2028.2642%2018.2624C28.8967%2018.0722%2030.1971%2017.4056%2031.2131%2016.3499C32.1915%2015.3333%2032.6572%2014.2419%2032.4504%2013.043C32.0677%2010.8235%2031.1629%209.86839%2030.2978%209.4446C29.3298%208.97047%2027.8151%208.86811%2025.7622%209.53967C23.2029%2010.3769%2022.7262%2012.1074%2022.6585%2012.7263V28.3271L22.6246%2028.5308C22.3096%2030.4256%2021.0062%2032.7905%2018.9145%2034.4353C16.6883%2036.1857%2013.5289%2037.1461%209.75544%2035.9603C5.964%2034.7689%203.98007%2032.1666%203.23478%2029.4408C2.53713%2026.8892%202.92557%2024.2691%203.68407%2022.6241C4.14363%2021.6274%205.13716%2020.3341%206.39848%2019.2718C7.67494%2018.1968%209.53668%2017.0968%2011.7876%2017.0101C13.1673%2016.9569%2014.3289%2018.0322%2014.3821%2019.4119C14.4353%2020.7916%2013.3599%2021.9532%2011.9802%2022.0063C11.2523%2022.0344%2010.4251%2022.4177%209.61935%2023.0962C8.79849%2023.7876%208.31664%2024.5182%208.22464%2024.7177C7.94126%2025.3323%207.68144%2026.7458%208.05776%2028.1221C8.38644%2029.3243%209.19871%2030.5443%2011.2543%2031.1903C13.3279%2031.8419%2014.7885%2031.319%2015.8239%2030.5048C16.8991%2029.6594%2017.4928%2028.509%2017.6585%2027.8677V12.5293L17.6648%2012.4407C17.8097%2010.4042%2019.1476%206.44281%2024.2076%204.7875C26.9814%203.8801%2029.9486%203.70596%2032.4972%204.95434Z'%20fill='%2300A870'/%3e%3c/g%3e%3c/svg%3e">
+                  <div class="details">
+                    <span class="name"> QQ 小程序 <span class="alpha-tag">Alpha</span> </span>
+                    <span class="version">
+                      Version：0.0.2
+                    </span>
+                  </div>
+                </a>
+              
+          </div>
+        </div>
+      </div></td-portal><td-portal class="" data-popper-placement="bottom-start" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; min-width: 32px; transform: translate(24px, 55px);"><style>.TDesign-header-logo__content{--menu-list-width: 400px;--list-direction: row;padding:16px;border-radius:6px;width:var(--menu-list-width);box-sizing:border-box}@media screen and (max-width: 750px){.TDesign-header-logo__content{--list-direction: column;--menu-list-width: 212px}}.TDesign-header-logo__content span.title:hover{cursor:auto;color:var(--text-primary);font-family:TencentSansW7}.TDesign-header-logo__content .title{color:var(--text-primary);display:inline-flex;align-items:flex-end;margin:0 16px 8px;line-height:22px;transition:color .2s linear;text-decoration:none;font-family:TencentSansW7}.TDesign-header-logo__content .title:hover{color:var(--brand-main)}.TDesign-header-logo__content .title i{width:16px;height:16px;margin-left:4px;margin-bottom:2px}.TDesign-header-logo__content .list{display:flex;flex-wrap:wrap;flex-direction:var(--list-direction);row-gap:8px;column-gap:8px}.TDesign-header-logo__content .list .item{text-decoration:none;padding:8px;width:180px;border-radius:var(--border-radius);box-sizing:border-box;display:flex;align-items:center;row-gap:8px;column-gap:8px;transition:all .2s linear}.TDesign-header-logo__content .list .item:hover{color:var(--text-primary);background:var(--bg-color-container-hover)}.TDesign-header-logo__content .list .item.active{color:var(--text-primary);background:var(--bg-color-container-select)}.TDesign-header-logo__content .list .item .icon{width:40px;height:40px}.TDesign-header-logo__content .list .item .details{display:flex;justify-content:center;flex-direction:column}.TDesign-header-logo__content .list .item .details .name{color:var(--text-primary);font-family:TencentSansW7}.TDesign-header-logo__content .list .item .details .desc{font-size:12px;line-height:20px;color:var(--text-secondary)}.TDesign-header-logo__content .line{width:100%;height:1px;margin:16px 0;background-color:var(--component-stroke)}</style><div slot="content" class="TDesign-header-logo__content">
+       <span class="title"> 腾讯设计 </span> 
+       <div class="list">
+     <a class="item" href="https://tdesign.tencent.com/?utm_source=tdc&amp;utm_medium=tdc.nav" target="_self">
+          <img class="icon" src="https://cdc.cdn-go.cn/tdc/latest/images/tdesign.svg">
+          <div class="details">
+            <span class="name">TDesign</span>
+            <span class="desc">企业级设计体系</span>
+          </div>
+        </a> <a class="item" href="https://codesign.qq.com/?utm_source=tdc&amp;utm_medium=tdc.nav" target="_blank">
+          <img class="icon" src="https://cdc.cdn-go.cn/tdc/latest/images/codesign.svg">
+          <div class="details">
+            <span class="name">CoDesign</span>
+            <span class="desc">一站式设计协作平台</span>
+          </div>
+        </a>
+  </div> 
+    </div></td-portal><td-portal class="" data-popper-placement="left-start" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(-408px, 389px);"><style></style><div slot="content" class="qrcode-wrapper"><div class="qrcode__wrapper" slot="qrcode"><img class="qrcode" src="//tdesign.tencent.com/miniprogram/assets/qrcode/upload.png"></div></div></td-portal><td-portal class="TDesign-doc__qrcode-popup" data-popper-reference-hidden="" data-popper-escaped="" data-popper-placement="left-start" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(-240px, 3722px);"><style>.TDesign-doc__qrcode-inner{padding:12px;box-sizing:border-box;background-color:#fff;border-radius:6px}.TDesign-doc__qrcode-popup:after{position:absolute;content:"";width:16px;height:16px;transform:rotate(45deg);background:#fff;border-bottom:1px solid #fff;border-right:1px solid #fff;top:64px;right:-4px}</style><div slot="content" class="TDesign-doc__qrcode-inner">
+                  <img width="120" height="120" src="">
+                </div></td-portal></div></body></html>
