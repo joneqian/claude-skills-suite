@@ -1,87 +1,87 @@
 {
   "name": "tdesign-miniprogram",
-  "skip_llms_txt": true,
-  "description": "TDesign Mini Program UI component library by Tencent (60+ components). Includes core miniprogram components AND AI Chat components (miniprogram-chat v1.12.0+) for building WeChat mini apps with AI chat interfaces, streaming SSE support, markdown rendering, CSS variables theming, dark mode, and design system best practices.",
+  "description": "TDesign Mini Program UI component library by Tencent. Use for building WeChat mini apps with TDesign components, design system, AI Chat components, and best practices.",
   "base_url": "https://tdesign.tencent.com/",
   "start_urls": [
     "https://tdesign.tencent.com/miniprogram/getting-started",
     "https://tdesign.tencent.com/miniprogram/overview",
     "https://tdesign.tencent.com/miniprogram/changelog",
-    "https://tdesign.tencent.com/miniprogram/custom-style",
     "https://tdesign.tencent.com/miniprogram/custom-theme",
     "https://tdesign.tencent.com/miniprogram/dark-mode",
     "https://tdesign.tencent.com/miniprogram/components/button",
-    "https://tdesign.tencent.com/miniprogram/components/divider",
-    "https://tdesign.tencent.com/miniprogram/components/fab",
     "https://tdesign.tencent.com/miniprogram/components/icon",
-    "https://tdesign.tencent.com/miniprogram/components/layout",
     "https://tdesign.tencent.com/miniprogram/components/link",
-    "https://tdesign.tencent.com/miniprogram/components/back-top",
-    "https://tdesign.tencent.com/miniprogram/components/drawer",
-    "https://tdesign.tencent.com/miniprogram/components/indexes",
-    "https://tdesign.tencent.com/miniprogram/components/navbar",
-    "https://tdesign.tencent.com/miniprogram/components/side-bar",
-    "https://tdesign.tencent.com/miniprogram/components/steps",
-    "https://tdesign.tencent.com/miniprogram/components/tab-bar",
-    "https://tdesign.tencent.com/miniprogram/components/tabs",
-    "https://tdesign.tencent.com/miniprogram/components/calendar",
-    "https://tdesign.tencent.com/miniprogram/components/cascader",
-    "https://tdesign.tencent.com/miniprogram/components/checkbox",
-    "https://tdesign.tencent.com/miniprogram/components/color-picker",
-    "https://tdesign.tencent.com/miniprogram/components/date-time-picker",
-    "https://tdesign.tencent.com/miniprogram/components/input",
-    "https://tdesign.tencent.com/miniprogram/components/picker",
-    "https://tdesign.tencent.com/miniprogram/components/radio",
-    "https://tdesign.tencent.com/miniprogram/components/rate",
-    "https://tdesign.tencent.com/miniprogram/components/search",
-    "https://tdesign.tencent.com/miniprogram/components/slider",
-    "https://tdesign.tencent.com/miniprogram/components/stepper",
-    "https://tdesign.tencent.com/miniprogram/components/switch",
-    "https://tdesign.tencent.com/miniprogram/components/textarea",
-    "https://tdesign.tencent.com/miniprogram/components/tree-select",
-    "https://tdesign.tencent.com/miniprogram/components/upload",
-    "https://tdesign.tencent.com/miniprogram/components/avatar",
-    "https://tdesign.tencent.com/miniprogram/components/badge",
+    "https://tdesign.tencent.com/miniprogram/components/fab",
     "https://tdesign.tencent.com/miniprogram/components/cell",
-    "https://tdesign.tencent.com/miniprogram/components/collapse",
-    "https://tdesign.tencent.com/miniprogram/components/count-down",
-    "https://tdesign.tencent.com/miniprogram/components/empty",
-    "https://tdesign.tencent.com/miniprogram/components/footer",
     "https://tdesign.tencent.com/miniprogram/components/grid",
     "https://tdesign.tencent.com/miniprogram/components/image",
-    "https://tdesign.tencent.com/miniprogram/components/image-viewer",
-    "https://tdesign.tencent.com/miniprogram/components/progress",
-    "https://tdesign.tencent.com/miniprogram/components/qrcode",
-    "https://tdesign.tencent.com/miniprogram/components/result",
-    "https://tdesign.tencent.com/miniprogram/components/skeleton",
-    "https://tdesign.tencent.com/miniprogram/components/sticky",
-    "https://tdesign.tencent.com/miniprogram/components/swiper",
+    "https://tdesign.tencent.com/miniprogram/components/divider",
+    "https://tdesign.tencent.com/miniprogram/components/input",
+    "https://tdesign.tencent.com/miniprogram/components/textarea",
+    "https://tdesign.tencent.com/miniprogram/components/radio",
+    "https://tdesign.tencent.com/miniprogram/components/checkbox",
+    "https://tdesign.tencent.com/miniprogram/components/switch",
+    "https://tdesign.tencent.com/miniprogram/components/slider",
+    "https://tdesign.tencent.com/miniprogram/components/stepper",
+    "https://tdesign.tencent.com/miniprogram/components/upload",
+    "https://tdesign.tencent.com/miniprogram/components/picker",
+    "https://tdesign.tencent.com/miniprogram/components/date-time-picker",
+    "https://tdesign.tencent.com/miniprogram/components/cascader",
+    "https://tdesign.tencent.com/miniprogram/components/search",
+    "https://tdesign.tencent.com/miniprogram/components/rate",
+    "https://tdesign.tencent.com/miniprogram/components/form",
+    "https://tdesign.tencent.com/miniprogram/components/avatar",
+    "https://tdesign.tencent.com/miniprogram/components/badge",
     "https://tdesign.tencent.com/miniprogram/components/tag",
-    "https://tdesign.tencent.com/miniprogram/components/watermark",
-    "https://tdesign.tencent.com/miniprogram/components/action-sheet",
-    "https://tdesign.tencent.com/miniprogram/components/dialog",
-    "https://tdesign.tencent.com/miniprogram/components/dropdown-menu",
-    "https://tdesign.tencent.com/miniprogram/components/guide",
+    "https://tdesign.tencent.com/miniprogram/components/count-down",
+    "https://tdesign.tencent.com/miniprogram/components/progress",
+    "https://tdesign.tencent.com/miniprogram/components/skeleton",
+    "https://tdesign.tencent.com/miniprogram/components/swiper",
+    "https://tdesign.tencent.com/miniprogram/components/image-viewer",
+    "https://tdesign.tencent.com/miniprogram/components/empty",
+    "https://tdesign.tencent.com/miniprogram/components/collapse",
+    "https://tdesign.tencent.com/miniprogram/components/table",
+    "https://tdesign.tencent.com/miniprogram/components/list",
     "https://tdesign.tencent.com/miniprogram/components/loading",
-    "https://tdesign.tencent.com/miniprogram/components/message",
-    "https://tdesign.tencent.com/miniprogram/components/notice-bar",
-    "https://tdesign.tencent.com/miniprogram/components/overlay",
-    "https://tdesign.tencent.com/miniprogram/components/popover",
+    "https://tdesign.tencent.com/miniprogram/components/result",
+    "https://tdesign.tencent.com/miniprogram/components/dialog",
     "https://tdesign.tencent.com/miniprogram/components/popup",
-    "https://tdesign.tencent.com/miniprogram/components/pull-down-refresh",
-    "https://tdesign.tencent.com/miniprogram/components/swipe-cell",
     "https://tdesign.tencent.com/miniprogram/components/toast",
+    "https://tdesign.tencent.com/miniprogram/components/message",
+    "https://tdesign.tencent.com/miniprogram/components/action-sheet",
+    "https://tdesign.tencent.com/miniprogram/components/drawer",
+    "https://tdesign.tencent.com/miniprogram/components/overlay",
+    "https://tdesign.tencent.com/miniprogram/components/swipe-cell",
+    "https://tdesign.tencent.com/miniprogram/components/pull-down-refresh",
+    "https://tdesign.tencent.com/miniprogram/components/notice-bar",
+    "https://tdesign.tencent.com/miniprogram/components/tabs",
+    "https://tdesign.tencent.com/miniprogram/components/tab-bar",
+    "https://tdesign.tencent.com/miniprogram/components/navbar",
+    "https://tdesign.tencent.com/miniprogram/components/steps",
+    "https://tdesign.tencent.com/miniprogram/components/indexes",
+    "https://tdesign.tencent.com/miniprogram/components/side-bar",
+    "https://tdesign.tencent.com/miniprogram/components/back-top",
+    "https://tdesign.tencent.com/miniprogram/components/dropdown-menu",
+    "https://tdesign.tencent.com/miniprogram/components/sticky",
+    "https://tdesign.tencent.com/miniprogram/components/footer",
+    "https://tdesign.tencent.com/miniprogram/components/guide",
+    "https://tdesign.tencent.com/miniprogram/components/calendar",
+    "https://tdesign.tencent.com/miniprogram/components/tree-select",
     "https://tdesign.tencent.com/miniprogram-chat/getting-started",
-    "https://tdesign.tencent.com/miniprogram-chat/sse",
-    "https://tdesign.tencent.com/miniprogram-chat/components/chat-list",
-    "https://tdesign.tencent.com/miniprogram-chat/components/chat-sender",
-    "https://tdesign.tencent.com/miniprogram-chat/components/chat-message",
-    "https://tdesign.tencent.com/miniprogram-chat/components/chat-actionbar",
-    "https://tdesign.tencent.com/miniprogram-chat/components/chat-markdown",
-    "https://tdesign.tencent.com/miniprogram-chat/components/chat-thinking",
+    "https://tdesign.tencent.com/miniprogram-chat/overview",
+    "https://tdesign.tencent.com/miniprogram-chat/changelog",
+    "https://tdesign.tencent.com/miniprogram-chat/custom-theme",
+    "https://tdesign.tencent.com/miniprogram-chat/components/chat",
+    "https://tdesign.tencent.com/miniprogram-chat/components/chat-item",
     "https://tdesign.tencent.com/miniprogram-chat/components/chat-loading",
-    "https://tdesign.tencent.com/miniprogram-chat/components/attachments",
-    "https://tdesign.tencent.com/miniprogram-chat/components/chat-content"
+    "https://tdesign.tencent.com/miniprogram-chat/components/chat-input",
+    "https://tdesign.tencent.com/miniprogram-chat/components/chat-action",
+    "https://tdesign.tencent.com/miniprogram-chat/components/chat-bubble",
+    "https://tdesign.tencent.com/miniprogram-chat/components/chat-sender",
+    "https://tdesign.tencent.com/miniprogram-chat/components/chat-content",
+    "https://tdesign.tencent.com/miniprogram-chat/components/thinking",
+    "https://tdesign.tencent.com/miniprogram-chat/components/markdown",
+    "https://tdesign.tencent.com/miniprogram-chat/components/sse"
   ],
   "selectors": {
     "main_content": ".TDesign-doc-content, .markdown-body, article, main, .content",
@@ -90,285 +90,20 @@
   },
   "url_patterns": {
     "include": ["/miniprogram/", "/miniprogram-chat/"],
-    "exclude": [
-      "/vue/",
-      "/react/",
-      "/mobile-vue/",
-      "/mobile-react/",
-      "/flutter/",
-      "/design/"
-    ]
+    "exclude": ["/vue/", "/react/", "/mobile-vue/", "/mobile-react/", "/flutter/", "/design/", "/source/"]
   },
   "categories": {
-    "getting_started": [
-      "getting-started",
-      "overview",
-      "changelog",
-      "custom-style",
-      "custom-theme",
-      "dark-mode"
-    ],
-    "ai_chat": [
-      "chat-list",
-      "chat-sender",
-      "chat-message",
-      "chat-actionbar",
-      "chat-markdown",
-      "chat-thinking",
-      "chat-loading",
-      "attachments",
-      "chat-content"
-    ],
-    "basic": ["button", "divider", "fab", "icon", "layout", "link"],
-    "navigation": [
-      "back-top",
-      "drawer",
-      "indexes",
-      "navbar",
-      "side-bar",
-      "steps",
-      "tab-bar",
-      "tabs"
-    ],
-    "form": [
-      "calendar",
-      "cascader",
-      "checkbox",
-      "color-picker",
-      "date-time-picker",
-      "input",
-      "picker",
-      "radio",
-      "rate",
-      "search",
-      "slider",
-      "stepper",
-      "switch",
-      "textarea",
-      "tree-select",
-      "upload"
-    ],
-    "data_display": [
-      "avatar",
-      "badge",
-      "cell",
-      "collapse",
-      "count-down",
-      "empty",
-      "footer",
-      "grid",
-      "image",
-      "image-viewer",
-      "progress",
-      "qrcode",
-      "result",
-      "skeleton",
-      "sticky",
-      "swiper",
-      "tag",
-      "watermark"
-    ],
-    "feedback": [
-      "action-sheet",
-      "dialog",
-      "dropdown-menu",
-      "guide",
-      "loading",
-      "message",
-      "notice-bar",
-      "overlay",
-      "popover",
-      "popup",
-      "pull-down-refresh",
-      "swipe-cell",
-      "toast"
-    ]
+    "getting_started": ["overview", "getting-started", "changelog", "custom-theme", "dark-mode", "faq"],
+    "basic": ["button", "icon", "cell", "link", "fab", "divider", "grid", "image"],
+    "form": ["input", "textarea", "radio", "checkbox", "switch", "slider", "stepper", "upload", "picker", "date-time-picker", "cascader", "search", "rate", "form", "calendar", "tree-select"],
+    "data_display": ["avatar", "badge", "count-down", "image-viewer", "progress", "result", "skeleton", "swiper", "tag", "empty", "collapse", "list", "table", "loading"],
+    "feedback": ["action-sheet", "dialog", "drawer", "message", "overlay", "popup", "pull-down-refresh", "swipe-cell", "toast", "notice-bar", "guide"],
+    "navigation": ["back-top", "indexes", "navbar", "side-bar", "steps", "tab-bar", "tabs", "dropdown-menu", "sticky", "footer"],
+    "ai_chat": ["chat", "chat-item", "chat-loading", "chat-input", "chat-action", "chat-bubble", "chat-sender", "chat-content", "thinking", "markdown", "sse"]
   },
   "rate_limit": 1.0,
-  "max_pages": 100,
+  "max_pages": 200,
   "use_playwright": true,
   "wait_for_selector": ".TDesign-doc-content, .markdown-body",
-  "wait_timeout": 5000,
-  "install": {
-    "npm": "npm i tdesign-miniprogram -S --production",
-    "build_npm": "微信开发者工具 → 工具 → 构建 npm",
-    "app_json_note": "移除 app.json 中的 \"style\": \"v2\"，否则会导致组件样式错乱",
-    "min_base_lib": "^2.12.0",
-    "ts_config": {
-      "paths": {
-        "tdesign-miniprogram/*": [
-          "./miniprogram/miniprogram_npm/tdesign-miniprogram/*"
-        ]
-      }
-    },
-    "usage_example": {
-      "json": {
-        "usingComponents": {
-          "t-button": "tdesign-miniprogram/button/button"
-        }
-      },
-      "wxml": "<t-button theme=\"primary\">按钮</t-button>"
-    }
-  },
-  "style_override": {
-    "methods": [
-      "使用 style/custom-style 属性",
-      "解除样式隔离 (styleIsolation: 'shared')",
-      "使用外部样式类 (t-class-*)",
-      "使用 CSS 变量"
-    ],
-    "virtual_host": "从 1.0.0-rc 版本开始，基础库 >= 2.19.2 默认开启 virtualHost"
-  },
-  "theming": {
-    "css_variables": "_variables.less",
-    "brand_colors": {
-      "--td-brand-color": "#0052d9",
-      "--td-success-color": "#00a870",
-      "--td-warning-color": "#ed7b2f",
-      "--td-error-color": "#e34d59"
-    },
-    "usage": "page { --td-brand-color: navy; }"
-  },
-  "dark_mode": {
-    "version": "1.3.0+",
-    "setup": [
-      "app.json 添加 \"darkmode\": true",
-      "app.wxss 引入 @import 'miniprogram_npm/tdesign-miniprogram/common/style/theme/_index.wxss'",
-      "使用 CSS Variables 替换颜色值"
-    ],
-    "special_components_note": "custom-tab-bar 和 root-portal 需要手动添加 .page 类名"
-  },
-  "ai_chat_components": {
-    "version": "1.12.0+",
-    "chat-list": {
-      "path": "tdesign-miniprogram/chat-list/chat-list",
-      "tag": "t-chat",
-      "description": "对话列表容器，支持单侧/两侧布局，倒序显示，骨架屏/渐变/闪烁动画",
-      "props": ["animation", "data", "layout", "reverse"],
-      "events": ["scroll"],
-      "slots": ["actionbar"]
-    },
-    "chat-sender": {
-      "path": "tdesign-miniprogram/chat-sender/chat-sender",
-      "tag": "t-chat-sender",
-      "description": "对话输入组件，支持文件上传、内容引用、键盘适配",
-      "props": [
-        "adjust-position",
-        "attachments-props",
-        "auto-rise-with-keyboard",
-        "disabled",
-        "file-list",
-        "loading",
-        "placeholder",
-        "render-presets",
-        "textarea-props",
-        "value",
-        "visible"
-      ],
-      "events": [
-        "blur",
-        "change",
-        "file-add",
-        "file-change",
-        "file-click",
-        "file-delete",
-        "file-select",
-        "focus",
-        "keyboardheightchange",
-        "send",
-        "stop",
-        "upload-click"
-      ],
-      "slots": ["header", "footer-prefix", "suffix"]
-    },
-    "chat-message": {
-      "path": "tdesign-miniprogram/chat-message/chat-message",
-      "tag": "t-chat-message",
-      "description": "对话消息体，支持头像、昵称、气泡样式、状态显示",
-      "props": [
-        "animation",
-        "avatar",
-        "chat-content-props",
-        "chat-id",
-        "content",
-        "datetime",
-        "name",
-        "placement",
-        "role",
-        "status",
-        "variant"
-      ],
-      "events": ["longpress"],
-      "slots": ["avatar", "content", "name"]
-    },
-    "chat-actionbar": {
-      "path": "tdesign-miniprogram/chat-actionbar/chat-actionbar",
-      "tag": "t-chat-actionbar",
-      "description": "对话操作栏，支持重新生成、复制、点赞、点踩、分享",
-      "props": [
-        "action-bar",
-        "chat-id",
-        "comment",
-        "content",
-        "copy-mode",
-        "disabled",
-        "placement"
-      ],
-      "events": ["actions"]
-    },
-    "chat-markdown": {
-      "path": "tdesign-miniprogram/chat-markdown/chat-markdown",
-      "tag": "t-chat-markdown",
-      "description": "Markdown渲染组件，支持标题、列表、代码块、表格、图片、链接、引用",
-      "props": ["content", "options"],
-      "events": ["click"]
-    },
-    "chat-thinking": {
-      "path": "tdesign-miniprogram/chat-thinking/chat-thinking",
-      "tag": "t-chat-thinking",
-      "description": "思考过程展示，支持折叠、多种动画效果、状态显示",
-      "props": [
-        "animation",
-        "collapsed",
-        "content",
-        "layout",
-        "max-height",
-        "status"
-      ],
-      "events": ["collapsed-change"]
-    },
-    "chat-loading": {
-      "path": "tdesign-miniprogram/chat-loading/chat-loading",
-      "tag": "t-chat-loading",
-      "description": "对话加载动画，支持骨架屏/渐变/闪烁/点状动画",
-      "props": ["animation", "text"]
-    },
-    "attachments": {
-      "path": "tdesign-miniprogram/attachments/attachments",
-      "tag": "t-attachments",
-      "description": "文件附件展示，支持图片/文件类型、上传状态、预览",
-      "props": ["addable", "image-viewer", "items", "removable"],
-      "events": ["add", "file-click", "remove"]
-    },
-    "chat-content": {
-      "path": "tdesign-miniprogram/chat-content/chat-content",
-      "tag": "t-chat-content",
-      "description": "对话正文渲染，自动区分用户/助手样式，支持text/markdown类型",
-      "props": ["content", "markdown-props", "role", "status"]
-    }
-  },
-  "sse_integration": {
-    "description": "Server-Sent Events流式输出支持，用于大模型实时响应",
-    "wx_request_config": {
-      "enableChunked": true
-    },
-    "example": "const requestTask = wx.request({ url, enableChunked: true }); requestTask.onChunkReceived(chunk => console.log(chunk))",
-    "data_format": "data: {\"choices\":[{\"delta\":{\"content\":\"...\"}}]}"
-  },
-  "base_lib_requirements": {
-    "Upload_wx.previewMedia": "2.12.0",
-    "Upload_wx.chooseMedia": "2.10.0",
-    "Upload_wx.chooseMessageFile": "2.5.0",
-    "Navbar_wx.getMenuButtonBoundingClientRect": "2.1.0"
-  }
+  "wait_timeout": 5000
 }
