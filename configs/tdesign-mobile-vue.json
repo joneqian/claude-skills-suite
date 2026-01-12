@@ -69,20 +69,75 @@
   },
   "url_patterns": {
     "include": ["/mobile-vue/"],
-    "exclude": ["/vue/", "/react/", "/miniprogram/", "/mobile-react/", "/flutter/", "/design/"]
+    "exclude": [
+      "/vue/",
+      "/react/",
+      "/miniprogram/",
+      "/mobile-react/",
+      "/flutter/",
+      "/design/"
+    ]
   },
   "categories": {
     "getting_started": ["overview", "getting-started", "changelog", "faq"],
     "basic": ["button", "icon", "cell", "link", "fab", "divider"],
     "layout": ["grid", "sticky", "footer"],
-    "form": ["input", "textarea", "radio", "checkbox", "switch", "slider", "stepper", "upload", "picker", "date-time-picker", "cascader", "search", "rate", "form"],
-    "data_display": ["avatar", "badge", "count-down", "image", "image-viewer", "progress", "result", "skeleton", "swiper", "tag", "empty", "collapse", "list", "notice-bar"],
-    "feedback": ["action-sheet", "dialog", "drawer", "loading", "message", "overlay", "popup", "pull-down-refresh", "swipe-cell", "toast"],
-    "navigation": ["back-top", "indexes", "navbar", "side-bar", "steps", "tab-bar", "tabs", "dropdown-menu"]
+    "form": [
+      "input",
+      "textarea",
+      "radio",
+      "checkbox",
+      "switch",
+      "slider",
+      "stepper",
+      "upload",
+      "picker",
+      "date-time-picker",
+      "cascader",
+      "search",
+      "rate",
+      "form"
+    ],
+    "data_display": [
+      "avatar",
+      "badge",
+      "count-down",
+      "image",
+      "image-viewer",
+      "progress",
+      "result",
+      "skeleton",
+      "swiper",
+      "tag",
+      "empty",
+      "collapse",
+      "list",
+      "notice-bar"
+    ],
+    "feedback": [
+      "action-sheet",
+      "dialog",
+      "drawer",
+      "loading",
+      "message",
+      "overlay",
+      "popup",
+      "pull-down-refresh",
+      "swipe-cell",
+      "toast"
+    ],
+    "navigation": [
+      "back-top",
+      "indexes",
+      "navbar",
+      "side-bar",
+      "steps",
+      "tab-bar",
+      "tabs",
+      "dropdown-menu"
+    ]
   },
-  "rate_limit": 1.0,
-  "max_pages": 150,
-  "use_playwright": true,
-  "wait_for_selector": ".TDesign-doc-content, .markdown-body",
-  "wait_timeout": 5000
+  "rate_limit": 0.05,
+  "max_pages": 500,
+  "use_playwright": true
 }

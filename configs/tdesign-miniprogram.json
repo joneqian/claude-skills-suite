@@ -90,20 +90,109 @@
   },
   "url_patterns": {
     "include": ["/miniprogram/", "/miniprogram-chat/"],
-    "exclude": ["/vue/", "/react/", "/mobile-vue/", "/mobile-react/", "/flutter/", "/design/", "/source/"]
+    "exclude": [
+      "/vue/",
+      "/react/",
+      "/mobile-vue/",
+      "/mobile-react/",
+      "/flutter/",
+      "/design/",
+      "/source/"
+    ]
   },
   "categories": {
-    "getting_started": ["overview", "getting-started", "changelog", "custom-theme", "dark-mode", "faq"],
-    "basic": ["button", "icon", "cell", "link", "fab", "divider", "grid", "image"],
-    "form": ["input", "textarea", "radio", "checkbox", "switch", "slider", "stepper", "upload", "picker", "date-time-picker", "cascader", "search", "rate", "form", "calendar", "tree-select"],
-    "data_display": ["avatar", "badge", "count-down", "image-viewer", "progress", "result", "skeleton", "swiper", "tag", "empty", "collapse", "list", "table", "loading"],
-    "feedback": ["action-sheet", "dialog", "drawer", "message", "overlay", "popup", "pull-down-refresh", "swipe-cell", "toast", "notice-bar", "guide"],
-    "navigation": ["back-top", "indexes", "navbar", "side-bar", "steps", "tab-bar", "tabs", "dropdown-menu", "sticky", "footer"],
-    "ai_chat": ["chat", "chat-item", "chat-loading", "chat-input", "chat-action", "chat-bubble", "chat-sender", "chat-content", "thinking", "markdown", "sse"]
+    "getting_started": [
+      "overview",
+      "getting-started",
+      "changelog",
+      "custom-theme",
+      "dark-mode",
+      "faq"
+    ],
+    "basic": [
+      "button",
+      "icon",
+      "cell",
+      "link",
+      "fab",
+      "divider",
+      "grid",
+      "image"
+    ],
+    "form": [
+      "input",
+      "textarea",
+      "radio",
+      "checkbox",
+      "switch",
+      "slider",
+      "stepper",
+      "upload",
+      "picker",
+      "date-time-picker",
+      "cascader",
+      "search",
+      "rate",
+      "form",
+      "calendar",
+      "tree-select"
+    ],
+    "data_display": [
+      "avatar",
+      "badge",
+      "count-down",
+      "image-viewer",
+      "progress",
+      "result",
+      "skeleton",
+      "swiper",
+      "tag",
+      "empty",
+      "collapse",
+      "list",
+      "table",
+      "loading"
+    ],
+    "feedback": [
+      "action-sheet",
+      "dialog",
+      "drawer",
+      "message",
+      "overlay",
+      "popup",
+      "pull-down-refresh",
+      "swipe-cell",
+      "toast",
+      "notice-bar",
+      "guide"
+    ],
+    "navigation": [
+      "back-top",
+      "indexes",
+      "navbar",
+      "side-bar",
+      "steps",
+      "tab-bar",
+      "tabs",
+      "dropdown-menu",
+      "sticky",
+      "footer"
+    ],
+    "ai_chat": [
+      "chat",
+      "chat-item",
+      "chat-loading",
+      "chat-input",
+      "chat-action",
+      "chat-bubble",
+      "chat-sender",
+      "chat-content",
+      "thinking",
+      "markdown",
+      "sse"
+    ]
   },
-  "rate_limit": 1.0,
-  "max_pages": 200,
-  "use_playwright": true,
-  "wait_for_selector": ".TDesign-doc-content, .markdown-body",
-  "wait_timeout": 5000
+  "rate_limit": 0.05,
+  "max_pages": 500,
+  "use_playwright": true
 }
