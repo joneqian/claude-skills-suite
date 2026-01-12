@@ -10,17 +10,6 @@
     "https://tdesign.tencent.com/miniprogram/custom-style",
     "https://tdesign.tencent.com/miniprogram/custom-theme",
     "https://tdesign.tencent.com/miniprogram/dark-mode",
-    "https://tdesign.tencent.com/miniprogram-chat/getting-started",
-    "https://tdesign.tencent.com/miniprogram-chat/sse",
-    "https://tdesign.tencent.com/miniprogram-chat/components/chat-list",
-    "https://tdesign.tencent.com/miniprogram-chat/components/chat-sender",
-    "https://tdesign.tencent.com/miniprogram-chat/components/chat-message",
-    "https://tdesign.tencent.com/miniprogram-chat/components/chat-actionbar",
-    "https://tdesign.tencent.com/miniprogram-chat/components/chat-markdown",
-    "https://tdesign.tencent.com/miniprogram-chat/components/chat-thinking",
-    "https://tdesign.tencent.com/miniprogram-chat/components/chat-loading",
-    "https://tdesign.tencent.com/miniprogram-chat/components/attachments",
-    "https://tdesign.tencent.com/miniprogram-chat/components/chat-content",
     "https://tdesign.tencent.com/miniprogram/components/button",
     "https://tdesign.tencent.com/miniprogram/components/divider",
     "https://tdesign.tencent.com/miniprogram/components/fab",
@@ -81,7 +70,18 @@
     "https://tdesign.tencent.com/miniprogram/components/popup",
     "https://tdesign.tencent.com/miniprogram/components/pull-down-refresh",
     "https://tdesign.tencent.com/miniprogram/components/swipe-cell",
-    "https://tdesign.tencent.com/miniprogram/components/toast"
+    "https://tdesign.tencent.com/miniprogram/components/toast",
+    "https://tdesign.tencent.com/miniprogram-chat/getting-started",
+    "https://tdesign.tencent.com/miniprogram-chat/sse",
+    "https://tdesign.tencent.com/miniprogram-chat/components/chat-list",
+    "https://tdesign.tencent.com/miniprogram-chat/components/chat-sender",
+    "https://tdesign.tencent.com/miniprogram-chat/components/chat-message",
+    "https://tdesign.tencent.com/miniprogram-chat/components/chat-actionbar",
+    "https://tdesign.tencent.com/miniprogram-chat/components/chat-markdown",
+    "https://tdesign.tencent.com/miniprogram-chat/components/chat-thinking",
+    "https://tdesign.tencent.com/miniprogram-chat/components/chat-loading",
+    "https://tdesign.tencent.com/miniprogram-chat/components/attachments",
+    "https://tdesign.tencent.com/miniprogram-chat/components/chat-content"
   ],
   "selectors": {
     "main_content": ".TDesign-doc-content, .markdown-body, article, main, .content",
@@ -90,7 +90,14 @@
   },
   "url_patterns": {
     "include": ["/miniprogram/", "/miniprogram-chat/"],
-    "exclude": ["/vue/", "/react/", "/mobile-vue/", "/mobile-react/", "/flutter/", "/design/"]
+    "exclude": [
+      "/vue/",
+      "/react/",
+      "/mobile-vue/",
+      "/mobile-react/",
+      "/flutter/",
+      "/design/"
+    ]
   },
   "categories": {
     "getting_started": [
@@ -113,7 +120,16 @@
       "chat-content"
     ],
     "basic": ["button", "divider", "fab", "icon", "layout", "link"],
-    "navigation": ["back-top", "drawer", "indexes", "navbar", "side-bar", "steps", "tab-bar", "tabs"],
+    "navigation": [
+      "back-top",
+      "drawer",
+      "indexes",
+      "navbar",
+      "side-bar",
+      "steps",
+      "tab-bar",
+      "tabs"
+    ],
     "form": [
       "calendar",
       "cascader",
@@ -180,7 +196,9 @@
     "min_base_lib": "^2.12.0",
     "ts_config": {
       "paths": {
-        "tdesign-miniprogram/*": ["./miniprogram/miniprogram_npm/tdesign-miniprogram/*"]
+        "tdesign-miniprogram/*": [
+          "./miniprogram/miniprogram_npm/tdesign-miniprogram/*"
+        ]
       }
     },
     "usage_example": {
@@ -234,15 +252,52 @@
       "path": "tdesign-miniprogram/chat-sender/chat-sender",
       "tag": "t-chat-sender",
       "description": "对话输入组件，支持文件上传、内容引用、键盘适配",
-      "props": ["adjust-position", "attachments-props", "auto-rise-with-keyboard", "disabled", "file-list", "loading", "placeholder", "render-presets", "textarea-props", "value", "visible"],
-      "events": ["blur", "change", "file-add", "file-change", "file-click", "file-delete", "file-select", "focus", "keyboardheightchange", "send", "stop", "upload-click"],
+      "props": [
+        "adjust-position",
+        "attachments-props",
+        "auto-rise-with-keyboard",
+        "disabled",
+        "file-list",
+        "loading",
+        "placeholder",
+        "render-presets",
+        "textarea-props",
+        "value",
+        "visible"
+      ],
+      "events": [
+        "blur",
+        "change",
+        "file-add",
+        "file-change",
+        "file-click",
+        "file-delete",
+        "file-select",
+        "focus",
+        "keyboardheightchange",
+        "send",
+        "stop",
+        "upload-click"
+      ],
       "slots": ["header", "footer-prefix", "suffix"]
     },
     "chat-message": {
       "path": "tdesign-miniprogram/chat-message/chat-message",
       "tag": "t-chat-message",
       "description": "对话消息体，支持头像、昵称、气泡样式、状态显示",
-      "props": ["animation", "avatar", "chat-content-props", "chat-id", "content", "datetime", "name", "placement", "role", "status", "variant"],
+      "props": [
+        "animation",
+        "avatar",
+        "chat-content-props",
+        "chat-id",
+        "content",
+        "datetime",
+        "name",
+        "placement",
+        "role",
+        "status",
+        "variant"
+      ],
       "events": ["longpress"],
       "slots": ["avatar", "content", "name"]
     },
@@ -250,7 +305,15 @@
       "path": "tdesign-miniprogram/chat-actionbar/chat-actionbar",
       "tag": "t-chat-actionbar",
       "description": "对话操作栏，支持重新生成、复制、点赞、点踩、分享",
-      "props": ["action-bar", "chat-id", "comment", "content", "copy-mode", "disabled", "placement"],
+      "props": [
+        "action-bar",
+        "chat-id",
+        "comment",
+        "content",
+        "copy-mode",
+        "disabled",
+        "placement"
+      ],
       "events": ["actions"]
     },
     "chat-markdown": {
@@ -264,7 +327,14 @@
       "path": "tdesign-miniprogram/chat-thinking/chat-thinking",
       "tag": "t-chat-thinking",
       "description": "思考过程展示，支持折叠、多种动画效果、状态显示",
-      "props": ["animation", "collapsed", "content", "layout", "max-height", "status"],
+      "props": [
+        "animation",
+        "collapsed",
+        "content",
+        "layout",
+        "max-height",
+        "status"
+      ],
       "events": ["collapsed-change"]
     },
     "chat-loading": {
