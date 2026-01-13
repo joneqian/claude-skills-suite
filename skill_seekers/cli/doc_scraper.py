@@ -171,6 +171,9 @@ class DocToSkillConverter:
         self.workers = config.get('workers', 1)
         self.async_mode = config.get('async_mode', DEFAULT_ASYNC_MODE)
 
+        # Playwright config for SPA support
+        self.use_playwright = config.get('use_playwright', False)
+
         # State
         self.visited_urls: set[str] = set()
         # Support multiple starting URLs
@@ -643,6 +646,11 @@ class DocToSkillConverter:
                 self.save_summary()
                 return
 
+        # Use Playwright for SPA websites (if enabled in config)
+        if self.use_playwright and not self.dry_run:
+            asyncio.run(self._scrape_with_playwright())
+            return
+
         # HTML scraping (sync/thread-based logic)
         logger.info("\n" + "=" * 60)
         if self.dry_run:
@@ -892,6 +900,58 @@ class DocToSkillConverter:
         else:
             logger.info("\n✅ Scraped %d pages (async mode)", len(self.visited_urls))
             self.save_summary()
+
+    async def _scrape_with_playwright(self) -> None:
+        """Scrape pages using Playwright for SPA websites.
+
+        This method is used when 'use_playwright: true' is set in config.
+        It renders JavaScript content before extracting page data.
+        """
+        try:
+            from skill_seekers.cli.playwright_scraper import PlaywrightScraper
+        except ImportError:
+            logger.error(
+                "❌ Playwright not installed. Install with:\n"
+                "   pip install playwright\n"
+                "   playwright install chromium"
+            )
+            return
+
+        logger.info("\n" + "=" * 60)
+        logger.info("SCRAPING (PLAYWRIGHT/SPA MODE): %s", self.name)
+        logger.info("=" * 60)
+        logger.info("Base URL: %s", self.base_url)
+        logger.info("Output: %s", self.data_dir)
+        logger.info("")
+
+        # Create Playwright scraper
+        scraper = PlaywrightScraper(self.config)
+
+        # Scrape all URLs
+        urls_to_scrape = list(self.pending_urls)
+        max_pages = self.config.get('max_pages', DEFAULT_MAX_PAGES)
+        if max_pages and max_pages > 0:
+            urls_to_scrape = urls_to_scrape[:max_pages]
+
+        results = await scraper.scrape_all(urls_to_scrape)
+
+        # Process results through existing extract_content pipeline
+        logger.info("\n📄 Processing scraped content...")
+        for result in results:
+            try:
+                soup = BeautifulSoup(result['html'], 'html.parser')
+                page = self.extract_content(soup, result['url'])
+                self.save_page(page)
+                self.pages.append(page)
+                self.visited_urls.add(result['url'])
+            except Exception as e:
+                logger.warning("  ⚠ Failed to process %s: %s", result['url'], e)
+
+        logger.info("\n✅ Scraped %d pages (Playwright mode)", len(self.pages))
+        self.save_summary()
+
+        # Build skill automatically
+        self.build_skill()
 
     def save_summary(self) -> None:
         """Save scraping summary"""

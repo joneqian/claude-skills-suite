@@ -11,7 +11,12 @@ setup(
         "requests>=2.31.0",
         "beautifulsoup4>=4.12.0",
         "uvicorn",
+        "httpx>=0.25.0",
     ],
+    extras_require={
+        "playwright": ["playwright>=1.40.0"],
+        "all": ["playwright>=1.40.0"],
+    },
     entry_points={
         'console_scripts': [
             'skill-seekers=skill_seekers.cli.main:main',
