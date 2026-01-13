@@ -204,26 +204,47 @@ Create a new Excel file with the expanded FAQ content:
 
 **How to create the file:**
 
+**IMPORTANT (Cross-Platform Compatibility):**
+- **DO NOT use `python -c "..."` to run inline Python code** - this causes quote escaping issues on Windows
+- **ALWAYS use the Write tool to create a `.py` script file first**, then run it with `python script.py`
+
+**Step-by-step approach:**
+
+1. First, use the **Write tool** to create a Python script (e.g., `create_faq.py`):
+
 ```python
-# Use pandas to create the expanded FAQ
+# create_faq.py - Use Write tool to create this file
 import pandas as pd
 
 data = [
     {
-        '分类': '睡眠问题咨询',
-        '问题': '你们是怎么调理睡眠的？',
-        '回答': '我们通过太赫兹能量睡垫来调理睡眠...'
+        "分类": "睡眠问题咨询",
+        "问题": "你们是怎么调理睡眠的？",
+        "回答": "我们通过太赫兹能量睡垫来调理睡眠..."
     },
     {
-        '分类': '睡眠问题咨询',
-        '问题': '我总是入睡困难怎么办？',
-        '回答': '入睡困难通常和气血不畅有关...'
+        "分类": "睡眠问题咨询",
+        "问题": "我总是入睡困难怎么办？",
+        "回答": "入睡困难通常和气血不畅有关..."
     },
     # ... 添加所有扩展后的FAQ
 ]
 
 df = pd.DataFrame(data)
-df.to_excel('filename_expanded.xlsx', index=False)
+df.to_excel("filename_expanded.xlsx", index=False)
+print("Successfully created filename_expanded.xlsx")
+```
+
+2. Then run the script using Bash:
+
+```bash
+python create_faq.py
+```
+
+3. Clean up the temporary script after use:
+
+```bash
+rm create_faq.py  # or 'del create_faq.py' on Windows CMD
 ```
 
 **Quality checklist before saving:**
