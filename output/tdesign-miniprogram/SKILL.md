@@ -26,23 +26,43 @@ This skill should be triggered when:
 npm i tdesign-miniprogram -S --production
 ```
 
-> After installation, build npm in WeChat DevTools: `Tools - Build npm`
-
-> After successful build, check `Compile JS to ES5`
-
 ### Modify app.json
 
 Remove `"style": "v2"` from `app.json` to avoid style conflicts.
+
+### Modify project.config.json
+
+Add the following to the `setting` section of `project.config.json`:
+
+```json
+{
+  "setting": {
+    "packNpmManually": true,
+    "packNpmRelationList": [
+      {
+        "packageJsonPath": "./package.json",
+        "miniprogramNpmDistDir": "./"
+      }
+    ]
+  }
+}
+```
 
 ### Modify tsconfig.json (TypeScript projects)
 
 ```json
 {
   "paths": {
-    "tdesign-miniprogram/*": ["./miniprogram/miniprogram_npm/tdesign-miniprogram/*"]
+    "tdesign-miniprogram/*": [
+      "./miniprogram/miniprogram_npm/tdesign-miniprogram/*"
+    ]
   }
 }
 ```
+
+> After modifying project.config.json, build npm in WeChat DevTools: `Tools - Build npm`
+
+> After successful build, check `Compile JS to ES5`
 
 ### Using Components
 
@@ -66,102 +86,102 @@ Use in WXML:
 
 ### Basic Components (6)
 
-| Component | Description | Import Path |
-|-----------|-------------|-------------|
-| Button | Button | `tdesign-miniprogram/button/button` |
-| Divider | Divider | `tdesign-miniprogram/divider/divider` |
-| Fab | Floating Action Button | `tdesign-miniprogram/fab/fab` |
-| Icon | Icon | `tdesign-miniprogram/icon/icon` |
-| Layout | Layout | `tdesign-miniprogram/row/row` |
-| Link | Link | `tdesign-miniprogram/link/link` |
+| Component | Description            | Import Path                           |
+| --------- | ---------------------- | ------------------------------------- |
+| Button    | Button                 | `tdesign-miniprogram/button/button`   |
+| Divider   | Divider                | `tdesign-miniprogram/divider/divider` |
+| Fab       | Floating Action Button | `tdesign-miniprogram/fab/fab`         |
+| Icon      | Icon                   | `tdesign-miniprogram/icon/icon`       |
+| Layout    | Layout                 | `tdesign-miniprogram/row/row`         |
+| Link      | Link                   | `tdesign-miniprogram/link/link`       |
 
 ### Navigation Components (8)
 
-| Component | Description | Import Path |
-|-----------|-------------|-------------|
-| BackTop | Back to Top | `tdesign-miniprogram/back-top/back-top` |
-| Drawer | Drawer | `tdesign-miniprogram/drawer/drawer` |
-| Indexes | Index List | `tdesign-miniprogram/indexes/indexes` |
-| Navbar | Navigation Bar | `tdesign-miniprogram/navbar/navbar` |
-| SideBar | Side Navigation | `tdesign-miniprogram/side-bar/side-bar` |
-| Steps | Steps | `tdesign-miniprogram/steps/steps` |
-| TabBar | Bottom Tab Bar | `tdesign-miniprogram/tab-bar/tab-bar` |
-| Tabs | Tabs | `tdesign-miniprogram/tabs/tabs` |
+| Component | Description     | Import Path                             |
+| --------- | --------------- | --------------------------------------- |
+| BackTop   | Back to Top     | `tdesign-miniprogram/back-top/back-top` |
+| Drawer    | Drawer          | `tdesign-miniprogram/drawer/drawer`     |
+| Indexes   | Index List      | `tdesign-miniprogram/indexes/indexes`   |
+| Navbar    | Navigation Bar  | `tdesign-miniprogram/navbar/navbar`     |
+| SideBar   | Side Navigation | `tdesign-miniprogram/side-bar/side-bar` |
+| Steps     | Steps           | `tdesign-miniprogram/steps/steps`       |
+| TabBar    | Bottom Tab Bar  | `tdesign-miniprogram/tab-bar/tab-bar`   |
+| Tabs      | Tabs            | `tdesign-miniprogram/tabs/tabs`         |
 
 ### Input Components (16)
 
-| Component | Description | Import Path |
-|-----------|-------------|-------------|
-| Calendar | Calendar | `tdesign-miniprogram/calendar/calendar` |
-| Cascader | Cascader | `tdesign-miniprogram/cascader/cascader` |
-| CheckBox | Checkbox | `tdesign-miniprogram/checkbox/checkbox` |
+| Component      | Description      | Import Path                                             |
+| -------------- | ---------------- | ------------------------------------------------------- |
+| Calendar       | Calendar         | `tdesign-miniprogram/calendar/calendar`                 |
+| Cascader       | Cascader         | `tdesign-miniprogram/cascader/cascader`                 |
+| CheckBox       | Checkbox         | `tdesign-miniprogram/checkbox/checkbox`                 |
 | DateTimePicker | Date Time Picker | `tdesign-miniprogram/date-time-picker/date-time-picker` |
-| Input | Input | `tdesign-miniprogram/input/input` |
-| Picker | Picker | `tdesign-miniprogram/picker/picker` |
-| Radio | Radio | `tdesign-miniprogram/radio/radio` |
-| Rate | Rate | `tdesign-miniprogram/rate/rate` |
-| Search | Search | `tdesign-miniprogram/search/search` |
-| Slider | Slider | `tdesign-miniprogram/slider/slider` |
-| Stepper | Stepper | `tdesign-miniprogram/stepper/stepper` |
-| Switch | Switch | `tdesign-miniprogram/switch/switch` |
-| Textarea | Textarea | `tdesign-miniprogram/textarea/textarea` |
-| TreeSelect | Tree Select | `tdesign-miniprogram/tree-select/tree-select` |
-| Upload | Upload | `tdesign-miniprogram/upload/upload` |
-| Form | Form | `tdesign-miniprogram/form/form` |
+| Input          | Input            | `tdesign-miniprogram/input/input`                       |
+| Picker         | Picker           | `tdesign-miniprogram/picker/picker`                     |
+| Radio          | Radio            | `tdesign-miniprogram/radio/radio`                       |
+| Rate           | Rate             | `tdesign-miniprogram/rate/rate`                         |
+| Search         | Search           | `tdesign-miniprogram/search/search`                     |
+| Slider         | Slider           | `tdesign-miniprogram/slider/slider`                     |
+| Stepper        | Stepper          | `tdesign-miniprogram/stepper/stepper`                   |
+| Switch         | Switch           | `tdesign-miniprogram/switch/switch`                     |
+| Textarea       | Textarea         | `tdesign-miniprogram/textarea/textarea`                 |
+| TreeSelect     | Tree Select      | `tdesign-miniprogram/tree-select/tree-select`           |
+| Upload         | Upload           | `tdesign-miniprogram/upload/upload`                     |
+| Form           | Form             | `tdesign-miniprogram/form/form`                         |
 
 ### Data Display Components (18)
 
-| Component | Description | Import Path |
-|-----------|-------------|-------------|
-| Avatar | Avatar | `tdesign-miniprogram/avatar/avatar` |
-| Badge | Badge | `tdesign-miniprogram/badge/badge` |
-| Cell | Cell | `tdesign-miniprogram/cell/cell` |
-| Collapse | Collapse | `tdesign-miniprogram/collapse/collapse` |
-| CountDown | Countdown | `tdesign-miniprogram/count-down/count-down` |
-| Empty | Empty State | `tdesign-miniprogram/empty/empty` |
-| Footer | Footer | `tdesign-miniprogram/footer/footer` |
-| Grid | Grid | `tdesign-miniprogram/grid/grid` |
-| Image | Image | `tdesign-miniprogram/image/image` |
+| Component   | Description  | Import Path                                     |
+| ----------- | ------------ | ----------------------------------------------- |
+| Avatar      | Avatar       | `tdesign-miniprogram/avatar/avatar`             |
+| Badge       | Badge        | `tdesign-miniprogram/badge/badge`               |
+| Cell        | Cell         | `tdesign-miniprogram/cell/cell`                 |
+| Collapse    | Collapse     | `tdesign-miniprogram/collapse/collapse`         |
+| CountDown   | Countdown    | `tdesign-miniprogram/count-down/count-down`     |
+| Empty       | Empty State  | `tdesign-miniprogram/empty/empty`               |
+| Footer      | Footer       | `tdesign-miniprogram/footer/footer`             |
+| Grid        | Grid         | `tdesign-miniprogram/grid/grid`                 |
+| Image       | Image        | `tdesign-miniprogram/image/image`               |
 | ImageViewer | Image Viewer | `tdesign-miniprogram/image-viewer/image-viewer` |
-| Progress | Progress | `tdesign-miniprogram/progress/progress` |
-| Result | Result | `tdesign-miniprogram/result/result` |
-| Skeleton | Skeleton | `tdesign-miniprogram/skeleton/skeleton` |
-| Sticky | Sticky | `tdesign-miniprogram/sticky/sticky` |
-| Swiper | Swiper | `tdesign-miniprogram/swiper/swiper` |
-| Table | Table | `tdesign-miniprogram/table/table` |
-| Tag | Tag | `tdesign-miniprogram/tag/tag` |
-| List | List | `tdesign-miniprogram/list/list` |
+| Progress    | Progress     | `tdesign-miniprogram/progress/progress`         |
+| Result      | Result       | `tdesign-miniprogram/result/result`             |
+| Skeleton    | Skeleton     | `tdesign-miniprogram/skeleton/skeleton`         |
+| Sticky      | Sticky       | `tdesign-miniprogram/sticky/sticky`             |
+| Swiper      | Swiper       | `tdesign-miniprogram/swiper/swiper`             |
+| Table       | Table        | `tdesign-miniprogram/table/table`               |
+| Tag         | Tag          | `tdesign-miniprogram/tag/tag`                   |
+| List        | List         | `tdesign-miniprogram/list/list`                 |
 
 ### Feedback Components (12)
 
-| Component | Description | Import Path |
-|-----------|-------------|-------------|
-| ActionSheet | Action Sheet | `tdesign-miniprogram/action-sheet/action-sheet` |
-| Dialog | Dialog | `tdesign-miniprogram/dialog/dialog` |
-| DropdownMenu | Dropdown Menu | `tdesign-miniprogram/dropdown-menu/dropdown-menu` |
-| Guide | Guide | `tdesign-miniprogram/guide/guide` |
-| Loading | Loading | `tdesign-miniprogram/loading/loading` |
-| Message | Message | `tdesign-miniprogram/message/message` |
-| NoticeBar | Notice Bar | `tdesign-miniprogram/notice-bar/notice-bar` |
-| Overlay | Overlay | `tdesign-miniprogram/overlay/overlay` |
-| Popup | Popup | `tdesign-miniprogram/popup/popup` |
+| Component       | Description       | Import Path                                               |
+| --------------- | ----------------- | --------------------------------------------------------- |
+| ActionSheet     | Action Sheet      | `tdesign-miniprogram/action-sheet/action-sheet`           |
+| Dialog          | Dialog            | `tdesign-miniprogram/dialog/dialog`                       |
+| DropdownMenu    | Dropdown Menu     | `tdesign-miniprogram/dropdown-menu/dropdown-menu`         |
+| Guide           | Guide             | `tdesign-miniprogram/guide/guide`                         |
+| Loading         | Loading           | `tdesign-miniprogram/loading/loading`                     |
+| Message         | Message           | `tdesign-miniprogram/message/message`                     |
+| NoticeBar       | Notice Bar        | `tdesign-miniprogram/notice-bar/notice-bar`               |
+| Overlay         | Overlay           | `tdesign-miniprogram/overlay/overlay`                     |
+| Popup           | Popup             | `tdesign-miniprogram/popup/popup`                         |
 | PullDownRefresh | Pull Down Refresh | `tdesign-miniprogram/pull-down-refresh/pull-down-refresh` |
-| SwipeCell | Swipe Cell | `tdesign-miniprogram/swipe-cell/swipe-cell` |
-| Toast | Toast | `tdesign-miniprogram/toast/toast` |
+| SwipeCell       | Swipe Cell        | `tdesign-miniprogram/swipe-cell/swipe-cell`               |
+| Toast           | Toast             | `tdesign-miniprogram/toast/toast`                         |
 
 ### AI Chat Components (9)
 
-| Component | Description | Import Path |
-|-----------|-------------|-------------|
-| ChatList | Chat List | `tdesign-miniprogram/chat-list/chat-list` |
-| ChatMessage | Chat Message | `tdesign-miniprogram/chat-message/chat-message` |
-| ChatSender | Chat Sender | `tdesign-miniprogram/chat-sender/chat-sender` |
-| ChatContent | Chat Content | `tdesign-miniprogram/chat-content/chat-content` |
+| Component     | Description     | Import Path                                         |
+| ------------- | --------------- | --------------------------------------------------- |
+| ChatList      | Chat List       | `tdesign-miniprogram/chat-list/chat-list`           |
+| ChatMessage   | Chat Message    | `tdesign-miniprogram/chat-message/chat-message`     |
+| ChatSender    | Chat Sender     | `tdesign-miniprogram/chat-sender/chat-sender`       |
+| ChatContent   | Chat Content    | `tdesign-miniprogram/chat-content/chat-content`     |
 | ChatActionbar | Chat Action Bar | `tdesign-miniprogram/chat-actionbar/chat-actionbar` |
-| ChatLoading | Chat Loading | `tdesign-miniprogram/chat-loading/chat-loading` |
-| ChatMarkdown | Chat Markdown | `tdesign-miniprogram/chat-markdown/chat-markdown` |
-| ChatThinking | Chat Thinking | `tdesign-miniprogram/chat-thinking/chat-thinking` |
-| Attachments | Attachments | `tdesign-miniprogram/attachments/attachments` |
+| ChatLoading   | Chat Loading    | `tdesign-miniprogram/chat-loading/chat-loading`     |
+| ChatMarkdown  | Chat Markdown   | `tdesign-miniprogram/chat-markdown/chat-markdown`   |
+| ChatThinking  | Chat Thinking   | `tdesign-miniprogram/chat-thinking/chat-thinking`   |
+| Attachments   | Attachments     | `tdesign-miniprogram/attachments/attachments`       |
 
 ## Common Patterns
 
@@ -174,11 +194,18 @@ Use in WXML:
 <t-button size="large">Default Button</t-button>
 
 <!-- Outline and Text Buttons -->
-<t-button theme="primary" size="large" variant="outline">Outline Button</t-button>
+<t-button theme="primary" size="large" variant="outline"
+  >Outline Button</t-button
+>
 <t-button theme="primary" size="large" variant="text">Text Button</t-button>
 
 <!-- Icon Button -->
-<t-button theme="primary" icon="app" content="Icon Button" size="large"></t-button>
+<t-button
+  theme="primary"
+  icon="app"
+  content="Icon Button"
+  size="large"
+></t-button>
 
 <!-- Loading State -->
 <t-button theme="primary" size="large" loading>Loading</t-button>
@@ -204,7 +231,12 @@ Use in WXML:
 ```
 
 ```html
-<t-input label="Label" placeholder="Please enter" value="{{value}}" bind:change="onChange" />
+<t-input
+  label="Label"
+  placeholder="Please enter"
+  value="{{value}}"
+  bind:change="onChange"
+/>
 ```
 
 ### Dialog
@@ -273,20 +305,20 @@ Component({
     messages: [
       {
         role: 'user',
-        content: [{ type: 'text', data: 'Hello' }]
+        content: [{ type: 'text', data: 'Hello' }],
       },
       {
         role: 'assistant',
-        content: [{ type: 'text', data: 'Hello! How can I help you?' }]
-      }
-    ]
+        content: [{ type: 'text', data: 'Hello! How can I help you?' }],
+      },
+    ],
   },
   methods: {
     onSend(e) {
       const { value } = e.detail;
       // Handle send message
-    }
-  }
+    },
+  },
 });
 ```
 
@@ -314,9 +346,9 @@ In custom components, enable `styleIsolation`:
 ```javascript
 Component({
   options: {
-    styleIsolation: 'shared'
-  }
-})
+    styleIsolation: 'shared',
+  },
+});
 ```
 
 ### Method 3: External Style Classes
@@ -383,6 +415,7 @@ For components wrapped in `custom-tab-bar` or `root-portal`, add `.page` class:
 This skill includes comprehensive documentation in `references/`:
 
 ### Basic Documentation
+
 - **miniprogram/getting-started.md** - Quick start guide
 - **miniprogram/overview.md** - Component overview
 - **miniprogram/custom-style.md** - Style customization
@@ -390,6 +423,7 @@ This skill includes comprehensive documentation in `references/`:
 - **miniprogram/dark-mode.md** - Dark mode
 
 ### Component Documentation (miniprogram/components/)
+
 - **button.md** - Button
 - **input.md** - Input
 - **dialog.md** - Dialog
@@ -397,6 +431,7 @@ This skill includes comprehensive documentation in `references/`:
 - ... more component docs
 
 ### AI Chat Component Documentation (miniprogram-chat/)
+
 - **getting-started.md** - Chat component quick start
 - **sse.md** - SSE streaming
 - **components/chat-message.md** - Chat message
