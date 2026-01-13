@@ -1,0 +1,279 @@
+<!DOCTYPE html><html lang="en" class="van-doc-theme-light"><head>
+    <meta charset="UTF-8">
+    <title>介绍 - Vant 4</title>
+    
+    <meta name="description" content="A lightweight, customizable Vue UI library for mobile web apps.">
+    
+    <link rel="icon" type="image/png" href="https://fastly.jsdelivr.net/npm/@vant/assets/logo.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
+    
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+     <script charset="utf-8" src="https://hmcdn.baidu.com/static/tongji/plugins/UrlChangeTracker.js"></script><script src="https://hm.baidu.com/hm.js?af5d41bc4e446e76665dbe3ec18d55c3"></script><script>
+if (location.host === 'youzan.github.io') {
+location.href = location.href.replace('youzan.github.io', 'vant-ui.github.io');
+}
+</script>
+  
+    <script>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement('script');
+        hm.src = 'https://hm.baidu.com/hm.js?af5d41bc4e446e76665dbe3ec18d55c3';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+    
+  <script defer="" src="/vant/static/js/lib-vue.51739535.js"></script><script defer="" src="/vant/static/js/lib-router.dd0aa87c.js"></script><script defer="" src="/vant/static/js/3929.8485889e.js"></script><script defer="" src="/vant/static/js/index.7ae9970c.js"></script><link href="/vant/static/css/index.72829341.css" rel="stylesheet"></head>
+  <body>
+    <div id="app" data-v-app=""><div class="app"><div class="van-doc"><div class="van-doc-header"><div class="van-doc-row"><div class="van-doc-header__top"><a class="van-doc-header__logo"><img src="https://fastly.jsdelivr.net/npm/@vant/assets/logo.png"><span class="van-doc-header__title">Vant 4</span><span class="van-doc-header__subtitle">（适用于 Vue 3）</span></a><ul class="van-doc-header__top-nav"><li class="van-doc-header__top-nav-item"><a class="van-doc-header__link" target="_blank" href="/vant-weapp/"><img src="https://fastly.jsdelivr.net/npm/@vant/assets/weapp.svg"></a></li><li class="van-doc-header__top-nav-item"><a class="van-doc-header__link" target="_blank" href="https://github.com/vant-ui/vant"><img src="https://fastly.jsdelivr.net/npm/@vant/assets/github.svg"></a></li><li class="van-doc-header__top-nav-item"><a class="van-doc-header__link" target="_blank"><img src="https://b.yzcdn.cn/vant/dark-theme.svg"></a></li><li class="van-doc-header__top-nav-item"><span class="van-doc-header__cube van-doc-header__version">4.9.21 <!----></span></li><li class="van-doc-header__top-nav-item"><a class="van-doc-header__cube" href="#/en-US/home">EN</a></li></ul></div></div></div><div class="van-doc-nav"><div class="van-doc-nav__group"><div class="van-doc-nav__title">开发指南</div><div class="van-doc-nav__item"><a aria-current="page" href="#/zh-CN/home" class="router-link-active router-link-exact-active active">介绍 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/quickstart" class="">快速上手 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/advanced-usage" class="">进阶用法 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/faq" class="">常见问题 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/changelog" class="">更新日志 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/release-note-v4" class="">4.0 <span>更新介绍</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/migrate-from-v2" class="">从 <span>v2 升级到 v3</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/migrate-from-v3" class="">从 <span>v3 升级到 v4</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/contribution" class="">贡献指南 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/design" class="">设计资源 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/locale" class="">国际化 <span></span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">基础组件</div><div class="van-doc-nav__item"><a href="#/zh-CN/button" class="">Button <span>按钮</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/cell" class="">Cell <span>单元格</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/config-provider" class="">ConfigProvider <span>全局配置</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/icon" class="">Icon <span>图标</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/image" class="">Image <span>图片</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/col" class="">Layout <span>布局</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/popup" class="">Popup <span>弹出层</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/space" class="">Space <span>间距</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/style" class="">Style <span>内置样式</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/toast" class="">Toast <span>轻提示</span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">表单组件</div><div class="van-doc-nav__item"><a href="#/zh-CN/calendar" class="">Calendar <span>日历</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/cascader" class="">Cascader <span>级联选择</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/checkbox" class="">Checkbox <span>复选框</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/date-picker" class="">DatePicker <span>日期选择</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/field" class="">Field <span>输入框</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/form" class="">Form <span>表单</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/number-keyboard" class="">NumberKeyboard <span>数字键盘</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/password-input" class="">PasswordInput <span>密码输入框</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/picker" class="">Picker <span>选择器</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/picker-group" class="">PickerGroup <span>选择器组</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/radio" class="">Radio <span>单选框</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/rate" class="">Rate <span>评分</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/search" class="">Search <span>搜索</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/slider" class="">Slider <span>滑块</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/signature" class="">Signature <span>签名</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/stepper" class="">Stepper <span>步进器</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/switch" class="">Switch <span>开关</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/time-picker" class="">TimePicker <span>时间选择</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/uploader" class="">Uploader <span>文件上传</span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">反馈组件</div><div class="van-doc-nav__item"><a href="#/zh-CN/action-sheet" class="">ActionSheet <span>动作面板</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/barrage" class="">Barrage <span>弹幕</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/dialog" class="">Dialog <span>弹出框</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/dropdown-menu" class="">DropdownMenu <span>下拉菜单</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/floating-panel" class="">FloatingPanel <span>浮动面板</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/floating-bubble" class="">FloatingBubble <span>浮动气泡</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/loading" class="">Loading <span>加载</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/notify" class="">Notify <span>消息通知</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/overlay" class="">Overlay <span>遮罩层</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/pull-refresh" class="">PullRefresh <span>下拉刷新</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/share-sheet" class="">ShareSheet <span>分享面板</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/swipe-cell" class="">SwipeCell <span>滑动单元格</span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">展示组件</div><div class="van-doc-nav__item"><a href="#/zh-CN/badge" class="">Badge <span>徽标</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/circle" class="">Circle <span>环形进度条</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/collapse" class="">Collapse <span>折叠面板</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/count-down" class="">CountDown <span>倒计时</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/divider" class="">Divider <span>分割线</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/empty" class="">Empty <span>空状态</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/highlight" class="">Highlight <span>高亮文本</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/image-preview" class="">ImagePreview <span>图片预览</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/lazyload" class="">Lazyload <span>懒加载</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/list" class="">List <span>列表</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/notice-bar" class="">NoticeBar <span>通知栏</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/popover" class="">Popover <span>气泡弹出框</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/progress" class="">Progress <span>进度条</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/rolling-text" class="">RollingText <span>翻滚文本</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/skeleton" class="">Skeleton <span>骨架屏</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/steps" class="">Steps <span>步骤条</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/sticky" class="">Sticky <span>粘性布局</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/swipe" class="">Swipe <span>轮播</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/tag" class="">Tag <span>标签</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/text-ellipsis" class="">TextEllipsis <span>文本省略</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/watermark" class="">Watermark <span>水印</span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">导航组件</div><div class="van-doc-nav__item"><a href="#/zh-CN/action-bar" class="">ActionBar <span>动作栏</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/back-top" class="">BackTop <span>回到顶部</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/grid" class="">Grid <span>宫格</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/index-bar" class="">IndexBar <span>索引栏</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/nav-bar" class="">NavBar <span>导航栏</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/pagination" class="">Pagination <span>分页</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/sidebar" class="">Sidebar <span>侧边导航</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/tab" class="">Tab <span>标签页</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/tabbar" class="">Tabbar <span>标签栏</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/tree-select" class="">TreeSelect <span>分类选择</span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">业务组件</div><div class="van-doc-nav__item"><a href="#/zh-CN/address-edit" class="">AddressEdit <span>地址编辑</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/address-list" class="">AddressList <span>地址列表</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/area" class="">Area <span>省市区选择</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/card" class="">Card <span>商品卡片</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/contact-card" class="">ContactCard <span>联系人卡片</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/contact-edit" class="">ContactEdit <span>联系人编辑</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/contact-list" class="">ContactList <span>联系人列表</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/coupon-list" class="">Coupon <span>优惠券</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/submit-bar" class="">SubmitBar <span>提交订单栏</span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">组合式 API</div><div class="van-doc-nav__item"><a href="#/zh-CN/vant-use-intro" class="">介绍 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-click-away" class="">useClickAway <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-count-down" class="">useCountDown <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-custom-field-value" class="">useCustomFieldValue <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-event-listener" class="">useEventListener <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-page-visibility" class="">usePageVisibility <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-rect" class="">useRect <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-relation" class="">useRelation <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-scroll-parent" class="">useScrollParent <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-toggle" class="">useToggle <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-window-size" class="">useWindowSize <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-raf" class="">useRaf <span></span></a></div></div></div><div class="van-doc-container van-doc-row van-doc-container--with-simulator"><div class="van-doc-content van-doc-content--home"><div class="van-doc-markdown-body"><div class="van-doc-card">
+  <div class="van-doc-intro">
+    <img class="van-doc-intro__logo" style="width: 120px; height: 120px;" src="https://fastly.jsdelivr.net/npm/@vant/assets/logo.png">
+    <h2 style="margin: 0; font-size: 36px; line-height: 60px;">Vant</h2>
+    <p>轻量、可定制的移动端 Vue 组件库</p>
+  </div>
+</div>
+<div class="van-doc-card"><h3 id="jie-shao" tabindex="-1">介绍</h3>
+<p>Vant 是一个<strong>轻量、可定制的移动端组件库</strong>，于 2017 年开源。</p>
+<p>目前 Vant 官方提供了 <a href="/vant/v2/" target="_blank">Vue 2 版本</a>、<a href="/vant/" target="_blank">Vue 3 版本</a>和<a href="/vant-weapp/" target="_blank">微信小程序版本</a>，并由社区团队维护 <a href="https://github.com/3lang3/react-vant" target="_blank">React 版本</a>和<a href="https://github.com/ant-move/Vant-Aliapp" target="_blank">支付宝小程序版本</a>。</p>
+</div><div class="van-doc-card"><h3 id="te-xing" tabindex="-1">特性</h3>
+<ul>
+<li>🚀 性能极佳，组件平均体积小于 1KB（min+gzip）</li>
+<li>🚀 80+ 个高质量组件，覆盖移动端主流场景</li>
+<li>🚀 零外部依赖，不依赖三方 npm 包</li>
+<li>💪 使用 TypeScript 编写，提供完整的类型定义</li>
+<li>💪 单元测试覆盖率超过 90%，提供稳定性保障</li>
+<li>📖 提供丰富的中英文文档和组件示例</li>
+<li>📖 提供 Sketch 和 Axure 设计资源</li>
+<li>🍭 支持 Vue 2、Vue 3 和微信小程序</li>
+<li>🍭 支持 Nuxt 2、Nuxt 3，提供 Nuxt 的 <a href="https://github.com/vant-ui/vant-nuxt" target="_blank">Vant Module</a></li>
+<li>🍭 支持主题定制，内置 700+ 个主题变量</li>
+<li>🍭 支持按需引入和 Tree Shaking</li>
+<li>🍭 支持无障碍访问（持续改进中）</li>
+<li>🍭 支持深色模式</li>
+<li>🍭 支持服务器端渲染</li>
+<li>🌍 支持国际化，内置 30+ 种语言包</li>
+</ul>
+</div><div class="van-doc-card"><h3 id="ban-ben-ti-shi" tabindex="-1">版本提示</h3>
+<p>你当前浏览的是 <strong>Vant 4.x 版本</strong> 的文档，适用于 Vue 3 开发。如果你在使用 Vue 2，请浏览 <a href="/vant/v2/" target="_blank">Vant 2 文档</a>。</p>
+</div><div class="van-doc-card"><h3 id="jiao-shou-jia" tabindex="-1">脚手架</h3>
+<p>推荐使用 <a href="https://github.com/web-infra-dev/rsbuild" target="_blank">Rsbuild</a> 来创建一个脚手架项目。</p>
+<p>Rsbuild 是基于 Rspack 的构建工具，由 Vant 作者开发，具备一流的构建速度和开发体验，对 Vant 提供第一优先级支持。</p>
+<p>你可以通过以下命令创建一个 Rsbuild 项目：</p>
+<pre><code class="language-bash">npm create rsbuild@latest
+</code></pre>
+<p>请访问 <a href="https://github.com/web-infra-dev/rsbuild" target="_blank">Rsbuild 仓库</a> 了解更多信息。</p>
+</div><div class="van-doc-card"><h3 id="kuai-su-shang-shou" tabindex="-1">快速上手</h3>
+<p>请阅读<a href="#/zh-CN/quickstart" target="_blank">快速上手</a>章节，通过该章节你可以了解到 Vant 的安装方法和基本使用姿势。</p>
+</div><div class="van-doc-card"><h3 id="liu-lan-qi-zhi-chi" tabindex="-1">浏览器支持</h3>
+<p>Vant 2 支持现代浏览器以及 Android &gt;= 4.0、iOS &gt;= 8.0。</p>
+<p>Vant 3/4 支持现代浏览器以及 Chrome &gt;= 51、iOS &gt;= 10.0（与 Vue 3 一致）。</p>
+</div><div class="van-doc-card"><h3 id="wei-hu-zhuang-tai" tabindex="-1">维护状态</h3>
+<p>目前 Vant 各个版本的维护状态如下：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>框架</th>
+<th>发布时间</th>
+<th>最新版</th>
+<th>维护状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vant 4</td>
+<td>Vue 3</td>
+<td><code>2022.12</code></td>
+<td><img src="https://img.shields.io/npm/v/vant/latest?style=flat-square" alt=""></td>
+<td>长期支持</td>
+</tr>
+<tr>
+<td>Vant 3</td>
+<td>Vue 3</td>
+<td><code>2020.12</code></td>
+<td><img src="https://img.shields.io/npm/v/vant/latest-v3?style=flat-square" alt=""></td>
+<td>终止支持，不再接受 PR</td>
+</tr>
+<tr>
+<td>Vant 2</td>
+<td>Vue 2</td>
+<td><code>2019.06</code></td>
+<td><img src="https://img.shields.io/npm/v/vant/latest-v2?style=flat-square" alt=""></td>
+<td>终止支持，不再接受 PR</td>
+</tr>
+<tr>
+<td>Vant 1</td>
+<td>Vue 2</td>
+<td><code>2018.03</code></td>
+<td><img src="https://img.shields.io/npm/v/vant/latest-v1?style=flat-square" alt=""></td>
+<td>终止支持，不再接受 PR</td>
+</tr>
+</tbody>
+</table>
+</div><h2 id="lian-jie" tabindex="-1">链接</h2>
+<div class="van-doc-card"><h3 id="guan-fang-sheng-tai" tabindex="-1">官方生态</h3>
+<p>由 Vant 官方团队维护的项目如下：</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/vant-ui/vant-weapp" target="_blank">vant-weapp</a></td>
+<td>Vant 微信小程序版</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vant-ui/vant-demo" target="_blank">vant-demo</a></td>
+<td>Vant 官方示例合集</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vant-ui/vant/tree/main/packages/vant-cli" target="_blank">vant-cli</a></td>
+<td>开箱即用的组件库搭建工具</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vant-ui/vant/tree/main/packages/vant-icons" target="_blank">vant-icons</a></td>
+<td>Vant 图标库</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vant-ui/vant/tree/main/packages/vant-touch-emulator" target="_blank">vant-touch-emulator</a></td>
+<td>在桌面端使用 Vant 的辅助库</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vant-ui/vant-nuxt" target="_blank">vant-nuxt</a></td>
+<td>为 Nuxt 准备的模块</td>
+</tr>
+</tbody>
+</table>
+</div><div class="van-doc-card"><h3 id="she-qu-sheng-tai" tabindex="-1">社区生态</h3>
+<p>由社区维护的项目如下，欢迎补充：</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/3lang3/react-vant" target="_blank">3lang3/react-vant</a></td>
+<td>参照 Vant 打造的 React 移动端组件库</td>
+</tr>
+<tr>
+<td><a href="https://github.com/ant-move/Vant-Aliapp" target="_blank">vant-aliapp</a></td>
+<td>Vant 支付宝小程序版</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Aisen60/vant-theme" target="_blank">vant-theme</a></td>
+<td>Vant 在线主题预览工具</td>
+</tr>
+<tr>
+<td><a href="https://github.com/antmjs/vantui" target="_blank">@antmjs/vantui</a></td>
+<td>基于 Vant Weapp 开发的多端组件库，同时支持 Taro 和 React</td>
+</tr>
+<tr>
+<td><a href="https://github.com/LadyChatterleyLover/vant-playground" target="_blank">vant-playground</a></td>
+<td>Vant Playground</td>
+</tr>
+<tr>
+<td><a href="https://github.com/zhixiaoqiang/sfc-playground-vant" target="_blank">sfc-playground-vant</a></td>
+<td>Vant Playground</td>
+</tr>
+<tr>
+<td><a href="https://github.com/yulimchen/vue3-h5-template" target="_blank">vue3-h5-template</a></td>
+<td>基于 Vant 的移动端项目模板</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vue-zone/vue3-vant-mobile" target="_blank">vue3-vant-mobile</a></td>
+<td>基于 Vant 的移动端项目模板，开箱即用</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Aisen60/raycast-vant-documentation" target="_blank">raycast-vant-documentation</a></td>
+<td>一个 Raycast 拓展，能在 Raycast 中搜索 Vant 组件库文档</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vue-zone/nuxt-vant-mobile" target="_blank">nuxt-vant-mobile</a></td>
+<td>基于 Vant 的 Nuxt <em>⁴</em> 项目模板，开箱即用</td>
+</tr>
+<tr>
+<td><a href="https://github.com/un-pany/mobvue" target="_blank">mobvue</a></td>
+<td>一个精心制作的移动端 H5 模板</td>
+</tr>
+<tr>
+<td><a href="https://github.com/novlan1/press-ui" target="_blank">novlan1/press-ui</a></td>
+<td>参照 Vant 打造的 uni-app 框架移动端组件库</td>
+</tr>
+</tbody>
+</table>
+</div><div class="van-doc-card"><h3 id="qi-ta-lian-jie" tabindex="-1">其他链接</h3>
+<ul>
+<li><a href="https://github.com/vant-ui/vant/issues" target="_blank">意见反馈</a></li>
+<li><a href="#/zh-CN/changelog" target="_blank">更新日志</a></li>
+<li><a href="https://github.com/vant-ui/vant/discussions" target="_blank">Discussions 讨论区</a></li>
+</ul>
+</div><h2 id="gong-xian" tabindex="-1">贡献</h2>
+<div class="van-doc-card"><h3 id="he-xin-tuan-dui" tabindex="-1">核心团队</h3>
+<p>以下是 Vant 和 Vant Weapp 的核心贡献者们：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><a href="https://github.com/chenjiahan/" target="_blank"><img src="https://avatars.githubusercontent.com/u/7237365?s=80&amp;v=4" alt="chenjiahan"></a></th>
+<th style="text-align:center"><a href="https://github.com/cookfront/" target="_blank"><img src="https://avatars.githubusercontent.com/u/4829465?s=80&amp;v=4" alt="cookfront"></a></th>
+<th style="text-align:center"><a href="https://github.com/w91/" target="_blank"><img src="https://avatars.githubusercontent.com/u/2599455?s=80&amp;v=4" alt="w91"></a></th>
+<th style="text-align:center"><a href="https://github.com/pangxie1991/" target="_blank"><img src="https://avatars.githubusercontent.com/u/5961240?s=80&amp;v=4" alt="pangxie1991"></a></th>
+<th style="text-align:center"><a href="https://github.com/rex-zsd/" target="_blank"><img src="https://avatars.githubusercontent.com/u/8767877?s=80&amp;v=4" alt="rex-zsd"></a></th>
+<th style="text-align:center"><a href="https://github.com/nemo-shen/" target="_blank"><img src="https://avatars.githubusercontent.com/u/13480805?s=80&amp;v=4" alt="nemo-shen"></a></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="https://github.com/chenjiahan/" target="_blank">chenjiahan</a></td>
+<td style="text-align:center"><a href="https://github.com/cookfront/" target="_blank">cookfront</a></td>
+<td style="text-align:center"><a href="https://github.com/w91/" target="_blank">wangnaiyi</a></td>
+<td style="text-align:center"><a href="https://github.com/pangxie1991/" target="_blank">pangxie</a></td>
+<td style="text-align:center"><a href="https://github.com/rex-zsd/" target="_blank">rex-zsd</a></td>
+<td style="text-align:center"><a href="https://github.com/nemo-shen/" target="_blank">nemo-shen</a></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><a href="https://github.com/Lindysen/" target="_blank"><img src="https://avatars.githubusercontent.com/u/33708359?s=80&amp;v=4" alt="Lindysen"></a></th>
+<th style="text-align:center"><a href="https://github.com/JakeLaoyu/" target="_blank"><img src="https://avatars.githubusercontent.com/u/16181940?s=80&amp;v=4" alt="JakeLaoyu"></a></th>
+<th style="text-align:center"><a href="https://github.com/landluck/" target="_blank"><img src="https://avatars.githubusercontent.com/u/27060081?s=80&amp;v=4" alt="landluck"></a></th>
+<th style="text-align:center"><a href="https://github.com/wjw-gavin/" target="_blank"><img src="https://avatars.githubusercontent.com/u/19986739?s=80&amp;v=4" alt="wjw-gavin"></a></th>
+<th style="text-align:center"><a href="https://github.com/inottn/" target="_blank"><img src="https://avatars.githubusercontent.com/u/18509404?s=80&amp;v=4" alt="inottn"></a></th>
+<th style="text-align:center"><a href="https://github.com/zhousg/" target="_blank"><img src="https://avatars.githubusercontent.com/u/15833290?s=80&amp;v=4" alt="zhousg"></a></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="https://github.com/Lindysen/" target="_blank">Lindysen</a></td>
+<td style="text-align:center"><a href="https://github.com/JakeLaoyu/" target="_blank">JakeLaoyu</a></td>
+<td style="text-align:center"><a href="https://github.com/landluck/" target="_blank">landluck</a></td>
+<td style="text-align:center"><a href="https://github.com/wjw-gavin/" target="_blank">wjw-gavin</a></td>
+<td style="text-align:center"><a href="https://github.com/inottn/" target="_blank">inottn</a></td>
+<td style="text-align:center"><a href="https://github.com/zhousg/" target="_blank">zhousg</a></td>
+</tr>
+</tbody>
+</table>
+</div><div class="van-doc-card"><h3 id="gong-xian-zhe-men" tabindex="-1">贡献者们</h3>
+<p>感谢以下小伙伴们为 Vant 发展做出的贡献：</p>
+<a href="https://github.com/vant-ui/vant/graphs/contributors" target="_black">
+  <img src="https://opencollective.com/vant/contributors.svg?width=890&amp;button=false" alt="contributors" style="width: 100%; margin: 16px 0">
+</a>
+</div><div class="van-doc-card"><h3 id="gong-xian-zhi-nan" tabindex="-1">贡献指南</h3>
+<p>贡献代码请阅读我们的<a href="#/zh-CN/contribution" target="_blank">贡献指南</a>。</p>
+<p>使用过程中发现任何问题都可以提 <a href="https://github.com/vant-ui/vant/issues" target="_blank">Issue</a> 给我们，当然，我们也非常欢迎你给我们发 <a href="https://github.com/vant-ui/vant/pulls" target="_blank">PR</a>。</p>
+</div><div class="van-doc-card"><h3 id="kai-yuan-xie-yi" tabindex="-1">开源协议</h3>
+<p>本项目基于 <a href="https://zh.wikipedia.org/wiki/MIT%E8%A8%B1%E5%8F%AF%E8%AD%89" target="_blank">MIT</a> 协议，请自由地享受和参与开源。</p>
+</div></div><div class="van-doc-icp"><a href="https://beian.miit.gov.cn/" target="_black">浙ICP备2021036118号</a></div></div></div><div class="van-doc-simulator"><iframe src="/vant/mobile.html#/zh-CN/home" frameborder="0" style="height: 640px;"></iframe></div></div></div></div>
+  
+
+</body></html>

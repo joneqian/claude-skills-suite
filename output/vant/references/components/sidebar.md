@@ -1,0 +1,169 @@
+# Sidebar 侧边导航
+
+# Sidebar 侧边导航
+
+### 介绍
+
+垂直展示的导航栏，用于在不同的内容区域之间进行切换。
+
+### 引入
+
+通过以下方式来全局注册组件，更多注册方式请参考[组件注册](#/zh-CN/advanced-usage#zu-jian-zhu-ce)。
+
+```js
+import { createApp } from 'vue';
+import { Sidebar, SidebarItem } from 'vant';
+
+const app = createApp();
+app.use(Sidebar);
+app.use(SidebarItem);
+```
+
+## 代码演示
+
+### 基础用法
+
+通过 `v-model` 绑定当前选中项的索引。
+
+```html
+<van-sidebar v-model="active">
+<van-sidebar-item title="标签名称" />
+<van-sidebar-item title="标签名称" />
+<van-sidebar-item title="标签名称" />
+</van-sidebar>
+```
+
+```js
+import { ref } from 'vue';
+
+export default {
+setup() {
+const active = ref(0);
+return { active };
+},
+};
+```
+
+### 徽标提示
+
+设置 `dot` 属性后，会在右上角展示一个小红点；设置 `badge` 属性后，会在右上角展示相应的徽标。
+
+```html
+<van-sidebar v-model="active">
+<van-sidebar-item title="标签名称" dot />
+<van-sidebar-item title="标签名称" badge="5" />
+<van-sidebar-item title="标签名称" />
+</van-sidebar>
+```
+
+### 禁用选项
+
+通过 `disabled` 属性禁用选项。
+
+```html
+<van-sidebar v-model="active">
+<van-sidebar-item title="标签名称" />
+<van-sidebar-item title="标签名称" disabled />
+<van-sidebar-item title="标签名称" />
+</van-sidebar>
+```
+
+### 监听切换事件
+
+设置 `change` 方法来监听切换导航项时的事件。
+
+```html
+<van-sidebar v-model="active" @change="onChange">
+<van-sidebar-item title="标签名 1" />
+<van-sidebar-item title="标签名 2" />
+<van-sidebar-item title="标签名 3" />
+</van-sidebar>
+```
+
+```js
+import { ref } from 'vue';
+import { showToast } from 'vant';
+
+export default {
+setup() {
+const active = ref(0);
+const onChange = (index) => showToast(`标签名 ${index + 1}`);
+return {
+active,
+onChange,
+};
+},
+};
+```
+
+## API
+
+### Sidebar Props
+
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| v-model | 当前导航项的索引 | number \| string | `0` |
+
+### Sidebar Events
+
+| 事件名 | 说明 | 回调参数 |
+| --- | --- | --- |
+| change | 切换导航项时触发 | index: number |
+
+### SidebarItem Props
+
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| title | 内容 | string | `''` |
+| dot | 是否显示右上角小红点 | boolean | `false` |
+| badge | 图标右上角徽标的内容 | number \| string | - |
+| badge-props | 自定义徽标的属性，传入的对象会被透传给Badge 组件的 props | BadgeProps | - |
+| disabled | 是否禁用该项 | boolean | `false` |
+| url | 点击后跳转的链接地址 | string | - |
+| to | 点击后跳转的目标路由对象，等同于 Vue Router 的to 属性 | string \| object | - |
+| replace | 是否在跳转时替换当前页面历史 | boolean | `false` |
+
+### SidebarItem Events
+
+| 事件名 | 说明 | 回调参数 |
+| --- | --- | --- |
+| click | 点击时触发 | index: number |
+
+### SidebarItem Slots
+
+| Name | Description |
+| --- | --- |
+| title | 自定义标题 |
+
+### 类型定义
+
+组件导出以下类型定义：
+
+```ts
+import type { SidebarProps, SidebarItemProps } from 'vant';
+```
+
+## 主题定制
+
+### 样式变量
+
+组件提供了下列 CSS 变量，可用于自定义样式，使用方法请参考 [ConfigProvider 组件](#/zh-CN/config-provider)。
+
+| 名称 | 默认值 | 描述 |
+| --- | --- | --- |
+| --van-sidebar-width | 80px | - |
+| --van-sidebar-font-size | var(--van-font-size-md) | - |
+| --van-sidebar-line-height | var(--van-line-height-md) | - |
+| --van-sidebar-text-color | var(--van-text-color) | - |
+| --van-sidebar-disabled-text-color | var(--van-text-color-3) | - |
+| --van-sidebar-padding | 20px var(--van-padding-sm) | - |
+| --van-sidebar-active-color | var(--van-active-color) | - |
+| --van-sidebar-background | var(--van-background) | - |
+| --van-sidebar-selected-font-weight | var(--van-font-bold) | - |
+| --van-sidebar-selected-text-color | var(--van-text-color) | - |
+| --van-sidebar-selected-border-width | 4px | - |
+| --van-sidebar-selected-border-height | 16px | - |
+| --van-sidebar-selected-border-color | var(--van-primary-color) | - |
+| --van-sidebar-selected-background | var(--van-background-2) | - |
+
+[浙ICP备2021036118号](https://beian.miit.gov.cn/)

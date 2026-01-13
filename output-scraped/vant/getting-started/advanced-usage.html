@@ -1,0 +1,220 @@
+<!DOCTYPE html><html lang="en" class="van-doc-theme-light"><head>
+    <meta charset="UTF-8">
+    <title>进阶用法 - Vant 4</title>
+    
+    <meta name="description" content="A lightweight, customizable Vue UI library for mobile web apps.">
+    
+    <link rel="icon" type="image/png" href="https://fastly.jsdelivr.net/npm/@vant/assets/logo.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
+    
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+     <script charset="utf-8" src="https://hmcdn.baidu.com/static/tongji/plugins/UrlChangeTracker.js"></script><script src="https://hm.baidu.com/hm.js?af5d41bc4e446e76665dbe3ec18d55c3"></script><script>
+if (location.host === 'youzan.github.io') {
+location.href = location.href.replace('youzan.github.io', 'vant-ui.github.io');
+}
+</script>
+  
+    <script>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement('script');
+        hm.src = 'https://hm.baidu.com/hm.js?af5d41bc4e446e76665dbe3ec18d55c3';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+    
+  <script defer="" src="/vant/static/js/lib-vue.51739535.js"></script><script defer="" src="/vant/static/js/lib-router.dd0aa87c.js"></script><script defer="" src="/vant/static/js/3929.8485889e.js"></script><script defer="" src="/vant/static/js/index.7ae9970c.js"></script><link href="/vant/static/css/index.72829341.css" rel="stylesheet"></head>
+  <body>
+    <div id="app" data-v-app=""><div class="app"><div class="van-doc"><div class="van-doc-header"><div class="van-doc-row"><div class="van-doc-header__top"><a class="van-doc-header__logo"><img src="https://fastly.jsdelivr.net/npm/@vant/assets/logo.png"><span class="van-doc-header__title">Vant 4</span><span class="van-doc-header__subtitle">（适用于 Vue 3）</span></a><ul class="van-doc-header__top-nav"><li class="van-doc-header__top-nav-item"><a class="van-doc-header__link" target="_blank" href="/vant-weapp/"><img src="https://fastly.jsdelivr.net/npm/@vant/assets/weapp.svg"></a></li><li class="van-doc-header__top-nav-item"><a class="van-doc-header__link" target="_blank" href="https://github.com/vant-ui/vant"><img src="https://fastly.jsdelivr.net/npm/@vant/assets/github.svg"></a></li><li class="van-doc-header__top-nav-item"><a class="van-doc-header__link" target="_blank"><img src="https://b.yzcdn.cn/vant/dark-theme.svg"></a></li><li class="van-doc-header__top-nav-item"><span class="van-doc-header__cube van-doc-header__version">4.9.21 <!----></span></li><li class="van-doc-header__top-nav-item"><a class="van-doc-header__cube" href="#/en-US/advanced-usage">EN</a></li></ul></div></div></div><div class="van-doc-nav"><div class="van-doc-nav__group"><div class="van-doc-nav__title">开发指南</div><div class="van-doc-nav__item"><a href="#/zh-CN/home" class="">介绍 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/quickstart" class="">快速上手 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/advanced-usage" class="router-link-active router-link-exact-active active" aria-current="page">进阶用法 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/faq" class="">常见问题 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/changelog" class="">更新日志 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/release-note-v4" class="">4.0 <span>更新介绍</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/migrate-from-v2" class="">从 <span>v2 升级到 v3</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/migrate-from-v3" class="">从 <span>v3 升级到 v4</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/contribution" class="">贡献指南 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/design" class="">设计资源 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/locale" class="">国际化 <span></span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">基础组件</div><div class="van-doc-nav__item"><a href="#/zh-CN/button" class="">Button <span>按钮</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/cell" class="">Cell <span>单元格</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/config-provider" class="">ConfigProvider <span>全局配置</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/icon" class="">Icon <span>图标</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/image" class="">Image <span>图片</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/col" class="">Layout <span>布局</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/popup" class="">Popup <span>弹出层</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/space" class="">Space <span>间距</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/style" class="">Style <span>内置样式</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/toast" class="">Toast <span>轻提示</span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">表单组件</div><div class="van-doc-nav__item"><a href="#/zh-CN/calendar" class="">Calendar <span>日历</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/cascader" class="">Cascader <span>级联选择</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/checkbox" class="">Checkbox <span>复选框</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/date-picker" class="">DatePicker <span>日期选择</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/field" class="">Field <span>输入框</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/form" class="">Form <span>表单</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/number-keyboard" class="">NumberKeyboard <span>数字键盘</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/password-input" class="">PasswordInput <span>密码输入框</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/picker" class="">Picker <span>选择器</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/picker-group" class="">PickerGroup <span>选择器组</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/radio" class="">Radio <span>单选框</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/rate" class="">Rate <span>评分</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/search" class="">Search <span>搜索</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/slider" class="">Slider <span>滑块</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/signature" class="">Signature <span>签名</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/stepper" class="">Stepper <span>步进器</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/switch" class="">Switch <span>开关</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/time-picker" class="">TimePicker <span>时间选择</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/uploader" class="">Uploader <span>文件上传</span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">反馈组件</div><div class="van-doc-nav__item"><a href="#/zh-CN/action-sheet" class="">ActionSheet <span>动作面板</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/barrage" class="">Barrage <span>弹幕</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/dialog" class="">Dialog <span>弹出框</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/dropdown-menu" class="">DropdownMenu <span>下拉菜单</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/floating-panel" class="">FloatingPanel <span>浮动面板</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/floating-bubble" class="">FloatingBubble <span>浮动气泡</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/loading" class="">Loading <span>加载</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/notify" class="">Notify <span>消息通知</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/overlay" class="">Overlay <span>遮罩层</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/pull-refresh" class="">PullRefresh <span>下拉刷新</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/share-sheet" class="">ShareSheet <span>分享面板</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/swipe-cell" class="">SwipeCell <span>滑动单元格</span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">展示组件</div><div class="van-doc-nav__item"><a href="#/zh-CN/badge" class="">Badge <span>徽标</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/circle" class="">Circle <span>环形进度条</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/collapse" class="">Collapse <span>折叠面板</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/count-down" class="">CountDown <span>倒计时</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/divider" class="">Divider <span>分割线</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/empty" class="">Empty <span>空状态</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/highlight" class="">Highlight <span>高亮文本</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/image-preview" class="">ImagePreview <span>图片预览</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/lazyload" class="">Lazyload <span>懒加载</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/list" class="">List <span>列表</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/notice-bar" class="">NoticeBar <span>通知栏</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/popover" class="">Popover <span>气泡弹出框</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/progress" class="">Progress <span>进度条</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/rolling-text" class="">RollingText <span>翻滚文本</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/skeleton" class="">Skeleton <span>骨架屏</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/steps" class="">Steps <span>步骤条</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/sticky" class="">Sticky <span>粘性布局</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/swipe" class="">Swipe <span>轮播</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/tag" class="">Tag <span>标签</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/text-ellipsis" class="">TextEllipsis <span>文本省略</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/watermark" class="">Watermark <span>水印</span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">导航组件</div><div class="van-doc-nav__item"><a href="#/zh-CN/action-bar" class="">ActionBar <span>动作栏</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/back-top" class="">BackTop <span>回到顶部</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/grid" class="">Grid <span>宫格</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/index-bar" class="">IndexBar <span>索引栏</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/nav-bar" class="">NavBar <span>导航栏</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/pagination" class="">Pagination <span>分页</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/sidebar" class="">Sidebar <span>侧边导航</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/tab" class="">Tab <span>标签页</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/tabbar" class="">Tabbar <span>标签栏</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/tree-select" class="">TreeSelect <span>分类选择</span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">业务组件</div><div class="van-doc-nav__item"><a href="#/zh-CN/address-edit" class="">AddressEdit <span>地址编辑</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/address-list" class="">AddressList <span>地址列表</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/area" class="">Area <span>省市区选择</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/card" class="">Card <span>商品卡片</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/contact-card" class="">ContactCard <span>联系人卡片</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/contact-edit" class="">ContactEdit <span>联系人编辑</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/contact-list" class="">ContactList <span>联系人列表</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/coupon-list" class="">Coupon <span>优惠券</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/submit-bar" class="">SubmitBar <span>提交订单栏</span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">组合式 API</div><div class="van-doc-nav__item"><a href="#/zh-CN/vant-use-intro" class="">介绍 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-click-away" class="">useClickAway <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-count-down" class="">useCountDown <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-custom-field-value" class="">useCustomFieldValue <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-event-listener" class="">useEventListener <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-page-visibility" class="">usePageVisibility <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-rect" class="">useRect <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-relation" class="">useRelation <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-scroll-parent" class="">useScrollParent <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-toggle" class="">useToggle <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-window-size" class="">useWindowSize <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-raf" class="">useRaf <span></span></a></div></div></div><div class="van-doc-container van-doc-row van-doc-container--with-simulator"><div class="van-doc-content van-doc-content--advanced-usage"><div class="van-doc-markdown-body"><h1>进阶用法</h1>
+<div class="van-doc-card"><h3 id="jie-shao" tabindex="-1">介绍</h3>
+<p>通过本章节你可以了解到 Vant 的一些进阶用法，比如组件插槽用法、多种浏览器适配方式。</p>
+</div><h2 id="zu-jian-yong-fa" tabindex="-1">组件用法</h2>
+<div class="van-doc-card"><h3 id="zu-jian-zhu-ce" tabindex="-1">组件注册</h3>
+<p>Vant 支持多种组件注册方式，请根据实际业务需要进行选择。</p>
+<h4 id="quan-ju-zhu-ce" tabindex="-1">全局注册</h4>
+<p>全局注册后，你可以在 app 下的任意子组件中使用注册的 Vant 组件。</p>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Button</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'vant'</span>;
+<span class="hljs-keyword">import</span> { createApp } <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>;
+
+<span class="hljs-keyword">const</span> app = <span class="hljs-title function_">createApp</span>();
+
+<span class="hljs-comment">// 方式一. 通过 app.use 注册</span>
+<span class="hljs-comment">// 注册完成后，在模板中通过 &lt;van-button&gt; 或 &lt;VanButton&gt; 标签来使用按钮组件</span>
+app.<span class="hljs-title function_">use</span>(<span class="hljs-title class_">Button</span>);
+
+<span class="hljs-comment">// 方式二. 通过 app.component 注册</span>
+<span class="hljs-comment">// 注册完成后，在模板中通过 &lt;van-button&gt; 标签来使用按钮组件</span>
+app.<span class="hljs-title function_">component</span>(<span class="hljs-title class_">Button</span>.<span class="hljs-property">name</span>, <span class="hljs-title class_">Button</span>);
+</code></pre>
+<h4 id="quan-liang-zhu-ce" tabindex="-1">全量注册</h4>
+<p>你也可以在全局一次性注册所有 Vant 组件：</p>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> <span class="hljs-title class_">Vant</span> <span class="hljs-keyword">from</span> <span class="hljs-string">'vant'</span>;
+<span class="hljs-keyword">import</span> { createApp } <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>;
+
+<span class="hljs-keyword">const</span> app = <span class="hljs-title function_">createApp</span>();
+
+app.<span class="hljs-title function_">use</span>(<span class="hljs-title class_">Vant</span>);
+
+<span class="hljs-comment">// Lazyload 指令需要单独进行注册</span>
+app.<span class="hljs-title function_">use</span>(vant.<span class="hljs-property">Lazyload</span>);
+</code></pre>
+<blockquote>
+<p>注意：注册所有组件会引入所有组件的代码，导致包体积增大。</p>
+</blockquote>
+<h4 id="ju-bu-zhu-ce" tabindex="-1">局部注册</h4>
+<p>局部注册后，你可以在当前组件中使用注册的 Vant 组件。</p>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Button</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'vant'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  <span class="hljs-attr">components</span>: {
+    [<span class="hljs-title class_">Button</span>.<span class="hljs-property">name</span>]: <span class="hljs-title class_">Button</span>,
+  },
+};
+</code></pre>
+<blockquote>
+<p>对于组件注册更详细的介绍，请参考 <a href="https://cn.vuejs.org/guide/components/registration.html" target="_blank">Vue 官方文档 - 组件注册</a>。</p>
+</blockquote>
+<h4 id="script-setup" tabindex="-1">&lt;script setup&gt;</h4>
+<p>在 <code>&lt;script setup&gt;</code> 中可以直接使用 Vant 组件，不需要进行组件注册。</p>
+<pre><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span>&gt;</span><span class="language-javascript">
+  <span class="hljs-keyword">import</span> { <span class="hljs-title class_">Button</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'vant'</span>;
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">Button</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+</code></pre>
+<h4 id="jsx-tsx" tabindex="-1">JSX/TSX</h4>
+<p>在 JSX 和 TSX 中可以直接使用 Vant 组件，不需要进行组件注册。</p>
+<pre><code class="language-jsx"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Button</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'vant'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Button</span> /&gt;</span></span>;
+  },
+};
+</code></pre>
+</div><div class="van-doc-card"><h3 id="zu-jian-cha-cao" tabindex="-1">组件插槽</h3>
+<p>Vant 提供了丰富的组件插槽，通过插槽可以对组件的某一部分进行个性化定制。如果你对 Vue 的插槽不太熟悉，可以阅读 Vue 官方文档中的<a href="https://cn.vuejs.org/guide/components/slots.html" target="_blank">插槽章节</a>。下面是通过插槽来定制 Checkbox 图标的示例：</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">van-checkbox</span> <span class="hljs-attr">v-model</span>=<span class="hljs-string">"checked"</span>&gt;</span>
+  <span class="hljs-comment">&lt;!-- 使用组件提供的 icon 插槽 --&gt;</span>
+  <span class="hljs-comment">&lt;!-- 将默认图标替换为个性化图片 --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">template</span> #<span class="hljs-attr">icon</span>=<span class="hljs-string">"props"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">:src</span>=<span class="hljs-string">"props.checked ? activeIcon : inactiveIcon"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">van-checkbox</span>&gt;</span>
+</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  <span class="hljs-title function_">data</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> {
+      <span class="hljs-attr">checked</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">activeIcon</span>:
+        <span class="hljs-string">'https://fastly.jsdelivr.net/npm/@vant/assets/user-active.png'</span>,
+      <span class="hljs-attr">inactiveIcon</span>:
+        <span class="hljs-string">'https://fastly.jsdelivr.net/npm/@vant/assets/user-inactive.png'</span>,
+    };
+  },
+};
+</code></pre>
+</div><div class="van-doc-card"><h3 id="zu-jian-shi-li-fang-fa" tabindex="-1">组件实例方法</h3>
+<p>Vant 中的许多组件提供了实例方法，调用实例方法时，我们需要通过 <a href="https://cn.vuejs.org/guide/essentials/template-refs.html" target="_blank">ref</a> 来注册组件引用信息，引用信息将会注册在父组件的<code>$refs</code>对象上。注册完成后，我们可以通过<code>this.$refs.xxx</code>访问到对应的组件实例，并调用上面的实例方法。</p>
+<pre><code class="language-html"><span class="hljs-comment">&lt;!-- 通过 ref 属性将组件绑定到 this.$refs.checkbox 上 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">van-checkbox</span> <span class="hljs-attr">v-model</span>=<span class="hljs-string">"checked"</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">"checkbox"</span>&gt;</span> 复选框 <span class="hljs-tag">&lt;/<span class="hljs-name">van-checkbox</span>&gt;</span>
+</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  <span class="hljs-title function_">data</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> {
+      <span class="hljs-attr">checked</span>: <span class="hljs-literal">false</span>,
+    };
+  },
+  <span class="hljs-comment">// 注意：组件挂载后才能访问到 ref 对象</span>
+  <span class="hljs-title function_">mounted</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">$refs</span>.<span class="hljs-property">checkbox</span>.<span class="hljs-title function_">toggle</span>();
+  },
+};
+</code></pre>
+</div><h2 id="liu-lan-qi-gua-pei" tabindex="-1">浏览器适配</h2>
+<div class="van-doc-card"><h3 id="viewport-bu-ju" tabindex="-1">Viewport 布局</h3>
+<p>Vant 默认使用 <code>px</code> 作为样式单位，如果需要使用 <code>viewport</code> 单位 (vw, vh, vmin, vmax)，推荐使用 <a href="https://github.com/evrone/postcss-px-to-viewport" target="_blank">postcss-px-to-viewport</a> 进行转换。</p>
+<p><a href="https://github.com/evrone/postcss-px-to-viewport" target="_blank">postcss-px-to-viewport</a> 是一款 PostCSS 插件，用于将 px 单位转化为 vw/vh 单位。</p>
+<h4 id="postcss-postcss-shi-li-pei-zhi" tabindex="-1">PostCSS PostCSS 示例配置</h4>
+<p>下面提供了一份基本的 PostCSS 示例配置，可以在此配置的基础上根据项目需求进行修改。</p>
+<pre><code class="language-js"><span class="hljs-comment">// postcss.config.js</span>
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
+  <span class="hljs-attr">plugins</span>: {
+    <span class="hljs-string">'postcss-px-to-viewport'</span>: {
+      <span class="hljs-attr">viewportWidth</span>: <span class="hljs-number">375</span>,
+    },
+  },
+};
+</code></pre>
+<blockquote>
+<p>Tips: 在配置 postcss-loader 时，应避免 ignore node_modules 目录，否则将导致 Vant 样式无法被编译。</p>
+</blockquote>
+</div><div class="van-doc-card"><h3 id="rem-bu-ju-gua-pei" tabindex="-1">Rem 布局适配</h3>
+<p>如果需要使用 <code>rem</code> 单位进行适配，推荐使用以下两个工具：</p>
+<ul>
+<li><a href="https://github.com/cuth/postcss-pxtorem" target="_blank">postcss-pxtorem</a> 是一款 PostCSS 插件，用于将 px 单位转化为 rem 单位</li>
+<li><a href="https://github.com/amfe/lib-flexible" target="_blank">lib-flexible</a> 用于设置 rem 基准值</li>
+</ul>
+<h4 id="postcss-shi-li-pei-zhi" tabindex="-1">PostCSS 示例配置</h4>
+<p>下面提供了一份基本的 PostCSS 示例配置，可以在此配置的基础上根据项目需求进行修改。</p>
+<pre><code class="language-js"><span class="hljs-comment">// postcss.config.js</span>
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
+  <span class="hljs-attr">plugins</span>: {
+    <span class="hljs-string">'postcss-pxtorem'</span>: {
+      <span class="hljs-attr">rootValue</span>: <span class="hljs-number">37.5</span>,
+      <span class="hljs-attr">propList</span>: [<span class="hljs-string">'*'</span>],
+    },
+  },
+};
+</code></pre>
+<blockquote>
+<p>Tips: 在配置 postcss-pxtorem 时，同样应避免 ignore node_modules 目录，否则会导致 Vant 样式无法被编译。</p>
+</blockquote>
+<h4 id="qi-ta-she-ji-gao-chi-cun" tabindex="-1">其他设计稿尺寸</h4>
+<p>如果设计稿的尺寸不是 375，而是 750 或其他大小，可以将 <code>rootValue</code> 配置调整为:</p>
+<pre><code class="language-js"><span class="hljs-comment">// postcss.config.js</span>
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
+  <span class="hljs-attr">plugins</span>: {
+    <span class="hljs-comment">// postcss-pxtorem 插件的版本需要 &gt;= 5.0.0</span>
+    <span class="hljs-string">'postcss-pxtorem'</span>: {
+      <span class="hljs-title function_">rootValue</span>(<span class="hljs-params">{ file }</span>) {
+        <span class="hljs-keyword">return</span> file.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">'vant'</span>) !== -<span class="hljs-number">1</span> ? <span class="hljs-number">37.5</span> : <span class="hljs-number">75</span>;
+      },
+      <span class="hljs-attr">propList</span>: [<span class="hljs-string">'*'</span>],
+    },
+  },
+};
+</code></pre>
+</div><div class="van-doc-card"><h3 id="zhuo-mian-duan-gua-pei" tabindex="-1">桌面端适配</h3>
+<p>Vant 是一个面向移动端的组件库，因此默认只适配了移动端设备，这意味着组件只监听了移动端的 <code>touch</code> 事件，没有监听桌面端的 <code>mouse</code> 事件。</p>
+<p>如果你需要在桌面端使用 Vant，可以引入我们提供的 <a href="https://github.com/vant-ui/vant/tree/main/packages/vant-touch-emulator" target="_blank">@vant/touch-emulator</a>，这个库会在桌面端自动将 <code>mouse</code> 事件转换成对应的 <code>touch</code> 事件，使得组件能够在桌面端使用。</p>
+<pre><code class="language-bash"><span class="hljs-comment"># 安装模块</span>
+npm i @vant/touch-emulator -S
+</code></pre>
+<pre><code class="language-js"><span class="hljs-comment">// 引入模块后自动生效</span>
+<span class="hljs-keyword">import</span> <span class="hljs-string">'@vant/touch-emulator'</span>;
+</code></pre>
+</div><div class="van-doc-card"><h3 id="di-bu-an-quan-qu-gua-pei" tabindex="-1">底部安全区适配</h3>
+<p>iPhone X 等机型底部存在底部指示条，指示条的操作区域与页面底部存在重合，容易导致用户误操作，因此我们需要针对这些机型进行安全区适配。Vant 中部分组件提供了 <code>safe-area-inset-top</code> 或 <code>safe-area-inset-bottom</code> 属性，设置该属性后，即可在对应的机型上开启适配，如下示例：</p>
+<pre><code class="language-html"><span class="hljs-comment">&lt;!-- 在 head 标签中添加 meta 标签，并设置 viewport-fit=cover 值 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">meta</span>
+  <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span>
+  <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover"</span>
+/&gt;</span>
+
+<span class="hljs-comment">&lt;!-- 开启顶部安全区适配 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">van-nav-bar</span> <span class="hljs-attr">safe-area-inset-top</span> /&gt;</span>
+
+<span class="hljs-comment">&lt;!-- 开启底部安全区适配 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">van-number-keyboard</span> <span class="hljs-attr">safe-area-inset-bottom</span> /&gt;</span>
+</code></pre>
+<img src="https://fastly.jsdelivr.net/npm/@vant/assets/safearea.png">
+</div></div><div class="van-doc-icp"><a href="https://beian.miit.gov.cn/" target="_black">浙ICP备2021036118号</a></div></div></div><div class="van-doc-simulator"><iframe src="/vant/mobile.html#/zh-CN/home" frameborder="0" style="height: 640px;"></iframe></div></div></div></div>
+  
+
+</body></html>

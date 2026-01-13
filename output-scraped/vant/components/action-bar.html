@@ -1,0 +1,391 @@
+<!DOCTYPE html><html lang="en" class="van-doc-theme-light"><head>
+    <meta charset="UTF-8">
+    <title>ActionBar 动作栏 - Vant 4</title>
+    
+    <meta name="description" content="A lightweight, customizable Vue UI library for mobile web apps.">
+    
+    <link rel="icon" type="image/png" href="https://fastly.jsdelivr.net/npm/@vant/assets/logo.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
+    
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+     <script charset="utf-8" src="https://hmcdn.baidu.com/static/tongji/plugins/UrlChangeTracker.js"></script><script src="https://hm.baidu.com/hm.js?af5d41bc4e446e76665dbe3ec18d55c3"></script><script>
+if (location.host === 'youzan.github.io') {
+location.href = location.href.replace('youzan.github.io', 'vant-ui.github.io');
+}
+</script>
+  
+    <script>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement('script');
+        hm.src = 'https://hm.baidu.com/hm.js?af5d41bc4e446e76665dbe3ec18d55c3';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+    
+  <script defer="" src="/vant/static/js/lib-vue.51739535.js"></script><script defer="" src="/vant/static/js/lib-router.dd0aa87c.js"></script><script defer="" src="/vant/static/js/3929.8485889e.js"></script><script defer="" src="/vant/static/js/index.7ae9970c.js"></script><link href="/vant/static/css/index.72829341.css" rel="stylesheet"></head>
+  <body>
+    <div id="app" data-v-app=""><div class="app"><div class="van-doc"><div class="van-doc-header"><div class="van-doc-row"><div class="van-doc-header__top"><a class="van-doc-header__logo"><img src="https://fastly.jsdelivr.net/npm/@vant/assets/logo.png"><span class="van-doc-header__title">Vant 4</span><span class="van-doc-header__subtitle">（适用于 Vue 3）</span></a><ul class="van-doc-header__top-nav"><li class="van-doc-header__top-nav-item"><a class="van-doc-header__link" target="_blank" href="/vant-weapp/"><img src="https://fastly.jsdelivr.net/npm/@vant/assets/weapp.svg"></a></li><li class="van-doc-header__top-nav-item"><a class="van-doc-header__link" target="_blank" href="https://github.com/vant-ui/vant"><img src="https://fastly.jsdelivr.net/npm/@vant/assets/github.svg"></a></li><li class="van-doc-header__top-nav-item"><a class="van-doc-header__link" target="_blank"><img src="https://b.yzcdn.cn/vant/dark-theme.svg"></a></li><li class="van-doc-header__top-nav-item"><span class="van-doc-header__cube van-doc-header__version">4.9.21 <!----></span></li><li class="van-doc-header__top-nav-item"><a class="van-doc-header__cube" href="#/en-US/action-bar">EN</a></li></ul></div></div></div><div class="van-doc-nav"><div class="van-doc-nav__group"><div class="van-doc-nav__title">开发指南</div><div class="van-doc-nav__item"><a href="#/zh-CN/home" class="">介绍 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/quickstart" class="">快速上手 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/advanced-usage" class="">进阶用法 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/faq" class="">常见问题 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/changelog" class="">更新日志 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/release-note-v4" class="">4.0 <span>更新介绍</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/migrate-from-v2" class="">从 <span>v2 升级到 v3</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/migrate-from-v3" class="">从 <span>v3 升级到 v4</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/contribution" class="">贡献指南 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/design" class="">设计资源 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/locale" class="">国际化 <span></span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">基础组件</div><div class="van-doc-nav__item"><a href="#/zh-CN/button" class="">Button <span>按钮</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/cell" class="">Cell <span>单元格</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/config-provider" class="">ConfigProvider <span>全局配置</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/icon" class="">Icon <span>图标</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/image" class="">Image <span>图片</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/col" class="">Layout <span>布局</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/popup" class="">Popup <span>弹出层</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/space" class="">Space <span>间距</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/style" class="">Style <span>内置样式</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/toast" class="">Toast <span>轻提示</span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">表单组件</div><div class="van-doc-nav__item"><a href="#/zh-CN/calendar" class="">Calendar <span>日历</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/cascader" class="">Cascader <span>级联选择</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/checkbox" class="">Checkbox <span>复选框</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/date-picker" class="">DatePicker <span>日期选择</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/field" class="">Field <span>输入框</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/form" class="">Form <span>表单</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/number-keyboard" class="">NumberKeyboard <span>数字键盘</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/password-input" class="">PasswordInput <span>密码输入框</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/picker" class="">Picker <span>选择器</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/picker-group" class="">PickerGroup <span>选择器组</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/radio" class="">Radio <span>单选框</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/rate" class="">Rate <span>评分</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/search" class="">Search <span>搜索</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/slider" class="">Slider <span>滑块</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/signature" class="">Signature <span>签名</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/stepper" class="">Stepper <span>步进器</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/switch" class="">Switch <span>开关</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/time-picker" class="">TimePicker <span>时间选择</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/uploader" class="">Uploader <span>文件上传</span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">反馈组件</div><div class="van-doc-nav__item"><a href="#/zh-CN/action-sheet" class="">ActionSheet <span>动作面板</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/barrage" class="">Barrage <span>弹幕</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/dialog" class="">Dialog <span>弹出框</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/dropdown-menu" class="">DropdownMenu <span>下拉菜单</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/floating-panel" class="">FloatingPanel <span>浮动面板</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/floating-bubble" class="">FloatingBubble <span>浮动气泡</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/loading" class="">Loading <span>加载</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/notify" class="">Notify <span>消息通知</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/overlay" class="">Overlay <span>遮罩层</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/pull-refresh" class="">PullRefresh <span>下拉刷新</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/share-sheet" class="">ShareSheet <span>分享面板</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/swipe-cell" class="">SwipeCell <span>滑动单元格</span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">展示组件</div><div class="van-doc-nav__item"><a href="#/zh-CN/badge" class="">Badge <span>徽标</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/circle" class="">Circle <span>环形进度条</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/collapse" class="">Collapse <span>折叠面板</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/count-down" class="">CountDown <span>倒计时</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/divider" class="">Divider <span>分割线</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/empty" class="">Empty <span>空状态</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/highlight" class="">Highlight <span>高亮文本</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/image-preview" class="">ImagePreview <span>图片预览</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/lazyload" class="">Lazyload <span>懒加载</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/list" class="">List <span>列表</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/notice-bar" class="">NoticeBar <span>通知栏</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/popover" class="">Popover <span>气泡弹出框</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/progress" class="">Progress <span>进度条</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/rolling-text" class="">RollingText <span>翻滚文本</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/skeleton" class="">Skeleton <span>骨架屏</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/steps" class="">Steps <span>步骤条</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/sticky" class="">Sticky <span>粘性布局</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/swipe" class="">Swipe <span>轮播</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/tag" class="">Tag <span>标签</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/text-ellipsis" class="">TextEllipsis <span>文本省略</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/watermark" class="">Watermark <span>水印</span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">导航组件</div><div class="van-doc-nav__item"><a href="#/zh-CN/action-bar" class="router-link-active router-link-exact-active active" aria-current="page">ActionBar <span>动作栏</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/back-top" class="">BackTop <span>回到顶部</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/grid" class="">Grid <span>宫格</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/index-bar" class="">IndexBar <span>索引栏</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/nav-bar" class="">NavBar <span>导航栏</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/pagination" class="">Pagination <span>分页</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/sidebar" class="">Sidebar <span>侧边导航</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/tab" class="">Tab <span>标签页</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/tabbar" class="">Tabbar <span>标签栏</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/tree-select" class="">TreeSelect <span>分类选择</span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">业务组件</div><div class="van-doc-nav__item"><a href="#/zh-CN/address-edit" class="">AddressEdit <span>地址编辑</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/address-list" class="">AddressList <span>地址列表</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/area" class="">Area <span>省市区选择</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/card" class="">Card <span>商品卡片</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/contact-card" class="">ContactCard <span>联系人卡片</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/contact-edit" class="">ContactEdit <span>联系人编辑</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/contact-list" class="">ContactList <span>联系人列表</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/coupon-list" class="">Coupon <span>优惠券</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/submit-bar" class="">SubmitBar <span>提交订单栏</span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">组合式 API</div><div class="van-doc-nav__item"><a href="#/zh-CN/vant-use-intro" class="">介绍 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-click-away" class="">useClickAway <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-count-down" class="">useCountDown <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-custom-field-value" class="">useCustomFieldValue <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-event-listener" class="">useEventListener <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-page-visibility" class="">usePageVisibility <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-rect" class="">useRect <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-relation" class="">useRelation <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-scroll-parent" class="">useScrollParent <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-toggle" class="">useToggle <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-window-size" class="">useWindowSize <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-raf" class="">useRaf <span></span></a></div></div></div><div class="van-doc-container van-doc-row van-doc-container--with-simulator"><div class="van-doc-content van-doc-content--action-bar"><div class="van-doc-markdown-body"><h1>ActionBar 动作栏</h1>
+<div class="van-doc-card"><h3 id="jie-shao" tabindex="-1">介绍</h3>
+<p>用于为页面相关操作提供便捷交互。</p>
+</div><div class="van-doc-card"><h3 id="yin-ru" tabindex="-1">引入</h3>
+<p>通过以下方式来全局注册组件，更多注册方式请参考<a href="#/zh-CN/advanced-usage#zu-jian-zhu-ce" target="_blank">组件注册</a>。</p>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> { createApp } <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">ActionBar</span>, <span class="hljs-title class_">ActionBarIcon</span>, <span class="hljs-title class_">ActionBarButton</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'vant'</span>;
+
+<span class="hljs-keyword">const</span> app = <span class="hljs-title function_">createApp</span>();
+app.<span class="hljs-title function_">use</span>(<span class="hljs-title class_">ActionBar</span>);
+app.<span class="hljs-title function_">use</span>(<span class="hljs-title class_">ActionBarIcon</span>);
+app.<span class="hljs-title function_">use</span>(<span class="hljs-title class_">ActionBarButton</span>);
+</code></pre>
+</div><h2 id="dai-ma-yan-shi" tabindex="-1">代码演示</h2>
+<div class="van-doc-card"><h3 id="ji-chu-yong-fa" tabindex="-1">基础用法</h3>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">van-action-bar</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-action-bar-icon</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">"chat-o"</span> <span class="hljs-attr">text</span>=<span class="hljs-string">"客服"</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">"onClickIcon"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-action-bar-icon</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">"cart-o"</span> <span class="hljs-attr">text</span>=<span class="hljs-string">"购物车"</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">"onClickIcon"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-action-bar-icon</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">"shop-o"</span> <span class="hljs-attr">text</span>=<span class="hljs-string">"店铺"</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">"onClickIcon"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-action-bar-button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"danger"</span> <span class="hljs-attr">text</span>=<span class="hljs-string">"立即购买"</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">"onClickButton"</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">van-action-bar</span>&gt;</span>
+</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> { showToast } <span class="hljs-keyword">from</span> <span class="hljs-string">'vant'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  <span class="hljs-title function_">setup</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">const</span> <span class="hljs-title function_">onClickIcon</span> = (<span class="hljs-params"></span>) =&gt; <span class="hljs-title function_">showToast</span>(<span class="hljs-string">'点击图标'</span>);
+    <span class="hljs-keyword">const</span> <span class="hljs-title function_">onClickButton</span> = (<span class="hljs-params"></span>) =&gt; <span class="hljs-title function_">showToast</span>(<span class="hljs-string">'点击按钮'</span>);
+    <span class="hljs-keyword">return</span> {
+      onClickIcon,
+      onClickButton,
+    };
+  },
+};
+</code></pre>
+</div><div class="van-doc-card"><h3 id="hui-biao-ti-shi" tabindex="-1">徽标提示</h3>
+<p>在 ActionBarIcon 组件上设置 <code>dot</code> 属性后，会在图标右上角展示一个小红点；设置 <code>badge</code> 属性后，会在图标右上角展示相应的徽标。</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">van-action-bar</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-action-bar-icon</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">"chat-o"</span> <span class="hljs-attr">text</span>=<span class="hljs-string">"客服"</span> <span class="hljs-attr">dot</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-action-bar-icon</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">"cart-o"</span> <span class="hljs-attr">text</span>=<span class="hljs-string">"购物车"</span> <span class="hljs-attr">badge</span>=<span class="hljs-string">"5"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-action-bar-icon</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">"shop-o"</span> <span class="hljs-attr">text</span>=<span class="hljs-string">"店铺"</span> <span class="hljs-attr">badge</span>=<span class="hljs-string">"12"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-action-bar-button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"warning"</span> <span class="hljs-attr">text</span>=<span class="hljs-string">"加入购物车"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-action-bar-button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"danger"</span> <span class="hljs-attr">text</span>=<span class="hljs-string">"立即购买"</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">van-action-bar</span>&gt;</span>
+</code></pre>
+</div><div class="van-doc-card"><h3 id="zi-ding-yi-tu-biao-yan-se" tabindex="-1">自定义图标颜色</h3>
+<p>通过 ActionBarIcon 的 <code>color</code> 属性可以自定义图标的颜色。</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">van-action-bar</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-action-bar-icon</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">"chat-o"</span> <span class="hljs-attr">text</span>=<span class="hljs-string">"客服"</span> <span class="hljs-attr">color</span>=<span class="hljs-string">"#ee0a24"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-action-bar-icon</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">"cart-o"</span> <span class="hljs-attr">text</span>=<span class="hljs-string">"购物车"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-action-bar-icon</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">"star"</span> <span class="hljs-attr">text</span>=<span class="hljs-string">"已收藏"</span> <span class="hljs-attr">color</span>=<span class="hljs-string">"#ff5000"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-action-bar-button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"warning"</span> <span class="hljs-attr">text</span>=<span class="hljs-string">"加入购物车"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-action-bar-button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"danger"</span> <span class="hljs-attr">text</span>=<span class="hljs-string">"立即购买"</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">van-action-bar</span>&gt;</span>
+</code></pre>
+</div><div class="van-doc-card"><h3 id="zi-ding-yi-an-niu-yan-se" tabindex="-1">自定义按钮颜色</h3>
+<p>通过 ActionBarButton 的 <code>color</code> 属性可以自定义按钮的颜色，支持传入 <code>linear-gradient</code> 渐变色。</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">van-action-bar</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-action-bar-icon</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">"chat-o"</span> <span class="hljs-attr">text</span>=<span class="hljs-string">"客服"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-action-bar-icon</span> <span class="hljs-attr">icon</span>=<span class="hljs-string">"shop-o"</span> <span class="hljs-attr">text</span>=<span class="hljs-string">"店铺"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-action-bar-button</span> <span class="hljs-attr">color</span>=<span class="hljs-string">"#be99ff"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"warning"</span> <span class="hljs-attr">text</span>=<span class="hljs-string">"加入购物车"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-action-bar-button</span> <span class="hljs-attr">color</span>=<span class="hljs-string">"#7232dd"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"danger"</span> <span class="hljs-attr">text</span>=<span class="hljs-string">"立即购买"</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">van-action-bar</span>&gt;</span>
+</code></pre>
+</div><h2 id="api" tabindex="-1">API</h2>
+<div class="van-doc-card"><h3 id="actionbar-props" tabindex="-1">ActionBar Props</h3>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>类型</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>safe-area-inset-bottom</td>
+<td>是否开启<a href="#/zh-CN/advanced-usage#di-bu-an-quan-qu-gua-pei" target="_blank">底部安全区适配</a></td>
+<td><em>boolean</em></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td>placeholder</td>
+<td>是否在标签位置生成一个等高的占位元素</td>
+<td><em>boolean</em></td>
+<td><code>false</code></td>
+</tr>
+</tbody>
+</table>
+</div><div class="van-doc-card"><h3 id="actionbaricon-props" tabindex="-1">ActionBarIcon Props</h3>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>类型</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>text</td>
+<td>按钮文字</td>
+<td><em>string</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>icon</td>
+<td>图标</td>
+<td><em>string</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>color</td>
+<td>图标颜色</td>
+<td><em>string</em></td>
+<td><code>#323233</code></td>
+</tr>
+<tr>
+<td>icon-class</td>
+<td>图标额外类名</td>
+<td><em>string | Array | object</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>icon-prefix</td>
+<td>图标类名前缀，等同于 Icon 组件的 <a href="#/zh-CN/icon#props" target="_blank">class-prefix 属性</a></td>
+<td><em>string</em></td>
+<td><code>van-icon</code></td>
+</tr>
+<tr>
+<td>dot</td>
+<td>是否显示图标右上角小红点</td>
+<td><em>boolean</em></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td>badge</td>
+<td>图标右上角徽标的内容</td>
+<td><em>number | string</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>badge-props</td>
+<td>自定义徽标的属性，传入的对象会被透传给 <a href="#/zh-CN/badge#props" target="_blank">Badge 组件的 props</a></td>
+<td><em>BadgeProps</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>url</td>
+<td>点击后跳转的链接地址</td>
+<td><em>string</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>to</td>
+<td>点击后跳转的目标路由对象，等同于 Vue Router 的 <a href="https://router.vuejs.org/zh/api/interfaces/RouterLinkProps.html#Properties-to" target="_blank">to 属性</a></td>
+<td><em>string | object</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>replace</td>
+<td>是否在跳转时替换当前页面历史</td>
+<td><em>boolean</em></td>
+<td><code>false</code></td>
+</tr>
+</tbody>
+</table>
+</div><div class="van-doc-card"><h3 id="actionbarbutton-props" tabindex="-1">ActionBarButton Props</h3>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>类型</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>text</td>
+<td>按钮文字</td>
+<td><em>string</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>type</td>
+<td>按钮类型，可选值为 <code>default</code> <code>primary</code> <code>success</code> <code>warning</code> <code>danger</code></td>
+<td><em>string</em></td>
+<td><code>default</code></td>
+</tr>
+<tr>
+<td>color</td>
+<td>按钮颜色，支持传入 <code>linear-gradient</code> 渐变色</td>
+<td><em>string</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>icon</td>
+<td>左侧图标名称或图片链接，等同于 Icon 组件的 <a href="#/zh-CN/icon#props" target="_blank">name 属性</a></td>
+<td><em>string</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>disabled</td>
+<td>是否禁用按钮</td>
+<td><em>boolean</em></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td>loading</td>
+<td>是否显示为加载状态</td>
+<td><em>boolean</em></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td>url</td>
+<td>点击后跳转的链接地址</td>
+<td><em>string</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>to</td>
+<td>点击后跳转的目标路由对象，等同于 Vue Router 的 <a href="https://router.vuejs.org/zh/api/interfaces/RouterLinkProps.html#Properties-to" target="_blank">to 属性</a></td>
+<td><em>string | object</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>replace</td>
+<td>是否在跳转时替换当前页面历史</td>
+<td><em>boolean</em></td>
+<td><code>false</code></td>
+</tr>
+</tbody>
+</table>
+</div><div class="van-doc-card"><h3 id="actionbaricon-slots" tabindex="-1">ActionBarIcon Slots</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>default</td>
+<td>文本内容</td>
+</tr>
+<tr>
+<td>icon</td>
+<td>自定义图标</td>
+</tr>
+</tbody>
+</table>
+</div><div class="van-doc-card"><h3 id="actionbarbutton-slots" tabindex="-1">ActionBarButton Slots</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>default</td>
+<td>按钮显示内容</td>
+</tr>
+</tbody>
+</table>
+</div><div class="van-doc-card"><h3 id="lei-xing-ding-yi" tabindex="-1">类型定义</h3>
+<p>组件导出以下类型定义：</p>
+<pre><code class="language-ts"><span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> {
+  <span class="hljs-title class_">ActionBarProps</span>,
+  <span class="hljs-title class_">ActionBarIconProps</span>,
+  <span class="hljs-title class_">ActionBarButtonProps</span>,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">'vant'</span>;
+</code></pre>
+</div><h2 id="zhu-ti-ding-zhi" tabindex="-1">主题定制</h2>
+<div class="van-doc-card"><h3 id="yang-shi-bian-liang" tabindex="-1">样式变量</h3>
+<p>组件提供了下列 CSS 变量，可用于自定义样式，使用方法请参考 <a href="#/zh-CN/config-provider" target="_blank">ConfigProvider 组件</a>。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>默认值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>--van-action-bar-background</td>
+<td><em>var(--van-background-2)</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>--van-action-bar-height</td>
+<td><em>50px</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>--van-action-bar-icon-width</td>
+<td><em>48px</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>--van-action-bar-icon-height</td>
+<td><em>100%</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>--van-action-bar-icon-color</td>
+<td><em>var(--van-text-color)</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>--van-action-bar-icon-size</td>
+<td><em>18px</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>--van-action-bar-icon-font-size</td>
+<td><em>var(--van-font-size-xs)</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>--van-action-bar-icon-active-color</td>
+<td><em>var(--van-active-color)</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>--van-action-bar-icon-text-color</td>
+<td><em>var(--van-text-color)</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>--van-action-bar-icon-background</td>
+<td><em>var(--van-background-2)</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>--van-action-bar-button-height</td>
+<td><em>40px</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>--van-action-bar-button-warning-color</td>
+<td><em>var(--van-gradient-orange)</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>--van-action-bar-button-danger-color</td>
+<td><em>var(--van-gradient-red)</em></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="van-doc-icp"><a href="https://beian.miit.gov.cn/" target="_black">浙ICP备2021036118号</a></div></div></div><div class="van-doc-simulator"><iframe src="/vant/mobile.html#/zh-CN/home" frameborder="0" style="height: 640px;"></iframe></div></div></div></div>
+  
+
+</body></html>

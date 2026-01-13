@@ -1,0 +1,593 @@
+{
+  "success": [
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/home",
+      "path": "zh-CN/getting-started/home.html",
+      "title": "介绍 - Vant 4",
+      "html_length": 26009
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/quickstart",
+      "path": "zh-CN/getting-started/quickstart.html",
+      "title": "快速上手 - Vant 4",
+      "html_length": 34597
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/advanced-usage",
+      "path": "zh-CN/getting-started/advanced-usage.html",
+      "title": "进阶用法 - Vant 4",
+      "html_length": 27691
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/faq",
+      "path": "zh-CN/getting-started/faq.html",
+      "title": "常见问题 - Vant 4",
+      "html_length": 19748
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/locale",
+      "path": "zh-CN/getting-started/locale.html",
+      "title": "国际化 - Vant 4",
+      "html_length": 20932
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/button",
+      "path": "zh-CN/components/button.html",
+      "title": "Button 按钮 - Vant 4",
+      "html_length": 35748
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/cell",
+      "path": "zh-CN/components/cell.html",
+      "title": "Cell 单元格 - Vant 4",
+      "html_length": 32838
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/config-provider",
+      "path": "zh-CN/components/config-provider.html",
+      "title": "ConfigProvider 全局配置 - Vant 4",
+      "html_length": 36305
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/icon",
+      "path": "zh-CN/components/icon.html",
+      "title": "Icon 图标 - Vant 4",
+      "html_length": 22194
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/image",
+      "path": "zh-CN/components/image.html",
+      "title": "Image 图片 - Vant 4",
+      "html_length": 29427
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/col",
+      "path": "zh-CN/components/col.html",
+      "title": "Layout 布局 - Vant 4",
+      "html_length": 27237
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/popup",
+      "path": "zh-CN/components/popup.html",
+      "title": "Popup 弹出层 - Vant 4",
+      "html_length": 33296
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/space",
+      "path": "zh-CN/components/space.html",
+      "title": "Space 间距 - Vant 4",
+      "html_length": 27805
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/style",
+      "path": "zh-CN/components/style.html",
+      "title": "Style 内置样式 - Vant 4",
+      "html_length": 22298
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/toast",
+      "path": "zh-CN/components/toast.html",
+      "title": "Toast 轻提示 - Vant 4",
+      "html_length": 38640
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/calendar",
+      "path": "zh-CN/components/calendar.html",
+      "title": "Calendar 日历 - Vant 4",
+      "html_length": 46667
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/cascader",
+      "path": "zh-CN/components/cascader.html",
+      "title": "Cascader 级联选择 - Vant 4",
+      "html_length": 40645
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/checkbox",
+      "path": "zh-CN/components/checkbox.html",
+      "title": "Checkbox 复选框 - Vant 4",
+      "html_length": 46551
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/date-picker",
+      "path": "zh-CN/components/date-picker.html",
+      "title": "DatePicker 日期选择 - Vant 4",
+      "html_length": 31045
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/field",
+      "path": "zh-CN/components/field.html",
+      "title": "Field 输入框 - Vant 4",
+      "html_length": 50649
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/form",
+      "path": "zh-CN/components/form.html",
+      "title": "Form 表单 - Vant 4",
+      "html_length": 58840
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/number-keyboard",
+      "path": "zh-CN/components/number-keyboard.html",
+      "title": "NumberKeyboard 数字键盘 - Vant 4",
+      "html_length": 30694
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/password-input",
+      "path": "zh-CN/components/password-input.html",
+      "title": "PasswordInput 密码输入框 - Vant 4",
+      "html_length": 25347
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/picker",
+      "path": "zh-CN/components/picker.html",
+      "title": "Picker 选择器 - Vant 4",
+      "html_length": 46174
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/picker-group",
+      "path": "zh-CN/components/picker-group.html",
+      "title": "PickerGroup 选择器组 - Vant 4",
+      "html_length": 37483
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/radio",
+      "path": "zh-CN/components/radio.html",
+      "title": "Radio 单选框 - Vant 4",
+      "html_length": 35446
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/rate",
+      "path": "zh-CN/components/rate.html",
+      "title": "Rate 评分 - Vant 4",
+      "html_length": 26035
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/search",
+      "path": "zh-CN/components/search.html",
+      "title": "Search 搜索 - Vant 4",
+      "html_length": 30658
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/slider",
+      "path": "zh-CN/components/slider.html",
+      "title": "Slider 滑块 - Vant 4",
+      "html_length": 28250
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/signature",
+      "path": "zh-CN/components/signature.html",
+      "title": "Signature 签名 - Vant 4",
+      "html_length": 23340
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/stepper",
+      "path": "zh-CN/components/stepper.html",
+      "title": "Stepper 步进器 - Vant 4",
+      "html_length": 28485
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/switch",
+      "path": "zh-CN/components/switch.html",
+      "title": "Switch 开关 - Vant 4",
+      "html_length": 26441
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/time-picker",
+      "path": "zh-CN/components/time-picker.html",
+      "title": "TimePicker 时间选择 - Vant 4",
+      "html_length": 34090
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/uploader",
+      "path": "zh-CN/components/uploader.html",
+      "title": "Uploader 文件上传 - Vant 4",
+      "html_length": 49225
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/action-sheet",
+      "path": "zh-CN/components/action-sheet.html",
+      "title": "ActionSheet 动作面板 - Vant 4",
+      "html_length": 34999
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/barrage",
+      "path": "zh-CN/components/barrage.html",
+      "title": "Barrage 弹幕 - Vant 4",
+      "html_length": 26662
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/dialog",
+      "path": "zh-CN/components/dialog.html",
+      "title": "Dialog 弹出框 - Vant 4",
+      "html_length": 35152
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/dropdown-menu",
+      "path": "zh-CN/components/dropdown-menu.html",
+      "title": "DropdownMenu 下拉菜单 - Vant 4",
+      "html_length": 37724
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/floating-panel",
+      "path": "zh-CN/components/floating-panel.html",
+      "title": "FloatingPanel 浮动面板 - Vant 4",
+      "html_length": 22775
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/floating-bubble",
+      "path": "zh-CN/components/floating-bubble.html",
+      "title": "FloatingBubble 浮动气泡 - Vant 4",
+      "html_length": 22646
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/loading",
+      "path": "zh-CN/components/loading.html",
+      "title": "Loading 加载 - Vant 4",
+      "html_length": 21922
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/notify",
+      "path": "zh-CN/components/notify.html",
+      "title": "Notify 消息通知 - Vant 4",
+      "html_length": 28477
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/overlay",
+      "path": "zh-CN/components/overlay.html",
+      "title": "Overlay 遮罩层 - Vant 4",
+      "html_length": 21469
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/pull-refresh",
+      "path": "zh-CN/components/pull-refresh.html",
+      "title": "PullRefresh 下拉刷新 - Vant 4",
+      "html_length": 26164
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/share-sheet",
+      "path": "zh-CN/components/share-sheet.html",
+      "title": "ShareSheet 分享面板 - Vant 4",
+      "html_length": 32256
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/swipe-cell",
+      "path": "zh-CN/components/swipe-cell.html",
+      "title": "SwipeCell 滑动单元格 - Vant 4",
+      "html_length": 27600
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/badge",
+      "path": "zh-CN/components/badge.html",
+      "title": "Badge 徽标 - Vant 4",
+      "html_length": 29103
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/circle",
+      "path": "zh-CN/components/circle.html",
+      "title": "Circle 环形进度条 - Vant 4",
+      "html_length": 26496
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/collapse",
+      "path": "zh-CN/components/collapse.html",
+      "title": "Collapse 折叠面板 - Vant 4",
+      "html_length": 35439
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/count-down",
+      "path": "zh-CN/components/count-down.html",
+      "title": "CountDown 倒计时 - Vant 4",
+      "html_length": 29097
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/divider",
+      "path": "zh-CN/components/divider.html",
+      "title": "Divider 分割线 - Vant 4",
+      "html_length": 21009
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/empty",
+      "path": "zh-CN/components/empty.html",
+      "title": "Empty 空状态 - Vant 4",
+      "html_length": 22213
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/highlight",
+      "path": "zh-CN/components/highlight.html",
+      "title": "Highlight 高亮文本 - Vant 4",
+      "html_length": 20895
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/image-preview",
+      "path": "zh-CN/components/image-preview.html",
+      "title": "ImagePreview 图片预览 - Vant 4",
+      "html_length": 38742
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/lazyload",
+      "path": "zh-CN/components/lazyload.html",
+      "title": "Lazyload 懒加载 - Vant 4",
+      "html_length": 20012
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/list",
+      "path": "zh-CN/components/list.html",
+      "title": "List 列表 - Vant 4",
+      "html_length": 33585
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/notice-bar",
+      "path": "zh-CN/components/notice-bar.html",
+      "title": "NoticeBar 通知栏 - Vant 4",
+      "html_length": 25635
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/popover",
+      "path": "zh-CN/components/popover.html",
+      "title": "Popover 气泡弹出框 - Vant 4",
+      "html_length": 39161
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/progress",
+      "path": "zh-CN/components/progress.html",
+      "title": "Progress 进度条 - Vant 4",
+      "html_length": 20763
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/rolling-text",
+      "path": "zh-CN/components/rolling-text.html",
+      "title": "RollingText 翻滚文本 - Vant 4",
+      "html_length": 26386
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/skeleton",
+      "path": "zh-CN/components/skeleton.html",
+      "title": "Skeleton 骨架屏 - Vant 4",
+      "html_length": 25484
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/steps",
+      "path": "zh-CN/components/steps.html",
+      "title": "Steps 步骤条 - Vant 4",
+      "html_length": 24497
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/sticky",
+      "path": "zh-CN/components/sticky.html",
+      "title": "Sticky 粘性布局 - Vant 4",
+      "html_length": 21313
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/swipe",
+      "path": "zh-CN/components/swipe.html",
+      "title": "Swipe 轮播 - Vant 4",
+      "html_length": 33972
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/tag",
+      "path": "zh-CN/components/tag.html",
+      "title": "Tag 标签 - Vant 4",
+      "html_length": 25644
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/text-ellipsis",
+      "path": "zh-CN/components/text-ellipsis.html",
+      "title": "TextEllipsis 文本省略 - Vant 4",
+      "html_length": 25468
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/watermark",
+      "path": "zh-CN/components/watermark.html",
+      "title": "Watermark 水印 - Vant 4",
+      "html_length": 21903
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/action-bar",
+      "path": "zh-CN/components/action-bar.html",
+      "title": "ActionBar 动作栏 - Vant 4",
+      "html_length": 29634
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/back-top",
+      "path": "zh-CN/components/back-top.html",
+      "title": "BackTop 回到顶部 - Vant 4",
+      "html_length": 24676
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/grid",
+      "path": "zh-CN/components/grid.html",
+      "title": "Grid 宫格 - Vant 4",
+      "html_length": 29296
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/index-bar",
+      "path": "zh-CN/components/index-bar.html",
+      "title": "IndexBar 索引栏 - Vant 4",
+      "html_length": 24990
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/nav-bar",
+      "path": "zh-CN/components/nav-bar.html",
+      "title": "NavBar 导航栏 - Vant 4",
+      "html_length": 23839
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/pagination",
+      "path": "zh-CN/components/pagination.html",
+      "title": "Pagination 分页 - Vant 4",
+      "html_length": 23094
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/sidebar",
+      "path": "zh-CN/components/sidebar.html",
+      "title": "Sidebar 侧边导航 - Vant 4",
+      "html_length": 25696
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/tab",
+      "path": "zh-CN/components/tab.html",
+      "title": "Tab 标签页 - Vant 4",
+      "html_length": 46623
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/tabbar",
+      "path": "zh-CN/components/tabbar.html",
+      "title": "Tabbar 标签栏 - Vant 4",
+      "html_length": 34895
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/tree-select",
+      "path": "zh-CN/components/tree-select.html",
+      "title": "TreeSelect 分类选择 - Vant 4",
+      "html_length": 31297
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/address-edit",
+      "path": "zh-CN/components/address-edit.html",
+      "title": "AddressEdit 地址编辑 - Vant 4",
+      "html_length": 25931
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/address-list",
+      "path": "zh-CN/components/address-list.html",
+      "title": "AddressList 地址列表 - Vant 4",
+      "html_length": 24324
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/area",
+      "path": "zh-CN/components/area.html",
+      "title": "Area 省市区选择 - Vant 4",
+      "html_length": 25207
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/card",
+      "path": "zh-CN/components/card.html",
+      "title": "Card 商品卡片 - Vant 4",
+      "html_length": 23776
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/contact-card",
+      "path": "zh-CN/components/contact-card.html",
+      "title": "ContactCard 联系人卡片 - Vant 4",
+      "html_length": 20910
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/contact-edit",
+      "path": "zh-CN/components/contact-edit.html",
+      "title": "ContactEdit 联系人编辑 - Vant 4",
+      "html_length": 20784
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/contact-list",
+      "path": "zh-CN/components/contact-list.html",
+      "title": "ContactList 联系人列表 - Vant 4",
+      "html_length": 21474
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/coupon-list",
+      "path": "zh-CN/components/coupon-list.html",
+      "title": "Coupon 优惠券 - Vant 4",
+      "html_length": 27663
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/submit-bar",
+      "path": "zh-CN/components/submit-bar.html",
+      "title": "SubmitBar 提交订单栏 - Vant 4",
+      "html_length": 25071
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/vant-use-intro",
+      "path": "zh-CN/composables/vant-use-intro.html",
+      "title": "介绍 - Vant 4",
+      "html_length": 17807
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/use-click-away",
+      "path": "zh-CN/composables/use-click-away.html",
+      "title": "useClickAway - Vant 4",
+      "html_length": 19477
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/use-count-down",
+      "path": "zh-CN/composables/use-count-down.html",
+      "title": "useCountDown - Vant 4",
+      "html_length": 22295
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/use-custom-field-value",
+      "path": "zh-CN/composables/use-custom-field-value.html",
+      "title": "useCustomFieldValue - Vant 4",
+      "html_length": 18008
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/use-event-listener",
+      "path": "zh-CN/composables/use-event-listener.html",
+      "title": "useEventListener - Vant 4",
+      "html_length": 19819
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/use-page-visibility",
+      "path": "zh-CN/composables/use-page-visibility.html",
+      "title": "usePageVisibility - Vant 4",
+      "html_length": 16842
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/use-rect",
+      "path": "zh-CN/composables/use-rect.html",
+      "title": "useRect - Vant 4",
+      "html_length": 17599
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/use-relation",
+      "path": "zh-CN/composables/use-relation.html",
+      "title": "useRelation - Vant 4",
+      "html_length": 19278
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/use-scroll-parent",
+      "path": "zh-CN/composables/use-scroll-parent.html",
+      "title": "useScrollParent - Vant 4",
+      "html_length": 17583
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/use-toggle",
+      "path": "zh-CN/composables/use-toggle.html",
+      "title": "useToggle - Vant 4",
+      "html_length": 18429
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/use-window-size",
+      "path": "zh-CN/composables/use-window-size.html",
+      "title": "useWindowSize - Vant 4",
+      "html_length": 17188
+    },
+    {
+      "url": "https://vant-ui.github.io/vant/#/zh-CN/use-raf",
+      "path": "zh-CN/composables/use-raf.html",
+      "title": "useRaf - Vant 4",
+      "html_length": 18228
+    }
+  ],
+  "failed": []
+}

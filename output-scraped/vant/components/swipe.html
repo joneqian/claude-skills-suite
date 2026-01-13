@@ -1,0 +1,431 @@
+<!DOCTYPE html><html lang="en" class="van-doc-theme-light"><head>
+    <meta charset="UTF-8">
+    <title>Swipe 轮播 - Vant 4</title>
+    
+    <meta name="description" content="A lightweight, customizable Vue UI library for mobile web apps.">
+    
+    <link rel="icon" type="image/png" href="https://fastly.jsdelivr.net/npm/@vant/assets/logo.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
+    
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+     <script charset="utf-8" src="https://hmcdn.baidu.com/static/tongji/plugins/UrlChangeTracker.js"></script><script src="https://hm.baidu.com/hm.js?af5d41bc4e446e76665dbe3ec18d55c3"></script><script>
+if (location.host === 'youzan.github.io') {
+location.href = location.href.replace('youzan.github.io', 'vant-ui.github.io');
+}
+</script>
+  
+    <script>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement('script');
+        hm.src = 'https://hm.baidu.com/hm.js?af5d41bc4e446e76665dbe3ec18d55c3';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+    
+  <script defer="" src="/vant/static/js/lib-vue.51739535.js"></script><script defer="" src="/vant/static/js/lib-router.dd0aa87c.js"></script><script defer="" src="/vant/static/js/3929.8485889e.js"></script><script defer="" src="/vant/static/js/index.7ae9970c.js"></script><link href="/vant/static/css/index.72829341.css" rel="stylesheet"></head>
+  <body>
+    <div id="app" data-v-app=""><div class="app"><div class="van-doc"><div class="van-doc-header"><div class="van-doc-row"><div class="van-doc-header__top"><a class="van-doc-header__logo"><img src="https://fastly.jsdelivr.net/npm/@vant/assets/logo.png"><span class="van-doc-header__title">Vant 4</span><span class="van-doc-header__subtitle">（适用于 Vue 3）</span></a><ul class="van-doc-header__top-nav"><li class="van-doc-header__top-nav-item"><a class="van-doc-header__link" target="_blank" href="/vant-weapp/"><img src="https://fastly.jsdelivr.net/npm/@vant/assets/weapp.svg"></a></li><li class="van-doc-header__top-nav-item"><a class="van-doc-header__link" target="_blank" href="https://github.com/vant-ui/vant"><img src="https://fastly.jsdelivr.net/npm/@vant/assets/github.svg"></a></li><li class="van-doc-header__top-nav-item"><a class="van-doc-header__link" target="_blank"><img src="https://b.yzcdn.cn/vant/dark-theme.svg"></a></li><li class="van-doc-header__top-nav-item"><span class="van-doc-header__cube van-doc-header__version">4.9.21 <!----></span></li><li class="van-doc-header__top-nav-item"><a class="van-doc-header__cube" href="#/en-US/swipe">EN</a></li></ul></div></div></div><div class="van-doc-nav"><div class="van-doc-nav__group"><div class="van-doc-nav__title">开发指南</div><div class="van-doc-nav__item"><a href="#/zh-CN/home" class="">介绍 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/quickstart" class="">快速上手 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/advanced-usage" class="">进阶用法 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/faq" class="">常见问题 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/changelog" class="">更新日志 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/release-note-v4" class="">4.0 <span>更新介绍</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/migrate-from-v2" class="">从 <span>v2 升级到 v3</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/migrate-from-v3" class="">从 <span>v3 升级到 v4</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/contribution" class="">贡献指南 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/design" class="">设计资源 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/locale" class="">国际化 <span></span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">基础组件</div><div class="van-doc-nav__item"><a href="#/zh-CN/button" class="">Button <span>按钮</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/cell" class="">Cell <span>单元格</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/config-provider" class="">ConfigProvider <span>全局配置</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/icon" class="">Icon <span>图标</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/image" class="">Image <span>图片</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/col" class="">Layout <span>布局</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/popup" class="">Popup <span>弹出层</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/space" class="">Space <span>间距</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/style" class="">Style <span>内置样式</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/toast" class="">Toast <span>轻提示</span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">表单组件</div><div class="van-doc-nav__item"><a href="#/zh-CN/calendar" class="">Calendar <span>日历</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/cascader" class="">Cascader <span>级联选择</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/checkbox" class="">Checkbox <span>复选框</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/date-picker" class="">DatePicker <span>日期选择</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/field" class="">Field <span>输入框</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/form" class="">Form <span>表单</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/number-keyboard" class="">NumberKeyboard <span>数字键盘</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/password-input" class="">PasswordInput <span>密码输入框</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/picker" class="">Picker <span>选择器</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/picker-group" class="">PickerGroup <span>选择器组</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/radio" class="">Radio <span>单选框</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/rate" class="">Rate <span>评分</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/search" class="">Search <span>搜索</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/slider" class="">Slider <span>滑块</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/signature" class="">Signature <span>签名</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/stepper" class="">Stepper <span>步进器</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/switch" class="">Switch <span>开关</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/time-picker" class="">TimePicker <span>时间选择</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/uploader" class="">Uploader <span>文件上传</span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">反馈组件</div><div class="van-doc-nav__item"><a href="#/zh-CN/action-sheet" class="">ActionSheet <span>动作面板</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/barrage" class="">Barrage <span>弹幕</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/dialog" class="">Dialog <span>弹出框</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/dropdown-menu" class="">DropdownMenu <span>下拉菜单</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/floating-panel" class="">FloatingPanel <span>浮动面板</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/floating-bubble" class="">FloatingBubble <span>浮动气泡</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/loading" class="">Loading <span>加载</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/notify" class="">Notify <span>消息通知</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/overlay" class="">Overlay <span>遮罩层</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/pull-refresh" class="">PullRefresh <span>下拉刷新</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/share-sheet" class="">ShareSheet <span>分享面板</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/swipe-cell" class="">SwipeCell <span>滑动单元格</span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">展示组件</div><div class="van-doc-nav__item"><a href="#/zh-CN/badge" class="">Badge <span>徽标</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/circle" class="">Circle <span>环形进度条</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/collapse" class="">Collapse <span>折叠面板</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/count-down" class="">CountDown <span>倒计时</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/divider" class="">Divider <span>分割线</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/empty" class="">Empty <span>空状态</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/highlight" class="">Highlight <span>高亮文本</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/image-preview" class="">ImagePreview <span>图片预览</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/lazyload" class="">Lazyload <span>懒加载</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/list" class="">List <span>列表</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/notice-bar" class="">NoticeBar <span>通知栏</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/popover" class="">Popover <span>气泡弹出框</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/progress" class="">Progress <span>进度条</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/rolling-text" class="">RollingText <span>翻滚文本</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/skeleton" class="">Skeleton <span>骨架屏</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/steps" class="">Steps <span>步骤条</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/sticky" class="">Sticky <span>粘性布局</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/swipe" class="router-link-active router-link-exact-active active" aria-current="page">Swipe <span>轮播</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/tag" class="">Tag <span>标签</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/text-ellipsis" class="">TextEllipsis <span>文本省略</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/watermark" class="">Watermark <span>水印</span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">导航组件</div><div class="van-doc-nav__item"><a href="#/zh-CN/action-bar" class="">ActionBar <span>动作栏</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/back-top" class="">BackTop <span>回到顶部</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/grid" class="">Grid <span>宫格</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/index-bar" class="">IndexBar <span>索引栏</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/nav-bar" class="">NavBar <span>导航栏</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/pagination" class="">Pagination <span>分页</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/sidebar" class="">Sidebar <span>侧边导航</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/tab" class="">Tab <span>标签页</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/tabbar" class="">Tabbar <span>标签栏</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/tree-select" class="">TreeSelect <span>分类选择</span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">业务组件</div><div class="van-doc-nav__item"><a href="#/zh-CN/address-edit" class="">AddressEdit <span>地址编辑</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/address-list" class="">AddressList <span>地址列表</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/area" class="">Area <span>省市区选择</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/card" class="">Card <span>商品卡片</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/contact-card" class="">ContactCard <span>联系人卡片</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/contact-edit" class="">ContactEdit <span>联系人编辑</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/contact-list" class="">ContactList <span>联系人列表</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/coupon-list" class="">Coupon <span>优惠券</span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/submit-bar" class="">SubmitBar <span>提交订单栏</span></a></div></div><div class="van-doc-nav__group"><div class="van-doc-nav__title">组合式 API</div><div class="van-doc-nav__item"><a href="#/zh-CN/vant-use-intro" class="">介绍 <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-click-away" class="">useClickAway <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-count-down" class="">useCountDown <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-custom-field-value" class="">useCustomFieldValue <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-event-listener" class="">useEventListener <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-page-visibility" class="">usePageVisibility <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-rect" class="">useRect <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-relation" class="">useRelation <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-scroll-parent" class="">useScrollParent <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-toggle" class="">useToggle <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-window-size" class="">useWindowSize <span></span></a></div><div class="van-doc-nav__item"><a href="#/zh-CN/use-raf" class="">useRaf <span></span></a></div></div></div><div class="van-doc-container van-doc-row van-doc-container--with-simulator"><div class="van-doc-content van-doc-content--swipe"><div class="van-doc-markdown-body"><h1>Swipe 轮播</h1>
+<div class="van-doc-card"><h3 id="jie-shao" tabindex="-1">介绍</h3>
+<p>用于循环播放一组图片或内容。</p>
+</div><div class="van-doc-card"><h3 id="yin-ru" tabindex="-1">引入</h3>
+<p>通过以下方式来全局注册组件，更多注册方式请参考<a href="#/zh-CN/advanced-usage#zu-jian-zhu-ce" target="_blank">组件注册</a>。</p>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> { createApp } <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Swipe</span>, <span class="hljs-title class_">SwipeItem</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'vant'</span>;
+
+<span class="hljs-keyword">const</span> app = <span class="hljs-title function_">createApp</span>();
+app.<span class="hljs-title function_">use</span>(<span class="hljs-title class_">Swipe</span>);
+app.<span class="hljs-title function_">use</span>(<span class="hljs-title class_">SwipeItem</span>);
+</code></pre>
+</div><h2 id="dai-ma-yan-shi" tabindex="-1">代码演示</h2>
+<div class="van-doc-card"><h3 id="ji-chu-yong-fa" tabindex="-1">基础用法</h3>
+<p>每个 SwipeItem 代表一张轮播卡片，可以通过 <code>autoplay</code> 属性设置自动轮播的间隔。</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">van-swipe</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"my-swipe"</span> <span class="hljs-attr">:autoplay</span>=<span class="hljs-string">"3000"</span> <span class="hljs-attr">indicator-color</span>=<span class="hljs-string">"white"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-swipe-item</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-swipe-item</span>&gt;</span>2<span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-swipe-item</span>&gt;</span>3<span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-swipe-item</span>&gt;</span>4<span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+  <span class="hljs-selector-class">.my-swipe</span> <span class="hljs-selector-class">.van-swipe-item</span> {
+    <span class="hljs-attribute">color</span>: <span class="hljs-number">#fff</span>;
+    <span class="hljs-attribute">font-size</span>: <span class="hljs-number">20px</span>;
+    <span class="hljs-attribute">line-height</span>: <span class="hljs-number">150px</span>;
+    <span class="hljs-attribute">text-align</span>: center;
+    <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#39a9ed</span>;
+  }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+</code></pre>
+</div><div class="van-doc-card"><h3 id="lan-jia-zai" tabindex="-1">懒加载</h3>
+<p>当 Swipe 中含有图片时，可以通过 <code>lazy-render</code> 属性来开启懒加载模式。在懒加载模式下，只会渲染当前页和下一页。</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">van-swipe</span> <span class="hljs-attr">:autoplay</span>=<span class="hljs-string">"3000"</span> <span class="hljs-attr">lazy-render</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-swipe-item</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"image in images"</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">"image"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">:src</span>=<span class="hljs-string">"image"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe</span>&gt;</span>
+</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  <span class="hljs-title function_">setup</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">const</span> images = [
+      <span class="hljs-string">'https://fastly.jsdelivr.net/npm/@vant/assets/apple-1.jpeg'</span>,
+      <span class="hljs-string">'https://fastly.jsdelivr.net/npm/@vant/assets/apple-2.jpeg'</span>,
+    ];
+    <span class="hljs-keyword">return</span> { images };
+  },
+};
+</code></pre>
+</div><div class="van-doc-card"><h3 id="jian-ting-change-shi-jian" tabindex="-1">监听 change 事件</h3>
+<p>在每一页轮播结束后，会触发 <code>change</code> 事件。</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">van-swipe</span> @<span class="hljs-attr">change</span>=<span class="hljs-string">"onChange"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-swipe-item</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-swipe-item</span>&gt;</span>2<span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-swipe-item</span>&gt;</span>3<span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-swipe-item</span>&gt;</span>4<span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe</span>&gt;</span>
+</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> { showToast } <span class="hljs-keyword">from</span> <span class="hljs-string">'vant'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  <span class="hljs-title function_">setup</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">const</span> <span class="hljs-title function_">onChange</span> = (<span class="hljs-params">index</span>) =&gt; <span class="hljs-title function_">showToast</span>(<span class="hljs-string">'当前 Swipe 索引：'</span> + index);
+    <span class="hljs-keyword">return</span> { onChange };
+  },
+};
+</code></pre>
+</div><div class="van-doc-card"><h3 id="zong-xiang-gun-dong" tabindex="-1">纵向滚动</h3>
+<p>设置 <code>vertical</code> 属性后滑块会纵向排列，此时需要指定滑块容器的高度。</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">van-swipe</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 200px;"</span> <span class="hljs-attr">vertical</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-swipe-item</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-swipe-item</span>&gt;</span>2<span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-swipe-item</span>&gt;</span>3<span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-swipe-item</span>&gt;</span>4<span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe</span>&gt;</span>
+</code></pre>
+</div><div class="van-doc-card"><h3 id="zi-ding-yi-hua-kuai-da-xiao" tabindex="-1">自定义滑块大小</h3>
+<p>滑块默认宽度为 <code>100%</code>，可以通过 <code>width</code> 属性设置单个滑块的宽度。纵向滚动模式下，可以通过 <code>height</code> 属性设置单个滑块的高度。</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">van-swipe</span> <span class="hljs-attr">:loop</span>=<span class="hljs-string">"false"</span> <span class="hljs-attr">:width</span>=<span class="hljs-string">"300"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-swipe-item</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-swipe-item</span>&gt;</span>2<span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-swipe-item</span>&gt;</span>3<span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-swipe-item</span>&gt;</span>4<span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe-item</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe</span>&gt;</span>
+</code></pre>
+<blockquote>
+<p>目前不支持在循环滚动模式下自定义滑块大小，因此需要将 loop 设置为 false。</p>
+</blockquote>
+</div><div class="van-doc-card"><h3 id="zi-ding-yi-zhi-shi-qi" tabindex="-1">自定义指示器</h3>
+<p>通过 <code>indicator</code> 插槽可以自定义指示器的样式。</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">van-swipe</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-swipe-item</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-swipe-item</span>&gt;</span>2<span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-swipe-item</span>&gt;</span>3<span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">van-swipe-item</span>&gt;</span>4<span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe-item</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">template</span> #<span class="hljs-attr">indicator</span>=<span class="hljs-string">"{ active, total }"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"custom-indicator"</span>&gt;</span>{{ active + 1 }}/{{ total }}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">van-swipe</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+  <span class="hljs-selector-class">.custom-indicator</span> {
+    <span class="hljs-attribute">position</span>: absolute;
+    <span class="hljs-attribute">right</span>: <span class="hljs-number">5px</span>;
+    <span class="hljs-attribute">bottom</span>: <span class="hljs-number">5px</span>;
+    <span class="hljs-attribute">padding</span>: <span class="hljs-number">2px</span> <span class="hljs-number">5px</span>;
+    <span class="hljs-attribute">font-size</span>: <span class="hljs-number">12px</span>;
+    <span class="hljs-attribute">background</span>: <span class="hljs-built_in">rgba</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.1</span>);
+  }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+</code></pre>
+</div><h2 id="api" tabindex="-1">API</h2>
+<div class="van-doc-card"><h3 id="swipe-props" tabindex="-1">Swipe Props</h3>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>类型</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>autoplay</td>
+<td>自动轮播间隔，单位为 ms</td>
+<td><em>number | string</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>duration</td>
+<td>动画时长，单位为 ms</td>
+<td><em>number | string</em></td>
+<td><code>500</code></td>
+</tr>
+<tr>
+<td>initial-swipe</td>
+<td>初始位置索引值</td>
+<td><em>number | string</em></td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>width</td>
+<td>滑块宽度，单位为 <code>px</code></td>
+<td><em>number | string</em></td>
+<td><code>auto</code></td>
+</tr>
+<tr>
+<td>height</td>
+<td>滑块高度，单位为 <code>px</code></td>
+<td><em>number | string</em></td>
+<td><code>auto</code></td>
+</tr>
+<tr>
+<td>loop</td>
+<td>是否开启循环播放</td>
+<td><em>boolean</em></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td>show-indicators</td>
+<td>是否显示指示器</td>
+<td><em>boolean</em></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td>vertical</td>
+<td>是否为纵向滚动</td>
+<td><em>boolean</em></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td>touchable</td>
+<td>是否可以通过手势滑动</td>
+<td><em>boolean</em></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td>stop-propagation</td>
+<td>是否阻止滑动事件冒泡</td>
+<td><em>boolean</em></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td>lazy-render</td>
+<td>是否延迟渲染未展示的轮播</td>
+<td><em>boolean</em></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td>indicator-color</td>
+<td>指示器颜色</td>
+<td><em>string</em></td>
+<td><code>#1989fa</code></td>
+</tr>
+</tbody>
+</table>
+</div><div class="van-doc-card"><h3 id="swipe-events" tabindex="-1">Swipe Events</h3>
+<table>
+<thead>
+<tr>
+<th>事件名</th>
+<th>说明</th>
+<th>回调参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>change</td>
+<td>每一页轮播结束后触发</td>
+<td><em>index: number</em></td>
+</tr>
+<tr>
+<td>drag-start <code>v4.0.9</code></td>
+<td>当用户开始拖动轮播组件时触发</td>
+<td><em>{ index: number }</em></td>
+</tr>
+<tr>
+<td>drag-end <code>v4.0.9</code></td>
+<td>当用户结束拖动轮播组件时触发</td>
+<td><em>{ index: number }</em></td>
+</tr>
+</tbody>
+</table>
+</div><div class="van-doc-card"><h3 id="swipeitem-events" tabindex="-1">SwipeItem Events</h3>
+<table>
+<thead>
+<tr>
+<th>事件名</th>
+<th>说明</th>
+<th>回调参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>click</td>
+<td>点击时触发</td>
+<td><em>event: MouseEvent</em></td>
+</tr>
+</tbody>
+</table>
+</div><div class="van-doc-card"><h3 id="swipe-fang-fa" tabindex="-1">Swipe 方法</h3>
+<p>通过 ref 可以获取到 Swipe 实例并调用实例方法，详见<a href="#/zh-CN/advanced-usage#zu-jian-shi-li-fang-fa" target="_blank">组件实例方法</a>。</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+<th>参数</th>
+<th>返回值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>prev</td>
+<td>切换到上一轮播</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>next</td>
+<td>切换到下一轮播</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>swipeTo</td>
+<td>切换到指定位置</td>
+<td><em>index: number, options: SwipeToOptions</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>resize</td>
+<td>外层元素大小或组件显示状态变化时，可以调用此方法来触发重绘</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+</div><div class="van-doc-card"><h3 id="lei-xing-ding-yi" tabindex="-1">类型定义</h3>
+<p>组件导出以下类型定义：</p>
+<pre><code class="language-ts"><span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">SwipeProps</span>, <span class="hljs-title class_">SwipeInstance</span>, <span class="hljs-title class_">SwipeToOptions</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'vant'</span>;
+</code></pre>
+<p><code>SwipeInstance</code> 是组件实例的类型，用法如下：</p>
+<pre><code class="language-ts"><span class="hljs-keyword">import</span> { ref } <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> { <span class="hljs-title class_">SwipeInstance</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'vant'</span>;
+
+<span class="hljs-keyword">const</span> swipeRef = ref&lt;<span class="hljs-title class_">SwipeInstance</span>&gt;();
+
+swipeRef.<span class="hljs-property">value</span>?.<span class="hljs-title function_">next</span>();
+</code></pre>
+</div><div class="van-doc-card"><h3 id="swipetooptions-ge-shi" tabindex="-1">SwipeToOptions 格式</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+<th>类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>immediate</td>
+<td>是否跳过动画</td>
+<td><em>boolean</em></td>
+</tr>
+</tbody>
+</table>
+</div><div class="van-doc-card"><h3 id="swipe-slots" tabindex="-1">Swipe Slots</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+<th>参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>default</td>
+<td>轮播内容</td>
+<td>-</td>
+</tr>
+<tr>
+<td>indicator</td>
+<td>自定义指示器</td>
+<td><em>{ active: number, total: number }</em></td>
+</tr>
+</tbody>
+</table>
+</div><h2 id="zhu-ti-ding-zhi" tabindex="-1">主题定制</h2>
+<div class="van-doc-card"><h3 id="yang-shi-bian-liang" tabindex="-1">样式变量</h3>
+<p>组件提供了下列 CSS 变量，可用于自定义样式，使用方法请参考 <a href="#/zh-CN/config-provider" target="_blank">ConfigProvider 组件</a>。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>默认值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>--van-swipe-indicator-size</td>
+<td><em>6px</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>--van-swipe-indicator-margin</td>
+<td><em>var(--van-padding-sm)</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>--van-swipe-indicator-active-opacity</td>
+<td><em>1</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>--van-swipe-indicator-inactive-opacity</td>
+<td><em>0.3</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>--van-swipe-indicator-active-background</td>
+<td><em>var(--van-primary-color)</em></td>
+<td>-</td>
+</tr>
+<tr>
+<td>--van-swipe-indicator-inactive-background</td>
+<td><em>var(--van-border-color)</em></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+</div><h2 id="chang-jian-wen-ti" tabindex="-1">常见问题</h2>
+<div class="van-doc-card"><h3 id="hua-dong-lun-bo-shi-wei-shi-me-chu-fa-liao-click-shi-jian" tabindex="-1">滑动轮播时为什么触发了 click 事件？</h3>
+<p>这种情况通常是由于项目中引入了 <code>fastclick</code> 库导致的。<code>fastclick</code> 的原理是通过 Touch 事件模拟出 click 事件，而 Swipe 内部默认会阻止 touchmove 事件冒泡，干扰了 fastclick 的判断，导致出现这个问题。</p>
+<p>将 Swipe 组件的 stop-propagation 属性设置为 false 即可避免该问题。</p>
+</div><div class="van-doc-card"><h3 id="zai-zhuo-mian-duan-wu-fa-cao-zuo-zu-jian" tabindex="-1">在桌面端无法操作组件？</h3>
+<p>参见<a href="#/zh-CN/advanced-usage#zhuo-mian-duan-gua-pei" target="_blank">桌面端适配</a>。</p>
+</div><div class="van-doc-card"><h3 id="swipe-zu-jian-gong-neng-tai-shao-wu-fa-shi-xian-fu-za-xiao-guo" tabindex="-1">Swipe 组件功能太少，无法实现复杂效果？</h3>
+<p>Vant 中的 Swipe 组件是比较轻量的，因此功能也比较基础。如果需要更复杂的轮播效果，推荐使用社区里一些优质的轮播库，比如 <a href="https://github.com/surmon-china/vue-awesome-swiper" target="_blank">vue-awesome-swiper</a>。</p>
+</div><div class="van-doc-card"><h3 id="zu-jian-cong-yin-cang-zhuang-tai-qie-huan-dao-xian-shi-zhuang-tai-shi-wu-fa-zheng-que-xuan-ran" tabindex="-1">组件从隐藏状态切换到显示状态时，无法正确渲染？</h3>
+<p>Swipe 组件在挂载时，会获取自身的宽度，并计算出轮播图的位置。如果组件一开始处于隐藏状态，则获取到的宽度永远为 0，因此无法正确计算位置。</p>
+<h4 id="jie-jue-fang-fa" tabindex="-1">解决方法</h4>
+<p>方法一，如果是使用 <code>v-show</code> 来控制组件展示的，则替换为 <code>v-if</code> 即可解决此问题：</p>
+<pre><code class="language-html"><span class="hljs-comment">&lt;!-- Before --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">van-swipe</span> <span class="hljs-attr">v-show</span>=<span class="hljs-string">"show"</span> /&gt;</span>
+<span class="hljs-comment">&lt;!-- After --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">van-swipe</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"show"</span> /&gt;</span>
+</code></pre>
+<p>方法二，调用组件的 resize 方法来主动触发重绘：</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">van-swipe</span> <span class="hljs-attr">v-show</span>=<span class="hljs-string">"show"</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">"swipe"</span> /&gt;</span>
+</code></pre>
+<pre><code class="language-js"><span class="hljs-variable language_">this</span>.<span class="hljs-property">$refs</span>.<span class="hljs-property">swipe</span>.<span class="hljs-title function_">resize</span>();
+</code></pre>
+</div></div><div class="van-doc-icp"><a href="https://beian.miit.gov.cn/" target="_black">浙ICP备2021036118号</a></div></div></div><div class="van-doc-simulator"><iframe src="/vant/mobile.html#/zh-CN/home" frameborder="0" style="height: 640px;"></iframe></div></div></div></div>
+  
+
+</body></html>

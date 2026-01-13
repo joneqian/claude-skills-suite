@@ -1,0 +1,195 @@
+# PasswordInput 密码输入框
+
+# PasswordInput 密码输入框
+
+### 介绍
+
+带网格的输入框组件，可以用于输入密码、短信验证码等场景，通常与[数字键盘](#/zh-CN/number-keyboard)组件配合使用。
+
+### 引入
+
+通过以下方式来全局注册组件，更多注册方式请参考[组件注册](#/zh-CN/advanced-usage#zu-jian-zhu-ce)。
+
+```js
+import { createApp } from 'vue';
+import { PasswordInput, NumberKeyboard } from 'vant';
+
+const app = createApp();
+app.use(PasswordInput);
+app.use(NumberKeyboard);
+```
+
+## 代码演示
+
+### 基础用法
+
+搭配数字键盘组件来实现密码输入功能。
+
+```html
+<!-- 密码输入框 -->
+<van-password-input
+:value="value"
+:focused="showKeyboard"
+@focus="showKeyboard = true"
+/>
+<!-- 数字键盘 -->
+<van-number-keyboard
+v-model="value"
+:show="showKeyboard"
+@blur="showKeyboard = false"
+/>
+```
+
+```js
+import { ref } from 'vue';
+
+export default {
+setup() {
+const value = ref('123');
+const showKeyboard = ref(true);
+
+return {
+value,
+showKeyboard,
+};
+},
+};
+```
+
+### 自定义长度
+
+通过 `length` 属性来设置密码长度。
+
+```html
+<van-password-input
+:value="value"
+:length="4"
+:focused="showKeyboard"
+@focus="showKeyboard = true"
+/>
+```
+
+### 格子间距
+
+通过 `gutter` 属性来设置格子之间的间距。
+
+```html
+<van-password-input
+:value="value"
+:gutter="10"
+:focused="showKeyboard"
+@focus="showKeyboard = true"
+/>
+```
+
+### 明文展示
+
+将 `mask` 设置为 `false` 可以明文展示输入的内容，适用于短信验证码等场景。
+
+```html
+<van-password-input
+:value="value"
+:mask="false"
+:focused="showKeyboard"
+@focus="showKeyboard = true"
+/>
+```
+
+### 提示信息
+
+通过 `info` 属性设置提示信息，通过 `error-info` 属性设置错误提示，例如当输入六位时提示密码错误。
+
+```html
+<van-password-input
+:value="value"
+info="密码为 6 位数字"
+:error-info="errorInfo"
+:focused="showKeyboard"
+@focus="showKeyboard = true"
+/>
+<van-number-keyboard
+v-model="value"
+:show="showKeyboard"
+@blur="showKeyboard = false"
+/>
+```
+
+```js
+import { ref, watch } from 'vue';
+
+export default {
+setup() {
+const value = ref('123');
+const errorInfo = ref('');
+const showKeyboard = ref(true);
+
+watch(value, (newVal) => {
+if (newVal.length === 6 && newVal !== '123456') {
+errorInfo.value = '密码错误';
+} else {
+errorInfo.value = '';
+}
+});
+
+return {
+value,
+errorInfo,
+showKeyboard,
+};
+},
+};
+```
+
+## API
+
+### Props
+
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| value | 密码值 | string | `''` |
+| info | 输入框下方文字提示 | string | - |
+| error-info | 输入框下方错误提示 | string | - |
+| length | 密码最大长度 | number \| string | `6` |
+| gutter | 输入框格子之间的间距，如`20px``2em`，默认单位为`px` | number \| string | `0` |
+| mask | 是否隐藏密码内容 | boolean | `true` |
+| focused | 是否已聚焦，聚焦时会显示光标 | boolean | `false` |
+
+### Events
+
+| 事件名 | 说明 | 回调参数 |
+| --- | --- | --- |
+| focus | 输入框聚焦时触发 | - |
+
+### 类型定义
+
+组件导出以下类型定义：
+
+```ts
+import type { PasswordInputProps } from 'vant';
+```
+
+## 主题定制
+
+### 样式变量
+
+组件提供了下列 CSS 变量，可用于自定义样式，使用方法请参考 [ConfigProvider 组件](#/zh-CN/config-provider)。
+
+| 名称 | 默认值 | 描述 |
+| --- | --- | --- |
+| --van-password-input-height | 50px | - |
+| --van-password-input-margin | 0 var(--van-padding-md) | - |
+| --van-password-input-font-size | 20px | - |
+| --van-password-input-radius | 6px | - |
+| --van-password-input-background | var(--van-background-2) | - |
+| --van-password-input-info-color | var(--van-text-color-2) | - |
+| --van-password-input-info-font-size | var(--van-font-size-md) | - |
+| --van-password-input-error-info-color | var(--van-danger-color) | - |
+| --van-password-input-dot-size | 10px | - |
+| --van-password-input-dot-color | var(--van-text-color) | - |
+| --van-password-input-text-color | var(--van-text-color) | - |
+| --van-password-input-cursor-color | var(--van-text-color) | - |
+| --van-password-input-cursor-width | 1px | - |
+| --van-password-input-cursor-height | 40% | - |
+| --van-password-input-cursor-duration | 1s | - |
+
+[浙ICP备2021036118号](https://beian.miit.gov.cn/)
