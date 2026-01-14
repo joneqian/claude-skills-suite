@@ -1,0 +1,277 @@
+{
+  "url": "https://docs.nestjs.com/cli/workspaces",
+  "title": "",
+  "content": "Nest has two modes for organizing code:\n\nIt's important to note that virtually all of Nest's features are independent of your code organization mode. The only effect of this choice is how your projects are composed and how build artifacts are generated. All other functionality, from the CLI to core modules to add-on modules work the same in either mode.\n\nAlso, you can easily switch from standard mode to monorepo mode at any time, so you can delay this decision until the benefits of one or the other approach become more clear.\n\nWhen you run nest new, a new project is created for you using a built-in schematic. Nest does the following:\n\nFrom there, you can modify the starter files, add new components, add dependencies (e.g., npm install), and otherwise develop your application as covered in the rest of this documentation.\n\nTo enable monorepo mode, you start with a standard mode structure, and add projects. A project can be a full application (which you add to the workspace with the command nest generate app) or a library (which you add to the workspace with the command nest generate library). We'll discuss the details of these specific types of project components below. The key point to note now is that it is the act of adding a project to an existing standard mode structure that converts it to monorepo mode. Let's look at an example.\n\nWe've constructed a standard mode structure, with a folder structure that looks like this:\n\nWe can convert this to a monorepo mode structure as follows:\n\nAt this point, nest converts the existing structure to a monorepo mode structure. This results in a few important changes. The folder structure now looks like this:\n\nThe generate app schematic has reorganized the code - moving each application project under the apps folder, and adding a project-specific tsconfig.app.json file in each project's root folder. Our original my-project app has become the default project for the monorepo, and is now a peer with the just-added my-app, located under the apps folder. We'll cover default projects below.\n\nA monorepo uses the concept of a workspace to manage its member entities. Workspaces are composed of projects. A project may be either:\n\nAll workspaces have a default project (which should be an application-type project). This is defined by the top-level \"root\" property in the nest-cli.json file, which points at the root of the default project (see CLI properties below for more details). Usually, this is the standard mode application you started with, and later converted to a monorepo using nest generate app. When you follow these steps, this property is populated automatically.\n\nDefault projects are used by nest commands like nest build and nest start when a project name is not supplied.\n\nFor example, in the above monorepo structure, running\n\nwill start up the my-project app. To start my-app, we'd use:\n\nApplication-type projects, or what we might informally refer to as just \"applications\", are complete Nest applications that you can run and deploy. You generate an application-type project with nest generate app.\n\nThis command automatically generates a project skeleton, including the standard src and test folders from the typescript starter. Unlike standard mode, an application project in a monorepo does not have any of the package dependency (package.json) or other project configuration artifacts like .prettierrc and eslint.config.mjs. Instead, the monorepo-wide dependencies and config files are used.\n\nHowever, the schematic does generate a project-specific tsconfig.app.json file in the root folder of the project. This config file automatically sets appropriate build options, including setting the compilation output folder properly. The file extends the top-level (monorepo) tsconfig.json file, so you can manage global settings monorepo-wide, but override them if needed at the project level.\n\nAs mentioned, library-type projects, or simply \"libraries\", are packages of Nest components that need to be composed into applications in order to run. You generate a library-type project with nest generate library. Deciding what belongs in a library is an architectural design decision. We discuss libraries in depth in the libraries chapter.\n\nNest keeps the metadata needed to organize, build and deploy both standard and monorepo structured projects in the nest-cli.json file. Nest automatically adds to and updates this file as you add projects, so you usually do not have to think about it or edit its contents. However, there are some settings you may want to change manually, so it's helpful to have an overview understanding of the file.\n\nAfter running the steps above to create a monorepo, our nest-cli.json file looks like this:\n\nThe file is divided into sections:\n\nThe top-level properties are as follows:\n\nThese properties specify the compiler to use as well as various options that affect any compilation step, whether as part of nest build or nest start, and regardless of the compiler, whether tsc or webpack.\n\nThese properties specify the default generate options to be used by the nest generate command.\n\nThe following example uses a boolean value to specify that spec file generation should be disabled by default for all projects:\n\nThe following example uses a boolean value to specify flat file generation should be the default for all projects:\n\nIn the following example, spec file generation is disabled only for service schematics (e.g., nest generate service...):\n\nIn addition to providing global generate options, you may also specify project-specific generate options. The project specific generate options follow the exact same format as the global generate options, but are specified directly on each project.\n\nProject-specific generate options override global generate options.\n\nThe reason for the different default compilers is that for larger projects (e.g., more typical in a monorepo) webpack can have significant advantages in build times and in producing a single file bundling all project components together. If you wish to generate individual files, set \"webpack\" to false, which will cause the build process to use tsc (or swc).\n\nThe webpack options file can contain standard webpack configuration options. For example, to tell webpack to bundle node_modules (which are excluded by default), add the following to webpack.config.js:\n\nSince the webpack config file is a JavaScript file, you can even expose a function that takes default options and returns a modified object:\n\nTypeScript compilation automatically distributes compiler output (.js and .d.ts files) to the specified output directory. It can also be convenient to distribute non-TypeScript files, such as .graphql files, images, .html files and other assets. This allows you to treat nest build (and any initial compilation step) as a lightweight development build step, where you may be editing non-TypeScript files and iteratively compiling and testing. The assets should be located in the src folder otherwise they will not be copied.\n\nThe value of the assets key should be an array of elements specifying the files to be distributed. The elements can be simple strings with glob-like file specs, for example:\n\nFor finer control, the elements can be objects with the following keys:\n\nThis element exists only for monorepo-mode structures. You generally should not edit these properties, as they are used by Nest to locate projects and their configuration options within the monorepo.",
+  "headings": [
+    {
+      "level": "h3",
+      "text": "Workspaces",
+      "id": "workspaces"
+    },
+    {
+      "level": "h4",
+      "text": "Standard mode#",
+      "id": "standard-mode"
+    },
+    {
+      "level": "h4",
+      "text": "Monorepo mode#",
+      "id": "monorepo-mode"
+    },
+    {
+      "level": "h4",
+      "text": "Workspace projects#",
+      "id": "workspace-projects"
+    },
+    {
+      "level": "h4",
+      "text": "Applications#",
+      "id": "applications"
+    },
+    {
+      "level": "h4",
+      "text": "Libraries#",
+      "id": "libraries"
+    },
+    {
+      "level": "h4",
+      "text": "CLI properties#",
+      "id": "cli-properties"
+    },
+    {
+      "level": "h4",
+      "text": "Global compiler options#",
+      "id": "global-compiler-options"
+    },
+    {
+      "level": "h4",
+      "text": "Global generate options#",
+      "id": "global-generate-options"
+    },
+    {
+      "level": "h4",
+      "text": "Project-specific generate options#",
+      "id": "project-specific-generate-options"
+    },
+    {
+      "level": "h4",
+      "text": "Specified compiler#",
+      "id": "specified-compiler"
+    },
+    {
+      "level": "h4",
+      "text": "Webpack options#",
+      "id": "webpack-options"
+    },
+    {
+      "level": "h4",
+      "text": "Assets#",
+      "id": "assets"
+    },
+    {
+      "level": "h4",
+      "text": "Project properties#",
+      "id": "project-properties"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "$ nest new my-project",
+      "language": "bash"
+    },
+    {
+      "code": "$ cd my-project\n$ nest generate app my-app",
+      "language": "bash"
+    },
+    {
+      "code": "$ nest start",
+      "language": "bash"
+    },
+    {
+      "code": "$ nest start my-app",
+      "language": "bash"
+    },
+    {
+      "code": "{\n  \"collection\": \"@nestjs/schematics\",\n  \"sourceRoot\": \"apps/my-project/src\",\n  \"monorepo\": true,\n  \"root\": \"apps/my-project\",\n  \"compilerOptions\": {\n    \"webpack\": true,\n    \"tsConfigPath\": \"apps/my-project/tsconfig.app.json\"\n  },\n  \"projects\": {\n    \"my-project\": {\n      \"type\": \"application\",\n      \"root\": \"apps/my-project\",\n      \"entryFile\": \"main\",\n      \"sourceRoot\": \"apps/my-project/src\",\n      \"compilerOptions\": {\n        \"tsConfigPath\": \"apps/my-project/tsconfig.app.json\"\n      }\n    },\n    \"my-app\": {\n      \"type\": \"application\",\n      \"root\": \"apps/my-app\",\n      \"entryFile\": \"main\",\n      \"sourceRoot\": \"apps/my-app/src\",\n      \"compilerOptions\": {\n        \"tsConfigPath\": \"apps/my-app/tsconfig.app.json\"\n      }\n    }\n  }\n}",
+      "language": "javascript"
+    },
+    {
+      "code": "{\n  \"generateOptions\": {\n    \"spec\": false\n  },\n  ...\n}",
+      "language": "javascript"
+    },
+    {
+      "code": "{\n  \"generateOptions\": {\n    \"flat\": true\n  },\n  ...\n}",
+      "language": "javascript"
+    },
+    {
+      "code": "{\n  \"generateOptions\": {\n    \"spec\": {\n      \"service\": false\n    }\n  },\n  ...\n}",
+      "language": "javascript"
+    },
+    {
+      "code": "{\n  \"generateOptions\": {\n    \"spec\": {\n      \"service\": false,\n      \"s\": false\n    }\n  },\n  ...\n}",
+      "language": "javascript"
+    },
+    {
+      "code": "{\n  \"projects\": {\n    \"cats-project\": {\n      \"generateOptions\": {\n        \"spec\": {\n          \"service\": false\n        }\n      },\n      ...\n    }\n  },\n  ...\n}",
+      "language": "javascript"
+    },
+    {
+      "code": "module.exports = {\n  externals: [],\n};",
+      "language": "javascript"
+    },
+    {
+      "code": "module.exports = function (options) {\n  return {\n    ...options,\n    externals: [],\n  };\n};",
+      "language": "javascript"
+    },
+    {
+      "code": "\"assets\": [\"**/*.graphql\"],\n\"watchAssets\": true,",
+      "language": "typescript"
+    },
+    {
+      "code": "\"assets\": [\n  { \"include\": \"**/*.graphql\", \"exclude\": \"**/omitted.graphql\", \"watchAssets\": true },\n]",
+      "language": "typescript"
+    }
+  ],
+  "patterns": [
+    {
+      "description": "The value of the assets key should be an array of elements specifying the files to be distributed. The elements can be simple strings with glob-like file specs, for example:",
+      "code": "assets"
+    },
+    {
+      "description": "For example:",
+      "code": "\"assets\": [\n  { \"include\": \"**/*.graphql\", \"exclude\": \"**/omitted.graphql\", \"watchAssets\": true },\n]"
+    }
+  ],
+  "links": [
+    "https://docs.nestjs.com/first-steps",
+    "https://docs.nestjs.com/controllers",
+    "https://docs.nestjs.com/providers",
+    "https://docs.nestjs.com/modules",
+    "https://docs.nestjs.com/middleware",
+    "https://docs.nestjs.com/exception-filters",
+    "https://docs.nestjs.com/pipes",
+    "https://docs.nestjs.com/guards",
+    "https://docs.nestjs.com/interceptors",
+    "https://docs.nestjs.com/custom-decorators",
+    "https://docs.nestjs.com/fundamentals/custom-providers",
+    "https://docs.nestjs.com/fundamentals/async-providers",
+    "https://docs.nestjs.com/fundamentals/dynamic-modules",
+    "https://docs.nestjs.com/fundamentals/injection-scopes",
+    "https://docs.nestjs.com/fundamentals/circular-dependency",
+    "https://docs.nestjs.com/fundamentals/module-ref",
+    "https://docs.nestjs.com/fundamentals/lazy-loading-modules",
+    "https://docs.nestjs.com/fundamentals/execution-context",
+    "https://docs.nestjs.com/fundamentals/lifecycle-events",
+    "https://docs.nestjs.com/fundamentals/discovery-service",
+    "https://docs.nestjs.com/fundamentals/platform-agnosticism",
+    "https://docs.nestjs.com/fundamentals/testing",
+    "https://docs.nestjs.com/techniques/configuration",
+    "https://docs.nestjs.com/techniques/database",
+    "https://docs.nestjs.com/techniques/mongodb",
+    "https://docs.nestjs.com/techniques/validation",
+    "https://docs.nestjs.com/techniques/caching",
+    "https://docs.nestjs.com/techniques/serialization",
+    "https://docs.nestjs.com/techniques/versioning",
+    "https://docs.nestjs.com/techniques/task-scheduling",
+    "https://docs.nestjs.com/techniques/queues",
+    "https://docs.nestjs.com/techniques/logger",
+    "https://docs.nestjs.com/techniques/cookies",
+    "https://docs.nestjs.com/techniques/events",
+    "https://docs.nestjs.com/techniques/compression",
+    "https://docs.nestjs.com/techniques/file-upload",
+    "https://docs.nestjs.com/techniques/streaming-files",
+    "https://docs.nestjs.com/techniques/http-module",
+    "https://docs.nestjs.com/techniques/session",
+    "https://docs.nestjs.com/techniques/mvc",
+    "https://docs.nestjs.com/techniques/performance",
+    "https://docs.nestjs.com/techniques/server-sent-events",
+    "https://docs.nestjs.com/security/authentication",
+    "https://docs.nestjs.com/security/authorization",
+    "https://docs.nestjs.com/security/encryption-and-hashing",
+    "https://docs.nestjs.com/security/helmet",
+    "https://docs.nestjs.com/security/cors",
+    "https://docs.nestjs.com/security/csrf",
+    "https://docs.nestjs.com/security/rate-limiting",
+    "https://docs.nestjs.com/graphql/quick-start",
+    "https://docs.nestjs.com/graphql/resolvers",
+    "https://docs.nestjs.com/graphql/mutations",
+    "https://docs.nestjs.com/graphql/subscriptions",
+    "https://docs.nestjs.com/graphql/scalars",
+    "https://docs.nestjs.com/graphql/directives",
+    "https://docs.nestjs.com/graphql/interfaces",
+    "https://docs.nestjs.com/graphql/unions-and-enums",
+    "https://docs.nestjs.com/graphql/field-middleware",
+    "https://docs.nestjs.com/graphql/mapped-types",
+    "https://docs.nestjs.com/graphql/plugins",
+    "https://docs.nestjs.com/graphql/complexity",
+    "https://docs.nestjs.com/graphql/extensions",
+    "https://docs.nestjs.com/graphql/cli-plugin",
+    "https://docs.nestjs.com/graphql/generating-sdl",
+    "https://docs.nestjs.com/graphql/sharing-models",
+    "https://docs.nestjs.com/graphql/other-features",
+    "https://docs.nestjs.com/graphql/federation",
+    "https://docs.nestjs.com/websockets/gateways",
+    "https://docs.nestjs.com/websockets/exception-filters",
+    "https://docs.nestjs.com/websockets/pipes",
+    "https://docs.nestjs.com/websockets/guards",
+    "https://docs.nestjs.com/websockets/interceptors",
+    "https://docs.nestjs.com/websockets/adapter",
+    "https://docs.nestjs.com/microservices/basics",
+    "https://docs.nestjs.com/microservices/redis",
+    "https://docs.nestjs.com/microservices/mqtt",
+    "https://docs.nestjs.com/microservices/nats",
+    "https://docs.nestjs.com/microservices/rabbitmq",
+    "https://docs.nestjs.com/microservices/kafka",
+    "https://docs.nestjs.com/microservices/grpc",
+    "https://docs.nestjs.com/microservices/custom-transport",
+    "https://docs.nestjs.com/microservices/exception-filters",
+    "https://docs.nestjs.com/microservices/pipes",
+    "https://docs.nestjs.com/microservices/guards",
+    "https://docs.nestjs.com/microservices/interceptors",
+    "https://docs.nestjs.com/standalone-applications",
+    "https://docs.nestjs.com/cli/overview",
+    "https://docs.nestjs.com/cli/monorepo",
+    "https://docs.nestjs.com/cli/libraries",
+    "https://docs.nestjs.com/cli/usages",
+    "https://docs.nestjs.com/cli/scripts",
+    "https://docs.nestjs.com/openapi/introduction",
+    "https://docs.nestjs.com/openapi/types-and-parameters",
+    "https://docs.nestjs.com/openapi/operations",
+    "https://docs.nestjs.com/openapi/security",
+    "https://docs.nestjs.com/openapi/mapped-types",
+    "https://docs.nestjs.com/openapi/decorators",
+    "https://docs.nestjs.com/openapi/cli-plugin",
+    "https://docs.nestjs.com/openapi/other-features",
+    "https://docs.nestjs.com/recipes/repl",
+    "https://docs.nestjs.com/recipes/crud-generator",
+    "https://docs.nestjs.com/recipes/swc",
+    "https://docs.nestjs.com/recipes/passport",
+    "https://docs.nestjs.com/recipes/hot-reload",
+    "https://docs.nestjs.com/recipes/mikroorm",
+    "https://docs.nestjs.com/recipes/sql-typeorm",
+    "https://docs.nestjs.com/recipes/mongodb",
+    "https://docs.nestjs.com/recipes/sql-sequelize",
+    "https://docs.nestjs.com/recipes/router-module",
+    "https://docs.nestjs.com/recipes/swagger",
+    "https://docs.nestjs.com/recipes/terminus",
+    "https://docs.nestjs.com/recipes/cqrs",
+    "https://docs.nestjs.com/recipes/documentation",
+    "https://docs.nestjs.com/recipes/prisma",
+    "https://docs.nestjs.com/recipes/sentry",
+    "https://docs.nestjs.com/recipes/serve-static",
+    "https://docs.nestjs.com/recipes/nest-commander",
+    "https://docs.nestjs.com/recipes/async-local-storage",
+    "https://docs.nestjs.com/recipes/necord",
+    "https://docs.nestjs.com/recipes/suites",
+    "https://docs.nestjs.com/faq/serverless",
+    "https://docs.nestjs.com/faq/http-adapter",
+    "https://docs.nestjs.com/faq/keep-alive-connections",
+    "https://docs.nestjs.com/faq/global-prefix",
+    "https://docs.nestjs.com/faq/raw-body",
+    "https://docs.nestjs.com/faq/hybrid-application",
+    "https://docs.nestjs.com/faq/multiple-servers",
+    "https://docs.nestjs.com/faq/request-lifecycle",
+    "https://docs.nestjs.com/faq/common-errors",
+    "https://docs.nestjs.com/cli/cli/monorepo"
+  ]
+}

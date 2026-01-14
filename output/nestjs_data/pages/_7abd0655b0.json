@@ -1,0 +1,228 @@
+{
+  "url": "https://docs.nestjs.com/techniques/http-module",
+  "title": "",
+  "content": "Axios is a richly featured HTTP client package that is widely used. Nest wraps Axios and exposes it via the built-in HttpModule. The HttpModule exports the HttpService class, which exposes Axios-based methods to perform HTTP requests. The library also transforms the resulting HTTP responses into Observables.\n\nTo begin using it, we first install required dependencies.\n\nOnce the installation process is complete, to use the HttpService, first import HttpModule.\n\nNext, inject HttpService using normal constructor injection.\n\nAll HttpService methods return an AxiosResponse wrapped in an Observable object.\n\nAxios can be configured with a variety of options to customize the behavior of the HttpService. Read more about them here. To configure the underlying Axios instance, pass an optional options object to the register() method of HttpModule when importing it. This options object will be passed directly to the underlying Axios constructor.\n\nWhen you need to pass module options asynchronously instead of statically, use the registerAsync() method. As with most dynamic modules, Nest provides several techniques to deal with async configuration.\n\nOne technique is to use a factory function:\n\nLike other factory providers, our factory function can be async and can inject dependencies through inject.\n\nAlternatively, you can configure the HttpModule using a class instead of a factory, as shown below.\n\nThe construction above instantiates HttpConfigService inside HttpModule, using it to create an options object. Note that in this example, the HttpConfigService has to implement HttpModuleOptionsFactory interface as shown below. The HttpModule will call the createHttpOptions() method on the instantiated object of the supplied class.\n\nIf you want to reuse an existing options provider instead of creating a private copy inside the HttpModule, use the useExisting syntax.\n\nYou can also pass so-called extraProviders to the registerAsync() method. These providers will be merged with the module providers.\n\nThis is useful when you want to provide additional dependencies to the factory function or the class constructor.\n\nIf you think that HttpModule.register's options are not enough for you, or if you just want to access the underlying Axios instance created by @nestjs/axios, you can access it via HttpService#axiosRef as follows:\n\nSince the return value of the HttpService methods is an Observable, we can use rxjs - firstValueFrom or lastValueFrom to retrieve the data of the request in the form of a promise.",
+  "headings": [
+    {
+      "level": "h3",
+      "text": "HTTP module",
+      "id": "http-module"
+    },
+    {
+      "level": "h4",
+      "text": "Installation#",
+      "id": "installation"
+    },
+    {
+      "level": "h4",
+      "text": "Getting started#",
+      "id": "getting-started"
+    },
+    {
+      "level": "h4",
+      "text": "Configuration#",
+      "id": "configuration"
+    },
+    {
+      "level": "h4",
+      "text": "Async configuration#",
+      "id": "async-configuration"
+    },
+    {
+      "level": "h4",
+      "text": "Using Axios directly#",
+      "id": "using-axios-directly"
+    },
+    {
+      "level": "h4",
+      "text": "Full example#",
+      "id": "full-example"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "$ npm i --save @nestjs/axios axios",
+      "language": "bash"
+    },
+    {
+      "code": "@Module({\n  imports: [HttpModule],\n  providers: [CatsService],\n})\nexport class CatsModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\nexport class CatsService {\n  constructor(private readonly httpService: HttpService) {}\n\n  findAll(): Observable<AxiosResponse<Cat[]>> {\n    return this.httpService.get('http://localhost:3000/cats');\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\n@Dependencies(HttpService)\nexport class CatsService {\n  constructor(httpService) {\n    this.httpService = httpService;\n  }\n\n  findAll() {\n    return this.httpService.get('http://localhost:3000/cats');\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Module({\n  imports: [\n    HttpModule.register({\n      timeout: 5000,\n      maxRedirects: 5,\n    }),\n  ],\n  providers: [CatsService],\n})\nexport class CatsModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "HttpModule.registerAsync({\n  useFactory: () => ({\n    timeout: 5000,\n    maxRedirects: 5,\n  }),\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "HttpModule.registerAsync({\n  imports: [ConfigModule],\n  useFactory: async (configService: ConfigService) => ({\n    timeout: configService.get('HTTP_TIMEOUT'),\n    maxRedirects: configService.get('HTTP_MAX_REDIRECTS'),\n  }),\n  inject: [ConfigService],\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "HttpModule.registerAsync({\n  useClass: HttpConfigService,\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\nclass HttpConfigService implements HttpModuleOptionsFactory {\n  createHttpOptions(): HttpModuleOptions {\n    return {\n      timeout: 5000,\n      maxRedirects: 5,\n    };\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "HttpModule.registerAsync({\n  imports: [ConfigModule],\n  useExisting: HttpConfigService,\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "HttpModule.registerAsync({\n  imports: [ConfigModule],\n  useClass: HttpConfigService,\n  extraProviders: [MyAdditionalProvider],\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\nexport class CatsService {\n  constructor(private readonly httpService: HttpService) {}\n\n  findAll(): Promise<AxiosResponse<Cat[]>> {\n    return this.httpService.axiosRef.get('http://localhost:3000/cats');\n    //                      ^ AxiosInstance interface\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { catchError, firstValueFrom } from 'rxjs';\n\n@Injectable()\nexport class CatsService {\n  private readonly logger = new Logger(CatsService.name);\n  constructor(private readonly httpService: HttpService) {}\n\n  async findAll(): Promise<Cat[]> {\n    const { data } = await firstValueFrom(\n      this.httpService.get<Cat[]>('http://localhost:3000/cats').pipe(\n        catchError((error: AxiosError) => {\n          this.logger.error(error.response.data);\n          throw 'An error happened!';\n        }),\n      ),\n    );\n    return data;\n  }\n}",
+      "language": "typescript"
+    }
+  ],
+  "patterns": [],
+  "links": [
+    "https://docs.nestjs.com/first-steps",
+    "https://docs.nestjs.com/controllers",
+    "https://docs.nestjs.com/providers",
+    "https://docs.nestjs.com/modules",
+    "https://docs.nestjs.com/middleware",
+    "https://docs.nestjs.com/exception-filters",
+    "https://docs.nestjs.com/pipes",
+    "https://docs.nestjs.com/guards",
+    "https://docs.nestjs.com/interceptors",
+    "https://docs.nestjs.com/custom-decorators",
+    "https://docs.nestjs.com/fundamentals/custom-providers",
+    "https://docs.nestjs.com/fundamentals/async-providers",
+    "https://docs.nestjs.com/fundamentals/dynamic-modules",
+    "https://docs.nestjs.com/fundamentals/injection-scopes",
+    "https://docs.nestjs.com/fundamentals/circular-dependency",
+    "https://docs.nestjs.com/fundamentals/module-ref",
+    "https://docs.nestjs.com/fundamentals/lazy-loading-modules",
+    "https://docs.nestjs.com/fundamentals/execution-context",
+    "https://docs.nestjs.com/fundamentals/lifecycle-events",
+    "https://docs.nestjs.com/fundamentals/discovery-service",
+    "https://docs.nestjs.com/fundamentals/platform-agnosticism",
+    "https://docs.nestjs.com/fundamentals/testing",
+    "https://docs.nestjs.com/techniques/configuration",
+    "https://docs.nestjs.com/techniques/database",
+    "https://docs.nestjs.com/techniques/mongodb",
+    "https://docs.nestjs.com/techniques/validation",
+    "https://docs.nestjs.com/techniques/caching",
+    "https://docs.nestjs.com/techniques/serialization",
+    "https://docs.nestjs.com/techniques/versioning",
+    "https://docs.nestjs.com/techniques/task-scheduling",
+    "https://docs.nestjs.com/techniques/queues",
+    "https://docs.nestjs.com/techniques/logger",
+    "https://docs.nestjs.com/techniques/cookies",
+    "https://docs.nestjs.com/techniques/events",
+    "https://docs.nestjs.com/techniques/compression",
+    "https://docs.nestjs.com/techniques/file-upload",
+    "https://docs.nestjs.com/techniques/streaming-files",
+    "https://docs.nestjs.com/techniques/http-module",
+    "https://docs.nestjs.com/techniques/session",
+    "https://docs.nestjs.com/techniques/mvc",
+    "https://docs.nestjs.com/techniques/performance",
+    "https://docs.nestjs.com/techniques/server-sent-events",
+    "https://docs.nestjs.com/security/authentication",
+    "https://docs.nestjs.com/security/authorization",
+    "https://docs.nestjs.com/security/encryption-and-hashing",
+    "https://docs.nestjs.com/security/helmet",
+    "https://docs.nestjs.com/security/cors",
+    "https://docs.nestjs.com/security/csrf",
+    "https://docs.nestjs.com/security/rate-limiting",
+    "https://docs.nestjs.com/graphql/quick-start",
+    "https://docs.nestjs.com/graphql/resolvers",
+    "https://docs.nestjs.com/graphql/mutations",
+    "https://docs.nestjs.com/graphql/subscriptions",
+    "https://docs.nestjs.com/graphql/scalars",
+    "https://docs.nestjs.com/graphql/directives",
+    "https://docs.nestjs.com/graphql/interfaces",
+    "https://docs.nestjs.com/graphql/unions-and-enums",
+    "https://docs.nestjs.com/graphql/field-middleware",
+    "https://docs.nestjs.com/graphql/mapped-types",
+    "https://docs.nestjs.com/graphql/plugins",
+    "https://docs.nestjs.com/graphql/complexity",
+    "https://docs.nestjs.com/graphql/extensions",
+    "https://docs.nestjs.com/graphql/cli-plugin",
+    "https://docs.nestjs.com/graphql/generating-sdl",
+    "https://docs.nestjs.com/graphql/sharing-models",
+    "https://docs.nestjs.com/graphql/other-features",
+    "https://docs.nestjs.com/graphql/federation",
+    "https://docs.nestjs.com/websockets/gateways",
+    "https://docs.nestjs.com/websockets/exception-filters",
+    "https://docs.nestjs.com/websockets/pipes",
+    "https://docs.nestjs.com/websockets/guards",
+    "https://docs.nestjs.com/websockets/interceptors",
+    "https://docs.nestjs.com/websockets/adapter",
+    "https://docs.nestjs.com/microservices/basics",
+    "https://docs.nestjs.com/microservices/redis",
+    "https://docs.nestjs.com/microservices/mqtt",
+    "https://docs.nestjs.com/microservices/nats",
+    "https://docs.nestjs.com/microservices/rabbitmq",
+    "https://docs.nestjs.com/microservices/kafka",
+    "https://docs.nestjs.com/microservices/grpc",
+    "https://docs.nestjs.com/microservices/custom-transport",
+    "https://docs.nestjs.com/microservices/exception-filters",
+    "https://docs.nestjs.com/microservices/pipes",
+    "https://docs.nestjs.com/microservices/guards",
+    "https://docs.nestjs.com/microservices/interceptors",
+    "https://docs.nestjs.com/standalone-applications",
+    "https://docs.nestjs.com/cli/overview",
+    "https://docs.nestjs.com/cli/monorepo",
+    "https://docs.nestjs.com/cli/libraries",
+    "https://docs.nestjs.com/cli/usages",
+    "https://docs.nestjs.com/cli/scripts",
+    "https://docs.nestjs.com/openapi/introduction",
+    "https://docs.nestjs.com/openapi/types-and-parameters",
+    "https://docs.nestjs.com/openapi/operations",
+    "https://docs.nestjs.com/openapi/security",
+    "https://docs.nestjs.com/openapi/mapped-types",
+    "https://docs.nestjs.com/openapi/decorators",
+    "https://docs.nestjs.com/openapi/cli-plugin",
+    "https://docs.nestjs.com/openapi/other-features",
+    "https://docs.nestjs.com/recipes/repl",
+    "https://docs.nestjs.com/recipes/crud-generator",
+    "https://docs.nestjs.com/recipes/swc",
+    "https://docs.nestjs.com/recipes/passport",
+    "https://docs.nestjs.com/recipes/hot-reload",
+    "https://docs.nestjs.com/recipes/mikroorm",
+    "https://docs.nestjs.com/recipes/sql-typeorm",
+    "https://docs.nestjs.com/recipes/mongodb",
+    "https://docs.nestjs.com/recipes/sql-sequelize",
+    "https://docs.nestjs.com/recipes/router-module",
+    "https://docs.nestjs.com/recipes/swagger",
+    "https://docs.nestjs.com/recipes/terminus",
+    "https://docs.nestjs.com/recipes/cqrs",
+    "https://docs.nestjs.com/recipes/documentation",
+    "https://docs.nestjs.com/recipes/prisma",
+    "https://docs.nestjs.com/recipes/sentry",
+    "https://docs.nestjs.com/recipes/serve-static",
+    "https://docs.nestjs.com/recipes/nest-commander",
+    "https://docs.nestjs.com/recipes/async-local-storage",
+    "https://docs.nestjs.com/recipes/necord",
+    "https://docs.nestjs.com/recipes/suites",
+    "https://docs.nestjs.com/faq/serverless",
+    "https://docs.nestjs.com/faq/http-adapter",
+    "https://docs.nestjs.com/faq/keep-alive-connections",
+    "https://docs.nestjs.com/faq/global-prefix",
+    "https://docs.nestjs.com/faq/raw-body",
+    "https://docs.nestjs.com/faq/hybrid-application",
+    "https://docs.nestjs.com/faq/multiple-servers",
+    "https://docs.nestjs.com/faq/request-lifecycle",
+    "https://docs.nestjs.com/faq/common-errors"
+  ]
+}

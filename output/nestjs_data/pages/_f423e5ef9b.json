@@ -1,0 +1,223 @@
+{
+  "url": "https://docs.nestjs.com/custom-decorators",
+  "title": "",
+  "content": "Nest is built around a language feature called decorators. Decorators are a well-known concept in a lot of commonly used programming languages, but in the JavaScript world, they're still relatively new. In order to better understand how decorators work, we recommend reading this article. Here's a simple definition:\n\nNest provides a set of useful param decorators that you can use together with the HTTP route handlers. Below is a list of the provided decorators and the plain Express (or Fastify) objects they represent\n\nAdditionally, you can create your own custom decorators. Why is this useful?\n\nIn the node.js world, it's common practice to attach properties to the request object. Then you manually extract them in each route handler, using code like the following:\n\nIn order to make your code more readable and transparent, you can create a @User() decorator and reuse it across all of your controllers.\n\nThen, you can simply use it wherever it fits your requirements.\n\nWhen the behavior of your decorator depends on some conditions, you can use the data parameter to pass an argument to the decorator's factory function. One use case for this is a custom decorator that extracts properties from the request object by key. Let's assume, for example, that our authentication layer validates requests and attaches a user entity to the request object. The user entity for an authenticated request might look like:\n\nLet's define a decorator that takes a property name as key, and returns the associated value if it exists (or undefined if it doesn't exist, or if the user object has not been created).\n\nHere's how you could then access a particular property via the @User() decorator in the controller:\n\nYou can use this same decorator with different keys to access different properties. If the user object is deep or complex, this can make for easier and more readable request handler implementations.\n\nNest treats custom param decorators in the same fashion as the built-in ones (@Body(), @Param() and @Query()). This means that pipes are executed for the custom annotated parameters as well (in our examples, the user argument). Moreover, you can apply the pipe directly to the custom decorator:\n\nNest provides a helper method to compose multiple decorators. For example, suppose you want to combine all decorators related to authentication into a single decorator. This could be done with the following construction:\n\nYou can then use this custom @Auth() decorator as follows:\n\nThis has the effect of applying all four decorators with a single declaration.",
+  "headings": [
+    {
+      "level": "h3",
+      "text": "Custom route decorators",
+      "id": "custom-route-decorators"
+    },
+    {
+      "level": "h4",
+      "text": "Param decorators#",
+      "id": "param-decorators"
+    },
+    {
+      "level": "h4",
+      "text": "Passing data#",
+      "id": "passing-data"
+    },
+    {
+      "level": "h4",
+      "text": "Working with pipes#",
+      "id": "working-with-pipes"
+    },
+    {
+      "level": "h4",
+      "text": "Decorator composition#",
+      "id": "decorator-composition"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "const user = req.user;",
+      "language": "typescript"
+    },
+    {
+      "code": "import { createParamDecorator, ExecutionContext } from '@nestjs/common';\n\nexport const User = createParamDecorator(\n  (data: unknown, ctx: ExecutionContext) => {\n    const request = ctx.switchToHttp().getRequest();\n    return request.user;\n  },\n);",
+      "language": "typescript"
+    },
+    {
+      "code": "@Get()\nasync findOne(@User() user: UserEntity) {\n  console.log(user);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Get()\n@Bind(User())\nasync findOne(user) {\n  console.log(user);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "{\n  \"id\": 101,\n  \"firstName\": \"Alan\",\n  \"lastName\": \"Turing\",\n  \"email\": \"alan@email.com\",\n  \"roles\": [\"admin\"]\n}",
+      "language": "json"
+    },
+    {
+      "code": "import { createParamDecorator, ExecutionContext } from '@nestjs/common';\n\nexport const User = createParamDecorator(\n  (data: string, ctx: ExecutionContext) => {\n    const request = ctx.switchToHttp().getRequest();\n    const user = request.user;\n\n    return data ? user?.[data] : user;\n  },\n);",
+      "language": "typescript"
+    },
+    {
+      "code": "import { createParamDecorator } from '@nestjs/common';\n\nexport const User = createParamDecorator((data, ctx) => {\n  const request = ctx.switchToHttp().getRequest();\n  const user = request.user;\n\n  return data ? user && user[data] : user;\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "@Get()\nasync findOne(@User('firstName') firstName: string) {\n  console.log(`Hello ${firstName}`);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Get()\n@Bind(User('firstName'))\nasync findOne(firstName) {\n  console.log(`Hello ${firstName}`);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Get()\nasync findOne(\n  @User(new ValidationPipe({ validateCustomDecorators: true }))\n  user: UserEntity,\n) {\n  console.log(user);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Get()\n@Bind(User(new ValidationPipe({ validateCustomDecorators: true })))\nasync findOne(user) {\n  console.log(user);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { applyDecorators } from '@nestjs/common';\n\nexport function Auth(...roles: Role[]) {\n  return applyDecorators(\n    SetMetadata('roles', roles),\n    UseGuards(AuthGuard, RolesGuard),\n    ApiBearerAuth(),\n    ApiUnauthorizedResponse({ description: 'Unauthorized' }),\n  );\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { applyDecorators } from '@nestjs/common';\n\nexport function Auth(...roles) {\n  return applyDecorators(\n    SetMetadata('roles', roles),\n    UseGuards(AuthGuard, RolesGuard),\n    ApiBearerAuth(),\n    ApiUnauthorizedResponse({ description: 'Unauthorized' }),\n  );\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Get('users')\n@Auth('admin')\nfindAllUsers() {}",
+      "language": "typescript"
+    }
+  ],
+  "patterns": [],
+  "links": [
+    "https://docs.nestjs.com/first-steps",
+    "https://docs.nestjs.com/controllers",
+    "https://docs.nestjs.com/providers",
+    "https://docs.nestjs.com/modules",
+    "https://docs.nestjs.com/middleware",
+    "https://docs.nestjs.com/exception-filters",
+    "https://docs.nestjs.com/pipes",
+    "https://docs.nestjs.com/guards",
+    "https://docs.nestjs.com/interceptors",
+    "https://docs.nestjs.com/custom-decorators",
+    "https://docs.nestjs.com/fundamentals/custom-providers",
+    "https://docs.nestjs.com/fundamentals/async-providers",
+    "https://docs.nestjs.com/fundamentals/dynamic-modules",
+    "https://docs.nestjs.com/fundamentals/injection-scopes",
+    "https://docs.nestjs.com/fundamentals/circular-dependency",
+    "https://docs.nestjs.com/fundamentals/module-ref",
+    "https://docs.nestjs.com/fundamentals/lazy-loading-modules",
+    "https://docs.nestjs.com/fundamentals/execution-context",
+    "https://docs.nestjs.com/fundamentals/lifecycle-events",
+    "https://docs.nestjs.com/fundamentals/discovery-service",
+    "https://docs.nestjs.com/fundamentals/platform-agnosticism",
+    "https://docs.nestjs.com/fundamentals/testing",
+    "https://docs.nestjs.com/techniques/configuration",
+    "https://docs.nestjs.com/techniques/database",
+    "https://docs.nestjs.com/techniques/mongodb",
+    "https://docs.nestjs.com/techniques/validation",
+    "https://docs.nestjs.com/techniques/caching",
+    "https://docs.nestjs.com/techniques/serialization",
+    "https://docs.nestjs.com/techniques/versioning",
+    "https://docs.nestjs.com/techniques/task-scheduling",
+    "https://docs.nestjs.com/techniques/queues",
+    "https://docs.nestjs.com/techniques/logger",
+    "https://docs.nestjs.com/techniques/cookies",
+    "https://docs.nestjs.com/techniques/events",
+    "https://docs.nestjs.com/techniques/compression",
+    "https://docs.nestjs.com/techniques/file-upload",
+    "https://docs.nestjs.com/techniques/streaming-files",
+    "https://docs.nestjs.com/techniques/http-module",
+    "https://docs.nestjs.com/techniques/session",
+    "https://docs.nestjs.com/techniques/mvc",
+    "https://docs.nestjs.com/techniques/performance",
+    "https://docs.nestjs.com/techniques/server-sent-events",
+    "https://docs.nestjs.com/security/authentication",
+    "https://docs.nestjs.com/security/authorization",
+    "https://docs.nestjs.com/security/encryption-and-hashing",
+    "https://docs.nestjs.com/security/helmet",
+    "https://docs.nestjs.com/security/cors",
+    "https://docs.nestjs.com/security/csrf",
+    "https://docs.nestjs.com/security/rate-limiting",
+    "https://docs.nestjs.com/graphql/quick-start",
+    "https://docs.nestjs.com/graphql/resolvers",
+    "https://docs.nestjs.com/graphql/mutations",
+    "https://docs.nestjs.com/graphql/subscriptions",
+    "https://docs.nestjs.com/graphql/scalars",
+    "https://docs.nestjs.com/graphql/directives",
+    "https://docs.nestjs.com/graphql/interfaces",
+    "https://docs.nestjs.com/graphql/unions-and-enums",
+    "https://docs.nestjs.com/graphql/field-middleware",
+    "https://docs.nestjs.com/graphql/mapped-types",
+    "https://docs.nestjs.com/graphql/plugins",
+    "https://docs.nestjs.com/graphql/complexity",
+    "https://docs.nestjs.com/graphql/extensions",
+    "https://docs.nestjs.com/graphql/cli-plugin",
+    "https://docs.nestjs.com/graphql/generating-sdl",
+    "https://docs.nestjs.com/graphql/sharing-models",
+    "https://docs.nestjs.com/graphql/other-features",
+    "https://docs.nestjs.com/graphql/federation",
+    "https://docs.nestjs.com/websockets/gateways",
+    "https://docs.nestjs.com/websockets/exception-filters",
+    "https://docs.nestjs.com/websockets/pipes",
+    "https://docs.nestjs.com/websockets/guards",
+    "https://docs.nestjs.com/websockets/interceptors",
+    "https://docs.nestjs.com/websockets/adapter",
+    "https://docs.nestjs.com/microservices/basics",
+    "https://docs.nestjs.com/microservices/redis",
+    "https://docs.nestjs.com/microservices/mqtt",
+    "https://docs.nestjs.com/microservices/nats",
+    "https://docs.nestjs.com/microservices/rabbitmq",
+    "https://docs.nestjs.com/microservices/kafka",
+    "https://docs.nestjs.com/microservices/grpc",
+    "https://docs.nestjs.com/microservices/custom-transport",
+    "https://docs.nestjs.com/microservices/exception-filters",
+    "https://docs.nestjs.com/microservices/pipes",
+    "https://docs.nestjs.com/microservices/guards",
+    "https://docs.nestjs.com/microservices/interceptors",
+    "https://docs.nestjs.com/standalone-applications",
+    "https://docs.nestjs.com/cli/overview",
+    "https://docs.nestjs.com/cli/monorepo",
+    "https://docs.nestjs.com/cli/libraries",
+    "https://docs.nestjs.com/cli/usages",
+    "https://docs.nestjs.com/cli/scripts",
+    "https://docs.nestjs.com/openapi/introduction",
+    "https://docs.nestjs.com/openapi/types-and-parameters",
+    "https://docs.nestjs.com/openapi/operations",
+    "https://docs.nestjs.com/openapi/security",
+    "https://docs.nestjs.com/openapi/mapped-types",
+    "https://docs.nestjs.com/openapi/decorators",
+    "https://docs.nestjs.com/openapi/cli-plugin",
+    "https://docs.nestjs.com/openapi/other-features",
+    "https://docs.nestjs.com/recipes/repl",
+    "https://docs.nestjs.com/recipes/crud-generator",
+    "https://docs.nestjs.com/recipes/swc",
+    "https://docs.nestjs.com/recipes/passport",
+    "https://docs.nestjs.com/recipes/hot-reload",
+    "https://docs.nestjs.com/recipes/mikroorm",
+    "https://docs.nestjs.com/recipes/sql-typeorm",
+    "https://docs.nestjs.com/recipes/mongodb",
+    "https://docs.nestjs.com/recipes/sql-sequelize",
+    "https://docs.nestjs.com/recipes/router-module",
+    "https://docs.nestjs.com/recipes/swagger",
+    "https://docs.nestjs.com/recipes/terminus",
+    "https://docs.nestjs.com/recipes/cqrs",
+    "https://docs.nestjs.com/recipes/documentation",
+    "https://docs.nestjs.com/recipes/prisma",
+    "https://docs.nestjs.com/recipes/sentry",
+    "https://docs.nestjs.com/recipes/serve-static",
+    "https://docs.nestjs.com/recipes/nest-commander",
+    "https://docs.nestjs.com/recipes/async-local-storage",
+    "https://docs.nestjs.com/recipes/necord",
+    "https://docs.nestjs.com/recipes/suites",
+    "https://docs.nestjs.com/faq/serverless",
+    "https://docs.nestjs.com/faq/http-adapter",
+    "https://docs.nestjs.com/faq/keep-alive-connections",
+    "https://docs.nestjs.com/faq/global-prefix",
+    "https://docs.nestjs.com/faq/raw-body",
+    "https://docs.nestjs.com/faq/hybrid-application",
+    "https://docs.nestjs.com/faq/multiple-servers",
+    "https://docs.nestjs.com/faq/request-lifecycle",
+    "https://docs.nestjs.com/faq/common-errors",
+    "https://docs.nestjs.com/techniques/authentication"
+  ]
+}

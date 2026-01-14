@@ -1,0 +1,292 @@
+{
+  "url": "https://docs.nestjs.com/security/authorization",
+  "title": "",
+  "content": "Authorization refers to the process that determines what a user is able to do. For example, an administrative user is allowed to create, edit, and delete posts. A non-administrative user is only authorized to read the posts.\n\nAuthorization is orthogonal and independent from authentication. However, authorization requires an authentication mechanism.\n\nThere are many different approaches and strategies to handle authorization. The approach taken for any project depends on its particular application requirements. This chapter presents a few approaches to authorization that can be adapted to a variety of different requirements.\n\nRole-based access control (RBAC) is a policy-neutral access-control mechanism defined around roles and privileges. In this section, we'll demonstrate how to implement a very basic RBAC mechanism using Nest guards.\n\nFirst, let's create a Role enum representing roles in the system:\n\nWith this in place, we can create a @Roles() decorator. This decorator allows specifying what roles are required to access specific resources.\n\nNow that we have a custom @Roles() decorator, we can use it to decorate any route handler.\n\nFinally, we create a RolesGuard class which will compare the roles assigned to the current user to the actual roles required by the current route being processed. In order to access the route's role(s) (custom metadata), we'll use the Reflector helper class, which is provided out of the box by the framework and exposed from the @nestjs/core package.\n\nIn this example, we assumed that request.user contains the user instance and allowed roles (under the roles property). In your app, you will probably make that association in your custom authentication guard - see authentication chapter for more details.\n\nTo make sure this example works, your User class must look as follows:\n\nLastly, make sure to register the RolesGuard, for example, at the controller level, or globally:\n\nWhen a user with insufficient privileges requests an endpoint, Nest automatically returns the following response:\n\nLearn the right way! 19 chapters Authn & Authz Official certificate Deep-dive sessions Purchase the Authentication course\n\nWhen an identity is created it may be assigned one or more claims issued by a trusted party. A claim is a name-value pair that represents what the subject can do, not what the subject is.\n\nTo implement a Claims-based authorization in Nest, you can follow the same steps we have shown above in the RBAC section with one significant difference: instead of checking for specific roles, you should compare permissions. Every user would have a set of permissions assigned. Likewise, each resource/endpoint would define what permissions are required (for example, through a dedicated @RequirePermissions() decorator) to access them.\n\nCASL is an isomorphic authorization library which restricts what resources a given client is allowed to access. It's designed to be incrementally adoptable and can easily scale between a simple claim based and fully featured subject and attribute based authorization.\n\nTo start, first install the @casl/ability package:\n\nOnce the installation is complete, for the sake of illustrating the mechanics of CASL, we'll define two entity classes: User and Article.\n\nUser class consists of two properties, id, which is a unique user identifier, and isAdmin, indicating whether a user has administrator privileges.\n\nArticle class has three properties, respectively id, isPublished, and authorId. id is a unique article identifier, isPublished indicates whether an article was already published or not, and authorId, which is an ID of a user who wrote the article.\n\nNow let's review and refine our requirements for this example:\n\nWith this in mind, we can start off by creating an Action enum representing all possible actions that the users can perform with entities:\n\nTo encapsulate CASL library, let's generate the CaslModule and CaslAbilityFactory now.\n\nWith this in place, we can define the createForUser() method on the CaslAbilityFactory. This method will create the Ability object for a given user:\n\nIn the example above, we created the MongoAbility instance using the AbilityBuilder class. As you probably guessed, can and cannot accept the same arguments but have different meanings, can allows to do an action on the specified subject and cannot forbids. Both may accept up to 4 arguments. To learn more about these functions, visit the official CASL documentation.\n\nLastly, make sure to add the CaslAbilityFactory to the providers and exports arrays in the CaslModule module definition:\n\nWith this in place, we can inject the CaslAbilityFactory to any class using standard constructor injection as long as the CaslModule is imported in the host context:\n\nThen use it in a class as follows.\n\nFor example, let's say we have a user who is not an admin. In this case, the user should be able to read articles, but creating new ones or removing the existing articles should be prohibited.\n\nAlso, as we have specified in our requirements, the user should be able to update its articles:\n\nAs you can see, MongoAbility instance allows us to check permissions in pretty readable way. Likewise, AbilityBuilder allows us to define permissions (and specify various conditions) in a similar fashion. To find more examples, visit the official documentation.\n\nIn this section, we'll demonstrate how to build a somewhat more sophisticated guard, which checks if a user meets specific authorization policies that can be configured on the method-level (you can extend it to respect policies configured on the class-level too). In this example, we are going to use the CASL package just for illustration purposes, but using this library is not required. Also, we will use the CaslAbilityFactory provider that we've created in the previous section.\n\nFirst, let's flesh out the requirements. The goal is to provide a mechanism that allows specifying policy checks per route handler. We will support both objects and functions (for simpler checks and for those who prefer more functional-style code).\n\nLet's start off by defining interfaces for policy handlers:\n\nAs mentioned above, we provided two possible ways of defining a policy handler, an object (instance of a class that implements the IPolicyHandler interface) and a function (which meets the PolicyHandlerCallback type).\n\nWith this in place, we can create a @CheckPolicies() decorator. This decorator allows specifying what policies have to be met to access specific resources.\n\nNow let's create a PoliciesGuard that will extract and execute all the policy handlers bound to a route handler.\n\nLet's break this example down. The policyHandlers is an array of handlers assigned to the method through the @CheckPolicies() decorator. Next, we use the CaslAbilityFactory#create method which constructs the Ability object, allowing us to verify whether a user has sufficient permissions to perform specific actions. We are passing this object to the policy handler which is either a function or an instance of a class that implements the IPolicyHandler, exposing the handle() method that returns a boolean. Lastly, we use the Array#every method to make sure that every handler returned true value.\n\nFinally, to test this guard, bind it to any route handler, and register an inline policy handler (functional approach), as follows:\n\nAlternatively, we can define a class which implements the IPolicyHandler interface:\n\nAnd use it as follows:",
+  "headings": [
+    {
+      "level": "h3",
+      "text": "Authorization",
+      "id": "authorization"
+    },
+    {
+      "level": "h4",
+      "text": "Basic RBAC implementation#",
+      "id": "basic-rbac-implementation"
+    },
+    {
+      "level": "h2",
+      "text": "Learn the right way!",
+      "id": ""
+    },
+    {
+      "level": "h4",
+      "text": "Claims-based authorization#",
+      "id": "claims-based-authorization"
+    },
+    {
+      "level": "h4",
+      "text": "Integrating CASL#",
+      "id": "integrating-casl"
+    },
+    {
+      "level": "h4",
+      "text": "Advanced: Implementing a PoliciesGuard#",
+      "id": "advanced-implementing-a-policiesguard"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "export enum Role {\n  User = 'user',\n  Admin = 'admin',\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { SetMetadata } from '@nestjs/common';\nimport { Role } from '../enums/role.enum';\n\nexport const ROLES_KEY = 'roles';\nexport const Roles = (...roles: Role[]) => SetMetadata(ROLES_KEY, roles);",
+      "language": "typescript"
+    },
+    {
+      "code": "import { SetMetadata } from '@nestjs/common';\n\nexport const ROLES_KEY = 'roles';\nexport const Roles = (...roles) => SetMetadata(ROLES_KEY, roles);",
+      "language": "typescript"
+    },
+    {
+      "code": "@Post()\n@Roles(Role.Admin)\ncreate(@Body() createCatDto: CreateCatDto) {\n  this.catsService.create(createCatDto);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Post()\n@Roles(Role.Admin)\n@Bind(Body())\ncreate(createCatDto) {\n  this.catsService.create(createCatDto);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';\nimport { Reflector } from '@nestjs/core';\n\n@Injectable()\nexport class RolesGuard implements CanActivate {\n  constructor(private reflector: Reflector) {}\n\n  canActivate(context: ExecutionContext): boolean {\n    const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [\n      context.getHandler(),\n      context.getClass(),\n    ]);\n    if (!requiredRoles) {\n      return true;\n    }\n    const { user } = context.switchToHttp().getRequest();\n    return requiredRoles.some((role) => user.roles?.includes(role));\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Injectable, Dependencies } from '@nestjs/common';\nimport { Reflector } from '@nestjs/core';\n\n@Injectable()\n@Dependencies(Reflector)\nexport class RolesGuard {\n  constructor(reflector) {\n    this.reflector = reflector;\n  }\n\n  canActivate(context) {\n    const requiredRoles = this.reflector.getAllAndOverride(ROLES_KEY, [\n      context.getHandler(),\n      context.getClass(),\n    ]);\n    if (!requiredRoles) {\n      return true;\n    }\n    const { user } = context.switchToHttp().getRequest();\n    return requiredRoles.some((role) => user.roles.includes(role));\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "class User {\n  // ...other properties\n  roles: Role[];\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "providers: [\n  {\n    provide: APP_GUARD,\n    useClass: RolesGuard,\n  },\n],",
+      "language": "typescript"
+    },
+    {
+      "code": "{\n  \"statusCode\": 403,\n  \"message\": \"Forbidden resource\",\n  \"error\": \"Forbidden\"\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Post()\n@RequirePermissions(Permission.CREATE_CAT)\ncreate(@Body() createCatDto: CreateCatDto) {\n  this.catsService.create(createCatDto);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Post()\n@RequirePermissions(Permission.CREATE_CAT)\n@Bind(Body())\ncreate(createCatDto) {\n  this.catsService.create(createCatDto);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "$ npm i @casl/ability",
+      "language": "bash"
+    },
+    {
+      "code": "class User {\n  id: number;\n  isAdmin: boolean;\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "class Article {\n  id: number;\n  isPublished: boolean;\n  authorId: number;\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "export enum Action {\n  Manage = 'manage',\n  Create = 'create',\n  Read = 'read',\n  Update = 'update',\n  Delete = 'delete',\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "$ nest g module casl\n$ nest g class casl/casl-ability.factory",
+      "language": "bash"
+    },
+    {
+      "code": "type Subjects = InferSubjects<typeof Article | typeof User> | 'all';\n\nexport type AppAbility = MongoAbility<[Action, Subjects]>;\n\n@Injectable()\nexport class CaslAbilityFactory {\n  createForUser(user: User) {\n    const { can, cannot, build } = new AbilityBuilder(createMongoAbility);\n\n    if (user.isAdmin) {\n      can(Action.Manage, 'all'); // read-write access to everything\n    } else {\n      can(Action.Read, 'all'); // read-only access to everything\n    }\n\n    can(Action.Update, Article, { authorId: user.id });\n    cannot(Action.Delete, Article, { isPublished: true });\n\n    return build({\n      // Read https://casl.js.org/v6/en/guide/subject-type-detection#use-classes-as-subject-types for details\n      detectSubjectType: (item) =>\n        item.constructor as ExtractSubjectType<Subjects>,\n    });\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Module } from '@nestjs/common';\nimport { CaslAbilityFactory } from './casl-ability.factory';\n\n@Module({\n  providers: [CaslAbilityFactory],\n  exports: [CaslAbilityFactory],\n})\nexport class CaslModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "constructor(private caslAbilityFactory: CaslAbilityFactory) {}",
+      "language": "typescript"
+    },
+    {
+      "code": "const ability = this.caslAbilityFactory.createForUser(user);\nif (ability.can(Action.Read, 'all')) {\n  // \"user\" has read access to everything\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "const user = new User();\nuser.isAdmin = false;\n\nconst ability = this.caslAbilityFactory.createForUser(user);\nability.can(Action.Read, Article); // true\nability.can(Action.Delete, Article); // false\nability.can(Action.Create, Article); // false",
+      "language": "typescript"
+    },
+    {
+      "code": "const user = new User();\nuser.id = 1;\n\nconst article = new Article();\narticle.authorId = user.id;\n\nconst ability = this.caslAbilityFactory.createForUser(user);\nability.can(Action.Update, article); // true\n\narticle.authorId = 2;\nability.can(Action.Update, article); // false",
+      "language": "typescript"
+    },
+    {
+      "code": "import { AppAbility } from '../casl/casl-ability.factory';\n\ninterface IPolicyHandler {\n  handle(ability: AppAbility): boolean;\n}\n\ntype PolicyHandlerCallback = (ability: AppAbility) => boolean;\n\nexport type PolicyHandler = IPolicyHandler | PolicyHandlerCallback;",
+      "language": "typescript"
+    },
+    {
+      "code": "export const CHECK_POLICIES_KEY = 'check_policy';\nexport const CheckPolicies = (...handlers: PolicyHandler[]) =>\n  SetMetadata(CHECK_POLICIES_KEY, handlers);",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\nexport class PoliciesGuard implements CanActivate {\n  constructor(\n    private reflector: Reflector,\n    private caslAbilityFactory: CaslAbilityFactory,\n  ) {}\n\n  async canActivate(context: ExecutionContext): Promise<boolean> {\n    const policyHandlers =\n      this.reflector.get<PolicyHandler[]>(\n        CHECK_POLICIES_KEY,\n        context.getHandler(),\n      ) || [];\n\n    const { user } = context.switchToHttp().getRequest();\n    const ability = this.caslAbilityFactory.createForUser(user);\n\n    return policyHandlers.every((handler) =>\n      this.execPolicyHandler(handler, ability),\n    );\n  }\n\n  private execPolicyHandler(handler: PolicyHandler, ability: AppAbility) {\n    if (typeof handler === 'function') {\n      return handler(ability);\n    }\n    return handler.handle(ability);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Get()\n@UseGuards(PoliciesGuard)\n@CheckPolicies((ability: AppAbility) => ability.can(Action.Read, Article))\nfindAll() {\n  return this.articlesService.findAll();\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "export class ReadArticlePolicyHandler implements IPolicyHandler {\n  handle(ability: AppAbility) {\n    return ability.can(Action.Read, Article);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Get()\n@UseGuards(PoliciesGuard)\n@CheckPolicies(new ReadArticlePolicyHandler())\nfindAll() {\n  return this.articlesService.findAll();\n}",
+      "language": "typescript"
+    }
+  ],
+  "patterns": [
+    {
+      "description": "Now let's review and refine our requirements for this example:",
+      "code": "article.authorId === userId"
+    }
+  ],
+  "links": [
+    "https://docs.nestjs.com/first-steps",
+    "https://docs.nestjs.com/controllers",
+    "https://docs.nestjs.com/providers",
+    "https://docs.nestjs.com/modules",
+    "https://docs.nestjs.com/middleware",
+    "https://docs.nestjs.com/exception-filters",
+    "https://docs.nestjs.com/pipes",
+    "https://docs.nestjs.com/guards",
+    "https://docs.nestjs.com/interceptors",
+    "https://docs.nestjs.com/custom-decorators",
+    "https://docs.nestjs.com/fundamentals/custom-providers",
+    "https://docs.nestjs.com/fundamentals/async-providers",
+    "https://docs.nestjs.com/fundamentals/dynamic-modules",
+    "https://docs.nestjs.com/fundamentals/injection-scopes",
+    "https://docs.nestjs.com/fundamentals/circular-dependency",
+    "https://docs.nestjs.com/fundamentals/module-ref",
+    "https://docs.nestjs.com/fundamentals/lazy-loading-modules",
+    "https://docs.nestjs.com/fundamentals/execution-context",
+    "https://docs.nestjs.com/fundamentals/lifecycle-events",
+    "https://docs.nestjs.com/fundamentals/discovery-service",
+    "https://docs.nestjs.com/fundamentals/platform-agnosticism",
+    "https://docs.nestjs.com/fundamentals/testing",
+    "https://docs.nestjs.com/techniques/configuration",
+    "https://docs.nestjs.com/techniques/database",
+    "https://docs.nestjs.com/techniques/mongodb",
+    "https://docs.nestjs.com/techniques/validation",
+    "https://docs.nestjs.com/techniques/caching",
+    "https://docs.nestjs.com/techniques/serialization",
+    "https://docs.nestjs.com/techniques/versioning",
+    "https://docs.nestjs.com/techniques/task-scheduling",
+    "https://docs.nestjs.com/techniques/queues",
+    "https://docs.nestjs.com/techniques/logger",
+    "https://docs.nestjs.com/techniques/cookies",
+    "https://docs.nestjs.com/techniques/events",
+    "https://docs.nestjs.com/techniques/compression",
+    "https://docs.nestjs.com/techniques/file-upload",
+    "https://docs.nestjs.com/techniques/streaming-files",
+    "https://docs.nestjs.com/techniques/http-module",
+    "https://docs.nestjs.com/techniques/session",
+    "https://docs.nestjs.com/techniques/mvc",
+    "https://docs.nestjs.com/techniques/performance",
+    "https://docs.nestjs.com/techniques/server-sent-events",
+    "https://docs.nestjs.com/security/authentication",
+    "https://docs.nestjs.com/security/authorization",
+    "https://docs.nestjs.com/security/encryption-and-hashing",
+    "https://docs.nestjs.com/security/helmet",
+    "https://docs.nestjs.com/security/cors",
+    "https://docs.nestjs.com/security/csrf",
+    "https://docs.nestjs.com/security/rate-limiting",
+    "https://docs.nestjs.com/graphql/quick-start",
+    "https://docs.nestjs.com/graphql/resolvers",
+    "https://docs.nestjs.com/graphql/mutations",
+    "https://docs.nestjs.com/graphql/subscriptions",
+    "https://docs.nestjs.com/graphql/scalars",
+    "https://docs.nestjs.com/graphql/directives",
+    "https://docs.nestjs.com/graphql/interfaces",
+    "https://docs.nestjs.com/graphql/unions-and-enums",
+    "https://docs.nestjs.com/graphql/field-middleware",
+    "https://docs.nestjs.com/graphql/mapped-types",
+    "https://docs.nestjs.com/graphql/plugins",
+    "https://docs.nestjs.com/graphql/complexity",
+    "https://docs.nestjs.com/graphql/extensions",
+    "https://docs.nestjs.com/graphql/cli-plugin",
+    "https://docs.nestjs.com/graphql/generating-sdl",
+    "https://docs.nestjs.com/graphql/sharing-models",
+    "https://docs.nestjs.com/graphql/other-features",
+    "https://docs.nestjs.com/graphql/federation",
+    "https://docs.nestjs.com/websockets/gateways",
+    "https://docs.nestjs.com/websockets/exception-filters",
+    "https://docs.nestjs.com/websockets/pipes",
+    "https://docs.nestjs.com/websockets/guards",
+    "https://docs.nestjs.com/websockets/interceptors",
+    "https://docs.nestjs.com/websockets/adapter",
+    "https://docs.nestjs.com/microservices/basics",
+    "https://docs.nestjs.com/microservices/redis",
+    "https://docs.nestjs.com/microservices/mqtt",
+    "https://docs.nestjs.com/microservices/nats",
+    "https://docs.nestjs.com/microservices/rabbitmq",
+    "https://docs.nestjs.com/microservices/kafka",
+    "https://docs.nestjs.com/microservices/grpc",
+    "https://docs.nestjs.com/microservices/custom-transport",
+    "https://docs.nestjs.com/microservices/exception-filters",
+    "https://docs.nestjs.com/microservices/pipes",
+    "https://docs.nestjs.com/microservices/guards",
+    "https://docs.nestjs.com/microservices/interceptors",
+    "https://docs.nestjs.com/standalone-applications",
+    "https://docs.nestjs.com/cli/overview",
+    "https://docs.nestjs.com/cli/monorepo",
+    "https://docs.nestjs.com/cli/libraries",
+    "https://docs.nestjs.com/cli/usages",
+    "https://docs.nestjs.com/cli/scripts",
+    "https://docs.nestjs.com/openapi/introduction",
+    "https://docs.nestjs.com/openapi/types-and-parameters",
+    "https://docs.nestjs.com/openapi/operations",
+    "https://docs.nestjs.com/openapi/security",
+    "https://docs.nestjs.com/openapi/mapped-types",
+    "https://docs.nestjs.com/openapi/decorators",
+    "https://docs.nestjs.com/openapi/cli-plugin",
+    "https://docs.nestjs.com/openapi/other-features",
+    "https://docs.nestjs.com/recipes/repl",
+    "https://docs.nestjs.com/recipes/crud-generator",
+    "https://docs.nestjs.com/recipes/swc",
+    "https://docs.nestjs.com/recipes/passport",
+    "https://docs.nestjs.com/recipes/hot-reload",
+    "https://docs.nestjs.com/recipes/mikroorm",
+    "https://docs.nestjs.com/recipes/sql-typeorm",
+    "https://docs.nestjs.com/recipes/mongodb",
+    "https://docs.nestjs.com/recipes/sql-sequelize",
+    "https://docs.nestjs.com/recipes/router-module",
+    "https://docs.nestjs.com/recipes/swagger",
+    "https://docs.nestjs.com/recipes/terminus",
+    "https://docs.nestjs.com/recipes/cqrs",
+    "https://docs.nestjs.com/recipes/documentation",
+    "https://docs.nestjs.com/recipes/prisma",
+    "https://docs.nestjs.com/recipes/sentry",
+    "https://docs.nestjs.com/recipes/serve-static",
+    "https://docs.nestjs.com/recipes/nest-commander",
+    "https://docs.nestjs.com/recipes/async-local-storage",
+    "https://docs.nestjs.com/recipes/necord",
+    "https://docs.nestjs.com/recipes/suites",
+    "https://docs.nestjs.com/faq/serverless",
+    "https://docs.nestjs.com/faq/http-adapter",
+    "https://docs.nestjs.com/faq/keep-alive-connections",
+    "https://docs.nestjs.com/faq/global-prefix",
+    "https://docs.nestjs.com/faq/raw-body",
+    "https://docs.nestjs.com/faq/hybrid-application",
+    "https://docs.nestjs.com/faq/multiple-servers",
+    "https://docs.nestjs.com/faq/request-lifecycle",
+    "https://docs.nestjs.com/faq/common-errors"
+  ]
+}

@@ -1,0 +1,290 @@
+{
+  "url": "https://docs.nestjs.com/security/authentication",
+  "title": "",
+  "content": "Authentication is an essential part of most applications. There are many different approaches and strategies to handle authentication. The approach taken for any project depends on its particular application requirements. This chapter presents several approaches to authentication that can be adapted to a variety of different requirements.\n\nLet's flesh out our requirements. For this use case, clients will start by authenticating with a username and password. Once authenticated, the server will issue a JWT that can be sent as a bearer token in an authorization header on subsequent requests to prove authentication. We'll also create a protected route that is accessible only to requests that contain a valid JWT.\n\nWe'll start with the first requirement: authenticating a user. We'll then extend that by issuing a JWT. Finally, we'll create a protected route that checks for a valid JWT on the request.\n\nWe'll start by generating an AuthModule and in it, an AuthService and an AuthController. We'll use the AuthService to implement the authentication logic, and the AuthController to expose the authentication endpoints.\n\nAs we implement the AuthService, we'll find it useful to encapsulate user operations in a UsersService, so let's generate that module and service now:\n\nReplace the default contents of these generated files as shown below. For our sample app, the UsersService simply maintains a hard-coded in-memory list of users, and a find method to retrieve one by username. In a real app, this is where you'd build your user model and persistence layer, using your library of choice (e.g., TypeORM, Sequelize, Mongoose, etc.).\n\nIn the UsersModule, the only change needed is to add the UsersService to the exports array of the @Module decorator so that it is visible outside this module (we'll soon use it in our AuthService).\n\nOur AuthService has the job of retrieving a user and verifying the password. We create a signIn() method for this purpose. In the code below, we use a convenient ES6 spread operator to strip the password property from the user object before returning it. This is a common practice when returning user objects, as you don't want to expose sensitive fields like passwords or other security keys.\n\nNow, we update our AuthModule to import the UsersModule.\n\nWith this in place, let's open up the AuthController and add a signIn() method to it. This method will be called by the client to authenticate a user. It will receive the username and password in the request body, and will return a JWT token if the user is authenticated.\n\nLearn the right way! 19 chapters Authn & Authz Official certificate Deep-dive sessions Purchase the Authentication course\n\nWe're ready to move on to the JWT portion of our auth system. Let's review and refine our requirements:\n\nWe'll need to install one additional package to support our JWT requirements:\n\nTo keep our services cleanly modularized, we'll handle generating the JWT in the authService. Open the auth.service.ts file in the auth folder, inject the JwtService, and update the signIn method to generate a JWT token as shown below:\n\nWe're using the @nestjs/jwt library, which supplies a signAsync() function to generate our JWT from a subset of the user object properties, which we then return as a simple object with a single access_token property. Note: we choose a property name of sub to hold our userId value to be consistent with JWT standards.\n\nWe now need to update the AuthModule to import the new dependencies and configure the JwtModule.\n\nFirst, create constants.ts in the auth folder, and add the following code:\n\nWe'll use this to share our key between the JWT signing and verifying steps.\n\nNow, open auth.module.ts in the auth folder and update it to look like this:\n\nWe configure the JwtModule using register(), passing in a configuration object. See here for more on the Nest JwtModule and here for more details on the available configuration options.\n\nLet's go ahead and test our routes using cURL again. You can test with any of the user objects hard-coded in the UsersService.\n\nWe can now address our final requirement: protecting endpoints by requiring a valid JWT be present on the request. We'll do this by creating an AuthGuard that we can use to protect our routes.\n\nWe can now implement our protected route and register our AuthGuard to protect it.\n\nOpen the auth.controller.ts file and update it as shown below:\n\nWe're applying the AuthGuard that we just created to the GET /profile route so that it will be protected.\n\nEnsure the app is running, and test the routes using cURL.\n\nNote that in the AuthModule, we configured the JWT to have an expiration of 60 seconds. This is too short an expiration, and dealing with the details of token expiration and refresh is beyond the scope of this article. However, we chose that to demonstrate an important quality of JWTs. If you wait 60 seconds after authenticating before attempting a GET /auth/profile request, you'll receive a 401 Unauthorized response. This is because @nestjs/jwt automatically checks the JWT for its expiration time, saving you the trouble of doing so in your application.\n\nWe've now completed our JWT authentication implementation. JavaScript clients (such as Angular/React/Vue), and other JavaScript apps, can now authenticate and communicate securely with our API Server.\n\nIf the vast majority of your endpoints should be protected by default, you can register the authentication guard as a global guard and instead of using @UseGuards() decorator on top of each controller, you could simply flag which routes should be public.\n\nFirst, register the AuthGuard as a global guard using the following construction (in any module, for example, in the AuthModule):\n\nWith this in place, Nest will automatically bind AuthGuard to all endpoints.\n\nNow we must provide a mechanism for declaring routes as public. For this, we can create a custom decorator using the SetMetadata decorator factory function.\n\nIn the file above, we exported two constants. One being our metadata key named IS_PUBLIC_KEY, and the other being our new decorator itself that we’re going to call Public (you can alternatively name it SkipAuth or AllowAnon, whatever fits your project).\n\nNow that we have a custom @Public() decorator, we can use it to decorate any method, as follows:\n\nLastly, we need the AuthGuard to return true when the \"isPublic\" metadata is found. For this, we'll use the Reflector class (read more here).\n\nPassport is the most popular node.js authentication library, well-known by the community and successfully used in many production applications. It's straightforward to integrate this library with a Nest application using the @nestjs/passport module.\n\nTo learn how you can integrate Passport with NestJS, check out this chapter.\n\nYou can find a complete version of the code in this chapter here.",
+  "headings": [
+    {
+      "level": "h3",
+      "text": "Authentication",
+      "id": "authentication"
+    },
+    {
+      "level": "h4",
+      "text": "Creating an authentication module#",
+      "id": "creating-an-authentication-module"
+    },
+    {
+      "level": "h4",
+      "text": "Implementing the \"Sign in\" endpoint#",
+      "id": "implementing-the-sign-in-endpoint"
+    },
+    {
+      "level": "h2",
+      "text": "Learn the right way!",
+      "id": ""
+    },
+    {
+      "level": "h4",
+      "text": "JWT token#",
+      "id": "jwt-token"
+    },
+    {
+      "level": "h4",
+      "text": "Implementing the authentication guard#",
+      "id": "implementing-the-authentication-guard"
+    },
+    {
+      "level": "h4",
+      "text": "Enable authentication globally#",
+      "id": "enable-authentication-globally"
+    },
+    {
+      "level": "h4",
+      "text": "Passport integration#",
+      "id": "passport-integration"
+    },
+    {
+      "level": "h4",
+      "text": "Example#",
+      "id": "example"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "$ nest g module auth\n$ nest g controller auth\n$ nest g service auth",
+      "language": "bash"
+    },
+    {
+      "code": "$ nest g module users\n$ nest g service users",
+      "language": "bash"
+    },
+    {
+      "code": "import { Injectable } from '@nestjs/common';\n\n// This should be a real class/interface representing a user entity\nexport type User = any;\n\n@Injectable()\nexport class UsersService {\n  private readonly users = [\n    {\n      userId: 1,\n      username: 'john',\n      password: 'changeme',\n    },\n    {\n      userId: 2,\n      username: 'maria',\n      password: 'guess',\n    },\n  ];\n\n  async findOne(username: string): Promise<User | undefined> {\n    return this.users.find(user => user.username === username);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Injectable } from '@nestjs/common';\n\n@Injectable()\nexport class UsersService {\n  constructor() {\n    this.users = [\n      {\n        userId: 1,\n        username: 'john',\n        password: 'changeme',\n      },\n      {\n        userId: 2,\n        username: 'maria',\n        password: 'guess',\n      },\n    ];\n  }\n\n  async findOne(username) {\n    return this.users.find(user => user.username === username);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Module } from '@nestjs/common';\nimport { UsersService } from './users.service';\n\n@Module({\n  providers: [UsersService],\n  exports: [UsersService],\n})\nexport class UsersModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Module } from '@nestjs/common';\nimport { UsersService } from './users.service';\n\n@Module({\n  providers: [UsersService],\n  exports: [UsersService],\n})\nexport class UsersModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Injectable, UnauthorizedException } from '@nestjs/common';\nimport { UsersService } from '../users/users.service';\n\n@Injectable()\nexport class AuthService {\n  constructor(private usersService: UsersService) {}\n\n  async signIn(username: string, pass: string): Promise<any> {\n    const user = await this.usersService.findOne(username);\n    if (user?.password !== pass) {\n      throw new UnauthorizedException();\n    }\n    const { password, ...result } = user;\n    // TODO: Generate a JWT and return it here\n    // instead of the user object\n    return result;\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Injectable, Dependencies, UnauthorizedException } from '@nestjs/common';\nimport { UsersService } from '../users/users.service';\n\n@Injectable()\n@Dependencies(UsersService)\nexport class AuthService {\n  constructor(usersService) {\n    this.usersService = usersService;\n  }\n\n  async signIn(username: string, pass: string) {\n    const user = await this.usersService.findOne(username);\n    if (user?.password !== pass) {\n      throw new UnauthorizedException();\n    }\n    const { password, ...result } = user;\n    // TODO: Generate a JWT and return it here\n    // instead of the user object\n    return result;\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Module } from '@nestjs/common';\nimport { AuthService } from './auth.service';\nimport { AuthController } from './auth.controller';\nimport { UsersModule } from '../users/users.module';\n\n@Module({\n  imports: [UsersModule],\n  providers: [AuthService],\n  controllers: [AuthController],\n})\nexport class AuthModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Module } from '@nestjs/common';\nimport { AuthService } from './auth.service';\nimport { AuthController } from './auth.controller';\nimport { UsersModule } from '../users/users.module';\n\n@Module({\n  imports: [UsersModule],\n  providers: [AuthService],\n  controllers: [AuthController],\n})\nexport class AuthModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Body, Controller, Post, HttpCode, HttpStatus } from '@nestjs/common';\nimport { AuthService } from './auth.service';\n\n@Controller('auth')\nexport class AuthController {\n  constructor(private authService: AuthService) {}\n\n  @HttpCode(HttpStatus.OK)\n  @Post('login')\n  signIn(@Body() signInDto: Record<string, any>) {\n    return this.authService.signIn(signInDto.username, signInDto.password);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "$ npm install --save @nestjs/jwt",
+      "language": "bash"
+    },
+    {
+      "code": "import { Injectable, UnauthorizedException } from '@nestjs/common';\nimport { UsersService } from '../users/users.service';\nimport { JwtService } from '@nestjs/jwt';\n\n@Injectable()\nexport class AuthService {\n  constructor(\n    private usersService: UsersService,\n    private jwtService: JwtService\n  ) {}\n\n  async signIn(\n    username: string,\n    pass: string,\n  ): Promise<{ access_token: string }> {\n    const user = await this.usersService.findOne(username);\n    if (user?.password !== pass) {\n      throw new UnauthorizedException();\n    }\n    const payload = { sub: user.userId, username: user.username };\n    return {\n      // 💡 Here the JWT secret key that's used for signing the payload \n      // is the key that was passsed in the JwtModule\n      access_token: await this.jwtService.signAsync(payload),\n    };\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Injectable, Dependencies, UnauthorizedException } from '@nestjs/common';\nimport { UsersService } from '../users/users.service';\nimport { JwtService } from '@nestjs/jwt';\n\n@Dependencies(UsersService, JwtService)\n@Injectable()\nexport class AuthService {\n  constructor(usersService, jwtService) {\n    this.usersService = usersService;\n    this.jwtService = jwtService;\n  }\n\n  async signIn(username, pass) {\n    const user = await this.usersService.findOne(username);\n    if (user?.password !== pass) {\n      throw new UnauthorizedException();\n    }\n    const payload = { username: user.username, sub: user.userId };\n    return {\n      // 💡 Here the JWT secret key that's used for signing the payload \n      // is the key that was passsed in the JwtModule\n      access_token: await this.jwtService.signAsync(payload),\n    };\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "export const jwtConstants = {\n  secret: 'DO NOT USE THIS VALUE. INSTEAD, CREATE A COMPLEX SECRET AND KEEP IT SAFE OUTSIDE OF THE SOURCE CODE.',\n};",
+      "language": "typescript"
+    },
+    {
+      "code": "export const jwtConstants = {\n  secret: 'DO NOT USE THIS VALUE. INSTEAD, CREATE A COMPLEX SECRET AND KEEP IT SAFE OUTSIDE OF THE SOURCE CODE.',\n};",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Module } from '@nestjs/common';\nimport { AuthService } from './auth.service';\nimport { UsersModule } from '../users/users.module';\nimport { JwtModule } from '@nestjs/jwt';\nimport { AuthController } from './auth.controller';\nimport { jwtConstants } from './constants';\n\n@Module({\n  imports: [\n    UsersModule,\n    JwtModule.register({\n      global: true,\n      secret: jwtConstants.secret,\n      signOptions: { expiresIn: '60s' },\n    }),\n  ],\n  providers: [AuthService],\n  controllers: [AuthController],\n  exports: [AuthService],\n})\nexport class AuthModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Module } from '@nestjs/common';\nimport { AuthService } from './auth.service';\nimport { UsersModule } from '../users/users.module';\nimport { JwtModule } from '@nestjs/jwt';\nimport { AuthController } from './auth.controller';\nimport { jwtConstants } from './constants';\n\n@Module({\n  imports: [\n    UsersModule,\n    JwtModule.register({\n      global: true,\n      secret: jwtConstants.secret,\n      signOptions: { expiresIn: '60s' },\n    }),\n  ],\n  providers: [AuthService],\n  controllers: [AuthController],\n  exports: [AuthService],\n})\nexport class AuthModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "$ # POST to /auth/login\n$ curl -X POST http://localhost:3000/auth/login -d '{\"username\": \"john\", \"password\": \"changeme\"}' -H \"Content-Type: application/json\"\n{\"access_token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\"}\n$ # Note: above JWT truncated",
+      "language": "bash"
+    },
+    {
+      "code": "import {\n  CanActivate,\n  ExecutionContext,\n  Injectable,\n  UnauthorizedException,\n} from '@nestjs/common';\nimport { JwtService } from '@nestjs/jwt';\nimport { Request } from 'express';\n\n@Injectable()\nexport class AuthGuard implements CanActivate {\n  constructor(private jwtService: JwtService) {}\n\n  async canActivate(context: ExecutionContext): Promise<boolean> {\n    const request = context.switchToHttp().getRequest();\n    const token = this.extractTokenFromHeader(request);\n    if (!token) {\n      throw new UnauthorizedException();\n    }\n    try {\n      // 💡 Here the JWT secret key that's used for verifying the payload \n      // is the key that was passsed in the JwtModule\n      const payload = await this.jwtService.verifyAsync(token);\n      // 💡 We're assigning the payload to the request object here\n      // so that we can access it in our route handlers\n      request['user'] = payload;\n    } catch {\n      throw new UnauthorizedException();\n    }\n    return true;\n  }\n\n  private extractTokenFromHeader(request: Request): string | undefined {\n    const [type, token] = request.headers.authorization?.split(' ') ?? [];\n    return type === 'Bearer' ? token : undefined;\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import {\n  Body,\n  Controller,\n  Get,\n  HttpCode,\n  HttpStatus,\n  Post,\n  Request,\n  UseGuards\n} from '@nestjs/common';\nimport { AuthGuard } from './auth.guard';\nimport { AuthService } from './auth.service';\n\n@Controller('auth')\nexport class AuthController {\n  constructor(private authService: AuthService) {}\n\n  @HttpCode(HttpStatus.OK)\n  @Post('login')\n  signIn(@Body() signInDto: Record<string, any>) {\n    return this.authService.signIn(signInDto.username, signInDto.password);\n  }\n\n  @UseGuards(AuthGuard)\n  @Get('profile')\n  getProfile(@Request() req) {\n    return req.user;\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "$ # GET /profile\n$ curl http://localhost:3000/auth/profile\n{\"statusCode\":401,\"message\":\"Unauthorized\"}\n\n$ # POST /auth/login\n$ curl -X POST http://localhost:3000/auth/login -d '{\"username\": \"john\", \"password\": \"changeme\"}' -H \"Content-Type: application/json\"\n{\"access_token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2Vybm...\"}\n\n$ # GET /profile using access_token returned from previous step as bearer code\n$ curl http://localhost:3000/auth/profile -H \"Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2Vybm...\"\n{\"sub\":1,\"username\":\"john\",\"iat\":...,\"exp\":...}",
+      "language": "bash"
+    },
+    {
+      "code": "providers: [\n  {\n    provide: APP_GUARD,\n    useClass: AuthGuard,\n  },\n],",
+      "language": "typescript"
+    },
+    {
+      "code": "import { SetMetadata } from '@nestjs/common';\n\nexport const IS_PUBLIC_KEY = 'isPublic';\nexport const Public = () => SetMetadata(IS_PUBLIC_KEY, true);",
+      "language": "typescript"
+    },
+    {
+      "code": "@Public()\n@Get()\nfindAll() {\n  return [];\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\nexport class AuthGuard implements CanActivate {\n  constructor(private jwtService: JwtService, private reflector: Reflector) {}\n\n  async canActivate(context: ExecutionContext): Promise<boolean> {\n    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [\n      context.getHandler(),\n      context.getClass(),\n    ]);\n    if (isPublic) {\n      // 💡 See this condition\n      return true;\n    }\n\n    const request = context.switchToHttp().getRequest();\n    const token = this.extractTokenFromHeader(request);\n    if (!token) {\n      throw new UnauthorizedException();\n    }\n    try {\n      // 💡 Here the JWT secret key that's used for verifying the payload \n      // is the key that was passsed in the JwtModule\n      const payload = await this.jwtService.verifyAsync(token);\n      // 💡 We're assigning the payload to the request object here\n      // so that we can access it in our route handlers\n      request['user'] = payload;\n    } catch {\n      throw new UnauthorizedException();\n    }\n    return true;\n  }\n\n  private extractTokenFromHeader(request: Request): string | undefined {\n    const [type, token] = request.headers.authorization?.split(' ') ?? [];\n    return type === 'Bearer' ? token : undefined;\n  }\n}",
+      "language": "typescript"
+    }
+  ],
+  "patterns": [],
+  "links": [
+    "https://docs.nestjs.com/first-steps",
+    "https://docs.nestjs.com/controllers",
+    "https://docs.nestjs.com/providers",
+    "https://docs.nestjs.com/modules",
+    "https://docs.nestjs.com/middleware",
+    "https://docs.nestjs.com/exception-filters",
+    "https://docs.nestjs.com/pipes",
+    "https://docs.nestjs.com/guards",
+    "https://docs.nestjs.com/interceptors",
+    "https://docs.nestjs.com/custom-decorators",
+    "https://docs.nestjs.com/fundamentals/custom-providers",
+    "https://docs.nestjs.com/fundamentals/async-providers",
+    "https://docs.nestjs.com/fundamentals/dynamic-modules",
+    "https://docs.nestjs.com/fundamentals/injection-scopes",
+    "https://docs.nestjs.com/fundamentals/circular-dependency",
+    "https://docs.nestjs.com/fundamentals/module-ref",
+    "https://docs.nestjs.com/fundamentals/lazy-loading-modules",
+    "https://docs.nestjs.com/fundamentals/execution-context",
+    "https://docs.nestjs.com/fundamentals/lifecycle-events",
+    "https://docs.nestjs.com/fundamentals/discovery-service",
+    "https://docs.nestjs.com/fundamentals/platform-agnosticism",
+    "https://docs.nestjs.com/fundamentals/testing",
+    "https://docs.nestjs.com/techniques/configuration",
+    "https://docs.nestjs.com/techniques/database",
+    "https://docs.nestjs.com/techniques/mongodb",
+    "https://docs.nestjs.com/techniques/validation",
+    "https://docs.nestjs.com/techniques/caching",
+    "https://docs.nestjs.com/techniques/serialization",
+    "https://docs.nestjs.com/techniques/versioning",
+    "https://docs.nestjs.com/techniques/task-scheduling",
+    "https://docs.nestjs.com/techniques/queues",
+    "https://docs.nestjs.com/techniques/logger",
+    "https://docs.nestjs.com/techniques/cookies",
+    "https://docs.nestjs.com/techniques/events",
+    "https://docs.nestjs.com/techniques/compression",
+    "https://docs.nestjs.com/techniques/file-upload",
+    "https://docs.nestjs.com/techniques/streaming-files",
+    "https://docs.nestjs.com/techniques/http-module",
+    "https://docs.nestjs.com/techniques/session",
+    "https://docs.nestjs.com/techniques/mvc",
+    "https://docs.nestjs.com/techniques/performance",
+    "https://docs.nestjs.com/techniques/server-sent-events",
+    "https://docs.nestjs.com/security/authentication",
+    "https://docs.nestjs.com/security/authorization",
+    "https://docs.nestjs.com/security/encryption-and-hashing",
+    "https://docs.nestjs.com/security/helmet",
+    "https://docs.nestjs.com/security/cors",
+    "https://docs.nestjs.com/security/csrf",
+    "https://docs.nestjs.com/security/rate-limiting",
+    "https://docs.nestjs.com/graphql/quick-start",
+    "https://docs.nestjs.com/graphql/resolvers",
+    "https://docs.nestjs.com/graphql/mutations",
+    "https://docs.nestjs.com/graphql/subscriptions",
+    "https://docs.nestjs.com/graphql/scalars",
+    "https://docs.nestjs.com/graphql/directives",
+    "https://docs.nestjs.com/graphql/interfaces",
+    "https://docs.nestjs.com/graphql/unions-and-enums",
+    "https://docs.nestjs.com/graphql/field-middleware",
+    "https://docs.nestjs.com/graphql/mapped-types",
+    "https://docs.nestjs.com/graphql/plugins",
+    "https://docs.nestjs.com/graphql/complexity",
+    "https://docs.nestjs.com/graphql/extensions",
+    "https://docs.nestjs.com/graphql/cli-plugin",
+    "https://docs.nestjs.com/graphql/generating-sdl",
+    "https://docs.nestjs.com/graphql/sharing-models",
+    "https://docs.nestjs.com/graphql/other-features",
+    "https://docs.nestjs.com/graphql/federation",
+    "https://docs.nestjs.com/websockets/gateways",
+    "https://docs.nestjs.com/websockets/exception-filters",
+    "https://docs.nestjs.com/websockets/pipes",
+    "https://docs.nestjs.com/websockets/guards",
+    "https://docs.nestjs.com/websockets/interceptors",
+    "https://docs.nestjs.com/websockets/adapter",
+    "https://docs.nestjs.com/microservices/basics",
+    "https://docs.nestjs.com/microservices/redis",
+    "https://docs.nestjs.com/microservices/mqtt",
+    "https://docs.nestjs.com/microservices/nats",
+    "https://docs.nestjs.com/microservices/rabbitmq",
+    "https://docs.nestjs.com/microservices/kafka",
+    "https://docs.nestjs.com/microservices/grpc",
+    "https://docs.nestjs.com/microservices/custom-transport",
+    "https://docs.nestjs.com/microservices/exception-filters",
+    "https://docs.nestjs.com/microservices/pipes",
+    "https://docs.nestjs.com/microservices/guards",
+    "https://docs.nestjs.com/microservices/interceptors",
+    "https://docs.nestjs.com/standalone-applications",
+    "https://docs.nestjs.com/cli/overview",
+    "https://docs.nestjs.com/cli/monorepo",
+    "https://docs.nestjs.com/cli/libraries",
+    "https://docs.nestjs.com/cli/usages",
+    "https://docs.nestjs.com/cli/scripts",
+    "https://docs.nestjs.com/openapi/introduction",
+    "https://docs.nestjs.com/openapi/types-and-parameters",
+    "https://docs.nestjs.com/openapi/operations",
+    "https://docs.nestjs.com/openapi/security",
+    "https://docs.nestjs.com/openapi/mapped-types",
+    "https://docs.nestjs.com/openapi/decorators",
+    "https://docs.nestjs.com/openapi/cli-plugin",
+    "https://docs.nestjs.com/openapi/other-features",
+    "https://docs.nestjs.com/recipes/repl",
+    "https://docs.nestjs.com/recipes/crud-generator",
+    "https://docs.nestjs.com/recipes/swc",
+    "https://docs.nestjs.com/recipes/passport",
+    "https://docs.nestjs.com/recipes/hot-reload",
+    "https://docs.nestjs.com/recipes/mikroorm",
+    "https://docs.nestjs.com/recipes/sql-typeorm",
+    "https://docs.nestjs.com/recipes/mongodb",
+    "https://docs.nestjs.com/recipes/sql-sequelize",
+    "https://docs.nestjs.com/recipes/router-module",
+    "https://docs.nestjs.com/recipes/swagger",
+    "https://docs.nestjs.com/recipes/terminus",
+    "https://docs.nestjs.com/recipes/cqrs",
+    "https://docs.nestjs.com/recipes/documentation",
+    "https://docs.nestjs.com/recipes/prisma",
+    "https://docs.nestjs.com/recipes/sentry",
+    "https://docs.nestjs.com/recipes/serve-static",
+    "https://docs.nestjs.com/recipes/nest-commander",
+    "https://docs.nestjs.com/recipes/async-local-storage",
+    "https://docs.nestjs.com/recipes/necord",
+    "https://docs.nestjs.com/recipes/suites",
+    "https://docs.nestjs.com/faq/serverless",
+    "https://docs.nestjs.com/faq/http-adapter",
+    "https://docs.nestjs.com/faq/keep-alive-connections",
+    "https://docs.nestjs.com/faq/global-prefix",
+    "https://docs.nestjs.com/faq/raw-body",
+    "https://docs.nestjs.com/faq/hybrid-application",
+    "https://docs.nestjs.com/faq/multiple-servers",
+    "https://docs.nestjs.com/faq/request-lifecycle",
+    "https://docs.nestjs.com/faq/common-errors"
+  ]
+}

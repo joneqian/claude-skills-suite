@@ -1,0 +1,403 @@
+{
+  "url": "https://docs.nestjs.com/graphql/federation",
+  "title": "",
+  "content": "Federation offers a means of splitting your monolithic GraphQL server into independent microservices. It consists of two components: a gateway and one or more federated microservices. Each microservice holds part of the schema and the gateway merges the schemas into a single schema that can be consumed by the client.\n\nTo quote the Apollo docs, Federation is designed with these core principles:\n\nIn the following sections, we'll set up a demo application that consists of a gateway and two federated endpoints: Users service and Posts service.\n\nStart by installing the required dependencies:\n\nThe \"User service\" provides a simple schema. Note the @key directive: it instructs the Apollo query planner that a particular instance of User can be fetched if you specify its id. Also, note that we extend the Query type.\n\nResolver provides one additional method named resolveReference(). This method is triggered by the Apollo Gateway whenever a related resource requires a User instance. We'll see an example of this in the Posts service later. Please note that the method must be annotated with the @ResolveReference() decorator.\n\nFinally, we hook everything up by registering the GraphQLModule passing the ApolloFederationDriver driver in the configuration object:\n\nStart by adding some extra decorators to the User entity.\n\nResolver provides one additional method named resolveReference(). This method is triggered by the Apollo Gateway whenever a related resource requires a User instance. We'll see an example of this in the Posts service later. Please note that the method must be annotated with the @ResolveReference() decorator.\n\nFinally, we hook everything up by registering the GraphQLModule passing the ApolloFederationDriver driver in the configuration object:\n\nA working example is available here in code first mode and here in schema first mode.\n\nPost service is supposed to serve aggregated posts through the getPosts query, but also extend our User type with the user.posts field.\n\n\"Posts service\" references the User type in its schema by marking it with the extend keyword. It also declares one additional property on the User type (posts). Note the @key directive used for matching instances of User, and the @external directive indicating that the id field is managed elsewhere.\n\nIn the following example, the PostsResolver provides the getUser() method that returns a reference containing __typename and some additional properties your application may need to resolve the reference, in this case id. __typename is used by the GraphQL Gateway to pinpoint the microservice responsible for the User type and retrieve the corresponding instance. The \"Users service\" described above will be requested upon execution of the resolveReference() method.\n\nLastly, we must register the GraphQLModule, similarly to what we did in the \"Users service\" section.\n\nFirst, we will have to declare a class representing the User entity. Although the entity itself lives in another service, we will be using it (extending its definition) here. Note the @extends and @external directives.\n\nNow let's create the corresponding resolver for our extension on the User entity, as follows:\n\nWe also have to define the Post entity class:\n\nAnd finally, tie it together in a module. Note the schema build options, where we specify that User is an orphaned (external) type.\n\nA working example is available here for the code first mode and here for the schema first mode.\n\nStart by installing the required dependency:\n\nThe gateway requires a list of endpoints to be specified and it will auto-discover the corresponding schemas. Therefore the implementation of the gateway service will remain the same for both code and schema first approaches.\n\nA working example is available here for the code first mode and here for the schema first mode.\n\nStart by installing the required dependencies:\n\nThe \"User service\" provides a simple schema. Note the @key directive: it instructs the Mercurius query planner that a particular instance of User can be fetched if you specify its id. Also, note that we extend the Query type.\n\nResolver provides one additional method named resolveReference(). This method is triggered by the Mercurius Gateway whenever a related resource requires a User instance. We'll see an example of this in the Posts service later. Please note that the method must be annotated with the @ResolveReference() decorator.\n\nFinally, we hook everything up by registering the GraphQLModule passing the MercuriusFederationDriver driver in the configuration object:\n\nStart by adding some extra decorators to the User entity.\n\nResolver provides one additional method named resolveReference(). This method is triggered by the Mercurius Gateway whenever a related resource requires a User instance. We'll see an example of this in the Posts service later. Please note that the method must be annotated with the @ResolveReference() decorator.\n\nFinally, we hook everything up by registering the GraphQLModule passing the MercuriusFederationDriver driver in the configuration object:\n\nPost service is supposed to serve aggregated posts through the getPosts query, but also extend our User type with the user.posts field.\n\n\"Posts service\" references the User type in its schema by marking it with the extend keyword. It also declares one additional property on the User type (posts). Note the @key directive used for matching instances of User, and the @external directive indicating that the id field is managed elsewhere.\n\nIn the following example, the PostsResolver provides the getUser() method that returns a reference containing __typename and some additional properties your application may need to resolve the reference, in this case id. __typename is used by the GraphQL Gateway to pinpoint the microservice responsible for the User type and retrieve the corresponding instance. The \"Users service\" described above will be requested upon execution of the resolveReference() method.\n\nLastly, we must register the GraphQLModule, similarly to what we did in the \"Users service\" section.\n\nFirst, we will have to declare a class representing the User entity. Although the entity itself lives in another service, we will be using it (extending its definition) here. Note the @extends and @external directives.\n\nNow let's create the corresponding resolver for our extension on the User entity, as follows:\n\nWe also have to define the Post entity class:\n\nAnd finally, tie it together in a module. Note the schema build options, where we specify that User is an orphaned (external) type.\n\nThe gateway requires a list of endpoints to be specified and it will auto-discover the corresponding schemas. Therefore the implementation of the gateway service will remain the same for both code and schema first approaches.\n\nTo quote the Apollo docs, Federation 2 improves developer experience from the original Apollo Federation (called Federation 1 in this doc), which is backward compatible with most original supergraphs.\n\nIn the following sections, we'll upgrade the previous example to Federation 2.\n\nOne change in Federation 2 is that entities have no originating subgraph, so we don't need to extend Query anymore. For more detail please refer to the entities topic in Apollo Federation 2 docs.\n\nWe can simply remove extend keyword from the schema.\n\nTo use Federation 2, we need to specify the federation version in autoSchemaFile option.\n\nWith the same reason as above, we don't need to extend User and Query anymore.\n\nWe can simply remove extend and external directives from the schema\n\nSince we don't extend User entity anymore, we can simply remove extends and external directives from User.\n\nAlso, similarly to the User service, we need to specify in the GraphQLModule to use Federation 2.",
+  "headings": [
+    {
+      "level": "h3",
+      "text": "Federation",
+      "id": "federation"
+    },
+    {
+      "level": "h4",
+      "text": "Federation with Apollo#",
+      "id": "federation-with-apollo"
+    },
+    {
+      "level": "h4",
+      "text": "Schema first#",
+      "id": "schema-first"
+    },
+    {
+      "level": "h4",
+      "text": "Code first#",
+      "id": "code-first"
+    },
+    {
+      "level": "h4",
+      "text": "Federated example: Posts#",
+      "id": "federated-example-posts"
+    },
+    {
+      "level": "h4",
+      "text": "Schema first#",
+      "id": "schema-first-1"
+    },
+    {
+      "level": "h4",
+      "text": "Code first#",
+      "id": "code-first-1"
+    },
+    {
+      "level": "h4",
+      "text": "Federated example: Gateway#",
+      "id": "federated-example-gateway"
+    },
+    {
+      "level": "h4",
+      "text": "Federation with Mercurius#",
+      "id": "federation-with-mercurius"
+    },
+    {
+      "level": "h4",
+      "text": "Schema first#",
+      "id": "schema-first-2"
+    },
+    {
+      "level": "h4",
+      "text": "Code first#",
+      "id": "code-first-2"
+    },
+    {
+      "level": "h4",
+      "text": "Federated example: Posts#",
+      "id": "federated-example-posts-1"
+    },
+    {
+      "level": "h4",
+      "text": "Schema first#",
+      "id": "schema-first-3"
+    },
+    {
+      "level": "h4",
+      "text": "Code first#",
+      "id": "code-first-3"
+    },
+    {
+      "level": "h4",
+      "text": "Federated example: Gateway#",
+      "id": "federated-example-gateway-1"
+    },
+    {
+      "level": "h3",
+      "text": "Federation 2",
+      "id": "federation-2"
+    },
+    {
+      "level": "h4",
+      "text": "Federated example: Users#",
+      "id": "federated-example-users"
+    },
+    {
+      "level": "h4",
+      "text": "Schema first#",
+      "id": "schema-first-4"
+    },
+    {
+      "level": "h4",
+      "text": "Code first#",
+      "id": "code-first-4"
+    },
+    {
+      "level": "h4",
+      "text": "Federated example: Posts#",
+      "id": "federated-example-posts-2"
+    },
+    {
+      "level": "h4",
+      "text": "Schema first#",
+      "id": "schema-first-5"
+    },
+    {
+      "level": "h4",
+      "text": "Code first#",
+      "id": "code-first-5"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "$ npm install --save @apollo/subgraph",
+      "language": "bash"
+    },
+    {
+      "code": "type User @key(fields: \"id\") {\n  id: ID!\n  name: String!\n}\n\nextend type Query {\n  getUser(id: ID!): User\n}",
+      "language": "css"
+    },
+    {
+      "code": "import { Args, Query, Resolver, ResolveReference } from '@nestjs/graphql';\nimport { UsersService } from './users.service';\n\n@Resolver('User')\nexport class UsersResolver {\n  constructor(private usersService: UsersService) {}\n\n  @Query()\n  getUser(@Args('id') id: string) {\n    return this.usersService.findById(id);\n  }\n\n  @ResolveReference()\n  resolveReference(reference: { __typename: string; id: string }) {\n    return this.usersService.findById(reference.id);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import {\n  ApolloFederationDriver,\n  ApolloFederationDriverConfig,\n} from '@nestjs/apollo';\nimport { Module } from '@nestjs/common';\nimport { GraphQLModule } from '@nestjs/graphql';\nimport { UsersResolver } from './users.resolver';\n\n@Module({\n  imports: [\n    GraphQLModule.forRoot<ApolloFederationDriverConfig>({\n      driver: ApolloFederationDriver,\n      typePaths: ['**/*.graphql'],\n    }),\n  ],\n  providers: [UsersResolver],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Directive, Field, ID, ObjectType } from '@nestjs/graphql';\n\n@ObjectType()\n@Directive('@key(fields: \"id\")')\nexport class User {\n  @Field(() => ID)\n  id: number;\n\n  @Field()\n  name: string;\n}",
+      "language": "php"
+    },
+    {
+      "code": "import { Args, Query, Resolver, ResolveReference } from '@nestjs/graphql';\nimport { User } from './user.entity';\nimport { UsersService } from './users.service';\n\n@Resolver(() => User)\nexport class UsersResolver {\n  constructor(private usersService: UsersService) {}\n\n  @Query(() => User)\n  getUser(@Args('id') id: number): User {\n    return this.usersService.findById(id);\n  }\n\n  @ResolveReference()\n  resolveReference(reference: { __typename: string; id: number }): User {\n    return this.usersService.findById(reference.id);\n  }\n}",
+      "language": "php"
+    },
+    {
+      "code": "import {\n  ApolloFederationDriver,\n  ApolloFederationDriverConfig,\n} from '@nestjs/apollo';\nimport { Module } from '@nestjs/common';\nimport { UsersResolver } from './users.resolver';\nimport { UsersService } from './users.service'; // Not included in this example\n\n@Module({\n  imports: [\n    GraphQLModule.forRoot<ApolloFederationDriverConfig>({\n      driver: ApolloFederationDriver,\n      autoSchemaFile: true,\n    }),\n  ],\n  providers: [UsersResolver, UsersService],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "type Post @key(fields: \"id\") {\n  id: ID!\n  title: String!\n  body: String!\n  user: User\n}\n\nextend type User @key(fields: \"id\") {\n  id: ID! @external\n  posts: [Post]\n}\n\nextend type Query {\n  getPosts: [Post]\n}",
+      "language": "css"
+    },
+    {
+      "code": "import { Query, Resolver, Parent, ResolveField } from '@nestjs/graphql';\nimport { PostsService } from './posts.service';\nimport { Post } from './posts.interfaces';\n\n@Resolver('Post')\nexport class PostsResolver {\n  constructor(private postsService: PostsService) {}\n\n  @Query('getPosts')\n  getPosts() {\n    return this.postsService.findAll();\n  }\n\n  @ResolveField('user')\n  getUser(@Parent() post: Post) {\n    return { __typename: 'User', id: post.userId };\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import {\n  ApolloFederationDriver,\n  ApolloFederationDriverConfig,\n} from '@nestjs/apollo';\nimport { Module } from '@nestjs/common';\nimport { GraphQLModule } from '@nestjs/graphql';\nimport { PostsResolver } from './posts.resolver';\n\n@Module({\n  imports: [\n    GraphQLModule.forRoot<ApolloFederationDriverConfig>({\n      driver: ApolloFederationDriver,\n      typePaths: ['**/*.graphql'],\n    }),\n  ],\n  providers: [PostsResolvers],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Directive, ObjectType, Field, ID } from '@nestjs/graphql';\nimport { Post } from './post.entity';\n\n@ObjectType()\n@Directive('@extends')\n@Directive('@key(fields: \"id\")')\nexport class User {\n  @Field(() => ID)\n  @Directive('@external')\n  id: number;\n\n  @Field(() => [Post])\n  posts?: Post[];\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Parent, ResolveField, Resolver } from '@nestjs/graphql';\nimport { PostsService } from './posts.service';\nimport { Post } from './post.entity';\nimport { User } from './user.entity';\n\n@Resolver(() => User)\nexport class UsersResolver {\n  constructor(private readonly postsService: PostsService) {}\n\n  @ResolveField(() => [Post])\n  public posts(@Parent() user: User): Post[] {\n    return this.postsService.forAuthor(user.id);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Directive, Field, ID, Int, ObjectType } from '@nestjs/graphql';\nimport { User } from './user.entity';\n\n@ObjectType()\n@Directive('@key(fields: \"id\")')\nexport class Post {\n  @Field(() => ID)\n  id: number;\n\n  @Field()\n  title: string;\n\n  @Field(() => Int)\n  authorId: number;\n\n  @Field(() => User)\n  user?: User;\n}",
+      "language": "php"
+    },
+    {
+      "code": "import { Query, Args, ResolveField, Resolver, Parent } from '@nestjs/graphql';\nimport { PostsService } from './posts.service';\nimport { Post } from './post.entity';\nimport { User } from './user.entity';\n\n@Resolver(() => Post)\nexport class PostsResolver {\n  constructor(private readonly postsService: PostsService) {}\n\n  @Query(() => Post)\n  findPost(@Args('id') id: number): Post {\n    return this.postsService.findOne(id);\n  }\n\n  @Query(() => [Post])\n  getPosts(): Post[] {\n    return this.postsService.all();\n  }\n\n  @ResolveField(() => User)\n  user(@Parent() post: Post): any {\n    return { __typename: 'User', id: post.authorId };\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import {\n  ApolloFederationDriver,\n  ApolloFederationDriverConfig,\n} from '@nestjs/apollo';\nimport { Module } from '@nestjs/common';\nimport { User } from './user.entity';\nimport { PostsResolvers } from './posts.resolvers';\nimport { UsersResolvers } from './users.resolvers';\nimport { PostsService } from './posts.service'; // Not included in example\n\n@Module({\n  imports: [\n    GraphQLModule.forRoot<ApolloFederationDriverConfig>({\n      driver: ApolloFederationDriver,\n      autoSchemaFile: true,\n      buildSchemaOptions: {\n        orphanedTypes: [User],\n      },\n    }),\n  ],\n  providers: [PostsResolver, UsersResolver, PostsService],\n})\nexport class AppModule {}",
+      "language": "php"
+    },
+    {
+      "code": "$ npm install --save @apollo/gateway",
+      "language": "bash"
+    },
+    {
+      "code": "import { IntrospectAndCompose } from '@apollo/gateway';\nimport { ApolloGatewayDriver, ApolloGatewayDriverConfig } from '@nestjs/apollo';\nimport { Module } from '@nestjs/common';\nimport { GraphQLModule } from '@nestjs/graphql';\n\n@Module({\n  imports: [\n    GraphQLModule.forRoot<ApolloGatewayDriverConfig>({\n      driver: ApolloGatewayDriver,\n      server: {\n        // ... Apollo server options\n        cors: true,\n      },\n      gateway: {\n        supergraphSdl: new IntrospectAndCompose({\n          subgraphs: [\n            { name: 'users', url: 'http://user-service/graphql' },\n            { name: 'posts', url: 'http://post-service/graphql' },\n          ],\n        }),\n      },\n    }),\n  ],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "$ npm install --save @apollo/subgraph @nestjs/mercurius",
+      "language": "bash"
+    },
+    {
+      "code": "type User @key(fields: \"id\") {\n  id: ID!\n  name: String!\n}\n\nextend type Query {\n  getUser(id: ID!): User\n}",
+      "language": "css"
+    },
+    {
+      "code": "import { Args, Query, Resolver, ResolveReference } from '@nestjs/graphql';\nimport { UsersService } from './users.service';\n\n@Resolver('User')\nexport class UsersResolver {\n  constructor(private usersService: UsersService) {}\n\n  @Query()\n  getUser(@Args('id') id: string) {\n    return this.usersService.findById(id);\n  }\n\n  @ResolveReference()\n  resolveReference(reference: { __typename: string; id: string }) {\n    return this.usersService.findById(reference.id);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import {\n  MercuriusFederationDriver,\n  MercuriusFederationDriverConfig,\n} from '@nestjs/mercurius';\nimport { Module } from '@nestjs/common';\nimport { GraphQLModule } from '@nestjs/graphql';\nimport { UsersResolver } from './users.resolver';\n\n@Module({\n  imports: [\n    GraphQLModule.forRoot<MercuriusFederationDriverConfig>({\n      driver: MercuriusFederationDriver,\n      typePaths: ['**/*.graphql'],\n      federationMetadata: true,\n    }),\n  ],\n  providers: [UsersResolver],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Directive, Field, ID, ObjectType } from '@nestjs/graphql';\n\n@ObjectType()\n@Directive('@key(fields: \"id\")')\nexport class User {\n  @Field(() => ID)\n  id: number;\n\n  @Field()\n  name: string;\n}",
+      "language": "php"
+    },
+    {
+      "code": "import { Args, Query, Resolver, ResolveReference } from '@nestjs/graphql';\nimport { User } from './user.entity';\nimport { UsersService } from './users.service';\n\n@Resolver(() => User)\nexport class UsersResolver {\n  constructor(private usersService: UsersService) {}\n\n  @Query(() => User)\n  getUser(@Args('id') id: number): User {\n    return this.usersService.findById(id);\n  }\n\n  @ResolveReference()\n  resolveReference(reference: { __typename: string; id: number }): User {\n    return this.usersService.findById(reference.id);\n  }\n}",
+      "language": "php"
+    },
+    {
+      "code": "import {\n  MercuriusFederationDriver,\n  MercuriusFederationDriverConfig,\n} from '@nestjs/mercurius';\nimport { Module } from '@nestjs/common';\nimport { UsersResolver } from './users.resolver';\nimport { UsersService } from './users.service'; // Not included in this example\n\n@Module({\n  imports: [\n    GraphQLModule.forRoot<MercuriusFederationDriverConfig>({\n      driver: MercuriusFederationDriver,\n      autoSchemaFile: true,\n      federationMetadata: true,\n    }),\n  ],\n  providers: [UsersResolver, UsersService],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "type Post @key(fields: \"id\") {\n  id: ID!\n  title: String!\n  body: String!\n  user: User\n}\n\nextend type User @key(fields: \"id\") {\n  id: ID! @external\n  posts: [Post]\n}\n\nextend type Query {\n  getPosts: [Post]\n}",
+      "language": "css"
+    },
+    {
+      "code": "import { Query, Resolver, Parent, ResolveField } from '@nestjs/graphql';\nimport { PostsService } from './posts.service';\nimport { Post } from './posts.interfaces';\n\n@Resolver('Post')\nexport class PostsResolver {\n  constructor(private postsService: PostsService) {}\n\n  @Query('getPosts')\n  getPosts() {\n    return this.postsService.findAll();\n  }\n\n  @ResolveField('user')\n  getUser(@Parent() post: Post) {\n    return { __typename: 'User', id: post.userId };\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import {\n  MercuriusFederationDriver,\n  MercuriusFederationDriverConfig,\n} from '@nestjs/mercurius';\nimport { Module } from '@nestjs/common';\nimport { GraphQLModule } from '@nestjs/graphql';\nimport { PostsResolver } from './posts.resolver';\n\n@Module({\n  imports: [\n    GraphQLModule.forRoot<MercuriusFederationDriverConfig>({\n      driver: MercuriusFederationDriver,\n      federationMetadata: true,\n      typePaths: ['**/*.graphql'],\n    }),\n  ],\n  providers: [PostsResolvers],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Directive, ObjectType, Field, ID } from '@nestjs/graphql';\nimport { Post } from './post.entity';\n\n@ObjectType()\n@Directive('@extends')\n@Directive('@key(fields: \"id\")')\nexport class User {\n  @Field(() => ID)\n  @Directive('@external')\n  id: number;\n\n  @Field(() => [Post])\n  posts?: Post[];\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Parent, ResolveField, Resolver } from '@nestjs/graphql';\nimport { PostsService } from './posts.service';\nimport { Post } from './post.entity';\nimport { User } from './user.entity';\n\n@Resolver(() => User)\nexport class UsersResolver {\n  constructor(private readonly postsService: PostsService) {}\n\n  @ResolveField(() => [Post])\n  public posts(@Parent() user: User): Post[] {\n    return this.postsService.forAuthor(user.id);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Directive, Field, ID, Int, ObjectType } from '@nestjs/graphql';\nimport { User } from './user.entity';\n\n@ObjectType()\n@Directive('@key(fields: \"id\")')\nexport class Post {\n  @Field(() => ID)\n  id: number;\n\n  @Field()\n  title: string;\n\n  @Field(() => Int)\n  authorId: number;\n\n  @Field(() => User)\n  user?: User;\n}",
+      "language": "php"
+    },
+    {
+      "code": "import { Query, Args, ResolveField, Resolver, Parent } from '@nestjs/graphql';\nimport { PostsService } from './posts.service';\nimport { Post } from './post.entity';\nimport { User } from './user.entity';\n\n@Resolver(() => Post)\nexport class PostsResolver {\n  constructor(private readonly postsService: PostsService) {}\n\n  @Query(() => Post)\n  findPost(@Args('id') id: number): Post {\n    return this.postsService.findOne(id);\n  }\n\n  @Query(() => [Post])\n  getPosts(): Post[] {\n    return this.postsService.all();\n  }\n\n  @ResolveField(() => User)\n  user(@Parent() post: Post): any {\n    return { __typename: 'User', id: post.authorId };\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import {\n  MercuriusFederationDriver,\n  MercuriusFederationDriverConfig,\n} from '@nestjs/mercurius';\nimport { Module } from '@nestjs/common';\nimport { User } from './user.entity';\nimport { PostsResolvers } from './posts.resolvers';\nimport { UsersResolvers } from './users.resolvers';\nimport { PostsService } from './posts.service'; // Not included in example\n\n@Module({\n  imports: [\n    GraphQLModule.forRoot<MercuriusFederationDriverConfig>({\n      driver: MercuriusFederationDriver,\n      autoSchemaFile: true,\n      federationMetadata: true,\n      buildSchemaOptions: {\n        orphanedTypes: [User],\n      },\n    }),\n  ],\n  providers: [PostsResolver, UsersResolver, PostsService],\n})\nexport class AppModule {}",
+      "language": "php"
+    },
+    {
+      "code": "import {\n  MercuriusGatewayDriver,\n  MercuriusGatewayDriverConfig,\n} from '@nestjs/mercurius';\nimport { Module } from '@nestjs/common';\nimport { GraphQLModule } from '@nestjs/graphql';\n\n@Module({\n  imports: [\n    GraphQLModule.forRoot<MercuriusGatewayDriverConfig>({\n      driver: MercuriusGatewayDriver,\n      gateway: {\n        services: [\n          { name: 'users', url: 'http://user-service/graphql' },\n          { name: 'posts', url: 'http://post-service/graphql' },\n        ],\n      },\n    }),\n  ],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "type User @key(fields: \"id\") {\n  id: ID!\n  name: String!\n}\n\ntype Query {\n  getUser(id: ID!): User\n}",
+      "language": "css"
+    },
+    {
+      "code": "import {\n  ApolloFederationDriver,\n  ApolloFederationDriverConfig,\n} from '@nestjs/apollo';\nimport { Module } from '@nestjs/common';\nimport { UsersResolver } from './users.resolver';\nimport { UsersService } from './users.service'; // Not included in this example\n\n@Module({\n  imports: [\n    GraphQLModule.forRoot<ApolloFederationDriverConfig>({\n      driver: ApolloFederationDriver,\n      autoSchemaFile: {\n        federation: 2,\n      },\n    }),\n  ],\n  providers: [UsersResolver, UsersService],\n})\nexport class AppModule {}",
+      "language": "php"
+    },
+    {
+      "code": "type Post @key(fields: \"id\") {\n  id: ID!\n  title: String!\n  body: String!\n  user: User\n}\n\ntype User @key(fields: \"id\") {\n  id: ID!\n  posts: [Post]\n}\n\ntype Query {\n  getPosts: [Post]\n}",
+      "language": "css"
+    },
+    {
+      "code": "import { Directive, ObjectType, Field, ID } from '@nestjs/graphql';\nimport { Post } from './post.entity';\n\n@ObjectType()\n@Directive('@key(fields: \"id\")')\nexport class User {\n  @Field(() => ID)\n  id: number;\n\n  @Field(() => [Post])\n  posts?: Post[];\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import {\n  ApolloFederationDriver,\n  ApolloFederationDriverConfig,\n} from '@nestjs/apollo';\nimport { Module } from '@nestjs/common';\nimport { User } from './user.entity';\nimport { PostsResolvers } from './posts.resolvers';\nimport { UsersResolvers } from './users.resolvers';\nimport { PostsService } from './posts.service'; // Not included in example\n\n@Module({\n  imports: [\n    GraphQLModule.forRoot<ApolloFederationDriverConfig>({\n      driver: ApolloFederationDriver,\n      autoSchemaFile: {\n        federation: 2,\n      },\n      buildSchemaOptions: {\n        orphanedTypes: [User],\n      },\n    }),\n  ],\n  providers: [PostsResolver, UsersResolver, PostsService],\n})\nexport class AppModule {}",
+      "language": "php"
+    }
+  ],
+  "patterns": [],
+  "links": [
+    "https://docs.nestjs.com/first-steps",
+    "https://docs.nestjs.com/controllers",
+    "https://docs.nestjs.com/providers",
+    "https://docs.nestjs.com/modules",
+    "https://docs.nestjs.com/middleware",
+    "https://docs.nestjs.com/exception-filters",
+    "https://docs.nestjs.com/pipes",
+    "https://docs.nestjs.com/guards",
+    "https://docs.nestjs.com/interceptors",
+    "https://docs.nestjs.com/custom-decorators",
+    "https://docs.nestjs.com/fundamentals/custom-providers",
+    "https://docs.nestjs.com/fundamentals/async-providers",
+    "https://docs.nestjs.com/fundamentals/dynamic-modules",
+    "https://docs.nestjs.com/fundamentals/injection-scopes",
+    "https://docs.nestjs.com/fundamentals/circular-dependency",
+    "https://docs.nestjs.com/fundamentals/module-ref",
+    "https://docs.nestjs.com/fundamentals/lazy-loading-modules",
+    "https://docs.nestjs.com/fundamentals/execution-context",
+    "https://docs.nestjs.com/fundamentals/lifecycle-events",
+    "https://docs.nestjs.com/fundamentals/discovery-service",
+    "https://docs.nestjs.com/fundamentals/platform-agnosticism",
+    "https://docs.nestjs.com/fundamentals/testing",
+    "https://docs.nestjs.com/techniques/configuration",
+    "https://docs.nestjs.com/techniques/database",
+    "https://docs.nestjs.com/techniques/mongodb",
+    "https://docs.nestjs.com/techniques/validation",
+    "https://docs.nestjs.com/techniques/caching",
+    "https://docs.nestjs.com/techniques/serialization",
+    "https://docs.nestjs.com/techniques/versioning",
+    "https://docs.nestjs.com/techniques/task-scheduling",
+    "https://docs.nestjs.com/techniques/queues",
+    "https://docs.nestjs.com/techniques/logger",
+    "https://docs.nestjs.com/techniques/cookies",
+    "https://docs.nestjs.com/techniques/events",
+    "https://docs.nestjs.com/techniques/compression",
+    "https://docs.nestjs.com/techniques/file-upload",
+    "https://docs.nestjs.com/techniques/streaming-files",
+    "https://docs.nestjs.com/techniques/http-module",
+    "https://docs.nestjs.com/techniques/session",
+    "https://docs.nestjs.com/techniques/mvc",
+    "https://docs.nestjs.com/techniques/performance",
+    "https://docs.nestjs.com/techniques/server-sent-events",
+    "https://docs.nestjs.com/security/authentication",
+    "https://docs.nestjs.com/security/authorization",
+    "https://docs.nestjs.com/security/encryption-and-hashing",
+    "https://docs.nestjs.com/security/helmet",
+    "https://docs.nestjs.com/security/cors",
+    "https://docs.nestjs.com/security/csrf",
+    "https://docs.nestjs.com/security/rate-limiting",
+    "https://docs.nestjs.com/graphql/quick-start",
+    "https://docs.nestjs.com/graphql/resolvers",
+    "https://docs.nestjs.com/graphql/mutations",
+    "https://docs.nestjs.com/graphql/subscriptions",
+    "https://docs.nestjs.com/graphql/scalars",
+    "https://docs.nestjs.com/graphql/directives",
+    "https://docs.nestjs.com/graphql/interfaces",
+    "https://docs.nestjs.com/graphql/unions-and-enums",
+    "https://docs.nestjs.com/graphql/field-middleware",
+    "https://docs.nestjs.com/graphql/mapped-types",
+    "https://docs.nestjs.com/graphql/plugins",
+    "https://docs.nestjs.com/graphql/complexity",
+    "https://docs.nestjs.com/graphql/extensions",
+    "https://docs.nestjs.com/graphql/cli-plugin",
+    "https://docs.nestjs.com/graphql/generating-sdl",
+    "https://docs.nestjs.com/graphql/sharing-models",
+    "https://docs.nestjs.com/graphql/other-features",
+    "https://docs.nestjs.com/graphql/federation",
+    "https://docs.nestjs.com/websockets/gateways",
+    "https://docs.nestjs.com/websockets/exception-filters",
+    "https://docs.nestjs.com/websockets/pipes",
+    "https://docs.nestjs.com/websockets/guards",
+    "https://docs.nestjs.com/websockets/interceptors",
+    "https://docs.nestjs.com/websockets/adapter",
+    "https://docs.nestjs.com/microservices/basics",
+    "https://docs.nestjs.com/microservices/redis",
+    "https://docs.nestjs.com/microservices/mqtt",
+    "https://docs.nestjs.com/microservices/nats",
+    "https://docs.nestjs.com/microservices/rabbitmq",
+    "https://docs.nestjs.com/microservices/kafka",
+    "https://docs.nestjs.com/microservices/grpc",
+    "https://docs.nestjs.com/microservices/custom-transport",
+    "https://docs.nestjs.com/microservices/exception-filters",
+    "https://docs.nestjs.com/microservices/pipes",
+    "https://docs.nestjs.com/microservices/guards",
+    "https://docs.nestjs.com/microservices/interceptors",
+    "https://docs.nestjs.com/standalone-applications",
+    "https://docs.nestjs.com/cli/overview",
+    "https://docs.nestjs.com/cli/monorepo",
+    "https://docs.nestjs.com/cli/libraries",
+    "https://docs.nestjs.com/cli/usages",
+    "https://docs.nestjs.com/cli/scripts",
+    "https://docs.nestjs.com/openapi/introduction",
+    "https://docs.nestjs.com/openapi/types-and-parameters",
+    "https://docs.nestjs.com/openapi/operations",
+    "https://docs.nestjs.com/openapi/security",
+    "https://docs.nestjs.com/openapi/mapped-types",
+    "https://docs.nestjs.com/openapi/decorators",
+    "https://docs.nestjs.com/openapi/cli-plugin",
+    "https://docs.nestjs.com/openapi/other-features",
+    "https://docs.nestjs.com/recipes/repl",
+    "https://docs.nestjs.com/recipes/crud-generator",
+    "https://docs.nestjs.com/recipes/swc",
+    "https://docs.nestjs.com/recipes/passport",
+    "https://docs.nestjs.com/recipes/hot-reload",
+    "https://docs.nestjs.com/recipes/mikroorm",
+    "https://docs.nestjs.com/recipes/sql-typeorm",
+    "https://docs.nestjs.com/recipes/mongodb",
+    "https://docs.nestjs.com/recipes/sql-sequelize",
+    "https://docs.nestjs.com/recipes/router-module",
+    "https://docs.nestjs.com/recipes/swagger",
+    "https://docs.nestjs.com/recipes/terminus",
+    "https://docs.nestjs.com/recipes/cqrs",
+    "https://docs.nestjs.com/recipes/documentation",
+    "https://docs.nestjs.com/recipes/prisma",
+    "https://docs.nestjs.com/recipes/sentry",
+    "https://docs.nestjs.com/recipes/serve-static",
+    "https://docs.nestjs.com/recipes/nest-commander",
+    "https://docs.nestjs.com/recipes/async-local-storage",
+    "https://docs.nestjs.com/recipes/necord",
+    "https://docs.nestjs.com/recipes/suites",
+    "https://docs.nestjs.com/faq/serverless",
+    "https://docs.nestjs.com/faq/http-adapter",
+    "https://docs.nestjs.com/faq/keep-alive-connections",
+    "https://docs.nestjs.com/faq/global-prefix",
+    "https://docs.nestjs.com/faq/raw-body",
+    "https://docs.nestjs.com/faq/hybrid-application",
+    "https://docs.nestjs.com/faq/multiple-servers",
+    "https://docs.nestjs.com/faq/request-lifecycle",
+    "https://docs.nestjs.com/faq/common-errors"
+  ]
+}

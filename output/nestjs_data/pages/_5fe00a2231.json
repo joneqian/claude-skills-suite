@@ -1,0 +1,318 @@
+{
+  "url": "https://docs.nestjs.com/openapi/types-and-parameters",
+  "title": "",
+  "content": "The SwaggerModule searches for all @Body(), @Query(), and @Param() decorators in route handlers to generate the API document. It also creates corresponding model definitions by taking advantage of reflection. Consider the following code:\n\nBased on the CreateCatDto, the following model definition Swagger UI will be created:\n\nAs you can see, the definition is empty although the class has a few declared properties. In order to make the class properties visible to the SwaggerModule, we have to either annotate them with the @ApiProperty() decorator or use the CLI plugin (read more in the Plugin section) which will do it automatically:\n\nLet's open the browser and verify the generated CreateCatDto model:\n\nIn addition, the @ApiProperty() decorator allows setting various Schema Object properties:\n\nIn order to explicitly set the type of the property, use the type key:\n\nWhen the property is an array, we must manually indicate the array type as shown below:\n\nEither include the type as the first element of an array (as shown above) or set the isArray property to true.\n\nOfficial enterprise support Providing technical guidance Performing in-depth code reviews Mentoring team members Advising best practices Explore more\n\nWhen you have circular dependencies between classes, use a lazy function to provide the SwaggerModule with type information:\n\nSince TypeScript does not store metadata about generics or interfaces, when you use them in your DTOs, SwaggerModule may not be able to properly generate model definitions at runtime. For instance, the following code won't be correctly inspected by the Swagger module:\n\nIn order to overcome this limitation, you can set the type explicitly:\n\nTo identify an enum, we must manually set the enum property on the @ApiProperty with an array of values.\n\nAlternatively, define an actual TypeScript enum as follows:\n\nYou can then use the enum directly with the @Query() parameter decorator in combination with the @ApiQuery() decorator.\n\nWith isArray set to true, the enum can be selected as a multi-select:\n\nBy default, the enum property will add a raw definition of Enum on the parameter.\n\nThe above specification works fine for most cases. However, if you are utilizing a tool that takes the specification as input and generates client-side code, you might run into a problem with the generated code containing duplicated enums. Consider the following code snippet:\n\nYou can see that now you have two enums that are exactly the same. To address this issue, you can pass an enumName along with the enum property in your decorator.\n\nThe enumName property enables @nestjs/swagger to turn CatBreed into its own schema which in turns makes CatBreed enum reusable. The specification will look like the following:\n\nYou can set a single example for a property by using the example key, like this:\n\nIf you want to provide multiple examples, you can use the examples key by passing in an object structured like this:\n\nIn certain cases, such as deeply nested arrays or matrices, you may need to manually define your type:\n\nYou can also specify raw object schemas, like this:\n\nTo manually define input/output content in controller classes, use the schema property:\n\nTo define additional models that are not directly referenced in your controllers but should be inspected by the Swagger module, use the @ApiExtraModels() decorator:\n\nAlternatively, you can pass an options object with the extraModels property specified to the SwaggerModule.createDocument() method, as follows:\n\nTo get a reference ($ref) to your model, use the getSchemaPath(ExtraModel) function:\n\nTo combine schemas, you can use the oneOf, anyOf or allOf keywords (read more).\n\nIf you want to define a polymorphic array (i.e., an array whose members span multiple schemas), you should use a raw definition (see above) to define your type by hand.\n\nBoth Cat and Dog must be defined as extra models using the @ApiExtraModels() decorator (at the class-level).\n\nAs you may have noticed, the name of the generated schema is based on the name of the original model class (for example, the CreateCatDto model generates a CreateCatDto schema). If you'd like to change the schema name, you can use the @ApiSchema() decorator.\n\nThe model above will be translated into the CreateCatRequest schema.\n\nBy default, no description is added to the generated schema. You can add one using the description attribute:\n\nThat way, the description will be included in the schema, as follows:",
+  "headings": [
+    {
+      "level": "h3",
+      "text": "Types and parameters",
+      "id": "types-and-parameters"
+    },
+    {
+      "level": "h4",
+      "text": "Arrays#",
+      "id": "arrays"
+    },
+    {
+      "level": "h2",
+      "text": "Official enterprise support",
+      "id": ""
+    },
+    {
+      "level": "h4",
+      "text": "Circular dependencies#",
+      "id": "circular-dependencies"
+    },
+    {
+      "level": "h4",
+      "text": "Generics and interfaces#",
+      "id": "generics-and-interfaces"
+    },
+    {
+      "level": "h4",
+      "text": "Enums#",
+      "id": "enums"
+    },
+    {
+      "level": "h4",
+      "text": "Enums schema#",
+      "id": "enums-schema"
+    },
+    {
+      "level": "h4",
+      "text": "Property value examples#",
+      "id": "property-value-examples"
+    },
+    {
+      "level": "h4",
+      "text": "Raw definitions#",
+      "id": "raw-definitions"
+    },
+    {
+      "level": "h4",
+      "text": "Extra models#",
+      "id": "extra-models"
+    },
+    {
+      "level": "h4",
+      "text": "oneOf, anyOf, allOf#",
+      "id": "oneof-anyof-allof"
+    },
+    {
+      "level": "h4",
+      "text": "Schema name and description#",
+      "id": "schema-name-and-description"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "@Post()\nasync create(@Body() createCatDto: CreateCatDto) {\n  this.catsService.create(createCatDto);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { ApiProperty } from '@nestjs/swagger';\n\nexport class CreateCatDto {\n  @ApiProperty()\n  name: string;\n\n  @ApiProperty()\n  age: number;\n\n  @ApiProperty()\n  breed: string;\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@ApiProperty({\n  description: 'The age of a cat',\n  minimum: 1,\n  default: 1,\n})\nage: number;",
+      "language": "typescript"
+    },
+    {
+      "code": "@ApiProperty({\n  type: Number,\n})\nage: number;",
+      "language": "typescript"
+    },
+    {
+      "code": "@ApiProperty({ type: [String] })\nnames: string[];",
+      "language": "typescript"
+    },
+    {
+      "code": "@ApiProperty({ type: () => Node })\nnode: Node;",
+      "language": "typescript"
+    },
+    {
+      "code": "createBulk(@Body() usersDto: CreateUserDto[])",
+      "language": "typescript"
+    },
+    {
+      "code": "@ApiBody({ type: [CreateUserDto] })\ncreateBulk(@Body() usersDto: CreateUserDto[])",
+      "language": "typescript"
+    },
+    {
+      "code": "@ApiProperty({ enum: ['Admin', 'Moderator', 'User']})\nrole: UserRole;",
+      "language": "typescript"
+    },
+    {
+      "code": "export enum UserRole {\n  Admin = 'Admin',\n  Moderator = 'Moderator',\n  User = 'User',\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@ApiQuery({ name: 'role', enum: UserRole })\nasync filterByRole(@Query('role') role: UserRole = UserRole.User) {}",
+      "language": "typescript"
+    },
+    {
+      "code": "- breed:\n    type: 'string'\n    enum:\n      - Persian\n      - Tabby\n      - Siamese",
+      "language": "yaml"
+    },
+    {
+      "code": "// generated client-side code\nexport class CatDetail {\n  breed: CatDetailEnum;\n}\n\nexport class CatInformation {\n  breed: CatInformationEnum;\n}\n\nexport enum CatDetailEnum {\n  Persian = 'Persian',\n  Tabby = 'Tabby',\n  Siamese = 'Siamese',\n}\n\nexport enum CatInformationEnum {\n  Persian = 'Persian',\n  Tabby = 'Tabby',\n  Siamese = 'Siamese',\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "export class CatDetail {\n  @ApiProperty({ enum: CatBreed, enumName: 'CatBreed' })\n  breed: CatBreed;\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "CatDetail:\n  type: 'object'\n  properties:\n    ...\n    - breed:\n        schema:\n          $ref: '#/components/schemas/CatBreed'\nCatBreed:\n  type: string\n  enum:\n    - Persian\n    - Tabby\n    - Siamese",
+      "language": "yaml"
+    },
+    {
+      "code": "@ApiProperty({\n  example: 'persian',\n})\nbreed: string;",
+      "language": "typescript"
+    },
+    {
+      "code": "@ApiProperty({\n  examples: {\n    Persian: { value: 'persian' },\n    Tabby: { value: 'tabby' },\n    Siamese: { value: 'siamese' },\n    'Scottish Fold': { value: 'scottish_fold' },\n  },\n})\nbreed: string;",
+      "language": "typescript"
+    },
+    {
+      "code": "@ApiProperty({\n  type: 'array',\n  items: {\n    type: 'array',\n    items: {\n      type: 'number',\n    },\n  },\n})\ncoords: number[][];",
+      "language": "typescript"
+    },
+    {
+      "code": "@ApiProperty({\n  type: 'object',\n  properties: {\n    name: {\n      type: 'string',\n      example: 'Error'\n    },\n    status: {\n      type: 'number',\n      example: 400\n    }\n  },\n  required: ['name', 'status']\n})\nrawDefinition: Record<string, any>;",
+      "language": "typescript"
+    },
+    {
+      "code": "@ApiBody({\n  schema: {\n    type: 'array',\n    items: {\n      type: 'array',\n      items: {\n        type: 'number',\n      },\n    },\n  },\n})\nasync create(@Body() coords: number[][]) {}",
+      "language": "typescript"
+    },
+    {
+      "code": "@ApiExtraModels(ExtraModel)\nexport class CreateCatDto {}",
+      "language": "typescript"
+    },
+    {
+      "code": "const documentFactory = () =>\n  SwaggerModule.createDocument(app, options, {\n    extraModels: [ExtraModel],\n  });",
+      "language": "typescript"
+    },
+    {
+      "code": "'application/vnd.api+json': {\n   schema: { $ref: getSchemaPath(ExtraModel) },\n},",
+      "language": "typescript"
+    },
+    {
+      "code": "@ApiProperty({\n  oneOf: [\n    { $ref: getSchemaPath(Cat) },\n    { $ref: getSchemaPath(Dog) },\n  ],\n})\npet: Cat | Dog;",
+      "language": "typescript"
+    },
+    {
+      "code": "type Pet = Cat | Dog;\n\n@ApiProperty({\n  type: 'array',\n  items: {\n    oneOf: [\n      { $ref: getSchemaPath(Cat) },\n      { $ref: getSchemaPath(Dog) },\n    ],\n  },\n})\npets: Pet[];",
+      "language": "typescript"
+    },
+    {
+      "code": "@ApiSchema({ name: 'CreateCatRequest' })\nclass CreateCatDto {}",
+      "language": "typescript"
+    },
+    {
+      "code": "@ApiSchema({ description: 'Description of the CreateCatDto schema' })\nclass CreateCatDto {}",
+      "language": "typescript"
+    },
+    {
+      "code": "schemas:\n  CreateCatDto:\n    type: object\n    description: Description of the CreateCatDto schema",
+      "language": "yaml"
+    }
+  ],
+  "patterns": [
+    {
+      "description": "Here’s an example:",
+      "code": "@ApiSchema({ name: 'CreateCatRequest' })\nclass CreateCatDto {}"
+    }
+  ],
+  "links": [
+    "https://docs.nestjs.com/first-steps",
+    "https://docs.nestjs.com/controllers",
+    "https://docs.nestjs.com/providers",
+    "https://docs.nestjs.com/modules",
+    "https://docs.nestjs.com/middleware",
+    "https://docs.nestjs.com/exception-filters",
+    "https://docs.nestjs.com/pipes",
+    "https://docs.nestjs.com/guards",
+    "https://docs.nestjs.com/interceptors",
+    "https://docs.nestjs.com/custom-decorators",
+    "https://docs.nestjs.com/fundamentals/custom-providers",
+    "https://docs.nestjs.com/fundamentals/async-providers",
+    "https://docs.nestjs.com/fundamentals/dynamic-modules",
+    "https://docs.nestjs.com/fundamentals/injection-scopes",
+    "https://docs.nestjs.com/fundamentals/circular-dependency",
+    "https://docs.nestjs.com/fundamentals/module-ref",
+    "https://docs.nestjs.com/fundamentals/lazy-loading-modules",
+    "https://docs.nestjs.com/fundamentals/execution-context",
+    "https://docs.nestjs.com/fundamentals/lifecycle-events",
+    "https://docs.nestjs.com/fundamentals/discovery-service",
+    "https://docs.nestjs.com/fundamentals/platform-agnosticism",
+    "https://docs.nestjs.com/fundamentals/testing",
+    "https://docs.nestjs.com/techniques/configuration",
+    "https://docs.nestjs.com/techniques/database",
+    "https://docs.nestjs.com/techniques/mongodb",
+    "https://docs.nestjs.com/techniques/validation",
+    "https://docs.nestjs.com/techniques/caching",
+    "https://docs.nestjs.com/techniques/serialization",
+    "https://docs.nestjs.com/techniques/versioning",
+    "https://docs.nestjs.com/techniques/task-scheduling",
+    "https://docs.nestjs.com/techniques/queues",
+    "https://docs.nestjs.com/techniques/logger",
+    "https://docs.nestjs.com/techniques/cookies",
+    "https://docs.nestjs.com/techniques/events",
+    "https://docs.nestjs.com/techniques/compression",
+    "https://docs.nestjs.com/techniques/file-upload",
+    "https://docs.nestjs.com/techniques/streaming-files",
+    "https://docs.nestjs.com/techniques/http-module",
+    "https://docs.nestjs.com/techniques/session",
+    "https://docs.nestjs.com/techniques/mvc",
+    "https://docs.nestjs.com/techniques/performance",
+    "https://docs.nestjs.com/techniques/server-sent-events",
+    "https://docs.nestjs.com/security/authentication",
+    "https://docs.nestjs.com/security/authorization",
+    "https://docs.nestjs.com/security/encryption-and-hashing",
+    "https://docs.nestjs.com/security/helmet",
+    "https://docs.nestjs.com/security/cors",
+    "https://docs.nestjs.com/security/csrf",
+    "https://docs.nestjs.com/security/rate-limiting",
+    "https://docs.nestjs.com/graphql/quick-start",
+    "https://docs.nestjs.com/graphql/resolvers",
+    "https://docs.nestjs.com/graphql/mutations",
+    "https://docs.nestjs.com/graphql/subscriptions",
+    "https://docs.nestjs.com/graphql/scalars",
+    "https://docs.nestjs.com/graphql/directives",
+    "https://docs.nestjs.com/graphql/interfaces",
+    "https://docs.nestjs.com/graphql/unions-and-enums",
+    "https://docs.nestjs.com/graphql/field-middleware",
+    "https://docs.nestjs.com/graphql/mapped-types",
+    "https://docs.nestjs.com/graphql/plugins",
+    "https://docs.nestjs.com/graphql/complexity",
+    "https://docs.nestjs.com/graphql/extensions",
+    "https://docs.nestjs.com/graphql/cli-plugin",
+    "https://docs.nestjs.com/graphql/generating-sdl",
+    "https://docs.nestjs.com/graphql/sharing-models",
+    "https://docs.nestjs.com/graphql/other-features",
+    "https://docs.nestjs.com/graphql/federation",
+    "https://docs.nestjs.com/websockets/gateways",
+    "https://docs.nestjs.com/websockets/exception-filters",
+    "https://docs.nestjs.com/websockets/pipes",
+    "https://docs.nestjs.com/websockets/guards",
+    "https://docs.nestjs.com/websockets/interceptors",
+    "https://docs.nestjs.com/websockets/adapter",
+    "https://docs.nestjs.com/microservices/basics",
+    "https://docs.nestjs.com/microservices/redis",
+    "https://docs.nestjs.com/microservices/mqtt",
+    "https://docs.nestjs.com/microservices/nats",
+    "https://docs.nestjs.com/microservices/rabbitmq",
+    "https://docs.nestjs.com/microservices/kafka",
+    "https://docs.nestjs.com/microservices/grpc",
+    "https://docs.nestjs.com/microservices/custom-transport",
+    "https://docs.nestjs.com/microservices/exception-filters",
+    "https://docs.nestjs.com/microservices/pipes",
+    "https://docs.nestjs.com/microservices/guards",
+    "https://docs.nestjs.com/microservices/interceptors",
+    "https://docs.nestjs.com/standalone-applications",
+    "https://docs.nestjs.com/cli/overview",
+    "https://docs.nestjs.com/cli/monorepo",
+    "https://docs.nestjs.com/cli/libraries",
+    "https://docs.nestjs.com/cli/usages",
+    "https://docs.nestjs.com/cli/scripts",
+    "https://docs.nestjs.com/openapi/introduction",
+    "https://docs.nestjs.com/openapi/types-and-parameters",
+    "https://docs.nestjs.com/openapi/operations",
+    "https://docs.nestjs.com/openapi/security",
+    "https://docs.nestjs.com/openapi/mapped-types",
+    "https://docs.nestjs.com/openapi/decorators",
+    "https://docs.nestjs.com/openapi/cli-plugin",
+    "https://docs.nestjs.com/openapi/other-features",
+    "https://docs.nestjs.com/recipes/repl",
+    "https://docs.nestjs.com/recipes/crud-generator",
+    "https://docs.nestjs.com/recipes/swc",
+    "https://docs.nestjs.com/recipes/passport",
+    "https://docs.nestjs.com/recipes/hot-reload",
+    "https://docs.nestjs.com/recipes/mikroorm",
+    "https://docs.nestjs.com/recipes/sql-typeorm",
+    "https://docs.nestjs.com/recipes/mongodb",
+    "https://docs.nestjs.com/recipes/sql-sequelize",
+    "https://docs.nestjs.com/recipes/router-module",
+    "https://docs.nestjs.com/recipes/swagger",
+    "https://docs.nestjs.com/recipes/terminus",
+    "https://docs.nestjs.com/recipes/cqrs",
+    "https://docs.nestjs.com/recipes/documentation",
+    "https://docs.nestjs.com/recipes/prisma",
+    "https://docs.nestjs.com/recipes/sentry",
+    "https://docs.nestjs.com/recipes/serve-static",
+    "https://docs.nestjs.com/recipes/nest-commander",
+    "https://docs.nestjs.com/recipes/async-local-storage",
+    "https://docs.nestjs.com/recipes/necord",
+    "https://docs.nestjs.com/recipes/suites",
+    "https://docs.nestjs.com/faq/serverless",
+    "https://docs.nestjs.com/faq/http-adapter",
+    "https://docs.nestjs.com/faq/keep-alive-connections",
+    "https://docs.nestjs.com/faq/global-prefix",
+    "https://docs.nestjs.com/faq/raw-body",
+    "https://docs.nestjs.com/faq/hybrid-application",
+    "https://docs.nestjs.com/faq/multiple-servers",
+    "https://docs.nestjs.com/faq/request-lifecycle",
+    "https://docs.nestjs.com/faq/common-errors"
+  ]
+}

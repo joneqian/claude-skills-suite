@@ -1,0 +1,239 @@
+{
+  "url": "https://docs.nestjs.com/fundamentals/injection-scopes",
+  "title": "",
+  "content": "For people coming from different programming language backgrounds, it might be unexpected to learn that in Nest, almost everything is shared across incoming requests. We have a connection pool to the database, singleton services with global state, etc. Remember that Node.js doesn't follow the request/response Multi-Threaded Stateless Model in which every request is processed by a separate thread. Hence, using singleton instances is fully safe for our applications.\n\nHowever, there are edge cases when request-based lifetime may be the desired behavior, for instance, per-request caching in GraphQL applications, request tracking, and multi-tenancy. Injection scopes provide a mechanism to obtain the desired provider lifetime behavior.\n\nA provider can have any of the following scopes:\n\nSpecify injection scope by passing the scope property to the @Injectable() decorator options object:\n\nSimilarly, for custom providers, set the scope property in the long-hand form for a provider registration:\n\nSingleton scope is used by default and does not need be declared. If you do want to declare a provider as singleton scoped, use the Scope.DEFAULT value for the scope property.\n\nControllers can also have scope, which applies to all request method handlers declared in that controller. Like provider scope, the scope of a controller declares its lifetime. For a request-scoped controller, a new instance is created for each inbound request, and garbage-collected when the request has completed processing.\n\nDeclare controller scope with the scope property of the ControllerOptions object:\n\nThe REQUEST scope bubbles up the injection chain. A controller that depends on a request-scoped provider will, itself, be request-scoped.\n\nImagine the following dependency graph: CatsController <- CatsService <- CatsRepository. If CatsService is request-scoped (and the others are default singletons), the CatsController will become request-scoped as it is dependent on the injected service. The CatsRepository, which is not dependent, would remain singleton-scoped.\n\nTransient-scoped dependencies don't follow that pattern. If a singleton-scoped DogsService injects a transient LoggerService provider, it will receive a fresh instance of it. However, DogsService will stay singleton-scoped, so injecting it anywhere would not resolve to a new instance of DogsService. In case it's desired behavior, DogsService must be explicitly marked as TRANSIENT as well.\n\nLearn the right way! 80+ chapters 5+ hours of videos Official certificate Deep-dive sessions Explore official courses\n\nIn an HTTP server-based application (e.g., using @nestjs/platform-express or @nestjs/platform-fastify), you may want to access a reference to the original request object when using request-scoped providers. You can do this by injecting the REQUEST object.\n\nThe REQUEST provider is inherently request-scoped, meaning you don't need to specify the REQUEST scope explicitly when using it. Additionally, even if you attempt to do so, it will be disregarded. Any provider that relies on a request-scoped provider automatically adopts a request scope, and this behavior cannot be altered.\n\nBecause of underlying platform/protocol differences, you access the inbound request slightly differently for Microservice or GraphQL applications. In GraphQL applications, you inject CONTEXT instead of REQUEST:\n\nYou then configure your context value (in the GraphQLModule) to contain request as its property.\n\nIf you want to get the class where a provider was constructed, for instance in logging or metrics providers, you can inject the INQUIRER token.\n\nAnd then use it as follows:\n\nIn the example above when AppService#getRoot is called, \"AppService: My name is getRoot\" will be logged to the console.\n\nUsing request-scoped providers will have an impact on application performance. While Nest tries to cache as much metadata as possible, it will still have to create an instance of your class on each request. Hence, it will slow down your average response time and overall benchmarking result. Unless a provider must be request-scoped, it is strongly recommended that you use the default singleton scope.\n\nRequest-scoped providers, as mentioned in the section above, may lead to increased latency since having at least 1 request-scoped provider (injected into the controller instance, or deeper - injected into one of its providers) makes the controller request-scoped as well. That means it must be recreated (instantiated) per each individual request (and garbage collected afterward). Now, that also means, that for let's say 30k requests in parallel, there will be 30k ephemeral instances of the controller (and its request-scoped providers).\n\nHaving a common provider that most providers depend on (think of a database connection, or a logger service), automatically converts all those providers to request-scoped providers as well. This can pose a challenge in multi-tenant applications, especially for those that have a central request-scoped \"data source\" provider that grabs headers/token from the request object and based on its values, retrieves the corresponding database connection/schema (specific to that tenant).\n\nFor instance, let's say you have an application alternately used by 10 different customers. Each customer has its own dedicated data source, and you want to make sure customer A will never be able to reach customer B's database. One way to achieve this could be to declare a request-scoped \"data source\" provider that - based on the request object - determines what's the \"current customer\" and retrieves its corresponding database. With this approach, you can turn your application into a multi-tenant application in just a few minutes. But, a major downside to this approach is that since most likely a large chunk of your application' components rely on the \"data source\" provider, they will implicitly become \"request-scoped\", and therefore you will undoubtedly see an impact in your apps performance.\n\nBut what if we had a better solution? Since we only have 10 customers, couldn't we have 10 individual DI sub-trees per customer (instead of recreating each tree per request)? If your providers don't rely on any property that's truly unique for each consecutive request (e.g., request UUID) but instead there're some specific attributes that let us aggregate (classify) them, there's no reason to recreate DI sub-tree on every incoming request.\n\nAnd that's exactly when the durable providers come in handy.\n\nBefore we start flagging providers as durable, we must first register a strategy that instructs Nest what are those \"common request attributes\", provide logic that groups requests - associates them with their corresponding DI sub-trees.\n\nThe value returned from the attach method instructs Nest what context identifier should be used for a given host. In this case, we specified that the tenantSubTreeId should be used instead of the original, auto-generated contextId object, when the host component (e.g., request-scoped controller) is flagged as durable (you can learn how to mark providers as durable below). Also, in the above example, no payload would be registered (where payload = REQUEST/CONTEXT provider that represents the \"root\" - parent of the sub-tree).\n\nIf you want to register the payload for a durable tree, use the following construction instead:\n\nNow whenever you inject the REQUEST provider (or CONTEXT for GraphQL applications) using the @Inject(REQUEST)/@Inject(CONTEXT), the payload object would be injected (consisting of a single property - tenantId in this case).\n\nAlright so with this strategy in place, you can register it somewhere in your code (as it applies globally anyway), so for example, you could place it in the main.ts file:\n\nAs long as the registration occurs before any request hits your application, everything will work as intended.\n\nLastly, to turn a regular provider into a durable provider, simply set the durable flag to true and change its scope to Scope.REQUEST (not needed if the REQUEST scope is in the injection chain already):\n\nSimilarly, for custom providers, set the durable property in the long-hand form for a provider registration:",
+  "headings": [
+    {
+      "level": "h3",
+      "text": "Injection scopes",
+      "id": "injection-scopes"
+    },
+    {
+      "level": "h4",
+      "text": "Provider scope#",
+      "id": "provider-scope"
+    },
+    {
+      "level": "h4",
+      "text": "Usage#",
+      "id": "usage"
+    },
+    {
+      "level": "h4",
+      "text": "Controller scope#",
+      "id": "controller-scope"
+    },
+    {
+      "level": "h4",
+      "text": "Scope hierarchy#",
+      "id": "scope-hierarchy"
+    },
+    {
+      "level": "h2",
+      "text": "Learn the right way!",
+      "id": ""
+    },
+    {
+      "level": "h4",
+      "text": "Request provider#",
+      "id": "request-provider"
+    },
+    {
+      "level": "h4",
+      "text": "Inquirer provider#",
+      "id": "inquirer-provider"
+    },
+    {
+      "level": "h4",
+      "text": "Performance#",
+      "id": "performance"
+    },
+    {
+      "level": "h4",
+      "text": "Durable providers#",
+      "id": "durable-providers"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "import { Injectable, Scope } from '@nestjs/common';\n\n@Injectable({ scope: Scope.REQUEST })\nexport class CatsService {}",
+      "language": "typescript"
+    },
+    {
+      "code": "{\n  provide: 'CACHE_MANAGER',\n  useClass: CacheManager,\n  scope: Scope.TRANSIENT,\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Controller({\n  path: 'cats',\n  scope: Scope.REQUEST,\n})\nexport class CatsController {}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Injectable, Scope, Inject } from '@nestjs/common';\nimport { REQUEST } from '@nestjs/core';\nimport { Request } from 'express';\n\n@Injectable({ scope: Scope.REQUEST })\nexport class CatsService {\n  constructor(@Inject(REQUEST) private request: Request) {}\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Injectable, Scope, Inject } from '@nestjs/common';\nimport { CONTEXT } from '@nestjs/graphql';\n\n@Injectable({ scope: Scope.REQUEST })\nexport class CatsService {\n  constructor(@Inject(CONTEXT) private context) {}\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Inject, Injectable, Scope } from '@nestjs/common';\nimport { INQUIRER } from '@nestjs/core';\n\n@Injectable({ scope: Scope.TRANSIENT })\nexport class HelloService {\n  constructor(@Inject(INQUIRER) private parentClass: object) {}\n\n  sayHello(message: string) {\n    console.log(`${this.parentClass?.constructor?.name}: ${message}`);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Injectable } from '@nestjs/common';\nimport { HelloService } from './hello.service';\n\n@Injectable()\nexport class AppService {\n  constructor(private helloService: HelloService) {}\n\n  getRoot(): string {\n    this.helloService.sayHello('My name is getRoot');\n\n    return 'Hello world!';\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import {\n  HostComponentInfo,\n  ContextId,\n  ContextIdFactory,\n  ContextIdStrategy,\n} from '@nestjs/core';\nimport { Request } from 'express';\n\nconst tenants = new Map<string, ContextId>();\n\nexport class AggregateByTenantContextIdStrategy implements ContextIdStrategy {\n  attach(contextId: ContextId, request: Request) {\n    const tenantId = request.headers['x-tenant-id'] as string;\n    let tenantSubTreeId: ContextId;\n\n    if (tenants.has(tenantId)) {\n      tenantSubTreeId = tenants.get(tenantId);\n    } else {\n      tenantSubTreeId = ContextIdFactory.create();\n      tenants.set(tenantId, tenantSubTreeId);\n    }\n\n    // If tree is not durable, return the original \"contextId\" object\n    return (info: HostComponentInfo) =>\n      info.isTreeDurable ? tenantSubTreeId : contextId;\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "// The return of `AggregateByTenantContextIdStrategy#attach` method:\nreturn {\n  resolve: (info: HostComponentInfo) =>\n    info.isTreeDurable ? tenantSubTreeId : contextId,\n  payload: { tenantId },\n};",
+      "language": "typescript"
+    },
+    {
+      "code": "ContextIdFactory.apply(new AggregateByTenantContextIdStrategy());",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Injectable, Scope } from '@nestjs/common';\n\n@Injectable({ scope: Scope.REQUEST, durable: true })\nexport class CatsService {}",
+      "language": "typescript"
+    },
+    {
+      "code": "{\n  provide: 'foobar',\n  useFactory: () => { ... },\n  scope: Scope.REQUEST,\n  durable: true,\n}",
+      "language": "typescript"
+    }
+  ],
+  "patterns": [],
+  "links": [
+    "https://docs.nestjs.com/first-steps",
+    "https://docs.nestjs.com/controllers",
+    "https://docs.nestjs.com/providers",
+    "https://docs.nestjs.com/modules",
+    "https://docs.nestjs.com/middleware",
+    "https://docs.nestjs.com/exception-filters",
+    "https://docs.nestjs.com/pipes",
+    "https://docs.nestjs.com/guards",
+    "https://docs.nestjs.com/interceptors",
+    "https://docs.nestjs.com/custom-decorators",
+    "https://docs.nestjs.com/fundamentals/custom-providers",
+    "https://docs.nestjs.com/fundamentals/async-providers",
+    "https://docs.nestjs.com/fundamentals/dynamic-modules",
+    "https://docs.nestjs.com/fundamentals/injection-scopes",
+    "https://docs.nestjs.com/fundamentals/circular-dependency",
+    "https://docs.nestjs.com/fundamentals/module-ref",
+    "https://docs.nestjs.com/fundamentals/lazy-loading-modules",
+    "https://docs.nestjs.com/fundamentals/execution-context",
+    "https://docs.nestjs.com/fundamentals/lifecycle-events",
+    "https://docs.nestjs.com/fundamentals/discovery-service",
+    "https://docs.nestjs.com/fundamentals/platform-agnosticism",
+    "https://docs.nestjs.com/fundamentals/testing",
+    "https://docs.nestjs.com/techniques/configuration",
+    "https://docs.nestjs.com/techniques/database",
+    "https://docs.nestjs.com/techniques/mongodb",
+    "https://docs.nestjs.com/techniques/validation",
+    "https://docs.nestjs.com/techniques/caching",
+    "https://docs.nestjs.com/techniques/serialization",
+    "https://docs.nestjs.com/techniques/versioning",
+    "https://docs.nestjs.com/techniques/task-scheduling",
+    "https://docs.nestjs.com/techniques/queues",
+    "https://docs.nestjs.com/techniques/logger",
+    "https://docs.nestjs.com/techniques/cookies",
+    "https://docs.nestjs.com/techniques/events",
+    "https://docs.nestjs.com/techniques/compression",
+    "https://docs.nestjs.com/techniques/file-upload",
+    "https://docs.nestjs.com/techniques/streaming-files",
+    "https://docs.nestjs.com/techniques/http-module",
+    "https://docs.nestjs.com/techniques/session",
+    "https://docs.nestjs.com/techniques/mvc",
+    "https://docs.nestjs.com/techniques/performance",
+    "https://docs.nestjs.com/techniques/server-sent-events",
+    "https://docs.nestjs.com/security/authentication",
+    "https://docs.nestjs.com/security/authorization",
+    "https://docs.nestjs.com/security/encryption-and-hashing",
+    "https://docs.nestjs.com/security/helmet",
+    "https://docs.nestjs.com/security/cors",
+    "https://docs.nestjs.com/security/csrf",
+    "https://docs.nestjs.com/security/rate-limiting",
+    "https://docs.nestjs.com/graphql/quick-start",
+    "https://docs.nestjs.com/graphql/resolvers",
+    "https://docs.nestjs.com/graphql/mutations",
+    "https://docs.nestjs.com/graphql/subscriptions",
+    "https://docs.nestjs.com/graphql/scalars",
+    "https://docs.nestjs.com/graphql/directives",
+    "https://docs.nestjs.com/graphql/interfaces",
+    "https://docs.nestjs.com/graphql/unions-and-enums",
+    "https://docs.nestjs.com/graphql/field-middleware",
+    "https://docs.nestjs.com/graphql/mapped-types",
+    "https://docs.nestjs.com/graphql/plugins",
+    "https://docs.nestjs.com/graphql/complexity",
+    "https://docs.nestjs.com/graphql/extensions",
+    "https://docs.nestjs.com/graphql/cli-plugin",
+    "https://docs.nestjs.com/graphql/generating-sdl",
+    "https://docs.nestjs.com/graphql/sharing-models",
+    "https://docs.nestjs.com/graphql/other-features",
+    "https://docs.nestjs.com/graphql/federation",
+    "https://docs.nestjs.com/websockets/gateways",
+    "https://docs.nestjs.com/websockets/exception-filters",
+    "https://docs.nestjs.com/websockets/pipes",
+    "https://docs.nestjs.com/websockets/guards",
+    "https://docs.nestjs.com/websockets/interceptors",
+    "https://docs.nestjs.com/websockets/adapter",
+    "https://docs.nestjs.com/microservices/basics",
+    "https://docs.nestjs.com/microservices/redis",
+    "https://docs.nestjs.com/microservices/mqtt",
+    "https://docs.nestjs.com/microservices/nats",
+    "https://docs.nestjs.com/microservices/rabbitmq",
+    "https://docs.nestjs.com/microservices/kafka",
+    "https://docs.nestjs.com/microservices/grpc",
+    "https://docs.nestjs.com/microservices/custom-transport",
+    "https://docs.nestjs.com/microservices/exception-filters",
+    "https://docs.nestjs.com/microservices/pipes",
+    "https://docs.nestjs.com/microservices/guards",
+    "https://docs.nestjs.com/microservices/interceptors",
+    "https://docs.nestjs.com/standalone-applications",
+    "https://docs.nestjs.com/cli/overview",
+    "https://docs.nestjs.com/cli/monorepo",
+    "https://docs.nestjs.com/cli/libraries",
+    "https://docs.nestjs.com/cli/usages",
+    "https://docs.nestjs.com/cli/scripts",
+    "https://docs.nestjs.com/openapi/introduction",
+    "https://docs.nestjs.com/openapi/types-and-parameters",
+    "https://docs.nestjs.com/openapi/operations",
+    "https://docs.nestjs.com/openapi/security",
+    "https://docs.nestjs.com/openapi/mapped-types",
+    "https://docs.nestjs.com/openapi/decorators",
+    "https://docs.nestjs.com/openapi/cli-plugin",
+    "https://docs.nestjs.com/openapi/other-features",
+    "https://docs.nestjs.com/recipes/repl",
+    "https://docs.nestjs.com/recipes/crud-generator",
+    "https://docs.nestjs.com/recipes/swc",
+    "https://docs.nestjs.com/recipes/passport",
+    "https://docs.nestjs.com/recipes/hot-reload",
+    "https://docs.nestjs.com/recipes/mikroorm",
+    "https://docs.nestjs.com/recipes/sql-typeorm",
+    "https://docs.nestjs.com/recipes/mongodb",
+    "https://docs.nestjs.com/recipes/sql-sequelize",
+    "https://docs.nestjs.com/recipes/router-module",
+    "https://docs.nestjs.com/recipes/swagger",
+    "https://docs.nestjs.com/recipes/terminus",
+    "https://docs.nestjs.com/recipes/cqrs",
+    "https://docs.nestjs.com/recipes/documentation",
+    "https://docs.nestjs.com/recipes/prisma",
+    "https://docs.nestjs.com/recipes/sentry",
+    "https://docs.nestjs.com/recipes/serve-static",
+    "https://docs.nestjs.com/recipes/nest-commander",
+    "https://docs.nestjs.com/recipes/async-local-storage",
+    "https://docs.nestjs.com/recipes/necord",
+    "https://docs.nestjs.com/recipes/suites",
+    "https://docs.nestjs.com/faq/serverless",
+    "https://docs.nestjs.com/faq/http-adapter",
+    "https://docs.nestjs.com/faq/keep-alive-connections",
+    "https://docs.nestjs.com/faq/global-prefix",
+    "https://docs.nestjs.com/faq/raw-body",
+    "https://docs.nestjs.com/faq/hybrid-application",
+    "https://docs.nestjs.com/faq/multiple-servers",
+    "https://docs.nestjs.com/faq/request-lifecycle",
+    "https://docs.nestjs.com/faq/common-errors"
+  ]
+}

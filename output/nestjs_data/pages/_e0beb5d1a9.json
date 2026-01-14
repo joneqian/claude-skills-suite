@@ -1,0 +1,246 @@
+{
+  "url": "https://docs.nestjs.com/guards",
+  "title": "",
+  "content": "A guard is a class annotated with the @Injectable() decorator, which implements the CanActivate interface.\n\nGuards have a single responsibility. They determine whether a given request will be handled by the route handler or not, depending on certain conditions (like permissions, roles, ACLs, etc.) present at run-time. This is often referred to as authorization. Authorization (and its cousin, authentication, with which it usually collaborates) has typically been handled by middleware in traditional Express applications. Middleware is a fine choice for authentication, since things like token validation and attaching properties to the request object are not strongly connected with a particular route context (and its metadata).\n\nBut middleware, by its nature, is dumb. It doesn't know which handler will be executed after calling the next() function. On the other hand, Guards have access to the ExecutionContext instance, and thus know exactly what's going to be executed next. They're designed, much like exception filters, pipes, and interceptors, to let you interpose processing logic at exactly the right point in the request/response cycle, and to do so declaratively. This helps keep your code DRY and declarative.\n\nAs mentioned, authorization is a great use case for Guards because specific routes should be available only when the caller (usually a specific authenticated user) has sufficient permissions. The AuthGuard that we'll build now assumes an authenticated user (and that, therefore, a token is attached to the request headers). It will extract and validate the token, and use the extracted information to determine whether the request can proceed or not.\n\nThe logic inside the validateRequest() function can be as simple or sophisticated as needed. The main point of this example is to show how guards fit into the request/response cycle.\n\nEvery guard must implement a canActivate() function. This function should return a boolean, indicating whether the current request is allowed or not. It can return the response either synchronously or asynchronously (via a Promise or Observable). Nest uses the return value to control the next action:\n\nOfficial enterprise support Providing technical guidance Performing in-depth code reviews Mentoring team members Advising best practices Explore more\n\nThe canActivate() function takes a single argument, the ExecutionContext instance. The ExecutionContext inherits from ArgumentsHost. We saw ArgumentsHost previously in the exception filters chapter. In the sample above, we are just using the same helper methods defined on ArgumentsHost that we used earlier, to get a reference to the Request object. You can refer back to the Arguments host section of the exception filters chapter for more on this topic.\n\nBy extending ArgumentsHost, ExecutionContext also adds several new helper methods that provide additional details about the current execution process. These details can be helpful in building more generic guards that can work across a broad set of controllers, methods, and execution contexts. Learn more about ExecutionContexthere.\n\nLet's build a more functional guard that permits access only to users with a specific role. We'll start with a basic guard template, and build on it in the coming sections. For now, it allows all requests to proceed:\n\nLike pipes and exception filters, guards can be controller-scoped, method-scoped, or global-scoped. Below, we set up a controller-scoped guard using the @UseGuards() decorator. This decorator may take a single argument, or a comma-separated list of arguments. This lets you easily apply the appropriate set of guards with one declaration.\n\nAbove, we passed the RolesGuard class (instead of an instance), leaving responsibility for instantiation to the framework and enabling dependency injection. As with pipes and exception filters, we can also pass an in-place instance:\n\nThe construction above attaches the guard to every handler declared by this controller. If we wish the guard to apply only to a single method, we apply the @UseGuards() decorator at the method level.\n\nIn order to set up a global guard, use the useGlobalGuards() method of the Nest application instance:\n\nGlobal guards are used across the whole application, for every controller and every route handler. In terms of dependency injection, global guards registered from outside of any module (with useGlobalGuards() as in the example above) cannot inject dependencies since this is done outside the context of any module. In order to solve this issue, you can set up a guard directly from any module using the following construction:\n\nOur RolesGuard is working, but it's not very smart yet. We're not yet taking advantage of the most important guard feature - the execution context. It doesn't yet know about roles, or which roles are allowed for each handler. The CatsController, for example, could have different permission schemes for different routes. Some might be available only for an admin user, and others could be open for everyone. How can we match roles to routes in a flexible and reusable way?\n\nThis is where custom metadata comes into play (learn more here). Nest provides the ability to attach custom metadata to route handlers through either decorators created via Reflector.createDecorator static method, or the built-in @SetMetadata() decorator.\n\nFor example, let's create a @Roles() decorator using the Reflector.createDecorator method that will attach the metadata to the handler. Reflector is provided out of the box by the framework and exposed from the @nestjs/core package.\n\nThe Roles decorator here is a function that takes a single argument of type string[].\n\nNow, to use this decorator, we simply annotate the handler with it:\n\nHere we've attached the Roles decorator metadata to the create() method, indicating that only users with the admin role should be allowed to access this route.\n\nAlternatively, instead of using the Reflector.createDecorator method, we could use the built-in @SetMetadata() decorator. Learn more about here.\n\nLet's now go back and tie this together with our RolesGuard. Currently, it simply returns true in all cases, allowing every request to proceed. We want to make the return value conditional based on comparing the roles assigned to the current user to the actual roles required by the current route being processed. In order to access the route's role(s) (custom metadata), we'll use the Reflector helper class again, as follows:\n\nRefer to the Reflection and metadata section of the Execution context chapter for more details on utilizing Reflector in a context-sensitive way.\n\nWhen a user with insufficient privileges requests an endpoint, Nest automatically returns the following response:\n\nNote that behind the scenes, when a guard returns false, the framework throws a ForbiddenException. If you want to return a different error response, you should throw your own specific exception. For example:\n\nAny exception thrown by a guard will be handled by the exceptions layer (global exceptions filter and any exceptions filters that are applied to the current context).",
+  "headings": [
+    {
+      "level": "h3",
+      "text": "Guards",
+      "id": "guards"
+    },
+    {
+      "level": "h4",
+      "text": "Authorization guard#",
+      "id": "authorization-guard"
+    },
+    {
+      "level": "h2",
+      "text": "Official enterprise support",
+      "id": ""
+    },
+    {
+      "level": "h4",
+      "text": "Execution context#",
+      "id": "execution-context"
+    },
+    {
+      "level": "h4",
+      "text": "Role-based authentication#",
+      "id": "role-based-authentication"
+    },
+    {
+      "level": "h4",
+      "text": "Binding guards#",
+      "id": "binding-guards"
+    },
+    {
+      "level": "h4",
+      "text": "Setting roles per handler#",
+      "id": "setting-roles-per-handler"
+    },
+    {
+      "level": "h4",
+      "text": "Putting it all together#",
+      "id": "putting-it-all-together"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';\nimport { Observable } from 'rxjs';\n\n@Injectable()\nexport class AuthGuard implements CanActivate {\n  canActivate(\n    context: ExecutionContext,\n  ): boolean | Promise<boolean> | Observable<boolean> {\n    const request = context.switchToHttp().getRequest();\n    return validateRequest(request);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Injectable } from '@nestjs/common';\n\n@Injectable()\nexport class AuthGuard {\n  async canActivate(context) {\n    const request = context.switchToHttp().getRequest();\n    return validateRequest(request);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';\nimport { Observable } from 'rxjs';\n\n@Injectable()\nexport class RolesGuard implements CanActivate {\n  canActivate(\n    context: ExecutionContext,\n  ): boolean | Promise<boolean> | Observable<boolean> {\n    return true;\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Injectable } from '@nestjs/common';\n\n@Injectable()\nexport class RolesGuard {\n  canActivate(context) {\n    return true;\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Controller('cats')\n@UseGuards(RolesGuard)\nexport class CatsController {}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Controller('cats')\n@UseGuards(new RolesGuard())\nexport class CatsController {}",
+      "language": "typescript"
+    },
+    {
+      "code": "const app = await NestFactory.create(AppModule);\napp.useGlobalGuards(new RolesGuard());",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Module } from '@nestjs/common';\nimport { APP_GUARD } from '@nestjs/core';\n\n@Module({\n  providers: [\n    {\n      provide: APP_GUARD,\n      useClass: RolesGuard,\n    },\n  ],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Reflector } from '@nestjs/core';\n\nexport const Roles = Reflector.createDecorator<string[]>();",
+      "language": "javascript"
+    },
+    {
+      "code": "@Post()\n@Roles(['admin'])\nasync create(@Body() createCatDto: CreateCatDto) {\n  this.catsService.create(createCatDto);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Post()\n@Roles(['admin'])\n@Bind(Body())\nasync create(createCatDto) {\n  this.catsService.create(createCatDto);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';\nimport { Reflector } from '@nestjs/core';\nimport { Roles } from './roles.decorator';\n\n@Injectable()\nexport class RolesGuard implements CanActivate {\n  constructor(private reflector: Reflector) {}\n\n  canActivate(context: ExecutionContext): boolean {\n    const roles = this.reflector.get(Roles, context.getHandler());\n    if (!roles) {\n      return true;\n    }\n    const request = context.switchToHttp().getRequest();\n    const user = request.user;\n    return matchRoles(roles, user.roles);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Injectable, Dependencies } from '@nestjs/common';\nimport { Reflector } from '@nestjs/core';\nimport { Roles } from './roles.decorator';\n\n@Injectable()\n@Dependencies(Reflector)\nexport class RolesGuard {\n  constructor(reflector) {\n    this.reflector = reflector;\n  }\n\n  canActivate(context) {\n    const roles = this.reflector.get(Roles, context.getHandler());\n    if (!roles) {\n      return true;\n    }\n    const request = context.switchToHttp().getRequest();\n    const user = request.user;\n    return matchRoles(roles, user.roles);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "{\n  \"statusCode\": 403,\n  \"message\": \"Forbidden resource\",\n  \"error\": \"Forbidden\"\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "throw new UnauthorizedException();",
+      "language": "typescript"
+    }
+  ],
+  "patterns": [
+    {
+      "description": "Note that behind the scenes, when a guard returns false, the framework throws a ForbiddenException. If you want to return a different error response, you should throw your own specific exception. For example:",
+      "code": "false"
+    }
+  ],
+  "links": [
+    "https://docs.nestjs.com/first-steps",
+    "https://docs.nestjs.com/controllers",
+    "https://docs.nestjs.com/providers",
+    "https://docs.nestjs.com/modules",
+    "https://docs.nestjs.com/middleware",
+    "https://docs.nestjs.com/exception-filters",
+    "https://docs.nestjs.com/pipes",
+    "https://docs.nestjs.com/guards",
+    "https://docs.nestjs.com/interceptors",
+    "https://docs.nestjs.com/custom-decorators",
+    "https://docs.nestjs.com/fundamentals/custom-providers",
+    "https://docs.nestjs.com/fundamentals/async-providers",
+    "https://docs.nestjs.com/fundamentals/dynamic-modules",
+    "https://docs.nestjs.com/fundamentals/injection-scopes",
+    "https://docs.nestjs.com/fundamentals/circular-dependency",
+    "https://docs.nestjs.com/fundamentals/module-ref",
+    "https://docs.nestjs.com/fundamentals/lazy-loading-modules",
+    "https://docs.nestjs.com/fundamentals/execution-context",
+    "https://docs.nestjs.com/fundamentals/lifecycle-events",
+    "https://docs.nestjs.com/fundamentals/discovery-service",
+    "https://docs.nestjs.com/fundamentals/platform-agnosticism",
+    "https://docs.nestjs.com/fundamentals/testing",
+    "https://docs.nestjs.com/techniques/configuration",
+    "https://docs.nestjs.com/techniques/database",
+    "https://docs.nestjs.com/techniques/mongodb",
+    "https://docs.nestjs.com/techniques/validation",
+    "https://docs.nestjs.com/techniques/caching",
+    "https://docs.nestjs.com/techniques/serialization",
+    "https://docs.nestjs.com/techniques/versioning",
+    "https://docs.nestjs.com/techniques/task-scheduling",
+    "https://docs.nestjs.com/techniques/queues",
+    "https://docs.nestjs.com/techniques/logger",
+    "https://docs.nestjs.com/techniques/cookies",
+    "https://docs.nestjs.com/techniques/events",
+    "https://docs.nestjs.com/techniques/compression",
+    "https://docs.nestjs.com/techniques/file-upload",
+    "https://docs.nestjs.com/techniques/streaming-files",
+    "https://docs.nestjs.com/techniques/http-module",
+    "https://docs.nestjs.com/techniques/session",
+    "https://docs.nestjs.com/techniques/mvc",
+    "https://docs.nestjs.com/techniques/performance",
+    "https://docs.nestjs.com/techniques/server-sent-events",
+    "https://docs.nestjs.com/security/authentication",
+    "https://docs.nestjs.com/security/authorization",
+    "https://docs.nestjs.com/security/encryption-and-hashing",
+    "https://docs.nestjs.com/security/helmet",
+    "https://docs.nestjs.com/security/cors",
+    "https://docs.nestjs.com/security/csrf",
+    "https://docs.nestjs.com/security/rate-limiting",
+    "https://docs.nestjs.com/graphql/quick-start",
+    "https://docs.nestjs.com/graphql/resolvers",
+    "https://docs.nestjs.com/graphql/mutations",
+    "https://docs.nestjs.com/graphql/subscriptions",
+    "https://docs.nestjs.com/graphql/scalars",
+    "https://docs.nestjs.com/graphql/directives",
+    "https://docs.nestjs.com/graphql/interfaces",
+    "https://docs.nestjs.com/graphql/unions-and-enums",
+    "https://docs.nestjs.com/graphql/field-middleware",
+    "https://docs.nestjs.com/graphql/mapped-types",
+    "https://docs.nestjs.com/graphql/plugins",
+    "https://docs.nestjs.com/graphql/complexity",
+    "https://docs.nestjs.com/graphql/extensions",
+    "https://docs.nestjs.com/graphql/cli-plugin",
+    "https://docs.nestjs.com/graphql/generating-sdl",
+    "https://docs.nestjs.com/graphql/sharing-models",
+    "https://docs.nestjs.com/graphql/other-features",
+    "https://docs.nestjs.com/graphql/federation",
+    "https://docs.nestjs.com/websockets/gateways",
+    "https://docs.nestjs.com/websockets/exception-filters",
+    "https://docs.nestjs.com/websockets/pipes",
+    "https://docs.nestjs.com/websockets/guards",
+    "https://docs.nestjs.com/websockets/interceptors",
+    "https://docs.nestjs.com/websockets/adapter",
+    "https://docs.nestjs.com/microservices/basics",
+    "https://docs.nestjs.com/microservices/redis",
+    "https://docs.nestjs.com/microservices/mqtt",
+    "https://docs.nestjs.com/microservices/nats",
+    "https://docs.nestjs.com/microservices/rabbitmq",
+    "https://docs.nestjs.com/microservices/kafka",
+    "https://docs.nestjs.com/microservices/grpc",
+    "https://docs.nestjs.com/microservices/custom-transport",
+    "https://docs.nestjs.com/microservices/exception-filters",
+    "https://docs.nestjs.com/microservices/pipes",
+    "https://docs.nestjs.com/microservices/guards",
+    "https://docs.nestjs.com/microservices/interceptors",
+    "https://docs.nestjs.com/standalone-applications",
+    "https://docs.nestjs.com/cli/overview",
+    "https://docs.nestjs.com/cli/monorepo",
+    "https://docs.nestjs.com/cli/libraries",
+    "https://docs.nestjs.com/cli/usages",
+    "https://docs.nestjs.com/cli/scripts",
+    "https://docs.nestjs.com/openapi/introduction",
+    "https://docs.nestjs.com/openapi/types-and-parameters",
+    "https://docs.nestjs.com/openapi/operations",
+    "https://docs.nestjs.com/openapi/security",
+    "https://docs.nestjs.com/openapi/mapped-types",
+    "https://docs.nestjs.com/openapi/decorators",
+    "https://docs.nestjs.com/openapi/cli-plugin",
+    "https://docs.nestjs.com/openapi/other-features",
+    "https://docs.nestjs.com/recipes/repl",
+    "https://docs.nestjs.com/recipes/crud-generator",
+    "https://docs.nestjs.com/recipes/swc",
+    "https://docs.nestjs.com/recipes/passport",
+    "https://docs.nestjs.com/recipes/hot-reload",
+    "https://docs.nestjs.com/recipes/mikroorm",
+    "https://docs.nestjs.com/recipes/sql-typeorm",
+    "https://docs.nestjs.com/recipes/mongodb",
+    "https://docs.nestjs.com/recipes/sql-sequelize",
+    "https://docs.nestjs.com/recipes/router-module",
+    "https://docs.nestjs.com/recipes/swagger",
+    "https://docs.nestjs.com/recipes/terminus",
+    "https://docs.nestjs.com/recipes/cqrs",
+    "https://docs.nestjs.com/recipes/documentation",
+    "https://docs.nestjs.com/recipes/prisma",
+    "https://docs.nestjs.com/recipes/sentry",
+    "https://docs.nestjs.com/recipes/serve-static",
+    "https://docs.nestjs.com/recipes/nest-commander",
+    "https://docs.nestjs.com/recipes/async-local-storage",
+    "https://docs.nestjs.com/recipes/necord",
+    "https://docs.nestjs.com/recipes/suites",
+    "https://docs.nestjs.com/faq/serverless",
+    "https://docs.nestjs.com/faq/http-adapter",
+    "https://docs.nestjs.com/faq/keep-alive-connections",
+    "https://docs.nestjs.com/faq/global-prefix",
+    "https://docs.nestjs.com/faq/raw-body",
+    "https://docs.nestjs.com/faq/hybrid-application",
+    "https://docs.nestjs.com/faq/multiple-servers",
+    "https://docs.nestjs.com/faq/request-lifecycle",
+    "https://docs.nestjs.com/faq/common-errors"
+  ]
+}

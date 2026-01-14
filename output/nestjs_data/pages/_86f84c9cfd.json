@@ -1,0 +1,288 @@
+{
+  "url": "https://docs.nestjs.com/techniques/file-upload",
+  "title": "",
+  "content": "To handle file uploading, Nest provides a built-in module based on the multer middleware package for Express. Multer handles data posted in the multipart/form-data format, which is primarily used for uploading files via an HTTP POST request. This module is fully configurable and you can adjust its behavior to your application requirements.\n\nFor better type safety, let's install Multer typings package:\n\nWith this package installed, we can now use the Express.Multer.File type (you can import this type as follows: import { Express } from 'express').\n\nTo upload a single file, simply tie the FileInterceptor() interceptor to the route handler and extract file from the request using the @UploadedFile() decorator.\n\nThe FileInterceptor() decorator takes two arguments:\n\nOften times it can be useful to validate incoming file metadata, like file size or file mime-type. For this, you can create your own Pipe and bind it to the parameter annotated with the UploadedFile decorator. The example below demonstrates how a basic file size validator pipe could be implemented:\n\nThis can be used in conjunction with the FileInterceptor as follows:\n\nNest provides a built-in pipe to handle common use cases and facilitate/standardize the addition of new ones. This pipe is called ParseFilePipe, and you can use it as follows:\n\nAs you can see, it's required to specify an array of file validators that will be executed by the ParseFilePipe. We'll discuss the interface of a validator, but it's worth mentioning this pipe also has two additional optional options:\n\nNow, back to the FileValidator interface. To integrate validators with this pipe, you have to either use built-in implementations or provide your own custom FileValidator. See example below:\n\nFileValidator is a regular class that has access to the file object and validates it according to the options provided by the client. Nest has two built-in FileValidator implementations you can use in your project:\n\nTo understand how these can be used in conjunction with the aforementioned FileParsePipe, we'll use an altered snippet of the last presented example:\n\nFinally, you can use the special ParseFilePipeBuilder class that lets you compose & construct your validators. By using it as shown below you can avoid manual instantiation of each validator and just pass their options directly:\n\nTo upload an array of files (identified with a single field name), use the FilesInterceptor() decorator (note the plural Files in the decorator name). This decorator takes three arguments:\n\nWhen using FilesInterceptor(), extract files from the request with the @UploadedFiles() decorator.\n\nTo upload multiple files (all with different field name keys), use the FileFieldsInterceptor() decorator. This decorator takes two arguments:\n\nWhen using FileFieldsInterceptor(), extract files from the request with the @UploadedFiles() decorator.\n\nTo upload all fields with arbitrary field name keys, use the AnyFilesInterceptor() decorator. This decorator can accept an optional options object as described above.\n\nWhen using AnyFilesInterceptor(), extract files from the request with the @UploadedFiles() decorator.\n\nTo accept multipart/form-data but not allow any files to be uploaded, use the NoFilesInterceptor. This sets multipart data as attributes on the request body. Any files sent with the request will throw a BadRequestException.\n\nYou can specify multer options in the file interceptors as described above. To set default options, you can call the static register() method when you import the MulterModule, passing in supported options. You can use all options listed here.\n\nWhen you need to set MulterModule options asynchronously instead of statically, use the registerAsync() method. As with most dynamic modules, Nest provides several techniques to deal with async configuration.\n\nOne technique is to use a factory function:\n\nLike other factory providers, our factory function can be async and can inject dependencies through inject.\n\nAlternatively, you can configure the MulterModule using a class instead of a factory, as shown below:\n\nThe construction above instantiates MulterConfigService inside MulterModule, using it to create the required options object. Note that in this example, the MulterConfigService has to implement the MulterOptionsFactory interface, as shown below. The MulterModule will call the createMulterOptions() method on the instantiated object of the supplied class.\n\nIf you want to reuse an existing options provider instead of creating a private copy inside the MulterModule, use the useExisting syntax.\n\nYou can also pass so-called extraProviders to the registerAsync() method. These providers will be merged with the module providers.\n\nThis is useful when you want to provide additional dependencies to the factory function or the class constructor.\n\nA working example is available here.",
+  "headings": [
+    {
+      "level": "h3",
+      "text": "File upload",
+      "id": "file-upload"
+    },
+    {
+      "level": "h4",
+      "text": "Basic example#",
+      "id": "basic-example"
+    },
+    {
+      "level": "h4",
+      "text": "File validation#",
+      "id": "file-validation"
+    },
+    {
+      "level": "h4",
+      "text": "Array of files#",
+      "id": "array-of-files"
+    },
+    {
+      "level": "h4",
+      "text": "Multiple files#",
+      "id": "multiple-files"
+    },
+    {
+      "level": "h4",
+      "text": "Any files#",
+      "id": "any-files"
+    },
+    {
+      "level": "h4",
+      "text": "No files#",
+      "id": "no-files"
+    },
+    {
+      "level": "h4",
+      "text": "Default options#",
+      "id": "default-options"
+    },
+    {
+      "level": "h4",
+      "text": "Async configuration#",
+      "id": "async-configuration"
+    },
+    {
+      "level": "h4",
+      "text": "Example#",
+      "id": "example"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "$ npm i -D @types/multer",
+      "language": "shell"
+    },
+    {
+      "code": "@Post('upload')\n@UseInterceptors(FileInterceptor('file'))\nuploadFile(@UploadedFile() file: Express.Multer.File) {\n  console.log(file);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Post('upload')\n@UseInterceptors(FileInterceptor('file'))\n@Bind(UploadedFile())\nuploadFile(file) {\n  console.log(file);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { PipeTransform, Injectable, ArgumentMetadata } from '@nestjs/common';\n\n@Injectable()\nexport class FileSizeValidationPipe implements PipeTransform {\n  transform(value: any, metadata: ArgumentMetadata) {\n    // \"value\" is an object containing the file's attributes and metadata\n    const oneKb = 1000;\n    return value.size < oneKb;\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Post('file')\n@UseInterceptors(FileInterceptor('file'))\nuploadFileAndValidate(@UploadedFile(\n  new FileSizeValidationPipe(),\n  // other pipes can be added here\n) file: Express.Multer.File, ) {\n  return file;\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Post('file')\nuploadFileAndPassValidation(\n  @Body() body: SampleDto,\n  @UploadedFile(\n    new ParseFilePipe({\n      validators: [\n        // ... Set of file validator instances here\n      ]\n    })\n  )\n  file: Express.Multer.File,\n) {\n  return {\n    body,\n    file: file.buffer.toString(),\n  };\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "export abstract class FileValidator<TValidationOptions = Record<string, any>> {\n  constructor(protected readonly validationOptions: TValidationOptions) {}\n\n  /**\n   * Indicates if this file should be considered valid, according to the options passed in the constructor.\n   * @param file the file from the request object\n   */\n  abstract isValid(file?: any): boolean | Promise<boolean>;\n\n  /**\n   * Builds an error message in case the validation fails.\n   * @param file the file from the request object\n   */\n  abstract buildErrorMessage(file: any): string;\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@UploadedFile(\n  new ParseFilePipe({\n    validators: [\n      new MaxFileSizeValidator({ maxSize: 1000 }),\n      new FileTypeValidator({ fileType: 'image/jpeg' }),\n    ],\n  }),\n)\nfile: Express.Multer.File,",
+      "language": "typescript"
+    },
+    {
+      "code": "@UploadedFile(\n  new ParseFilePipeBuilder()\n    .addFileTypeValidator({\n      fileType: 'jpeg',\n    })\n    .addMaxSizeValidator({\n      maxSize: 1000\n    })\n    .build({\n      errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY\n    }),\n)\nfile: Express.Multer.File,",
+      "language": "typescript"
+    },
+    {
+      "code": "@Post('upload')\n@UseInterceptors(FilesInterceptor('files'))\nuploadFile(@UploadedFiles() files: Array<Express.Multer.File>) {\n  console.log(files);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Post('upload')\n@UseInterceptors(FilesInterceptor('files'))\n@Bind(UploadedFiles())\nuploadFile(files) {\n  console.log(files);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Post('upload')\n@UseInterceptors(FileFieldsInterceptor([\n  { name: 'avatar', maxCount: 1 },\n  { name: 'background', maxCount: 1 },\n]))\nuploadFile(@UploadedFiles() files: { avatar?: Express.Multer.File[], background?: Express.Multer.File[] }) {\n  console.log(files);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Post('upload')\n@Bind(UploadedFiles())\n@UseInterceptors(FileFieldsInterceptor([\n  { name: 'avatar', maxCount: 1 },\n  { name: 'background', maxCount: 1 },\n]))\nuploadFile(files) {\n  console.log(files);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Post('upload')\n@UseInterceptors(AnyFilesInterceptor())\nuploadFile(@UploadedFiles() files: Array<Express.Multer.File>) {\n  console.log(files);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Post('upload')\n@Bind(UploadedFiles())\n@UseInterceptors(AnyFilesInterceptor())\nuploadFile(files) {\n  console.log(files);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Post('upload')\n@UseInterceptors(NoFilesInterceptor())\nhandleMultiPartData(@Body() body) {\n  console.log(body)\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "MulterModule.register({\n  dest: './upload',\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "MulterModule.registerAsync({\n  useFactory: () => ({\n    dest: './upload',\n  }),\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "MulterModule.registerAsync({\n  imports: [ConfigModule],\n  useFactory: async (configService: ConfigService) => ({\n    dest: configService.get<string>('MULTER_DEST'),\n  }),\n  inject: [ConfigService],\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "MulterModule.registerAsync({\n  useClass: MulterConfigService,\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\nclass MulterConfigService implements MulterOptionsFactory {\n  createMulterOptions(): MulterModuleOptions {\n    return {\n      dest: './upload',\n    };\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "MulterModule.registerAsync({\n  imports: [ConfigModule],\n  useExisting: ConfigService,\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "MulterModule.registerAsync({\n  imports: [ConfigModule],\n  useClass: ConfigService,\n  extraProviders: [MyAdditionalProvider],\n});",
+      "language": "typescript"
+    }
+  ],
+  "patterns": [
+    {
+      "description": "To understand how these can be used in conjunction with the aforementioned FileParsePipe, we'll use an altered snippet of the last presented example:",
+      "code": "FileParsePipe"
+    }
+  ],
+  "links": [
+    "https://docs.nestjs.com/first-steps",
+    "https://docs.nestjs.com/controllers",
+    "https://docs.nestjs.com/providers",
+    "https://docs.nestjs.com/modules",
+    "https://docs.nestjs.com/middleware",
+    "https://docs.nestjs.com/exception-filters",
+    "https://docs.nestjs.com/pipes",
+    "https://docs.nestjs.com/guards",
+    "https://docs.nestjs.com/interceptors",
+    "https://docs.nestjs.com/custom-decorators",
+    "https://docs.nestjs.com/fundamentals/custom-providers",
+    "https://docs.nestjs.com/fundamentals/async-providers",
+    "https://docs.nestjs.com/fundamentals/dynamic-modules",
+    "https://docs.nestjs.com/fundamentals/injection-scopes",
+    "https://docs.nestjs.com/fundamentals/circular-dependency",
+    "https://docs.nestjs.com/fundamentals/module-ref",
+    "https://docs.nestjs.com/fundamentals/lazy-loading-modules",
+    "https://docs.nestjs.com/fundamentals/execution-context",
+    "https://docs.nestjs.com/fundamentals/lifecycle-events",
+    "https://docs.nestjs.com/fundamentals/discovery-service",
+    "https://docs.nestjs.com/fundamentals/platform-agnosticism",
+    "https://docs.nestjs.com/fundamentals/testing",
+    "https://docs.nestjs.com/techniques/configuration",
+    "https://docs.nestjs.com/techniques/database",
+    "https://docs.nestjs.com/techniques/mongodb",
+    "https://docs.nestjs.com/techniques/validation",
+    "https://docs.nestjs.com/techniques/caching",
+    "https://docs.nestjs.com/techniques/serialization",
+    "https://docs.nestjs.com/techniques/versioning",
+    "https://docs.nestjs.com/techniques/task-scheduling",
+    "https://docs.nestjs.com/techniques/queues",
+    "https://docs.nestjs.com/techniques/logger",
+    "https://docs.nestjs.com/techniques/cookies",
+    "https://docs.nestjs.com/techniques/events",
+    "https://docs.nestjs.com/techniques/compression",
+    "https://docs.nestjs.com/techniques/file-upload",
+    "https://docs.nestjs.com/techniques/streaming-files",
+    "https://docs.nestjs.com/techniques/http-module",
+    "https://docs.nestjs.com/techniques/session",
+    "https://docs.nestjs.com/techniques/mvc",
+    "https://docs.nestjs.com/techniques/performance",
+    "https://docs.nestjs.com/techniques/server-sent-events",
+    "https://docs.nestjs.com/security/authentication",
+    "https://docs.nestjs.com/security/authorization",
+    "https://docs.nestjs.com/security/encryption-and-hashing",
+    "https://docs.nestjs.com/security/helmet",
+    "https://docs.nestjs.com/security/cors",
+    "https://docs.nestjs.com/security/csrf",
+    "https://docs.nestjs.com/security/rate-limiting",
+    "https://docs.nestjs.com/graphql/quick-start",
+    "https://docs.nestjs.com/graphql/resolvers",
+    "https://docs.nestjs.com/graphql/mutations",
+    "https://docs.nestjs.com/graphql/subscriptions",
+    "https://docs.nestjs.com/graphql/scalars",
+    "https://docs.nestjs.com/graphql/directives",
+    "https://docs.nestjs.com/graphql/interfaces",
+    "https://docs.nestjs.com/graphql/unions-and-enums",
+    "https://docs.nestjs.com/graphql/field-middleware",
+    "https://docs.nestjs.com/graphql/mapped-types",
+    "https://docs.nestjs.com/graphql/plugins",
+    "https://docs.nestjs.com/graphql/complexity",
+    "https://docs.nestjs.com/graphql/extensions",
+    "https://docs.nestjs.com/graphql/cli-plugin",
+    "https://docs.nestjs.com/graphql/generating-sdl",
+    "https://docs.nestjs.com/graphql/sharing-models",
+    "https://docs.nestjs.com/graphql/other-features",
+    "https://docs.nestjs.com/graphql/federation",
+    "https://docs.nestjs.com/websockets/gateways",
+    "https://docs.nestjs.com/websockets/exception-filters",
+    "https://docs.nestjs.com/websockets/pipes",
+    "https://docs.nestjs.com/websockets/guards",
+    "https://docs.nestjs.com/websockets/interceptors",
+    "https://docs.nestjs.com/websockets/adapter",
+    "https://docs.nestjs.com/microservices/basics",
+    "https://docs.nestjs.com/microservices/redis",
+    "https://docs.nestjs.com/microservices/mqtt",
+    "https://docs.nestjs.com/microservices/nats",
+    "https://docs.nestjs.com/microservices/rabbitmq",
+    "https://docs.nestjs.com/microservices/kafka",
+    "https://docs.nestjs.com/microservices/grpc",
+    "https://docs.nestjs.com/microservices/custom-transport",
+    "https://docs.nestjs.com/microservices/exception-filters",
+    "https://docs.nestjs.com/microservices/pipes",
+    "https://docs.nestjs.com/microservices/guards",
+    "https://docs.nestjs.com/microservices/interceptors",
+    "https://docs.nestjs.com/standalone-applications",
+    "https://docs.nestjs.com/cli/overview",
+    "https://docs.nestjs.com/cli/monorepo",
+    "https://docs.nestjs.com/cli/libraries",
+    "https://docs.nestjs.com/cli/usages",
+    "https://docs.nestjs.com/cli/scripts",
+    "https://docs.nestjs.com/openapi/introduction",
+    "https://docs.nestjs.com/openapi/types-and-parameters",
+    "https://docs.nestjs.com/openapi/operations",
+    "https://docs.nestjs.com/openapi/security",
+    "https://docs.nestjs.com/openapi/mapped-types",
+    "https://docs.nestjs.com/openapi/decorators",
+    "https://docs.nestjs.com/openapi/cli-plugin",
+    "https://docs.nestjs.com/openapi/other-features",
+    "https://docs.nestjs.com/recipes/repl",
+    "https://docs.nestjs.com/recipes/crud-generator",
+    "https://docs.nestjs.com/recipes/swc",
+    "https://docs.nestjs.com/recipes/passport",
+    "https://docs.nestjs.com/recipes/hot-reload",
+    "https://docs.nestjs.com/recipes/mikroorm",
+    "https://docs.nestjs.com/recipes/sql-typeorm",
+    "https://docs.nestjs.com/recipes/mongodb",
+    "https://docs.nestjs.com/recipes/sql-sequelize",
+    "https://docs.nestjs.com/recipes/router-module",
+    "https://docs.nestjs.com/recipes/swagger",
+    "https://docs.nestjs.com/recipes/terminus",
+    "https://docs.nestjs.com/recipes/cqrs",
+    "https://docs.nestjs.com/recipes/documentation",
+    "https://docs.nestjs.com/recipes/prisma",
+    "https://docs.nestjs.com/recipes/sentry",
+    "https://docs.nestjs.com/recipes/serve-static",
+    "https://docs.nestjs.com/recipes/nest-commander",
+    "https://docs.nestjs.com/recipes/async-local-storage",
+    "https://docs.nestjs.com/recipes/necord",
+    "https://docs.nestjs.com/recipes/suites",
+    "https://docs.nestjs.com/faq/serverless",
+    "https://docs.nestjs.com/faq/http-adapter",
+    "https://docs.nestjs.com/faq/keep-alive-connections",
+    "https://docs.nestjs.com/faq/global-prefix",
+    "https://docs.nestjs.com/faq/raw-body",
+    "https://docs.nestjs.com/faq/hybrid-application",
+    "https://docs.nestjs.com/faq/multiple-servers",
+    "https://docs.nestjs.com/faq/request-lifecycle",
+    "https://docs.nestjs.com/faq/common-errors"
+  ]
+}

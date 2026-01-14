@@ -1,0 +1,287 @@
+{
+  "url": "https://docs.nestjs.com/microservices/nats",
+  "title": "",
+  "content": "NATS is a simple, secure and high performance open source messaging system for cloud native applications, IoT messaging, and microservices architectures. The NATS server is written in the Go programming language, but client libraries to interact with the server are available for dozens of major programming languages. NATS supports both At Most Once and At Least Once delivery. It can run anywhere, from large servers and cloud instances, through edge gateways and even Internet of Things devices.\n\nTo start building NATS-based microservices, first install the required package:\n\nTo use the NATS transporter, pass the following options object to the createMicroservice() method:\n\nThe options object is specific to the chosen transporter. The NATS transporter exposes the properties described here as well as the following properties:\n\nLike other microservice transporters, you have several options for creating a NATS ClientProxy instance.\n\nOne method for creating an instance is to use the ClientsModule. To create a client instance with the ClientsModule, import it and use the register() method to pass an options object with the same properties shown above in the createMicroservice() method, as well as a name property to be used as the injection token. Read more about ClientsModulehere.\n\nOther options to create a client (either ClientProxyFactory or @Client()) can be used as well. You can read about them here.\n\nFor the request-response message style (read more), the NATS transporter does not use the NATS built-in Request-Reply mechanism. Instead, a \"request\" is published on a given subject using the publish() method with a unique reply subject name, and responders listen on that subject and send responses to the reply subject. Reply subjects are directed back to the requestor dynamically, regardless of location of either party.\n\nFor the event-based message style (read more), the NATS transporter uses NATS built-in Publish-Subscribe mechanism. A publisher sends a message on a subject and any active subscriber listening on that subject receives the message. Subscribers can also register interest in wildcard subjects that work a bit like a regular expression. This one-to-many pattern is sometimes called fan-out.\n\nNATS provides a built-in load balancing feature called distributed queues. To create a queue subscription, use the queue property as follows:\n\nIn more complex scenarios, you may need to access additional information about the incoming request. When using the NATS transporter, you can access the NatsContext object.\n\nA subscription may be to an explicit subject, or it may include wildcards.\n\nTo configure message options, you can use the NatsRecordBuilder class (note: this is doable for event-based flows as well). For example, to add x-version header, use the setHeaders method, as follows:\n\nAnd you can read these headers on the server-side as well, by accessing the NatsContext, as follows:\n\nIn some cases you might want to configure headers for multiple requests, you can pass these as options to the ClientProxyFactory:\n\nTo get real-time updates on the connection and the state of the underlying driver instance, you can subscribe to the status stream. This stream provides status updates specific to the chosen driver. For the NATS driver, the status stream emits connected, disconnected, and reconnecting events.\n\nSimilarly, you can subscribe to the server's status stream to receive notifications about the server's status.\n\nIn some cases, you might want to listen to internal events emitted by the microservice. For example, you could listen for the error event to trigger additional operations when an error occurs. To do this, use the on() method, as shown below:\n\nSimilarly, you can listen to the server's internal events:\n\nFor more advanced use cases, you may need to access the underlying driver instance. This can be useful for scenarios like manually closing the connection or using driver-specific methods. However, keep in mind that for most cases, you shouldn't need to access the driver directly.\n\nTo do so, you can use the unwrap() method, which returns the underlying driver instance. The generic type parameter should specify the type of driver instance you expect.\n\nSimilarly, you can access the server's underlying driver instance:",
+  "headings": [
+    {
+      "level": "h3",
+      "text": "NATS",
+      "id": "nats"
+    },
+    {
+      "level": "h4",
+      "text": "Installation#",
+      "id": "installation"
+    },
+    {
+      "level": "h4",
+      "text": "Overview#",
+      "id": "overview"
+    },
+    {
+      "level": "h4",
+      "text": "Options#",
+      "id": "options"
+    },
+    {
+      "level": "h4",
+      "text": "Client#",
+      "id": "client"
+    },
+    {
+      "level": "h4",
+      "text": "Request-response#",
+      "id": "request-response"
+    },
+    {
+      "level": "h4",
+      "text": "Event-based#",
+      "id": "event-based"
+    },
+    {
+      "level": "h4",
+      "text": "Queue groups#",
+      "id": "queue-groups"
+    },
+    {
+      "level": "h4",
+      "text": "Context#",
+      "id": "context"
+    },
+    {
+      "level": "h4",
+      "text": "Wildcards#",
+      "id": "wildcards"
+    },
+    {
+      "level": "h4",
+      "text": "Record builders#",
+      "id": "record-builders"
+    },
+    {
+      "level": "h4",
+      "text": "Instance status updates#",
+      "id": "instance-status-updates"
+    },
+    {
+      "level": "h4",
+      "text": "Listening to Nats events#",
+      "id": "listening-to-nats-events"
+    },
+    {
+      "level": "h4",
+      "text": "Underlying driver access#",
+      "id": "underlying-driver-access"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "$ npm i --save nats",
+      "language": "bash"
+    },
+    {
+      "code": "const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {\n  transport: Transport.NATS,\n  options: {\n    servers: ['nats://localhost:4222'],\n  },\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "const app = await NestFactory.createMicroservice(AppModule, {\n  transport: Transport.NATS,\n  options: {\n    servers: ['nats://localhost:4222'],\n  },\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "@Module({\n  imports: [\n    ClientsModule.register([\n      {\n        name: 'MATH_SERVICE',\n        transport: Transport.NATS,\n        options: {\n          servers: ['nats://localhost:4222'],\n        }\n      },\n    ]),\n  ]\n  ...\n})",
+      "language": "typescript"
+    },
+    {
+      "code": "const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {\n  transport: Transport.NATS,\n  options: {\n    servers: ['nats://localhost:4222'],\n    queue: 'cats_queue',\n  },\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "@MessagePattern('notifications')\ngetNotifications(@Payload() data: number[], @Ctx() context: NatsContext) {\n  console.log(`Subject: ${context.getSubject()}`);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Bind(Payload(), Ctx())\n@MessagePattern('notifications')\ngetNotifications(data, context) {\n  console.log(`Subject: ${context.getSubject()}`);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@MessagePattern('time.us.*')\ngetDate(@Payload() data: number[], @Ctx() context: NatsContext) {\n  console.log(`Subject: ${context.getSubject()}`); // e.g. \"time.us.east\"\n  return new Date().toLocaleTimeString(...);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Bind(Payload(), Ctx())\n@MessagePattern('time.us.*')\ngetDate(data, context) {\n  console.log(`Subject: ${context.getSubject()}`); // e.g. \"time.us.east\"\n  return new Date().toLocaleTimeString(...);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import * as nats from 'nats';\n\n// somewhere in your code\nconst headers = nats.headers();\nheaders.set('x-version', '1.0.0');\n\nconst record = new NatsRecordBuilder(':cat:').setHeaders(headers).build();\nthis.client.send('replace-emoji', record).subscribe(...);",
+      "language": "typescript"
+    },
+    {
+      "code": "@MessagePattern('replace-emoji')\nreplaceEmoji(@Payload() data: string, @Ctx() context: NatsContext): string {\n  const headers = context.getHeaders();\n  return headers['x-version'] === '1.0.0' ? '🐱' : '🐈';\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Bind(Payload(), Ctx())\n@MessagePattern('replace-emoji')\nreplaceEmoji(data, context) {\n  const headers = context.getHeaders();\n  return headers['x-version'] === '1.0.0' ? '🐱' : '🐈';\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Module } from '@nestjs/common';\nimport { ClientProxyFactory, Transport } from '@nestjs/microservices';\n\n@Module({\n  providers: [\n    {\n      provide: 'API_v1',\n      useFactory: () =>\n        ClientProxyFactory.create({\n          transport: Transport.NATS,\n          options: {\n            servers: ['nats://localhost:4222'],\n            headers: { 'x-version': '1.0.0' },\n          },\n        }),\n    },\n  ],\n})\nexport class ApiModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "this.client.status.subscribe((status: NatsStatus) => {\n  console.log(status);\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "const server = app.connectMicroservice<MicroserviceOptions>(...);\nserver.status.subscribe((status: NatsStatus) => {\n  console.log(status);\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "this.client.on('error', (err) => {\n  console.error(err);\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "server.on<NatsEvents>('error', (err) => {\n  console.error(err);\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "const natsConnection = this.client.unwrap<import('nats').NatsConnection>();",
+      "language": "typescript"
+    },
+    {
+      "code": "const natsConnection = server.unwrap<import('nats').NatsConnection>();",
+      "language": "typescript"
+    }
+  ],
+  "patterns": [],
+  "links": [
+    "https://docs.nestjs.com/first-steps",
+    "https://docs.nestjs.com/controllers",
+    "https://docs.nestjs.com/providers",
+    "https://docs.nestjs.com/modules",
+    "https://docs.nestjs.com/middleware",
+    "https://docs.nestjs.com/exception-filters",
+    "https://docs.nestjs.com/pipes",
+    "https://docs.nestjs.com/guards",
+    "https://docs.nestjs.com/interceptors",
+    "https://docs.nestjs.com/custom-decorators",
+    "https://docs.nestjs.com/fundamentals/custom-providers",
+    "https://docs.nestjs.com/fundamentals/async-providers",
+    "https://docs.nestjs.com/fundamentals/dynamic-modules",
+    "https://docs.nestjs.com/fundamentals/injection-scopes",
+    "https://docs.nestjs.com/fundamentals/circular-dependency",
+    "https://docs.nestjs.com/fundamentals/module-ref",
+    "https://docs.nestjs.com/fundamentals/lazy-loading-modules",
+    "https://docs.nestjs.com/fundamentals/execution-context",
+    "https://docs.nestjs.com/fundamentals/lifecycle-events",
+    "https://docs.nestjs.com/fundamentals/discovery-service",
+    "https://docs.nestjs.com/fundamentals/platform-agnosticism",
+    "https://docs.nestjs.com/fundamentals/testing",
+    "https://docs.nestjs.com/techniques/configuration",
+    "https://docs.nestjs.com/techniques/database",
+    "https://docs.nestjs.com/techniques/mongodb",
+    "https://docs.nestjs.com/techniques/validation",
+    "https://docs.nestjs.com/techniques/caching",
+    "https://docs.nestjs.com/techniques/serialization",
+    "https://docs.nestjs.com/techniques/versioning",
+    "https://docs.nestjs.com/techniques/task-scheduling",
+    "https://docs.nestjs.com/techniques/queues",
+    "https://docs.nestjs.com/techniques/logger",
+    "https://docs.nestjs.com/techniques/cookies",
+    "https://docs.nestjs.com/techniques/events",
+    "https://docs.nestjs.com/techniques/compression",
+    "https://docs.nestjs.com/techniques/file-upload",
+    "https://docs.nestjs.com/techniques/streaming-files",
+    "https://docs.nestjs.com/techniques/http-module",
+    "https://docs.nestjs.com/techniques/session",
+    "https://docs.nestjs.com/techniques/mvc",
+    "https://docs.nestjs.com/techniques/performance",
+    "https://docs.nestjs.com/techniques/server-sent-events",
+    "https://docs.nestjs.com/security/authentication",
+    "https://docs.nestjs.com/security/authorization",
+    "https://docs.nestjs.com/security/encryption-and-hashing",
+    "https://docs.nestjs.com/security/helmet",
+    "https://docs.nestjs.com/security/cors",
+    "https://docs.nestjs.com/security/csrf",
+    "https://docs.nestjs.com/security/rate-limiting",
+    "https://docs.nestjs.com/graphql/quick-start",
+    "https://docs.nestjs.com/graphql/resolvers",
+    "https://docs.nestjs.com/graphql/mutations",
+    "https://docs.nestjs.com/graphql/subscriptions",
+    "https://docs.nestjs.com/graphql/scalars",
+    "https://docs.nestjs.com/graphql/directives",
+    "https://docs.nestjs.com/graphql/interfaces",
+    "https://docs.nestjs.com/graphql/unions-and-enums",
+    "https://docs.nestjs.com/graphql/field-middleware",
+    "https://docs.nestjs.com/graphql/mapped-types",
+    "https://docs.nestjs.com/graphql/plugins",
+    "https://docs.nestjs.com/graphql/complexity",
+    "https://docs.nestjs.com/graphql/extensions",
+    "https://docs.nestjs.com/graphql/cli-plugin",
+    "https://docs.nestjs.com/graphql/generating-sdl",
+    "https://docs.nestjs.com/graphql/sharing-models",
+    "https://docs.nestjs.com/graphql/other-features",
+    "https://docs.nestjs.com/graphql/federation",
+    "https://docs.nestjs.com/websockets/gateways",
+    "https://docs.nestjs.com/websockets/exception-filters",
+    "https://docs.nestjs.com/websockets/pipes",
+    "https://docs.nestjs.com/websockets/guards",
+    "https://docs.nestjs.com/websockets/interceptors",
+    "https://docs.nestjs.com/websockets/adapter",
+    "https://docs.nestjs.com/microservices/basics",
+    "https://docs.nestjs.com/microservices/redis",
+    "https://docs.nestjs.com/microservices/mqtt",
+    "https://docs.nestjs.com/microservices/nats",
+    "https://docs.nestjs.com/microservices/rabbitmq",
+    "https://docs.nestjs.com/microservices/kafka",
+    "https://docs.nestjs.com/microservices/grpc",
+    "https://docs.nestjs.com/microservices/custom-transport",
+    "https://docs.nestjs.com/microservices/exception-filters",
+    "https://docs.nestjs.com/microservices/pipes",
+    "https://docs.nestjs.com/microservices/guards",
+    "https://docs.nestjs.com/microservices/interceptors",
+    "https://docs.nestjs.com/standalone-applications",
+    "https://docs.nestjs.com/cli/overview",
+    "https://docs.nestjs.com/cli/monorepo",
+    "https://docs.nestjs.com/cli/libraries",
+    "https://docs.nestjs.com/cli/usages",
+    "https://docs.nestjs.com/cli/scripts",
+    "https://docs.nestjs.com/openapi/introduction",
+    "https://docs.nestjs.com/openapi/types-and-parameters",
+    "https://docs.nestjs.com/openapi/operations",
+    "https://docs.nestjs.com/openapi/security",
+    "https://docs.nestjs.com/openapi/mapped-types",
+    "https://docs.nestjs.com/openapi/decorators",
+    "https://docs.nestjs.com/openapi/cli-plugin",
+    "https://docs.nestjs.com/openapi/other-features",
+    "https://docs.nestjs.com/recipes/repl",
+    "https://docs.nestjs.com/recipes/crud-generator",
+    "https://docs.nestjs.com/recipes/swc",
+    "https://docs.nestjs.com/recipes/passport",
+    "https://docs.nestjs.com/recipes/hot-reload",
+    "https://docs.nestjs.com/recipes/mikroorm",
+    "https://docs.nestjs.com/recipes/sql-typeorm",
+    "https://docs.nestjs.com/recipes/mongodb",
+    "https://docs.nestjs.com/recipes/sql-sequelize",
+    "https://docs.nestjs.com/recipes/router-module",
+    "https://docs.nestjs.com/recipes/swagger",
+    "https://docs.nestjs.com/recipes/terminus",
+    "https://docs.nestjs.com/recipes/cqrs",
+    "https://docs.nestjs.com/recipes/documentation",
+    "https://docs.nestjs.com/recipes/prisma",
+    "https://docs.nestjs.com/recipes/sentry",
+    "https://docs.nestjs.com/recipes/serve-static",
+    "https://docs.nestjs.com/recipes/nest-commander",
+    "https://docs.nestjs.com/recipes/async-local-storage",
+    "https://docs.nestjs.com/recipes/necord",
+    "https://docs.nestjs.com/recipes/suites",
+    "https://docs.nestjs.com/faq/serverless",
+    "https://docs.nestjs.com/faq/http-adapter",
+    "https://docs.nestjs.com/faq/keep-alive-connections",
+    "https://docs.nestjs.com/faq/global-prefix",
+    "https://docs.nestjs.com/faq/raw-body",
+    "https://docs.nestjs.com/faq/hybrid-application",
+    "https://docs.nestjs.com/faq/multiple-servers",
+    "https://docs.nestjs.com/faq/request-lifecycle",
+    "https://docs.nestjs.com/faq/common-errors"
+  ]
+}

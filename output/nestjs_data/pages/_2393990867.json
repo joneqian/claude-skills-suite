@@ -1,0 +1,342 @@
+{
+  "url": "https://docs.nestjs.com/microservices/grpc",
+  "title": "",
+  "content": "gRPC is a modern, open source, high performance RPC framework that can run in any environment. It can efficiently connect services in and across data centers with pluggable support for load balancing, tracing, health checking and authentication.\n\nLike many RPC systems, gRPC is based on the concept of defining a service in terms of functions (methods) that can be called remotely. For each method, you define the parameters and return types. Services, parameters, and return types are defined in .proto files using Google's open source language-neutral protocol buffers mechanism.\n\nWith the gRPC transporter, Nest uses .proto files to dynamically bind clients and servers to make it easy to implement remote procedure calls, automatically serializing and deserializing structured data.\n\nTo start building gRPC-based microservices, first install the required packages:\n\nLike other Nest microservices transport layer implementations, you select the gRPC transporter mechanism using the transport property of the options object passed to the createMicroservice() method. In the following example, we'll set up a hero service. The options property provides metadata about that service; its properties are described below.\n\nIn the nest-cli.json file, we add the assets property that allows us to distribute non-TypeScript files, and watchAssets - to turn on watching all non-TypeScript assets. In our case, we want .proto files to be automatically copied to the dist folder.\n\nThe gRPC transporter options object exposes the properties described below.\n\nLet's define our sample gRPC service called HeroesService. In the above options object, theprotoPath property sets a path to the .proto definitions file hero.proto. The hero.proto file is structured using protocol buffers. Here's what it looks like:\n\nOur HeroesService exposes a FindOne() method. This method expects an input argument of type HeroById and returns a Hero message (protocol buffers use message elements to define both parameter types and return types).\n\nNext, we need to implement the service. To define a handler that fulfills this definition, we use the @GrpcMethod() decorator in a controller, as shown below. This decorator provides the metadata needed to declare a method as a gRPC service method.\n\nThe decorator shown above takes two arguments. The first is the service name (e.g., 'HeroesService'), corresponding to the HeroesService service definition in hero.proto. The second (the string 'FindOne') corresponds to the FindOne() rpc method defined within HeroesService in the hero.proto file.\n\nThe findOne() handler method takes three arguments, the data passed from the caller, metadata that stores gRPC request metadata and call to obtain the GrpcCall object properties such as sendMetadata for send metadata to client.\n\nBoth @GrpcMethod() decorator arguments are optional. If called without the second argument (e.g., 'FindOne'), Nest will automatically associate the .proto file rpc method with the handler based on converting the handler name to upper camel case (e.g., the findOne handler is associated with the FindOne rpc call definition). This is shown below.\n\nYou can also omit the first @GrpcMethod() argument. In this case, Nest automatically associates the handler with the service definition from the proto definitions file based on the class name where the handler is defined. For example, in the following code, class HeroesService associates its handler methods with the HeroesService service definition in the hero.proto file based on the matching of the name 'HeroesService'.\n\nNest applications can act as gRPC clients, consuming services defined in .proto files. You access remote services through a ClientGrpc object. You can obtain a ClientGrpc object in several ways.\n\nThe preferred technique is to import the ClientsModule. Use the register() method to bind a package of services defined in a .proto file to an injection token, and to configure the service. The name property is the injection token. For gRPC services, use transport: Transport.GRPC. The options property is an object with the same properties described above.\n\nOnce registered, we can inject the configured ClientGrpc object with @Inject(). Then we use the ClientGrpc object's getService() method to retrieve the service instance, as shown below.\n\nNotice that there is a small difference compared to the technique used in other microservice transport methods. Instead of the ClientProxy class, we use the ClientGrpc class, which provides the getService() method. The getService() generic method takes a service name as an argument and returns its instance (if available).\n\nAlternatively, you can use the @Client() decorator to instantiate a ClientGrpc object, as follows:\n\nFinally, for more complex scenarios, we can inject a dynamically configured client using the ClientProxyFactory class as described here.\n\nIn either case, we end up with a reference to our HeroesService proxy object, which exposes the same set of methods that are defined inside the .proto file. Now, when we access this proxy object (i.e., heroesService), the gRPC system automatically serializes requests, forwards them to the remote system, returns a response, and deserializes the response. Because gRPC shields us from these network communication details, heroesService looks and acts like a local provider.\n\nNote, all service methods are lower camel cased (in order to follow the natural convention of the language). So, for example, while our .proto file HeroesService definition contains the FindOne() function, the heroesService instance will provide the findOne() method.\n\nA message handler is also able to return an Observable, in which case the result values will be emitted until the stream is completed.\n\nTo send gRPC metadata (along with the request), you can pass a second argument, as follows:\n\nPlease note that this would require updating the HeroesService interface that we've defined a few steps earlier.\n\nA working example is available here.\n\nThe gRPC Server Reflection Specification is a standard which allows gRPC clients to request details about the API that the server exposes, akin to exposing an OpenAPI document for a REST API. This can make working with developer debugging tools such as grpc-ui or postman significantly easier.\n\nTo add gRPC reflection support to your server, first install the required implementation package:\n\nThen it can be hooked into the gRPC server using the onLoadPackageDefinition hook in your gRPC server options, as follows:\n\nNow your server will respond to messages requesting API details using the reflection specification.\n\ngRPC on its own supports long-term live connections, conventionally known as streams. Streams are useful for cases such as Chatting, Observations or Chunk-data transfers. Find more details in the official documentation here.\n\nNest supports GRPC stream handlers in two possible ways:\n\nOfficial enterprise support Providing technical guidance Performing in-depth code reviews Mentoring team members Advising best practices Explore more\n\nLet's define a new sample gRPC service called HelloService. The hello.proto file is structured using protocol buffers. Here's what it looks like:\n\nBased on this .proto file, let's define the HelloService interface:\n\nThe @GrpcStreamMethod() decorator provides the function parameter as an RxJS Observable. Thus, we can receive and process multiple messages.\n\nAccording to the service definition (in the .proto file), the BidiHello method should stream requests to the service. To send multiple asynchronous messages to the stream from a client, we leverage an RxJS ReplaySubject class.\n\nIn the example above, we wrote two messages to the stream (next() calls) and notified the service that we've completed sending the data (complete() call).\n\nWhen the method return value is defined as stream, the @GrpcStreamCall() decorator provides the function parameter as grpc.ServerDuplexStream, which supports standard methods like .on('data', callback), .write(message) or .cancel(). Full documentation on available methods can be found here.\n\nAlternatively, when the method return value is not a stream, the @GrpcStreamCall() decorator provides two function parameters, respectively grpc.ServerReadableStream (read more here) and callback.\n\nLet's start with implementing the BidiHello which should support a full-duplex interaction.\n\nIn the example above, we used the write() method to write objects to the response stream. The callback passed into the .on() method as a second parameter will be called every time our service receives a new chunk of data.\n\nLet's implement the LotsOfGreetings method.\n\nHere we used the callback function to send the response once processing of the requestStream has been completed.\n\nWhen running a gRPC application in an orchestrator such a Kubernetes, you may need to know if it is running and in a healthy state. The gRPC Health Check specification is a standard that allow gRPC clients to expose their health status to allow the orchestrator to act accordingly.\n\nTo add gRPC health check support, first install the grpc-node package:\n\nThen it can be hooked into the gRPC service using the onLoadPackageDefinition hook in your gRPC server options, as follows. Note that the protoPath needs to have both the health check and the hero package.\n\nMetadata is information about a particular RPC call in the form of a list of key-value pairs, where the keys are strings and the values are typically strings but can be binary data. Metadata is opaque to gRPC itself - it lets the client provide information associated with the call to the server and vice versa. Metadata may include authentication tokens, request identifiers and tags for monitoring purposes, and data information such as the number of records in a data set.\n\nTo read the metadata in @GrpcMethod() handler, use the second argument (metadata), which is of type Metadata (imported from the grpc package).\n\nTo send back metadata from the handler, use the ServerUnaryCall#sendMetadata() method (third handler argument).\n\nLikewise, to read the metadata in handlers annotated with the @GrpcStreamMethod() handler (subject strategy), use the second argument (metadata), which is of type Metadata (imported from the grpc package).\n\nTo send back metadata from the handler, use the ServerDuplexStream#sendMetadata() method (third handler argument).\n\nTo read metadata from within the call stream handlers (handlers annotated with @GrpcStreamCall() decorator), listen to the metadata event on the requestStream reference, as follows:",
+  "headings": [
+    {
+      "level": "h3",
+      "text": "gRPC",
+      "id": "grpc"
+    },
+    {
+      "level": "h4",
+      "text": "Installation#",
+      "id": "installation"
+    },
+    {
+      "level": "h4",
+      "text": "Overview#",
+      "id": "overview"
+    },
+    {
+      "level": "h4",
+      "text": "Options#",
+      "id": "options"
+    },
+    {
+      "level": "h4",
+      "text": "Sample gRPC service#",
+      "id": "sample-grpc-service"
+    },
+    {
+      "level": "h4",
+      "text": "Client#",
+      "id": "client"
+    },
+    {
+      "level": "h4",
+      "text": "Example#",
+      "id": "example"
+    },
+    {
+      "level": "h4",
+      "text": "gRPC Reflection#",
+      "id": "grpc-reflection"
+    },
+    {
+      "level": "h4",
+      "text": "gRPC Streaming#",
+      "id": "grpc-streaming"
+    },
+    {
+      "level": "h2",
+      "text": "Official enterprise support",
+      "id": ""
+    },
+    {
+      "level": "h4",
+      "text": "Streaming sample#",
+      "id": "streaming-sample"
+    },
+    {
+      "level": "h4",
+      "text": "Subject strategy#",
+      "id": "subject-strategy"
+    },
+    {
+      "level": "h4",
+      "text": "Call stream handler#",
+      "id": "call-stream-handler"
+    },
+    {
+      "level": "h4",
+      "text": "Health checks#",
+      "id": "health-checks"
+    },
+    {
+      "level": "h4",
+      "text": "gRPC Metadata#",
+      "id": "grpc-metadata"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "$ npm i --save @grpc/grpc-js @grpc/proto-loader",
+      "language": "bash"
+    },
+    {
+      "code": "const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {\n  transport: Transport.GRPC,\n  options: {\n    package: 'hero',\n    protoPath: join(__dirname, 'hero/hero.proto'),\n  },\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "const app = await NestFactory.createMicroservice(AppModule, {\n  transport: Transport.GRPC,\n  options: {\n    package: 'hero',\n    protoPath: join(__dirname, 'hero/hero.proto'),\n  },\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "{\n  \"compilerOptions\": {\n    \"assets\": [\"**/*.proto\"],\n    \"watchAssets\": true\n  }\n}",
+      "language": "json"
+    },
+    {
+      "code": "// hero/hero.proto\nsyntax = \"proto3\";\n\npackage hero;\n\nservice HeroesService {\n  rpc FindOne (HeroById) returns (Hero) {}\n}\n\nmessage HeroById {\n  int32 id = 1;\n}\n\nmessage Hero {\n  int32 id = 1;\n  string name = 2;\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Controller()\nexport class HeroesController {\n  @GrpcMethod('HeroesService', 'FindOne')\n  findOne(data: HeroById, metadata: Metadata, call: ServerUnaryCall<any, any>): Hero {\n    const items = [\n      { id: 1, name: 'John' },\n      { id: 2, name: 'Doe' },\n    ];\n    return items.find(({ id }) => id === data.id);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Controller()\nexport class HeroesController {\n  @GrpcMethod('HeroesService', 'FindOne')\n  findOne(data, metadata, call) {\n    const items = [\n      { id: 1, name: 'John' },\n      { id: 2, name: 'Doe' },\n    ];\n    return items.find(({ id }) => id === data.id);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Controller()\nexport class HeroesController {\n  @GrpcMethod('HeroesService')\n  findOne(data: HeroById, metadata: Metadata, call: ServerUnaryCall<any, any>): Hero {\n    const items = [\n      { id: 1, name: 'John' },\n      { id: 2, name: 'Doe' },\n    ];\n    return items.find(({ id }) => id === data.id);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Controller()\nexport class HeroesController {\n  @GrpcMethod('HeroesService')\n  findOne(data, metadata, call) {\n    const items = [\n      { id: 1, name: 'John' },\n      { id: 2, name: 'Doe' },\n    ];\n    return items.find(({ id }) => id === data.id);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Controller()\nexport class HeroesService {\n  @GrpcMethod()\n  findOne(data: HeroById, metadata: Metadata, call: ServerUnaryCall<any, any>): Hero {\n    const items = [\n      { id: 1, name: 'John' },\n      { id: 2, name: 'Doe' },\n    ];\n    return items.find(({ id }) => id === data.id);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Controller()\nexport class HeroesService {\n  @GrpcMethod()\n  findOne(data, metadata, call) {\n    const items = [\n      { id: 1, name: 'John' },\n      { id: 2, name: 'Doe' },\n    ];\n    return items.find(({ id }) => id === data.id);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "imports: [\n  ClientsModule.register([\n    {\n      name: 'HERO_PACKAGE',\n      transport: Transport.GRPC,\n      options: {\n        package: 'hero',\n        protoPath: join(__dirname, 'hero/hero.proto'),\n      },\n    },\n  ]),\n];",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\nexport class AppService implements OnModuleInit {\n  private heroesService: HeroesService;\n\n  constructor(@Inject('HERO_PACKAGE') private client: ClientGrpc) {}\n\n  onModuleInit() {\n    this.heroesService = this.client.getService<HeroesService>('HeroesService');\n  }\n\n  getHero(): Observable<string> {\n    return this.heroesService.findOne({ id: 1 });\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\nexport class AppService implements OnModuleInit {\n  @Client({\n    transport: Transport.GRPC,\n    options: {\n      package: 'hero',\n      protoPath: join(__dirname, 'hero/hero.proto'),\n    },\n  })\n  client: ClientGrpc;\n\n  private heroesService: HeroesService;\n\n  onModuleInit() {\n    this.heroesService = this.client.getService<HeroesService>('HeroesService');\n  }\n\n  getHero(): Observable<string> {\n    return this.heroesService.findOne({ id: 1 });\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "interface HeroesService {\n  findOne(data: { id: number }): Observable<any>;\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Get()\ncall(): Observable<any> {\n  return this.heroesService.findOne({ id: 1 });\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Get()\ncall() {\n  return this.heroesService.findOne({ id: 1 });\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "call(): Observable<any> {\n  const metadata = new Metadata();\n  metadata.add('Set-Cookie', 'yummy_cookie=choco');\n\n  return this.heroesService.findOne({ id: 1 }, metadata);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "$ npm i --save @grpc/reflection",
+      "language": "bash"
+    },
+    {
+      "code": "import { ReflectionService } from '@grpc/reflection';\n\nconst app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {\n  options: {\n    onLoadPackageDefinition: (pkg, server) => {\n      new ReflectionService(pkg).addToServer(server);\n    },\n  },\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "// hello/hello.proto\nsyntax = \"proto3\";\n\npackage hello;\n\nservice HelloService {\n  rpc BidiHello(stream HelloRequest) returns (stream HelloResponse);\n  rpc LotsOfGreetings(stream HelloRequest) returns (HelloResponse);\n}\n\nmessage HelloRequest {\n  string greeting = 1;\n}\n\nmessage HelloResponse {\n  string reply = 1;\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "interface HelloService {\n  bidiHello(upstream: Observable<HelloRequest>): Observable<HelloResponse>;\n  lotsOfGreetings(\n    upstream: Observable<HelloRequest>,\n  ): Observable<HelloResponse>;\n}\n\ninterface HelloRequest {\n  greeting: string;\n}\n\ninterface HelloResponse {\n  reply: string;\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@GrpcStreamMethod()\nbidiHello(messages: Observable<any>, metadata: Metadata, call: ServerDuplexStream<any, any>): Observable<any> {\n  const subject = new Subject();\n\n  const onNext = message => {\n    console.log(message);\n    subject.next({\n      reply: 'Hello, world!'\n    });\n  };\n  const onComplete = () => subject.complete();\n  messages.subscribe({\n    next: onNext,\n    complete: onComplete,\n  });\n\n\n  return subject.asObservable();\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "const helloService = this.client.getService<HelloService>('HelloService');\nconst helloRequest$ = new ReplaySubject<HelloRequest>();\n\nhelloRequest$.next({ greeting: 'Hello (1)!' });\nhelloRequest$.next({ greeting: 'Hello (2)!' });\nhelloRequest$.complete();\n\nreturn helloService.bidiHello(helloRequest$);",
+      "language": "typescript"
+    },
+    {
+      "code": "@GrpcStreamCall()\nbidiHello(requestStream: any) {\n  requestStream.on('data', message => {\n    console.log(message);\n    requestStream.write({\n      reply: 'Hello, world!'\n    });\n  });\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@GrpcStreamCall()\nlotsOfGreetings(requestStream: any, callback: (err: unknown, value: HelloResponse) => void) {\n  requestStream.on('data', message => {\n    console.log(message);\n  });\n  requestStream.on('end', () => callback(null, { reply: 'Hello, world!' }));\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "$ npm i --save grpc-health-check",
+      "language": "bash"
+    },
+    {
+      "code": "import { HealthImplementation, protoPath as healthCheckProtoPath } from 'grpc-health-check';\n\nconst app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {\n  options: {\n    protoPath: [\n      healthCheckProtoPath,\n      protoPath: join(__dirname, 'hero/hero.proto'),\n    ],\n    onLoadPackageDefinition: (pkg, server) => {\n      const healthImpl = new HealthImplementation({\n        '': 'UNKNOWN',\n      });\n\n      healthImpl.addToServer(server);\n      healthImpl.setStatus('', 'SERVING');\n    },\n  },\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "@Controller()\nexport class HeroesService {\n  @GrpcMethod()\n  findOne(data: HeroById, metadata: Metadata, call: ServerUnaryCall<any, any>): Hero {\n    const serverMetadata = new Metadata();\n    const items = [\n      { id: 1, name: 'John' },\n      { id: 2, name: 'Doe' },\n    ];\n\n    serverMetadata.add('Set-Cookie', 'yummy_cookie=choco');\n    call.sendMetadata(serverMetadata);\n\n    return items.find(({ id }) => id === data.id);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Controller()\nexport class HeroesService {\n  @GrpcMethod()\n  findOne(data, metadata, call) {\n    const serverMetadata = new Metadata();\n    const items = [\n      { id: 1, name: 'John' },\n      { id: 2, name: 'Doe' },\n    ];\n\n    serverMetadata.add('Set-Cookie', 'yummy_cookie=choco');\n    call.sendMetadata(serverMetadata);\n\n    return items.find(({ id }) => id === data.id);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "requestStream.on('metadata', (metadata: Metadata) => {\n  const meta = metadata.get('X-Meta');\n});",
+      "language": "typescript"
+    }
+  ],
+  "patterns": [],
+  "links": [
+    "https://docs.nestjs.com/first-steps",
+    "https://docs.nestjs.com/controllers",
+    "https://docs.nestjs.com/providers",
+    "https://docs.nestjs.com/modules",
+    "https://docs.nestjs.com/middleware",
+    "https://docs.nestjs.com/exception-filters",
+    "https://docs.nestjs.com/pipes",
+    "https://docs.nestjs.com/guards",
+    "https://docs.nestjs.com/interceptors",
+    "https://docs.nestjs.com/custom-decorators",
+    "https://docs.nestjs.com/fundamentals/custom-providers",
+    "https://docs.nestjs.com/fundamentals/async-providers",
+    "https://docs.nestjs.com/fundamentals/dynamic-modules",
+    "https://docs.nestjs.com/fundamentals/injection-scopes",
+    "https://docs.nestjs.com/fundamentals/circular-dependency",
+    "https://docs.nestjs.com/fundamentals/module-ref",
+    "https://docs.nestjs.com/fundamentals/lazy-loading-modules",
+    "https://docs.nestjs.com/fundamentals/execution-context",
+    "https://docs.nestjs.com/fundamentals/lifecycle-events",
+    "https://docs.nestjs.com/fundamentals/discovery-service",
+    "https://docs.nestjs.com/fundamentals/platform-agnosticism",
+    "https://docs.nestjs.com/fundamentals/testing",
+    "https://docs.nestjs.com/techniques/configuration",
+    "https://docs.nestjs.com/techniques/database",
+    "https://docs.nestjs.com/techniques/mongodb",
+    "https://docs.nestjs.com/techniques/validation",
+    "https://docs.nestjs.com/techniques/caching",
+    "https://docs.nestjs.com/techniques/serialization",
+    "https://docs.nestjs.com/techniques/versioning",
+    "https://docs.nestjs.com/techniques/task-scheduling",
+    "https://docs.nestjs.com/techniques/queues",
+    "https://docs.nestjs.com/techniques/logger",
+    "https://docs.nestjs.com/techniques/cookies",
+    "https://docs.nestjs.com/techniques/events",
+    "https://docs.nestjs.com/techniques/compression",
+    "https://docs.nestjs.com/techniques/file-upload",
+    "https://docs.nestjs.com/techniques/streaming-files",
+    "https://docs.nestjs.com/techniques/http-module",
+    "https://docs.nestjs.com/techniques/session",
+    "https://docs.nestjs.com/techniques/mvc",
+    "https://docs.nestjs.com/techniques/performance",
+    "https://docs.nestjs.com/techniques/server-sent-events",
+    "https://docs.nestjs.com/security/authentication",
+    "https://docs.nestjs.com/security/authorization",
+    "https://docs.nestjs.com/security/encryption-and-hashing",
+    "https://docs.nestjs.com/security/helmet",
+    "https://docs.nestjs.com/security/cors",
+    "https://docs.nestjs.com/security/csrf",
+    "https://docs.nestjs.com/security/rate-limiting",
+    "https://docs.nestjs.com/graphql/quick-start",
+    "https://docs.nestjs.com/graphql/resolvers",
+    "https://docs.nestjs.com/graphql/mutations",
+    "https://docs.nestjs.com/graphql/subscriptions",
+    "https://docs.nestjs.com/graphql/scalars",
+    "https://docs.nestjs.com/graphql/directives",
+    "https://docs.nestjs.com/graphql/interfaces",
+    "https://docs.nestjs.com/graphql/unions-and-enums",
+    "https://docs.nestjs.com/graphql/field-middleware",
+    "https://docs.nestjs.com/graphql/mapped-types",
+    "https://docs.nestjs.com/graphql/plugins",
+    "https://docs.nestjs.com/graphql/complexity",
+    "https://docs.nestjs.com/graphql/extensions",
+    "https://docs.nestjs.com/graphql/cli-plugin",
+    "https://docs.nestjs.com/graphql/generating-sdl",
+    "https://docs.nestjs.com/graphql/sharing-models",
+    "https://docs.nestjs.com/graphql/other-features",
+    "https://docs.nestjs.com/graphql/federation",
+    "https://docs.nestjs.com/websockets/gateways",
+    "https://docs.nestjs.com/websockets/exception-filters",
+    "https://docs.nestjs.com/websockets/pipes",
+    "https://docs.nestjs.com/websockets/guards",
+    "https://docs.nestjs.com/websockets/interceptors",
+    "https://docs.nestjs.com/websockets/adapter",
+    "https://docs.nestjs.com/microservices/basics",
+    "https://docs.nestjs.com/microservices/redis",
+    "https://docs.nestjs.com/microservices/mqtt",
+    "https://docs.nestjs.com/microservices/nats",
+    "https://docs.nestjs.com/microservices/rabbitmq",
+    "https://docs.nestjs.com/microservices/kafka",
+    "https://docs.nestjs.com/microservices/grpc",
+    "https://docs.nestjs.com/microservices/custom-transport",
+    "https://docs.nestjs.com/microservices/exception-filters",
+    "https://docs.nestjs.com/microservices/pipes",
+    "https://docs.nestjs.com/microservices/guards",
+    "https://docs.nestjs.com/microservices/interceptors",
+    "https://docs.nestjs.com/standalone-applications",
+    "https://docs.nestjs.com/cli/overview",
+    "https://docs.nestjs.com/cli/monorepo",
+    "https://docs.nestjs.com/cli/libraries",
+    "https://docs.nestjs.com/cli/usages",
+    "https://docs.nestjs.com/cli/scripts",
+    "https://docs.nestjs.com/openapi/introduction",
+    "https://docs.nestjs.com/openapi/types-and-parameters",
+    "https://docs.nestjs.com/openapi/operations",
+    "https://docs.nestjs.com/openapi/security",
+    "https://docs.nestjs.com/openapi/mapped-types",
+    "https://docs.nestjs.com/openapi/decorators",
+    "https://docs.nestjs.com/openapi/cli-plugin",
+    "https://docs.nestjs.com/openapi/other-features",
+    "https://docs.nestjs.com/recipes/repl",
+    "https://docs.nestjs.com/recipes/crud-generator",
+    "https://docs.nestjs.com/recipes/swc",
+    "https://docs.nestjs.com/recipes/passport",
+    "https://docs.nestjs.com/recipes/hot-reload",
+    "https://docs.nestjs.com/recipes/mikroorm",
+    "https://docs.nestjs.com/recipes/sql-typeorm",
+    "https://docs.nestjs.com/recipes/mongodb",
+    "https://docs.nestjs.com/recipes/sql-sequelize",
+    "https://docs.nestjs.com/recipes/router-module",
+    "https://docs.nestjs.com/recipes/swagger",
+    "https://docs.nestjs.com/recipes/terminus",
+    "https://docs.nestjs.com/recipes/cqrs",
+    "https://docs.nestjs.com/recipes/documentation",
+    "https://docs.nestjs.com/recipes/prisma",
+    "https://docs.nestjs.com/recipes/sentry",
+    "https://docs.nestjs.com/recipes/serve-static",
+    "https://docs.nestjs.com/recipes/nest-commander",
+    "https://docs.nestjs.com/recipes/async-local-storage",
+    "https://docs.nestjs.com/recipes/necord",
+    "https://docs.nestjs.com/recipes/suites",
+    "https://docs.nestjs.com/faq/serverless",
+    "https://docs.nestjs.com/faq/http-adapter",
+    "https://docs.nestjs.com/faq/keep-alive-connections",
+    "https://docs.nestjs.com/faq/global-prefix",
+    "https://docs.nestjs.com/faq/raw-body",
+    "https://docs.nestjs.com/faq/hybrid-application",
+    "https://docs.nestjs.com/faq/multiple-servers",
+    "https://docs.nestjs.com/faq/request-lifecycle",
+    "https://docs.nestjs.com/faq/common-errors",
+    "https://docs.nestjs.com/microservices/microservices/grpc",
+    "https://docs.nestjs.com/microservices/microservices/basics"
+  ]
+}

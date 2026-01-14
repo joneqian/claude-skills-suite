@@ -1,0 +1,401 @@
+{
+  "url": "https://docs.nestjs.com/techniques/mongodb",
+  "title": "",
+  "content": "Nest supports two methods for integrating with the MongoDB database. You can either use the built-in TypeORM module described here, which has a connector for MongoDB, or use Mongoose, the most popular MongoDB object modeling tool. In this chapter we'll describe the latter, using the dedicated @nestjs/mongoose package.\n\nStart by installing the required dependencies:\n\nOnce the installation process is complete, we can import the MongooseModule into the root AppModule.\n\nThe forRoot() method accepts the same configuration object as mongoose.connect() from the Mongoose package, as described here.\n\nWith Mongoose, everything is derived from a Schema. Each schema maps to a MongoDB collection and defines the shape of the documents within that collection. Schemas are used to define Models. Models are responsible for creating and reading documents from the underlying MongoDB database.\n\nSchemas can be created with NestJS decorators, or with Mongoose itself manually. Using decorators to create schemas greatly reduces boilerplate and improves overall code readability.\n\nLet's define the CatSchema:\n\nThe @Schema() decorator marks a class as a schema definition. It maps our Cat class to a MongoDB collection of the same name, but with an additional “s” at the end - so the final mongo collection name will be cats. This decorator accepts a single optional argument which is a schema options object. Think of it as the object you would normally pass as a second argument of the mongoose.Schema class' constructor (e.g., new mongoose.Schema(_, options))). To learn more about available schema options, see this chapter.\n\nThe @Prop() decorator defines a property in the document. For example, in the schema definition above, we defined three properties: name, age, and breed. The schema types for these properties are automatically inferred thanks to TypeScript metadata (and reflection) capabilities. However, in more complex scenarios in which types cannot be implicitly reflected (for example, arrays or nested object structures), types must be indicated explicitly, as follows:\n\nAlternatively, the @Prop() decorator accepts an options object argument (read more about the available options). With this, you can indicate whether a property is required or not, specify a default value, or mark it as immutable. For example:\n\nIn case you want to specify relation to another model, later for populating, you can use @Prop() decorator as well. For example, if Cat has Owner which is stored in a different collection called owners, the property should have type and ref. For example:\n\nIn case there are multiple owners, your property configuration should look as follows:\n\nIf you don’t intend to always populate a reference to another collection, consider using mongoose.Types.ObjectId as the type instead:\n\nThen, when you need to selectively populate it later, you can use a repository function that specifies the correct type:\n\nFinally, the raw schema definition can also be passed to the decorator. This is useful when, for example, a property represents a nested object which is not defined as a class. For this, use the raw() function from the @nestjs/mongoose package, as follows:\n\nAlternatively, if you prefer not using decorators, you can define a schema manually. For example:\n\nThe cat.schema file resides in a folder in the cats directory, where we also define the CatsModule. While you can store schema files wherever you prefer, we recommend storing them near their related domain objects, in the appropriate module directory.\n\nLet's look at the CatsModule:\n\nThe MongooseModule provides the forFeature() method to configure the module, including defining which models should be registered in the current scope. If you also want to use the models in another module, add MongooseModule to the exports section of CatsModule and import CatsModule in the other module.\n\nOnce you've registered the schema, you can inject a Cat model into the CatsService using the @InjectModel() decorator:\n\nAt times you may need to access the native Mongoose Connection object. For example, you may want to make native API calls on the connection object. You can inject the Mongoose Connection by using the @InjectConnection() decorator as follows:\n\nTo start a session with Mongoose, it's recommended to inject the database connection using @InjectConnection rather than calling mongoose.startSession() directly. This approach allows better integration with the NestJS dependency injection system, ensuring proper connection management.\n\nHere's an example of how to start a session:\n\nIn this example, @InjectConnection() is used to inject the Mongoose connection into the service. Once the connection is injected, you can use connection.startSession() to begin a new session. This session can be used to manage database transactions, ensuring atomic operations across multiple queries. After starting the session, remember to commit or abort the transaction based on your logic.\n\nSome projects require multiple database connections. This can also be achieved with this module. To work with multiple connections, first create the connections. In this case, connection naming becomes mandatory.\n\nWith this setup, you have to tell the MongooseModule.forFeature() function which connection should be used.\n\nYou can also inject the Connection for a given connection:\n\nTo inject a given Connection to a custom provider (for example, factory provider), use the getConnectionToken() function passing the name of the connection as an argument.\n\nIf you are just looking to inject the model from a named database, you can use the connection name as a second parameter to the @InjectModel() decorator.\n\nMiddleware (also called pre and post hooks) are functions which are passed control during execution of asynchronous functions. Middleware is specified on the schema level and is useful for writing plugins (source). Calling pre() or post() after compiling a model does not work in Mongoose. To register a hook before model registration, use the forFeatureAsync() method of the MongooseModule along with a factory provider (i.e., useFactory). With this technique, you can access a schema object, then use the pre() or post() method to register a hook on that schema. See example below:\n\nLike other factory providers, our factory function can be async and can inject dependencies through inject.\n\nTo register a plugin for a given schema, use the forFeatureAsync() method.\n\nTo register a plugin for all schemas at once, call the .plugin() method of the Connection object. You should access the connection before models are created; to do this, use the connectionFactory:\n\nDiscriminators are a schema inheritance mechanism. They enable you to have multiple models with overlapping schemas on top of the same underlying MongoDB collection.\n\nSuppose you wanted to track different types of events in a single collection. Every event will have a timestamp.\n\nSignedUpEvent and ClickedLinkEvent instances will be stored in the same collection as generic events.\n\nNow, let's define the ClickedLinkEvent class, as follows:\n\nAnd SignUpEvent class:\n\nWith this in place, use the discriminators option to register a discriminator for a given schema. It works on both MongooseModule.forFeature and MongooseModule.forFeatureAsync:\n\nWhen unit testing an application, we usually want to avoid any database connection, making our test suites simpler to set up and faster to execute. But our classes might depend on models that are pulled from the connection instance. How do we resolve these classes? The solution is to create mock models.\n\nTo make this easier, the @nestjs/mongoose package exposes a getModelToken() function that returns a prepared injection token based on a token name. Using this token, you can easily provide a mock implementation using any of the standard custom provider techniques, including useClass, useValue, and useFactory. For example:\n\nIn this example, a hardcoded catModel (object instance) will be provided whenever any consumer injects a Model<Cat> using an @InjectModel() decorator.\n\nLearn the right way! 80+ chapters 5+ hours of videos Official certificate Deep-dive sessions Explore official courses\n\nWhen you need to pass module options asynchronously instead of statically, use the forRootAsync() method. As with most dynamic modules, Nest provides several techniques to deal with async configuration.\n\nOne technique is to use a factory function:\n\nLike other factory providers, our factory function can be async and can inject dependencies through inject.\n\nAlternatively, you can configure the MongooseModule using a class instead of a factory, as shown below:\n\nThe construction above instantiates MongooseConfigService inside MongooseModule, using it to create the required options object. Note that in this example, the MongooseConfigService has to implement the MongooseOptionsFactory interface, as shown below. The MongooseModule will call the createMongooseOptions() method on the instantiated object of the supplied class.\n\nIf you want to reuse an existing options provider instead of creating a private copy inside the MongooseModule, use the useExisting syntax.\n\nYou can listen to Mongoose connection events by using the onConnectionCreate configuration option. This allows you to implement custom logic whenever a connection is established. For instance, you can register event listeners for the connected, open, disconnected, reconnected, and disconnecting events, as demonstrated below:\n\nIn this code snippet, we are establishing a connection to a MongoDB database at mongodb://localhost/test. The onConnectionCreate option enables you to set up specific event listeners for monitoring the connection's status:\n\nYou can also incorporate the onConnectionCreate property into async configurations created with MongooseModule.forRootAsync():\n\nThis provides a flexible way to manage connection events, enabling you to handle changes in connection status effectively.\n\nTo nest subdocuments within a parent document, you can define your schemas as follows:\n\nAnd then reference the subdocument in the parent schema:\n\nIf you want to include multiple subdocuments, you can use an array of subdocuments. It's important to override the type of the property accordingly:\n\nIn Mongoose, a virtual is a property that exists on a document but is not persisted to MongoDB. It is not stored in the database but is computed dynamically whenever it's accessed. Virtuals are typically used for derived or computed values, like combining fields (e.g., creating a fullName property by concatenating firstName and lastName), or for creating properties that rely on existing data in the document.\n\nIn this example, the fullName virtual is derived from firstName and lastName. Even though it behaves like a normal property when accessed, it’s never saved to the MongoDB document.:\n\nA working example is available here.",
+  "headings": [
+    {
+      "level": "h3",
+      "text": "Mongo",
+      "id": "mongo"
+    },
+    {
+      "level": "h4",
+      "text": "Model injection#",
+      "id": "model-injection"
+    },
+    {
+      "level": "h4",
+      "text": "Connection#",
+      "id": "connection"
+    },
+    {
+      "level": "h4",
+      "text": "Sessions#",
+      "id": "sessions"
+    },
+    {
+      "level": "h4",
+      "text": "Multiple databases#",
+      "id": "multiple-databases"
+    },
+    {
+      "level": "h4",
+      "text": "Hooks (middleware)#",
+      "id": "hooks-middleware"
+    },
+    {
+      "level": "h4",
+      "text": "Plugins#",
+      "id": "plugins"
+    },
+    {
+      "level": "h4",
+      "text": "Discriminators#",
+      "id": "discriminators"
+    },
+    {
+      "level": "h4",
+      "text": "Testing#",
+      "id": "testing"
+    },
+    {
+      "level": "h2",
+      "text": "Learn the right way!",
+      "id": ""
+    },
+    {
+      "level": "h4",
+      "text": "Async configuration#",
+      "id": "async-configuration"
+    },
+    {
+      "level": "h4",
+      "text": "Connection events#",
+      "id": "connection-events"
+    },
+    {
+      "level": "h4",
+      "text": "Subdocuments#",
+      "id": "subdocuments"
+    },
+    {
+      "level": "h4",
+      "text": "Virtuals#",
+      "id": "virtuals"
+    },
+    {
+      "level": "h4",
+      "text": "Example#",
+      "id": "example"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "$ npm i @nestjs/mongoose mongoose",
+      "language": "bash"
+    },
+    {
+      "code": "import { Module } from '@nestjs/common';\nimport { MongooseModule } from '@nestjs/mongoose';\n\n@Module({\n  imports: [MongooseModule.forRoot('mongodb://localhost/nest')],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';\nimport { HydratedDocument } from 'mongoose';\n\nexport type CatDocument = HydratedDocument<Cat>;\n\n@Schema()\nexport class Cat {\n  @Prop()\n  name: string;\n\n  @Prop()\n  age: number;\n\n  @Prop()\n  breed: string;\n}\n\nexport const CatSchema = SchemaFactory.createForClass(Cat);",
+      "language": "typescript"
+    },
+    {
+      "code": "@Prop([String])\ntags: string[];",
+      "language": "typescript"
+    },
+    {
+      "code": "@Prop({ required: true })\nname: string;",
+      "language": "typescript"
+    },
+    {
+      "code": "import * as mongoose from 'mongoose';\nimport { Owner } from '../owners/schemas/owner.schema';\n\n// inside the class definition\n@Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Owner' })\nowner: Owner;",
+      "language": "typescript"
+    },
+    {
+      "code": "@Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Owner' }] })\nowners: Owner[];",
+      "language": "typescript"
+    },
+    {
+      "code": "@Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Owner' } })\n// This ensures the field is not confused with a populated reference\nowner: mongoose.Types.ObjectId;",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Owner } from './schemas/owner.schema';\n\n// e.g. inside a service or repository\nasync findAllPopulated() {\n  return this.catModel.find().populate<{ owner: Owner }>(\"owner\");\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Prop(raw({\n  firstName: { type: String },\n  lastName: { type: String }\n}))\ndetails: Record<string, any>;",
+      "language": "typescript"
+    },
+    {
+      "code": "export const CatSchema = new mongoose.Schema({\n  name: String,\n  age: Number,\n  breed: String,\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Module } from '@nestjs/common';\nimport { MongooseModule } from '@nestjs/mongoose';\nimport { CatsController } from './cats.controller';\nimport { CatsService } from './cats.service';\nimport { Cat, CatSchema } from './schemas/cat.schema';\n\n@Module({\n  imports: [MongooseModule.forFeature([{ name: Cat.name, schema: CatSchema }])],\n  controllers: [CatsController],\n  providers: [CatsService],\n})\nexport class CatsModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Model } from 'mongoose';\nimport { Injectable } from '@nestjs/common';\nimport { InjectModel } from '@nestjs/mongoose';\nimport { Cat } from './schemas/cat.schema';\nimport { CreateCatDto } from './dto/create-cat.dto';\n\n@Injectable()\nexport class CatsService {\n  constructor(@InjectModel(Cat.name) private catModel: Model<Cat>) {}\n\n  async create(createCatDto: CreateCatDto): Promise<Cat> {\n    const createdCat = new this.catModel(createCatDto);\n    return createdCat.save();\n  }\n\n  async findAll(): Promise<Cat[]> {\n    return this.catModel.find().exec();\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Model } from 'mongoose';\nimport { Injectable, Dependencies } from '@nestjs/common';\nimport { getModelToken } from '@nestjs/mongoose';\nimport { Cat } from './schemas/cat.schema';\n\n@Injectable()\n@Dependencies(getModelToken(Cat.name))\nexport class CatsService {\n  constructor(catModel) {\n    this.catModel = catModel;\n  }\n\n  async create(createCatDto) {\n    const createdCat = new this.catModel(createCatDto);\n    return createdCat.save();\n  }\n\n  async findAll() {\n    return this.catModel.find().exec();\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Injectable } from '@nestjs/common';\nimport { InjectConnection } from '@nestjs/mongoose';\nimport { Connection } from 'mongoose';\n\n@Injectable()\nexport class CatsService {\n  constructor(@InjectConnection() private connection: Connection) {}\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { InjectConnection } from '@nestjs/mongoose';\nimport { Connection } from 'mongoose';\n\n@Injectable()\nexport class CatsService {\n  constructor(@InjectConnection() private readonly connection: Connection) {}\n\n  async startTransaction() {\n    const session = await this.connection.startSession();\n    session.startTransaction();\n    // Your transaction logic here\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Module } from '@nestjs/common';\nimport { MongooseModule } from '@nestjs/mongoose';\n\n@Module({\n  imports: [\n    MongooseModule.forRoot('mongodb://localhost/test', {\n      connectionName: 'cats',\n    }),\n    MongooseModule.forRoot('mongodb://localhost/users', {\n      connectionName: 'users',\n    }),\n  ],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Module({\n  imports: [\n    MongooseModule.forFeature([{ name: Cat.name, schema: CatSchema }], 'cats'),\n  ],\n})\nexport class CatsModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Injectable } from '@nestjs/common';\nimport { InjectConnection } from '@nestjs/mongoose';\nimport { Connection } from 'mongoose';\n\n@Injectable()\nexport class CatsService {\n  constructor(@InjectConnection('cats') private connection: Connection) {}\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "{\n  provide: CatsService,\n  useFactory: (catsConnection: Connection) => {\n    return new CatsService(catsConnection);\n  },\n  inject: [getConnectionToken('cats')],\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\nexport class CatsService {\n  constructor(@InjectModel(Cat.name, 'cats') private catModel: Model<Cat>) {}\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\n@Dependencies(getModelToken(Cat.name, 'cats'))\nexport class CatsService {\n  constructor(catModel) {\n    this.catModel = catModel;\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Module({\n  imports: [\n    MongooseModule.forFeatureAsync([\n      {\n        name: Cat.name,\n        useFactory: () => {\n          const schema = CatsSchema;\n          schema.pre('save', function () {\n            console.log('Hello from pre save');\n          });\n          return schema;\n        },\n      },\n    ]),\n  ],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Module({\n  imports: [\n    MongooseModule.forFeatureAsync([\n      {\n        name: Cat.name,\n        imports: [ConfigModule],\n        useFactory: (configService: ConfigService) => {\n          const schema = CatsSchema;\n          schema.pre('save', function() {\n            console.log(\n              `${configService.get('APP_NAME')}: Hello from pre save`,\n            ),\n          });\n          return schema;\n        },\n        inject: [ConfigService],\n      },\n    ]),\n  ],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Module({\n  imports: [\n    MongooseModule.forFeatureAsync([\n      {\n        name: Cat.name,\n        useFactory: () => {\n          const schema = CatsSchema;\n          schema.plugin(require('mongoose-autopopulate'));\n          return schema;\n        },\n      },\n    ]),\n  ],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Module } from '@nestjs/common';\nimport { MongooseModule } from '@nestjs/mongoose';\n\n@Module({\n  imports: [\n    MongooseModule.forRoot('mongodb://localhost/test', {\n      connectionFactory: (connection) => {\n        connection.plugin(require('mongoose-autopopulate'));\n        return connection;\n      }\n    }),\n  ],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Schema({ discriminatorKey: 'kind' })\nexport class Event {\n  @Prop({\n    type: String,\n    required: true,\n    enum: [ClickedLinkEvent.name, SignUpEvent.name],\n  })\n  kind: string;\n\n  @Prop({ type: Date, required: true })\n  time: Date;\n}\n\nexport const EventSchema = SchemaFactory.createForClass(Event);",
+      "language": "typescript"
+    },
+    {
+      "code": "@Schema()\nexport class ClickedLinkEvent {\n  kind: string;\n  time: Date;\n\n  @Prop({ type: String, required: true })\n  url: string;\n}\n\nexport const ClickedLinkEventSchema = SchemaFactory.createForClass(ClickedLinkEvent);",
+      "language": "typescript"
+    },
+    {
+      "code": "@Schema()\nexport class SignUpEvent {\n  kind: string;\n  time: Date;\n\n  @Prop({ type: String, required: true })\n  user: string;\n}\n\nexport const SignUpEventSchema = SchemaFactory.createForClass(SignUpEvent);",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Module } from '@nestjs/common';\nimport { MongooseModule } from '@nestjs/mongoose';\n\n@Module({\n  imports: [\n    MongooseModule.forFeature([\n      {\n        name: Event.name,\n        schema: EventSchema,\n        discriminators: [\n          { name: ClickedLinkEvent.name, schema: ClickedLinkEventSchema },\n          { name: SignUpEvent.name, schema: SignUpEventSchema },\n        ],\n      },\n    ]),\n  ]\n})\nexport class EventsModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Module({\n  providers: [\n    CatsService,\n    {\n      provide: getModelToken(Cat.name),\n      useValue: catModel,\n    },\n  ],\n})\nexport class CatsModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "MongooseModule.forRootAsync({\n  useFactory: () => ({\n    uri: 'mongodb://localhost/nest',\n  }),\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "MongooseModule.forRootAsync({\n  imports: [ConfigModule],\n  useFactory: async (configService: ConfigService) => ({\n    uri: configService.get<string>('MONGODB_URI'),\n  }),\n  inject: [ConfigService],\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "MongooseModule.forRootAsync({\n  useClass: MongooseConfigService,\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\nexport class MongooseConfigService implements MongooseOptionsFactory {\n  createMongooseOptions(): MongooseModuleOptions {\n    return {\n      uri: 'mongodb://localhost/nest',\n    };\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "MongooseModule.forRootAsync({\n  imports: [ConfigModule],\n  useExisting: ConfigService,\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "MongooseModule.forRoot('mongodb://localhost/test', {\n  onConnectionCreate: (connection: Connection) => {\n    connection.on('connected', () => console.log('connected'));\n    connection.on('open', () => console.log('open'));\n    connection.on('disconnected', () => console.log('disconnected'));\n    connection.on('reconnected', () => console.log('reconnected'));\n    connection.on('disconnecting', () => console.log('disconnecting'));\n\n    return connection;\n  },\n}),",
+      "language": "typescript"
+    },
+    {
+      "code": "MongooseModule.forRootAsync({\n  useFactory: () => ({\n    uri: 'mongodb://localhost/test',\n    onConnectionCreate: (connection: Connection) => {\n      // Register event listeners here\n      return connection;\n    },\n  }),\n}),",
+      "language": "typescript"
+    },
+    {
+      "code": "@Schema()\nexport class Name {\n  @Prop()\n  firstName: string;\n\n  @Prop()\n  lastName: string;\n}\n\nexport const NameSchema = SchemaFactory.createForClass(Name);",
+      "language": "typescript"
+    },
+    {
+      "code": "@Schema()\nexport class Person {\n  @Prop(NameSchema)\n  name: Name;\n}\n\nexport const PersonSchema = SchemaFactory.createForClass(Person);\n\nexport type PersonDocumentOverride = {\n  name: Types.Subdocument<Types.ObjectId> & Name;\n};\n\nexport type PersonDocument = HydratedDocument<Person, PersonDocumentOverride>;",
+      "language": "typescript"
+    },
+    {
+      "code": "@Schema()\nexport class Person {\n  @Prop([NameSchema])\n  name: Name[];\n}\n\nexport const PersonSchema = SchemaFactory.createForClass(Person);\n\nexport type PersonDocumentOverride = {\n  name: Types.DocumentArray<Name>;\n};\n\nexport type PersonDocument = HydratedDocument<Person, PersonDocumentOverride>;",
+      "language": "typescript"
+    },
+    {
+      "code": "class Person {\n  @Prop()\n  firstName: string;\n\n  @Prop()\n  lastName: string;\n\n  @Virtual({\n    get: function (this: Person) {\n      return `${this.firstName} ${this.lastName}`;\n    },\n  })\n  fullName: string;\n}",
+      "language": "php"
+    }
+  ],
+  "patterns": [
+    {
+      "description": "Alternatively, the @Prop() decorator accepts an options object argument (read more about the available options). With this, you can indicate whether a property is required or not, specify a default value, or mark it as immutable. For example:",
+      "code": "@Prop()"
+    },
+    {
+      "description": "In case you want to specify relation to another model, later for populating, you can use @Prop() decorator as well. For example, if Cat has Owner which is stored in a different collection called owners, the property should have type and ref. For example:",
+      "code": "@Prop()"
+    },
+    {
+      "description": "Alternatively, if you prefer not using decorators, you can define a schema manually. For example:",
+      "code": "export const CatSchema = new mongoose.Schema({\n  name: String,\n  age: Number,\n  breed: String,\n});"
+    },
+    {
+      "description": "To make this easier, the @nestjs/mongoose package exposes a getModelToken() function that returns a prepared injection token based on a token name. Using this token, you can easily provide a mock implementation using any of the standard custom provider techniques, including useClass, useValue, and useFactory. For example:",
+      "code": "@nestjs/mongoose"
+    }
+  ],
+  "links": [
+    "https://docs.nestjs.com/first-steps",
+    "https://docs.nestjs.com/controllers",
+    "https://docs.nestjs.com/providers",
+    "https://docs.nestjs.com/modules",
+    "https://docs.nestjs.com/middleware",
+    "https://docs.nestjs.com/exception-filters",
+    "https://docs.nestjs.com/pipes",
+    "https://docs.nestjs.com/guards",
+    "https://docs.nestjs.com/interceptors",
+    "https://docs.nestjs.com/custom-decorators",
+    "https://docs.nestjs.com/fundamentals/custom-providers",
+    "https://docs.nestjs.com/fundamentals/async-providers",
+    "https://docs.nestjs.com/fundamentals/dynamic-modules",
+    "https://docs.nestjs.com/fundamentals/injection-scopes",
+    "https://docs.nestjs.com/fundamentals/circular-dependency",
+    "https://docs.nestjs.com/fundamentals/module-ref",
+    "https://docs.nestjs.com/fundamentals/lazy-loading-modules",
+    "https://docs.nestjs.com/fundamentals/execution-context",
+    "https://docs.nestjs.com/fundamentals/lifecycle-events",
+    "https://docs.nestjs.com/fundamentals/discovery-service",
+    "https://docs.nestjs.com/fundamentals/platform-agnosticism",
+    "https://docs.nestjs.com/fundamentals/testing",
+    "https://docs.nestjs.com/techniques/configuration",
+    "https://docs.nestjs.com/techniques/database",
+    "https://docs.nestjs.com/techniques/mongodb",
+    "https://docs.nestjs.com/techniques/validation",
+    "https://docs.nestjs.com/techniques/caching",
+    "https://docs.nestjs.com/techniques/serialization",
+    "https://docs.nestjs.com/techniques/versioning",
+    "https://docs.nestjs.com/techniques/task-scheduling",
+    "https://docs.nestjs.com/techniques/queues",
+    "https://docs.nestjs.com/techniques/logger",
+    "https://docs.nestjs.com/techniques/cookies",
+    "https://docs.nestjs.com/techniques/events",
+    "https://docs.nestjs.com/techniques/compression",
+    "https://docs.nestjs.com/techniques/file-upload",
+    "https://docs.nestjs.com/techniques/streaming-files",
+    "https://docs.nestjs.com/techniques/http-module",
+    "https://docs.nestjs.com/techniques/session",
+    "https://docs.nestjs.com/techniques/mvc",
+    "https://docs.nestjs.com/techniques/performance",
+    "https://docs.nestjs.com/techniques/server-sent-events",
+    "https://docs.nestjs.com/security/authentication",
+    "https://docs.nestjs.com/security/authorization",
+    "https://docs.nestjs.com/security/encryption-and-hashing",
+    "https://docs.nestjs.com/security/helmet",
+    "https://docs.nestjs.com/security/cors",
+    "https://docs.nestjs.com/security/csrf",
+    "https://docs.nestjs.com/security/rate-limiting",
+    "https://docs.nestjs.com/graphql/quick-start",
+    "https://docs.nestjs.com/graphql/resolvers",
+    "https://docs.nestjs.com/graphql/mutations",
+    "https://docs.nestjs.com/graphql/subscriptions",
+    "https://docs.nestjs.com/graphql/scalars",
+    "https://docs.nestjs.com/graphql/directives",
+    "https://docs.nestjs.com/graphql/interfaces",
+    "https://docs.nestjs.com/graphql/unions-and-enums",
+    "https://docs.nestjs.com/graphql/field-middleware",
+    "https://docs.nestjs.com/graphql/mapped-types",
+    "https://docs.nestjs.com/graphql/plugins",
+    "https://docs.nestjs.com/graphql/complexity",
+    "https://docs.nestjs.com/graphql/extensions",
+    "https://docs.nestjs.com/graphql/cli-plugin",
+    "https://docs.nestjs.com/graphql/generating-sdl",
+    "https://docs.nestjs.com/graphql/sharing-models",
+    "https://docs.nestjs.com/graphql/other-features",
+    "https://docs.nestjs.com/graphql/federation",
+    "https://docs.nestjs.com/websockets/gateways",
+    "https://docs.nestjs.com/websockets/exception-filters",
+    "https://docs.nestjs.com/websockets/pipes",
+    "https://docs.nestjs.com/websockets/guards",
+    "https://docs.nestjs.com/websockets/interceptors",
+    "https://docs.nestjs.com/websockets/adapter",
+    "https://docs.nestjs.com/microservices/basics",
+    "https://docs.nestjs.com/microservices/redis",
+    "https://docs.nestjs.com/microservices/mqtt",
+    "https://docs.nestjs.com/microservices/nats",
+    "https://docs.nestjs.com/microservices/rabbitmq",
+    "https://docs.nestjs.com/microservices/kafka",
+    "https://docs.nestjs.com/microservices/grpc",
+    "https://docs.nestjs.com/microservices/custom-transport",
+    "https://docs.nestjs.com/microservices/exception-filters",
+    "https://docs.nestjs.com/microservices/pipes",
+    "https://docs.nestjs.com/microservices/guards",
+    "https://docs.nestjs.com/microservices/interceptors",
+    "https://docs.nestjs.com/standalone-applications",
+    "https://docs.nestjs.com/cli/overview",
+    "https://docs.nestjs.com/cli/monorepo",
+    "https://docs.nestjs.com/cli/libraries",
+    "https://docs.nestjs.com/cli/usages",
+    "https://docs.nestjs.com/cli/scripts",
+    "https://docs.nestjs.com/openapi/introduction",
+    "https://docs.nestjs.com/openapi/types-and-parameters",
+    "https://docs.nestjs.com/openapi/operations",
+    "https://docs.nestjs.com/openapi/security",
+    "https://docs.nestjs.com/openapi/mapped-types",
+    "https://docs.nestjs.com/openapi/decorators",
+    "https://docs.nestjs.com/openapi/cli-plugin",
+    "https://docs.nestjs.com/openapi/other-features",
+    "https://docs.nestjs.com/recipes/repl",
+    "https://docs.nestjs.com/recipes/crud-generator",
+    "https://docs.nestjs.com/recipes/swc",
+    "https://docs.nestjs.com/recipes/passport",
+    "https://docs.nestjs.com/recipes/hot-reload",
+    "https://docs.nestjs.com/recipes/mikroorm",
+    "https://docs.nestjs.com/recipes/sql-typeorm",
+    "https://docs.nestjs.com/recipes/mongodb",
+    "https://docs.nestjs.com/recipes/sql-sequelize",
+    "https://docs.nestjs.com/recipes/router-module",
+    "https://docs.nestjs.com/recipes/swagger",
+    "https://docs.nestjs.com/recipes/terminus",
+    "https://docs.nestjs.com/recipes/cqrs",
+    "https://docs.nestjs.com/recipes/documentation",
+    "https://docs.nestjs.com/recipes/prisma",
+    "https://docs.nestjs.com/recipes/sentry",
+    "https://docs.nestjs.com/recipes/serve-static",
+    "https://docs.nestjs.com/recipes/nest-commander",
+    "https://docs.nestjs.com/recipes/async-local-storage",
+    "https://docs.nestjs.com/recipes/necord",
+    "https://docs.nestjs.com/recipes/suites",
+    "https://docs.nestjs.com/faq/serverless",
+    "https://docs.nestjs.com/faq/http-adapter",
+    "https://docs.nestjs.com/faq/keep-alive-connections",
+    "https://docs.nestjs.com/faq/global-prefix",
+    "https://docs.nestjs.com/faq/raw-body",
+    "https://docs.nestjs.com/faq/hybrid-application",
+    "https://docs.nestjs.com/faq/multiple-servers",
+    "https://docs.nestjs.com/faq/request-lifecycle",
+    "https://docs.nestjs.com/faq/common-errors"
+  ]
+}

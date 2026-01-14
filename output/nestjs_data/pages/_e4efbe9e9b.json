@@ -1,0 +1,290 @@
+{
+  "url": "https://docs.nestjs.com/fundamentals/custom-providers",
+  "title": "",
+  "content": "In earlier chapters, we touched on various aspects of Dependency Injection (DI) and how it is used in Nest. One example of this is the constructor based dependency injection used to inject instances (often service providers) into classes. You won't be surprised to learn that Dependency Injection is built into the Nest core in a fundamental way. So far, we've only explored one main pattern. As your application grows more complex, you may need to take advantage of the full features of the DI system, so let's explore them in more detail.\n\nDependency injection is an inversion of control (IoC) technique wherein you delegate instantiation of dependencies to the IoC container (in our case, the NestJS runtime system), instead of doing it in your own code imperatively. Let's examine what's happening in this example from the Providers chapter.\n\nFirst, we define a provider. The @Injectable() decorator marks the CatsService class as a provider.\n\nThen we request that Nest inject the provider into our controller class:\n\nFinally, we register the provider with the Nest IoC container:\n\nWhat exactly is happening under the covers to make this work? There are three key steps in the process:\n\nWhen the Nest IoC container instantiates a CatsController, it first looks for any dependencies*. When it finds the CatsService dependency, it performs a lookup on the CatsService token, which returns the CatsService class, per the registration step (#3 above). Assuming SINGLETON scope (the default behavior), Nest will then either create an instance of CatsService, cache it, and return it, or if one is already cached, return the existing instance.\n\n*This explanation is a bit simplified to illustrate the point. One important area we glossed over is that the process of analyzing the code for dependencies is very sophisticated, and happens during application bootstrapping. One key feature is that dependency analysis (or \"creating the dependency graph\"), is transitive. In the above example, if the CatsService itself had dependencies, those too would be resolved. The dependency graph ensures that dependencies are resolved in the correct order - essentially \"bottom up\". This mechanism relieves the developer from having to manage such complex dependency graphs.\n\nLearn the right way! 80+ chapters 5+ hours of videos Official certificate Deep-dive sessions Explore official courses\n\nLet's take a closer look at the @Module() decorator. In app.module, we declare:\n\nThe providers property takes an array of providers. So far, we've supplied those providers via a list of class names. In fact, the syntax providers: [CatsService] is short-hand for the more complete syntax:\n\nNow that we see this explicit construction, we can understand the registration process. Here, we are clearly associating the token CatsService with the class CatsService. The short-hand notation is merely a convenience to simplify the most common use-case, where the token is used to request an instance of a class by the same name.\n\nWhat happens when your requirements go beyond those offered by Standard providers? Here are a few examples:\n\nNest allows you to define Custom providers to handle these cases. It provides several ways to define custom providers. Let's walk through them.\n\nThe useValue syntax is useful for injecting a constant value, putting an external library into the Nest container, or replacing a real implementation with a mock object. Let's say you'd like to force Nest to use a mock CatsService for testing purposes.\n\nIn this example, the CatsService token will resolve to the mockCatsService mock object. useValue requires a value - in this case a literal object that has the same interface as the CatsService class it is replacing. Because of TypeScript's structural typing, you can use any object that has a compatible interface, including a literal object or a class instance instantiated with new.\n\nSo far, we've used class names as our provider tokens (the value of the provide property in a provider listed in the providers array). This is matched by the standard pattern used with constructor based injection, where the token is also a class name. (Refer back to DI Fundamentals for a refresher on tokens if this concept isn't entirely clear). Sometimes, we may want the flexibility to use strings or symbols as the DI token. For example:\n\nIn this example, we are associating a string-valued token ('CONNECTION') with a pre-existing connection object we've imported from an external file.\n\nWe've previously seen how to inject a provider using the standard constructor based injection pattern. This pattern requires that the dependency be declared with a class name. The 'CONNECTION' custom provider uses a string-valued token. Let's see how to inject such a provider. To do so, we use the @Inject() decorator. This decorator takes a single argument - the token.\n\nWhile we directly use the string 'CONNECTION' in the above examples for illustration purposes, for clean code organization, it's best practice to define tokens in a separate file, such as constants.ts. Treat them much as you would symbols or enums that are defined in their own file and imported where needed.\n\nThe useClass syntax allows you to dynamically determine a class that a token should resolve to. For example, suppose we have an abstract (or default) ConfigService class. Depending on the current environment, we want Nest to provide a different implementation of the configuration service. The following code implements such a strategy.\n\nLet's look at a couple of details in this code sample. You'll notice that we define configServiceProvider with a literal object first, then pass it in the module decorator's providers property. This is just a bit of code organization, but is functionally equivalent to the examples we've used thus far in this chapter.\n\nAlso, we have used the ConfigService class name as our token. For any class that depends on ConfigService, Nest will inject an instance of the provided class (DevelopmentConfigService or ProductionConfigService) overriding any default implementation that may have been declared elsewhere (e.g., a ConfigService declared with an @Injectable() decorator).\n\nThe useFactory syntax allows for creating providers dynamically. The actual provider will be supplied by the value returned from a factory function. The factory function can be as simple or complex as needed. A simple factory may not depend on any other providers. A more complex factory can itself inject other providers it needs to compute its result. For the latter case, the factory provider syntax has a pair of related mechanisms:\n\nThe useExisting syntax allows you to create aliases for existing providers. This creates two ways to access the same provider. In the example below, the (string-based) token 'AliasedLoggerService' is an alias for the (class-based) token LoggerService. Assume we have two different dependencies, one for 'AliasedLoggerService' and one for LoggerService. If both dependencies are specified with SINGLETON scope, they'll both resolve to the same instance.\n\nWhile providers often supply services, they are not limited to that usage. A provider can supply any value. For example, a provider may supply an array of configuration objects based on the current environment, as shown below:\n\nLike any provider, a custom provider is scoped to its declaring module. To make it visible to other modules, it must be exported. To export a custom provider, we can either use its token or the full provider object.\n\nThe following example shows exporting using the token:\n\nAlternatively, export with the full provider object:",
+  "headings": [
+    {
+      "level": "h3",
+      "text": "Custom providers",
+      "id": "custom-providers"
+    },
+    {
+      "level": "h4",
+      "text": "DI fundamentals#",
+      "id": "di-fundamentals"
+    },
+    {
+      "level": "h2",
+      "text": "Learn the right way!",
+      "id": ""
+    },
+    {
+      "level": "h4",
+      "text": "Standard providers#",
+      "id": "standard-providers"
+    },
+    {
+      "level": "h4",
+      "text": "Custom providers#",
+      "id": "custom-providers-1"
+    },
+    {
+      "level": "h4",
+      "text": "Value providers: useValue#",
+      "id": "value-providers-usevalue"
+    },
+    {
+      "level": "h4",
+      "text": "Non-class-based provider tokens#",
+      "id": "non-class-based-provider-tokens"
+    },
+    {
+      "level": "h4",
+      "text": "Class providers: useClass#",
+      "id": "class-providers-useclass"
+    },
+    {
+      "level": "h4",
+      "text": "Factory providers: useFactory#",
+      "id": "factory-providers-usefactory"
+    },
+    {
+      "level": "h4",
+      "text": "Alias providers: useExisting#",
+      "id": "alias-providers-useexisting"
+    },
+    {
+      "level": "h4",
+      "text": "Non-service based providers#",
+      "id": "non-service-based-providers"
+    },
+    {
+      "level": "h4",
+      "text": "Export custom provider#",
+      "id": "export-custom-provider"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "import { Injectable } from '@nestjs/common';\nimport { Cat } from './interfaces/cat.interface';\n\n@Injectable()\nexport class CatsService {\n  private readonly cats: Cat[] = [];\n\n  findAll(): Cat[] {\n    return this.cats;\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Injectable } from '@nestjs/common';\n\n@Injectable()\nexport class CatsService {\n  constructor() {\n    this.cats = [];\n  }\n\n  findAll() {\n    return this.cats;\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Controller, Get } from '@nestjs/common';\nimport { CatsService } from './cats.service';\nimport { Cat } from './interfaces/cat.interface';\n\n@Controller('cats')\nexport class CatsController {\n  constructor(private catsService: CatsService) {}\n\n  @Get()\n  async findAll(): Promise<Cat[]> {\n    return this.catsService.findAll();\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Controller, Get, Bind, Dependencies } from '@nestjs/common';\nimport { CatsService } from './cats.service';\n\n@Controller('cats')\n@Dependencies(CatsService)\nexport class CatsController {\n  constructor(catsService) {\n    this.catsService = catsService;\n  }\n\n  @Get()\n  async findAll() {\n    return this.catsService.findAll();\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Module } from '@nestjs/common';\nimport { CatsController } from './cats/cats.controller';\nimport { CatsService } from './cats/cats.service';\n\n@Module({\n  controllers: [CatsController],\n  providers: [CatsService],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "constructor(private catsService: CatsService)",
+      "language": "typescript"
+    },
+    {
+      "code": "@Module({\n  controllers: [CatsController],\n  providers: [CatsService],\n})",
+      "language": "typescript"
+    },
+    {
+      "code": "providers: [\n  {\n    provide: CatsService,\n    useClass: CatsService,\n  },\n];",
+      "language": "typescript"
+    },
+    {
+      "code": "import { CatsService } from './cats.service';\n\nconst mockCatsService = {\n  /* mock implementation\n  ...\n  */\n};\n\n@Module({\n  imports: [CatsModule],\n  providers: [\n    {\n      provide: CatsService,\n      useValue: mockCatsService,\n    },\n  ],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { connection } from './connection';\n\n@Module({\n  providers: [\n    {\n      provide: 'CONNECTION',\n      useValue: connection,\n    },\n  ],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\nexport class CatsRepository {\n  constructor(@Inject('CONNECTION') connection: Connection) {}\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\n@Dependencies('CONNECTION')\nexport class CatsRepository {\n  constructor(connection) {}\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "const configServiceProvider = {\n  provide: ConfigService,\n  useClass:\n    process.env.NODE_ENV === 'development'\n      ? DevelopmentConfigService\n      : ProductionConfigService,\n};\n\n@Module({\n  providers: [configServiceProvider],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "const connectionProvider = {\n  provide: 'CONNECTION',\n  useFactory: (optionsProvider: MyOptionsProvider, optionalProvider?: string) => {\n    const options = optionsProvider.get();\n    return new DatabaseConnection(options);\n  },\n  inject: [MyOptionsProvider, { token: 'SomeOptionalProvider', optional: true }],\n  //       \\______________/             \\__________________/\n  //        This provider                The provider with this token\n  //        is mandatory.                can resolve to `undefined`.\n};\n\n@Module({\n  providers: [\n    connectionProvider,\n    MyOptionsProvider, // class-based provider\n    // { provide: 'SomeOptionalProvider', useValue: 'anything' },\n  ],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "const connectionProvider = {\n  provide: 'CONNECTION',\n  useFactory: (optionsProvider, optionalProvider) => {\n    const options = optionsProvider.get();\n    return new DatabaseConnection(options);\n  },\n  inject: [MyOptionsProvider, { token: 'SomeOptionalProvider', optional: true }],\n  //       \\______________/            \\__________________/\n  //        This provider               The provider with this token\n  //        is mandatory.               can resolve to `undefined`.\n};\n\n@Module({\n  providers: [\n    connectionProvider,\n    MyOptionsProvider, // class-base provider\n    // { provide: 'SomeOptionalProvider', useValue: 'anything' },\n  ],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\nclass LoggerService {\n  /* implementation details */\n}\n\nconst loggerAliasProvider = {\n  provide: 'AliasedLoggerService',\n  useExisting: LoggerService,\n};\n\n@Module({\n  providers: [LoggerService, loggerAliasProvider],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "const configFactory = {\n  provide: 'CONFIG',\n  useFactory: () => {\n    return process.env.NODE_ENV === 'development' ? devConfig : prodConfig;\n  },\n};\n\n@Module({\n  providers: [configFactory],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "const connectionFactory = {\n  provide: 'CONNECTION',\n  useFactory: (optionsProvider: OptionsProvider) => {\n    const options = optionsProvider.get();\n    return new DatabaseConnection(options);\n  },\n  inject: [OptionsProvider],\n};\n\n@Module({\n  providers: [connectionFactory],\n  exports: ['CONNECTION'],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "const connectionFactory = {\n  provide: 'CONNECTION',\n  useFactory: (optionsProvider) => {\n    const options = optionsProvider.get();\n    return new DatabaseConnection(options);\n  },\n  inject: [OptionsProvider],\n};\n\n@Module({\n  providers: [connectionFactory],\n  exports: ['CONNECTION'],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "const connectionFactory = {\n  provide: 'CONNECTION',\n  useFactory: (optionsProvider: OptionsProvider) => {\n    const options = optionsProvider.get();\n    return new DatabaseConnection(options);\n  },\n  inject: [OptionsProvider],\n};\n\n@Module({\n  providers: [connectionFactory],\n  exports: [connectionFactory],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "const connectionFactory = {\n  provide: 'CONNECTION',\n  useFactory: (optionsProvider) => {\n    const options = optionsProvider.get();\n    return new DatabaseConnection(options);\n  },\n  inject: [OptionsProvider],\n};\n\n@Module({\n  providers: [connectionFactory],\n  exports: [connectionFactory],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    }
+  ],
+  "patterns": [
+    {
+      "description": "So far, we've used class names as our provider tokens (the value of the provide property in a provider listed in the providers array). This is matched by the standard pattern used with constructor based injection, where the token is also a class name. (Refer back to DI Fundamentals for a refresher on tokens if this concept isn't entirely clear). Sometimes, we may want the flexibility to use strings or symbols as the DI token. For example:",
+      "code": "provide"
+    }
+  ],
+  "links": [
+    "https://docs.nestjs.com/first-steps",
+    "https://docs.nestjs.com/controllers",
+    "https://docs.nestjs.com/providers",
+    "https://docs.nestjs.com/modules",
+    "https://docs.nestjs.com/middleware",
+    "https://docs.nestjs.com/exception-filters",
+    "https://docs.nestjs.com/pipes",
+    "https://docs.nestjs.com/guards",
+    "https://docs.nestjs.com/interceptors",
+    "https://docs.nestjs.com/custom-decorators",
+    "https://docs.nestjs.com/fundamentals/custom-providers",
+    "https://docs.nestjs.com/fundamentals/async-providers",
+    "https://docs.nestjs.com/fundamentals/dynamic-modules",
+    "https://docs.nestjs.com/fundamentals/injection-scopes",
+    "https://docs.nestjs.com/fundamentals/circular-dependency",
+    "https://docs.nestjs.com/fundamentals/module-ref",
+    "https://docs.nestjs.com/fundamentals/lazy-loading-modules",
+    "https://docs.nestjs.com/fundamentals/execution-context",
+    "https://docs.nestjs.com/fundamentals/lifecycle-events",
+    "https://docs.nestjs.com/fundamentals/discovery-service",
+    "https://docs.nestjs.com/fundamentals/platform-agnosticism",
+    "https://docs.nestjs.com/fundamentals/testing",
+    "https://docs.nestjs.com/techniques/configuration",
+    "https://docs.nestjs.com/techniques/database",
+    "https://docs.nestjs.com/techniques/mongodb",
+    "https://docs.nestjs.com/techniques/validation",
+    "https://docs.nestjs.com/techniques/caching",
+    "https://docs.nestjs.com/techniques/serialization",
+    "https://docs.nestjs.com/techniques/versioning",
+    "https://docs.nestjs.com/techniques/task-scheduling",
+    "https://docs.nestjs.com/techniques/queues",
+    "https://docs.nestjs.com/techniques/logger",
+    "https://docs.nestjs.com/techniques/cookies",
+    "https://docs.nestjs.com/techniques/events",
+    "https://docs.nestjs.com/techniques/compression",
+    "https://docs.nestjs.com/techniques/file-upload",
+    "https://docs.nestjs.com/techniques/streaming-files",
+    "https://docs.nestjs.com/techniques/http-module",
+    "https://docs.nestjs.com/techniques/session",
+    "https://docs.nestjs.com/techniques/mvc",
+    "https://docs.nestjs.com/techniques/performance",
+    "https://docs.nestjs.com/techniques/server-sent-events",
+    "https://docs.nestjs.com/security/authentication",
+    "https://docs.nestjs.com/security/authorization",
+    "https://docs.nestjs.com/security/encryption-and-hashing",
+    "https://docs.nestjs.com/security/helmet",
+    "https://docs.nestjs.com/security/cors",
+    "https://docs.nestjs.com/security/csrf",
+    "https://docs.nestjs.com/security/rate-limiting",
+    "https://docs.nestjs.com/graphql/quick-start",
+    "https://docs.nestjs.com/graphql/resolvers",
+    "https://docs.nestjs.com/graphql/mutations",
+    "https://docs.nestjs.com/graphql/subscriptions",
+    "https://docs.nestjs.com/graphql/scalars",
+    "https://docs.nestjs.com/graphql/directives",
+    "https://docs.nestjs.com/graphql/interfaces",
+    "https://docs.nestjs.com/graphql/unions-and-enums",
+    "https://docs.nestjs.com/graphql/field-middleware",
+    "https://docs.nestjs.com/graphql/mapped-types",
+    "https://docs.nestjs.com/graphql/plugins",
+    "https://docs.nestjs.com/graphql/complexity",
+    "https://docs.nestjs.com/graphql/extensions",
+    "https://docs.nestjs.com/graphql/cli-plugin",
+    "https://docs.nestjs.com/graphql/generating-sdl",
+    "https://docs.nestjs.com/graphql/sharing-models",
+    "https://docs.nestjs.com/graphql/other-features",
+    "https://docs.nestjs.com/graphql/federation",
+    "https://docs.nestjs.com/websockets/gateways",
+    "https://docs.nestjs.com/websockets/exception-filters",
+    "https://docs.nestjs.com/websockets/pipes",
+    "https://docs.nestjs.com/websockets/guards",
+    "https://docs.nestjs.com/websockets/interceptors",
+    "https://docs.nestjs.com/websockets/adapter",
+    "https://docs.nestjs.com/microservices/basics",
+    "https://docs.nestjs.com/microservices/redis",
+    "https://docs.nestjs.com/microservices/mqtt",
+    "https://docs.nestjs.com/microservices/nats",
+    "https://docs.nestjs.com/microservices/rabbitmq",
+    "https://docs.nestjs.com/microservices/kafka",
+    "https://docs.nestjs.com/microservices/grpc",
+    "https://docs.nestjs.com/microservices/custom-transport",
+    "https://docs.nestjs.com/microservices/exception-filters",
+    "https://docs.nestjs.com/microservices/pipes",
+    "https://docs.nestjs.com/microservices/guards",
+    "https://docs.nestjs.com/microservices/interceptors",
+    "https://docs.nestjs.com/standalone-applications",
+    "https://docs.nestjs.com/cli/overview",
+    "https://docs.nestjs.com/cli/monorepo",
+    "https://docs.nestjs.com/cli/libraries",
+    "https://docs.nestjs.com/cli/usages",
+    "https://docs.nestjs.com/cli/scripts",
+    "https://docs.nestjs.com/openapi/introduction",
+    "https://docs.nestjs.com/openapi/types-and-parameters",
+    "https://docs.nestjs.com/openapi/operations",
+    "https://docs.nestjs.com/openapi/security",
+    "https://docs.nestjs.com/openapi/mapped-types",
+    "https://docs.nestjs.com/openapi/decorators",
+    "https://docs.nestjs.com/openapi/cli-plugin",
+    "https://docs.nestjs.com/openapi/other-features",
+    "https://docs.nestjs.com/recipes/repl",
+    "https://docs.nestjs.com/recipes/crud-generator",
+    "https://docs.nestjs.com/recipes/swc",
+    "https://docs.nestjs.com/recipes/passport",
+    "https://docs.nestjs.com/recipes/hot-reload",
+    "https://docs.nestjs.com/recipes/mikroorm",
+    "https://docs.nestjs.com/recipes/sql-typeorm",
+    "https://docs.nestjs.com/recipes/mongodb",
+    "https://docs.nestjs.com/recipes/sql-sequelize",
+    "https://docs.nestjs.com/recipes/router-module",
+    "https://docs.nestjs.com/recipes/swagger",
+    "https://docs.nestjs.com/recipes/terminus",
+    "https://docs.nestjs.com/recipes/cqrs",
+    "https://docs.nestjs.com/recipes/documentation",
+    "https://docs.nestjs.com/recipes/prisma",
+    "https://docs.nestjs.com/recipes/sentry",
+    "https://docs.nestjs.com/recipes/serve-static",
+    "https://docs.nestjs.com/recipes/nest-commander",
+    "https://docs.nestjs.com/recipes/async-local-storage",
+    "https://docs.nestjs.com/recipes/necord",
+    "https://docs.nestjs.com/recipes/suites",
+    "https://docs.nestjs.com/faq/serverless",
+    "https://docs.nestjs.com/faq/http-adapter",
+    "https://docs.nestjs.com/faq/keep-alive-connections",
+    "https://docs.nestjs.com/faq/global-prefix",
+    "https://docs.nestjs.com/faq/raw-body",
+    "https://docs.nestjs.com/faq/hybrid-application",
+    "https://docs.nestjs.com/faq/multiple-servers",
+    "https://docs.nestjs.com/faq/request-lifecycle",
+    "https://docs.nestjs.com/faq/common-errors"
+  ]
+}

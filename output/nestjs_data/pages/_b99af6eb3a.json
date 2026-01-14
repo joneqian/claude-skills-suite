@@ -1,0 +1,216 @@
+{
+  "url": "https://docs.nestjs.com/graphql/mapped-types",
+  "title": "",
+  "content": "As you build out features like CRUD (Create/Read/Update/Delete) it's often useful to construct variants on a base entity type. Nest provides several utility functions that perform type transformations to make this task more convenient.\n\nWhen building input validation types (also called Data Transfer Objects or DTOs), it's often useful to build create and update variations on the same type. For example, the create variant may require all fields, while the update variant may make all fields optional.\n\nNest provides the PartialType() utility function to make this task easier and minimize boilerplate.\n\nThe PartialType() function returns a type (class) with all the properties of the input type set to optional. For example, suppose we have a create type as follows:\n\nBy default, all of these fields are required. To create a type with the same fields, but with each one optional, use PartialType() passing the class reference (CreateUserInput) as an argument:\n\nThe PartialType() function takes an optional second argument that is a reference to a decorator factory. This argument can be used to change the decorator function applied to the resulting (child) class. If not specified, the child class effectively uses the same decorator as the parent class (the class referenced in the first argument). In the example above, we are extending CreateUserInput which is annotated with the @InputType() decorator. Since we want UpdateUserInput to also be treated as if it were decorated with @InputType(), we didn't need to pass InputType as the second argument. If the parent and child types are different, (e.g., the parent is decorated with @ObjectType), we would pass InputType as the second argument. For example:\n\nThe PickType() function constructs a new type (class) by picking a set of properties from an input type. For example, suppose we start with a type like:\n\nWe can pick a set of properties from this class using the PickType() utility function:\n\nThe OmitType() function constructs a type by picking all properties from an input type and then removing a particular set of keys. For example, suppose we start with a type like:\n\nWe can generate a derived type that has every property exceptemail as shown below. In this construct, the second argument to OmitType is an array of property names.\n\nThe IntersectionType() function combines two types into one new type (class). For example, suppose we start with two types like:\n\nWe can generate a new type that combines all properties in both types.\n\nThe type mapping utility functions are composable. For example, the following will produce a type (class) that has all of the properties of the CreateUserInput type except for email, and those properties will be set to optional:",
+  "headings": [
+    {
+      "level": "h3",
+      "text": "Mapped types",
+      "id": "mapped-types"
+    },
+    {
+      "level": "h4",
+      "text": "Partial#",
+      "id": "partial"
+    },
+    {
+      "level": "h4",
+      "text": "Pick#",
+      "id": "pick"
+    },
+    {
+      "level": "h4",
+      "text": "Omit#",
+      "id": "omit"
+    },
+    {
+      "level": "h4",
+      "text": "Intersection#",
+      "id": "intersection"
+    },
+    {
+      "level": "h4",
+      "text": "Composition#",
+      "id": "composition"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "@InputType()\nclass CreateUserInput {\n  @Field()\n  email: string;\n\n  @Field()\n  password: string;\n\n  @Field()\n  firstName: string;\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@InputType()\nexport class UpdateUserInput extends PartialType(CreateUserInput) {}",
+      "language": "typescript"
+    },
+    {
+      "code": "@InputType()\nexport class UpdateUserInput extends PartialType(User, InputType) {}",
+      "language": "typescript"
+    },
+    {
+      "code": "@InputType()\nclass CreateUserInput {\n  @Field()\n  email: string;\n\n  @Field()\n  password: string;\n\n  @Field()\n  firstName: string;\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@InputType()\nexport class UpdateEmailInput extends PickType(CreateUserInput, [\n  'email',\n] as const) {}",
+      "language": "typescript"
+    },
+    {
+      "code": "@InputType()\nclass CreateUserInput {\n  @Field()\n  email: string;\n\n  @Field()\n  password: string;\n\n  @Field()\n  firstName: string;\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@InputType()\nexport class UpdateUserInput extends OmitType(CreateUserInput, [\n  'email',\n] as const) {}",
+      "language": "typescript"
+    },
+    {
+      "code": "@InputType()\nclass CreateUserInput {\n  @Field()\n  email: string;\n\n  @Field()\n  password: string;\n}\n\n@ObjectType()\nexport class AdditionalUserInfo {\n  @Field()\n  firstName: string;\n\n  @Field()\n  lastName: string;\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@InputType()\nexport class UpdateUserInput extends IntersectionType(\n  CreateUserInput,\n  AdditionalUserInfo,\n) {}",
+      "language": "typescript"
+    },
+    {
+      "code": "@InputType()\nexport class UpdateUserInput extends PartialType(\n  OmitType(CreateUserInput, ['email'] as const),\n) {}",
+      "language": "typescript"
+    }
+  ],
+  "patterns": [
+    {
+      "description": "The PartialType() function takes an optional second argument that is a reference to a decorator factory. This argument can be used to change the decorator function applied to the resulting (child) class. If not specified, the child class effectively uses the same decorator as the parent class (the class referenced in the first argument). In the example above, we are extending CreateUserInput which is annotated with the @InputType() decorator. Since we want UpdateUserInput to also be treated as if it were decorated with @InputType(), we didn't need to pass InputType as the second argument. If the parent and child types are different, (e.g., the parent is decorated with @ObjectType), we would pass InputType as the second argument. For example:",
+      "code": "PartialType()"
+    }
+  ],
+  "links": [
+    "https://docs.nestjs.com/first-steps",
+    "https://docs.nestjs.com/controllers",
+    "https://docs.nestjs.com/providers",
+    "https://docs.nestjs.com/modules",
+    "https://docs.nestjs.com/middleware",
+    "https://docs.nestjs.com/exception-filters",
+    "https://docs.nestjs.com/pipes",
+    "https://docs.nestjs.com/guards",
+    "https://docs.nestjs.com/interceptors",
+    "https://docs.nestjs.com/custom-decorators",
+    "https://docs.nestjs.com/fundamentals/custom-providers",
+    "https://docs.nestjs.com/fundamentals/async-providers",
+    "https://docs.nestjs.com/fundamentals/dynamic-modules",
+    "https://docs.nestjs.com/fundamentals/injection-scopes",
+    "https://docs.nestjs.com/fundamentals/circular-dependency",
+    "https://docs.nestjs.com/fundamentals/module-ref",
+    "https://docs.nestjs.com/fundamentals/lazy-loading-modules",
+    "https://docs.nestjs.com/fundamentals/execution-context",
+    "https://docs.nestjs.com/fundamentals/lifecycle-events",
+    "https://docs.nestjs.com/fundamentals/discovery-service",
+    "https://docs.nestjs.com/fundamentals/platform-agnosticism",
+    "https://docs.nestjs.com/fundamentals/testing",
+    "https://docs.nestjs.com/techniques/configuration",
+    "https://docs.nestjs.com/techniques/database",
+    "https://docs.nestjs.com/techniques/mongodb",
+    "https://docs.nestjs.com/techniques/validation",
+    "https://docs.nestjs.com/techniques/caching",
+    "https://docs.nestjs.com/techniques/serialization",
+    "https://docs.nestjs.com/techniques/versioning",
+    "https://docs.nestjs.com/techniques/task-scheduling",
+    "https://docs.nestjs.com/techniques/queues",
+    "https://docs.nestjs.com/techniques/logger",
+    "https://docs.nestjs.com/techniques/cookies",
+    "https://docs.nestjs.com/techniques/events",
+    "https://docs.nestjs.com/techniques/compression",
+    "https://docs.nestjs.com/techniques/file-upload",
+    "https://docs.nestjs.com/techniques/streaming-files",
+    "https://docs.nestjs.com/techniques/http-module",
+    "https://docs.nestjs.com/techniques/session",
+    "https://docs.nestjs.com/techniques/mvc",
+    "https://docs.nestjs.com/techniques/performance",
+    "https://docs.nestjs.com/techniques/server-sent-events",
+    "https://docs.nestjs.com/security/authentication",
+    "https://docs.nestjs.com/security/authorization",
+    "https://docs.nestjs.com/security/encryption-and-hashing",
+    "https://docs.nestjs.com/security/helmet",
+    "https://docs.nestjs.com/security/cors",
+    "https://docs.nestjs.com/security/csrf",
+    "https://docs.nestjs.com/security/rate-limiting",
+    "https://docs.nestjs.com/graphql/quick-start",
+    "https://docs.nestjs.com/graphql/resolvers",
+    "https://docs.nestjs.com/graphql/mutations",
+    "https://docs.nestjs.com/graphql/subscriptions",
+    "https://docs.nestjs.com/graphql/scalars",
+    "https://docs.nestjs.com/graphql/directives",
+    "https://docs.nestjs.com/graphql/interfaces",
+    "https://docs.nestjs.com/graphql/unions-and-enums",
+    "https://docs.nestjs.com/graphql/field-middleware",
+    "https://docs.nestjs.com/graphql/mapped-types",
+    "https://docs.nestjs.com/graphql/plugins",
+    "https://docs.nestjs.com/graphql/complexity",
+    "https://docs.nestjs.com/graphql/extensions",
+    "https://docs.nestjs.com/graphql/cli-plugin",
+    "https://docs.nestjs.com/graphql/generating-sdl",
+    "https://docs.nestjs.com/graphql/sharing-models",
+    "https://docs.nestjs.com/graphql/other-features",
+    "https://docs.nestjs.com/graphql/federation",
+    "https://docs.nestjs.com/websockets/gateways",
+    "https://docs.nestjs.com/websockets/exception-filters",
+    "https://docs.nestjs.com/websockets/pipes",
+    "https://docs.nestjs.com/websockets/guards",
+    "https://docs.nestjs.com/websockets/interceptors",
+    "https://docs.nestjs.com/websockets/adapter",
+    "https://docs.nestjs.com/microservices/basics",
+    "https://docs.nestjs.com/microservices/redis",
+    "https://docs.nestjs.com/microservices/mqtt",
+    "https://docs.nestjs.com/microservices/nats",
+    "https://docs.nestjs.com/microservices/rabbitmq",
+    "https://docs.nestjs.com/microservices/kafka",
+    "https://docs.nestjs.com/microservices/grpc",
+    "https://docs.nestjs.com/microservices/custom-transport",
+    "https://docs.nestjs.com/microservices/exception-filters",
+    "https://docs.nestjs.com/microservices/pipes",
+    "https://docs.nestjs.com/microservices/guards",
+    "https://docs.nestjs.com/microservices/interceptors",
+    "https://docs.nestjs.com/standalone-applications",
+    "https://docs.nestjs.com/cli/overview",
+    "https://docs.nestjs.com/cli/monorepo",
+    "https://docs.nestjs.com/cli/libraries",
+    "https://docs.nestjs.com/cli/usages",
+    "https://docs.nestjs.com/cli/scripts",
+    "https://docs.nestjs.com/openapi/introduction",
+    "https://docs.nestjs.com/openapi/types-and-parameters",
+    "https://docs.nestjs.com/openapi/operations",
+    "https://docs.nestjs.com/openapi/security",
+    "https://docs.nestjs.com/openapi/mapped-types",
+    "https://docs.nestjs.com/openapi/decorators",
+    "https://docs.nestjs.com/openapi/cli-plugin",
+    "https://docs.nestjs.com/openapi/other-features",
+    "https://docs.nestjs.com/recipes/repl",
+    "https://docs.nestjs.com/recipes/crud-generator",
+    "https://docs.nestjs.com/recipes/swc",
+    "https://docs.nestjs.com/recipes/passport",
+    "https://docs.nestjs.com/recipes/hot-reload",
+    "https://docs.nestjs.com/recipes/mikroorm",
+    "https://docs.nestjs.com/recipes/sql-typeorm",
+    "https://docs.nestjs.com/recipes/mongodb",
+    "https://docs.nestjs.com/recipes/sql-sequelize",
+    "https://docs.nestjs.com/recipes/router-module",
+    "https://docs.nestjs.com/recipes/swagger",
+    "https://docs.nestjs.com/recipes/terminus",
+    "https://docs.nestjs.com/recipes/cqrs",
+    "https://docs.nestjs.com/recipes/documentation",
+    "https://docs.nestjs.com/recipes/prisma",
+    "https://docs.nestjs.com/recipes/sentry",
+    "https://docs.nestjs.com/recipes/serve-static",
+    "https://docs.nestjs.com/recipes/nest-commander",
+    "https://docs.nestjs.com/recipes/async-local-storage",
+    "https://docs.nestjs.com/recipes/necord",
+    "https://docs.nestjs.com/recipes/suites",
+    "https://docs.nestjs.com/faq/serverless",
+    "https://docs.nestjs.com/faq/http-adapter",
+    "https://docs.nestjs.com/faq/keep-alive-connections",
+    "https://docs.nestjs.com/faq/global-prefix",
+    "https://docs.nestjs.com/faq/raw-body",
+    "https://docs.nestjs.com/faq/hybrid-application",
+    "https://docs.nestjs.com/faq/multiple-servers",
+    "https://docs.nestjs.com/faq/request-lifecycle",
+    "https://docs.nestjs.com/faq/common-errors"
+  ]
+}

@@ -1,0 +1,301 @@
+{
+  "url": "https://docs.nestjs.com/techniques/task-scheduling",
+  "title": "",
+  "content": "Task scheduling allows you to schedule arbitrary code (methods/functions) to execute at a fixed date/time, at recurring intervals, or once after a specified interval. In the Linux world, this is often handled by packages like cron at the OS level. For Node.js apps, there are several packages that emulate cron-like functionality. Nest provides the @nestjs/schedule package, which integrates with the popular Node.js cron package. We'll cover this package in the current chapter.\n\nTo begin using it, we first install the required dependencies.\n\nTo activate job scheduling, import the ScheduleModule into the root AppModule and run the forRoot() static method as shown below:\n\nThe .forRoot() call initializes the scheduler and registers any declarative cron jobs, timeouts and intervals that exist within your app. Registration occurs when the onApplicationBootstrap lifecycle hook occurs, ensuring that all modules have loaded and declared any scheduled jobs.\n\nA cron job schedules an arbitrary function (method call) to run automatically. Cron jobs can run:\n\nDeclare a cron job with the @Cron() decorator preceding the method definition containing the code to be executed, as follows:\n\nIn this example, the handleCron() method will be called each time the current second is 45. In other words, the method will be run once per minute, at the 45 second mark.\n\nThe @Cron() decorator supports the following standard cron patterns:\n\nIn the example above, we passed 45 * * * * * to the decorator. The following key shows how each position in the cron pattern string is interpreted:\n\nSome sample cron patterns are:\n\nThe @nestjs/schedule package provides a convenient enum with commonly used cron patterns. You can use this enum as follows:\n\nIn this example, the handleCron() method will be called every 30 seconds. If an exception occurs, it will be logged to the console, as every method annotated with @Cron() is automatically wrapped in a try-catch block.\n\nAlternatively, you can supply a JavaScript Date object to the @Cron() decorator. Doing so causes the job to execute exactly once, at the specified date.\n\nAlso, you can supply additional options as the second parameter to the @Cron() decorator.\n\nYou can access and control a cron job after it's been declared, or dynamically create a cron job (where its cron pattern is defined at runtime) with the Dynamic API. To access a declarative cron job via the API, you must associate the job with a name by passing the name property in an optional options object as the second argument of the decorator.\n\nTo declare that a method should run at a (recurring) specified interval, prefix the method definition with the @Interval() decorator. Pass the interval value, as a number in milliseconds, to the decorator as shown below:\n\nIf you want to control your declarative interval from outside the declaring class via the Dynamic API, associate the interval with a name using the following construction:\n\nIf an exception occurs, it will be logged to the console, as every method annotated with @Interval() is automatically wrapped in a try-catch block.\n\nThe Dynamic API also enables creating dynamic intervals, where the interval's properties are defined at runtime, and listing and deleting them.\n\nOfficial enterprise support Providing technical guidance Performing in-depth code reviews Mentoring team members Advising best practices Explore more\n\nTo declare that a method should run (once) at a specified timeout, prefix the method definition with the @Timeout() decorator. Pass the relative time offset (in milliseconds), from application startup, to the decorator as shown below:\n\nIf an exception occurs, it will be logged to the console, as every method annotated with @Timeout() is automatically wrapped in a try-catch block.\n\nIf you want to control your declarative timeout from outside the declaring class via the Dynamic API, associate the timeout with a name using the following construction:\n\nThe Dynamic API also enables creating dynamic timeouts, where the timeout's properties are defined at runtime, and listing and deleting them.\n\nThe @nestjs/schedule module provides a dynamic API that enables managing declarative cron jobs, timeouts and intervals. The API also enables creating and managing dynamic cron jobs, timeouts and intervals, where the properties are defined at runtime.\n\nObtain a reference to a CronJob instance by name from anywhere in your code using the SchedulerRegistry API. First, inject SchedulerRegistry using standard constructor injection:\n\nThen use it in a class as follows. Assume a cron job was created with the following declaration:\n\nAccess this job using the following:\n\nThe getCronJob() method returns the named cron job. The returned CronJob object has the following methods:\n\nCreate a new cron job dynamically using the SchedulerRegistry#addCronJob method, as follows:\n\nIn this code, we use the CronJob object from the cron package to create the cron job. The CronJob constructor takes a cron pattern (just like the @Cron()decorator) as its first argument, and a callback to be executed when the cron timer fires as its second argument. The SchedulerRegistry#addCronJob method takes two arguments: a name for the CronJob, and the CronJob object itself.\n\nDelete a named cron job using the SchedulerRegistry#deleteCronJob method, as follows:\n\nList all cron jobs using the SchedulerRegistry#getCronJobs method as follows:\n\nThe getCronJobs() method returns a map. In this code, we iterate over the map and attempt to access the nextDate() method of each CronJob. In the CronJob API, if a job has already fired and has no future firing date, it throws an exception.\n\nObtain a reference to an interval with the SchedulerRegistry#getInterval method. As above, inject SchedulerRegistry using standard constructor injection:\n\nAnd use it as follows:\n\nCreate a new interval dynamically using the SchedulerRegistry#addInterval method, as follows:\n\nIn this code, we create a standard JavaScript interval, then pass it to the SchedulerRegistry#addInterval method. That method takes two arguments: a name for the interval, and the interval itself.\n\nDelete a named interval using the SchedulerRegistry#deleteInterval method, as follows:\n\nList all intervals using the SchedulerRegistry#getIntervals method as follows:\n\nObtain a reference to a timeout with the SchedulerRegistry#getTimeout method. As above, inject SchedulerRegistry using standard constructor injection:\n\nAnd use it as follows:\n\nCreate a new timeout dynamically using the SchedulerRegistry#addTimeout method, as follows:\n\nIn this code, we create a standard JavaScript timeout, then pass it to the SchedulerRegistry#addTimeout method. That method takes two arguments: a name for the timeout, and the timeout itself.\n\nDelete a named timeout using the SchedulerRegistry#deleteTimeout method, as follows:\n\nList all timeouts using the SchedulerRegistry#getTimeouts method as follows:\n\nA working example is available here.",
+  "headings": [
+    {
+      "level": "h3",
+      "text": "Task scheduling",
+      "id": "task-scheduling"
+    },
+    {
+      "level": "h4",
+      "text": "Installation#",
+      "id": "installation"
+    },
+    {
+      "level": "h4",
+      "text": "Declarative cron jobs#",
+      "id": "declarative-cron-jobs"
+    },
+    {
+      "level": "h4",
+      "text": "Declarative intervals#",
+      "id": "declarative-intervals"
+    },
+    {
+      "level": "h2",
+      "text": "Official enterprise support",
+      "id": ""
+    },
+    {
+      "level": "h4",
+      "text": "Declarative timeouts#",
+      "id": "declarative-timeouts"
+    },
+    {
+      "level": "h4",
+      "text": "Dynamic schedule module API#",
+      "id": "dynamic-schedule-module-api"
+    },
+    {
+      "level": "h4",
+      "text": "Dynamic cron jobs#",
+      "id": "dynamic-cron-jobs"
+    },
+    {
+      "level": "h4",
+      "text": "Dynamic intervals#",
+      "id": "dynamic-intervals"
+    },
+    {
+      "level": "h4",
+      "text": "Dynamic timeouts#",
+      "id": "dynamic-timeouts"
+    },
+    {
+      "level": "h4",
+      "text": "Example#",
+      "id": "example"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "$ npm install --save @nestjs/schedule",
+      "language": "bash"
+    },
+    {
+      "code": "import { Module } from '@nestjs/common';\nimport { ScheduleModule } from '@nestjs/schedule';\n\n@Module({\n  imports: [\n    ScheduleModule.forRoot()\n  ],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Injectable, Logger } from '@nestjs/common';\nimport { Cron } from '@nestjs/schedule';\n\n@Injectable()\nexport class TasksService {\n  private readonly logger = new Logger(TasksService.name);\n\n  @Cron('45 * * * * *')\n  handleCron() {\n    this.logger.debug('Called when the current second is 45');\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "* * * * * *\n| | | | | |\n| | | | | day of week\n| | | | months\n| | | day of month\n| | hours\n| minutes\nseconds (optional)",
+      "language": "javascript"
+    },
+    {
+      "code": "import { Injectable, Logger } from '@nestjs/common';\nimport { Cron, CronExpression } from '@nestjs/schedule';\n\n@Injectable()\nexport class TasksService {\n  private readonly logger = new Logger(TasksService.name);\n\n  @Cron(CronExpression.EVERY_30_SECONDS)\n  handleCron() {\n    this.logger.debug('Called every 30 seconds');\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Injectable } from '@nestjs/common';\nimport { Cron, CronExpression } from '@nestjs/schedule';\n\n@Injectable()\nexport class NotificationService {\n  @Cron('* * 0 * * *', {\n    name: 'notifications',\n    timeZone: 'Europe/Paris',\n  })\n  triggerNotifications() {}\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Interval(10000)\nhandleInterval() {\n  this.logger.debug('Called every 10 seconds');\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Interval('notifications', 2500)\nhandleInterval() {}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Timeout(5000)\nhandleTimeout() {\n  this.logger.debug('Called once after 5 seconds');\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Timeout('notifications', 2500)\nhandleTimeout() {}",
+      "language": "typescript"
+    },
+    {
+      "code": "constructor(private schedulerRegistry: SchedulerRegistry) {}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Cron('* * 8 * * *', {\n  name: 'notifications',\n})\ntriggerNotifications() {}",
+      "language": "typescript"
+    },
+    {
+      "code": "const job = this.schedulerRegistry.getCronJob('notifications');\n\njob.stop();\nconsole.log(job.lastDate());",
+      "language": "typescript"
+    },
+    {
+      "code": "addCronJob(name: string, seconds: string) {\n  const job = new CronJob(`${seconds} * * * * *`, () => {\n    this.logger.warn(`time (${seconds}) for job ${name} to run!`);\n  });\n\n  this.schedulerRegistry.addCronJob(name, job);\n  job.start();\n\n  this.logger.warn(\n    `job ${name} added for each minute at ${seconds} seconds!`,\n  );\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "deleteCron(name: string) {\n  this.schedulerRegistry.deleteCronJob(name);\n  this.logger.warn(`job ${name} deleted!`);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "getCrons() {\n  const jobs = this.schedulerRegistry.getCronJobs();\n  jobs.forEach((value, key, map) => {\n    let next;\n    try {\n      next = value.nextDate().toJSDate();\n    } catch (e) {\n      next = 'error: next fire date is in the past!';\n    }\n    this.logger.log(`job: ${key} -> next: ${next}`);\n  });\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "constructor(private schedulerRegistry: SchedulerRegistry) {}",
+      "language": "typescript"
+    },
+    {
+      "code": "const interval = this.schedulerRegistry.getInterval('notifications');\nclearInterval(interval);",
+      "language": "typescript"
+    },
+    {
+      "code": "addInterval(name: string, milliseconds: number) {\n  const callback = () => {\n    this.logger.warn(`Interval ${name} executing at time (${milliseconds})!`);\n  };\n\n  const interval = setInterval(callback, milliseconds);\n  this.schedulerRegistry.addInterval(name, interval);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "deleteInterval(name: string) {\n  this.schedulerRegistry.deleteInterval(name);\n  this.logger.warn(`Interval ${name} deleted!`);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "getIntervals() {\n  const intervals = this.schedulerRegistry.getIntervals();\n  intervals.forEach(key => this.logger.log(`Interval: ${key}`));\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "constructor(private readonly schedulerRegistry: SchedulerRegistry) {}",
+      "language": "typescript"
+    },
+    {
+      "code": "const timeout = this.schedulerRegistry.getTimeout('notifications');\nclearTimeout(timeout);",
+      "language": "typescript"
+    },
+    {
+      "code": "addTimeout(name: string, milliseconds: number) {\n  const callback = () => {\n    this.logger.warn(`Timeout ${name} executing after (${milliseconds})!`);\n  };\n\n  const timeout = setTimeout(callback, milliseconds);\n  this.schedulerRegistry.addTimeout(name, timeout);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "deleteTimeout(name: string) {\n  this.schedulerRegistry.deleteTimeout(name);\n  this.logger.warn(`Timeout ${name} deleted!`);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "getTimeouts() {\n  const timeouts = this.schedulerRegistry.getTimeouts();\n  timeouts.forEach(key => this.logger.log(`Timeout: ${key}`));\n}",
+      "language": "typescript"
+    }
+  ],
+  "patterns": [],
+  "links": [
+    "https://docs.nestjs.com/first-steps",
+    "https://docs.nestjs.com/controllers",
+    "https://docs.nestjs.com/providers",
+    "https://docs.nestjs.com/modules",
+    "https://docs.nestjs.com/middleware",
+    "https://docs.nestjs.com/exception-filters",
+    "https://docs.nestjs.com/pipes",
+    "https://docs.nestjs.com/guards",
+    "https://docs.nestjs.com/interceptors",
+    "https://docs.nestjs.com/custom-decorators",
+    "https://docs.nestjs.com/fundamentals/custom-providers",
+    "https://docs.nestjs.com/fundamentals/async-providers",
+    "https://docs.nestjs.com/fundamentals/dynamic-modules",
+    "https://docs.nestjs.com/fundamentals/injection-scopes",
+    "https://docs.nestjs.com/fundamentals/circular-dependency",
+    "https://docs.nestjs.com/fundamentals/module-ref",
+    "https://docs.nestjs.com/fundamentals/lazy-loading-modules",
+    "https://docs.nestjs.com/fundamentals/execution-context",
+    "https://docs.nestjs.com/fundamentals/lifecycle-events",
+    "https://docs.nestjs.com/fundamentals/discovery-service",
+    "https://docs.nestjs.com/fundamentals/platform-agnosticism",
+    "https://docs.nestjs.com/fundamentals/testing",
+    "https://docs.nestjs.com/techniques/configuration",
+    "https://docs.nestjs.com/techniques/database",
+    "https://docs.nestjs.com/techniques/mongodb",
+    "https://docs.nestjs.com/techniques/validation",
+    "https://docs.nestjs.com/techniques/caching",
+    "https://docs.nestjs.com/techniques/serialization",
+    "https://docs.nestjs.com/techniques/versioning",
+    "https://docs.nestjs.com/techniques/task-scheduling",
+    "https://docs.nestjs.com/techniques/queues",
+    "https://docs.nestjs.com/techniques/logger",
+    "https://docs.nestjs.com/techniques/cookies",
+    "https://docs.nestjs.com/techniques/events",
+    "https://docs.nestjs.com/techniques/compression",
+    "https://docs.nestjs.com/techniques/file-upload",
+    "https://docs.nestjs.com/techniques/streaming-files",
+    "https://docs.nestjs.com/techniques/http-module",
+    "https://docs.nestjs.com/techniques/session",
+    "https://docs.nestjs.com/techniques/mvc",
+    "https://docs.nestjs.com/techniques/performance",
+    "https://docs.nestjs.com/techniques/server-sent-events",
+    "https://docs.nestjs.com/security/authentication",
+    "https://docs.nestjs.com/security/authorization",
+    "https://docs.nestjs.com/security/encryption-and-hashing",
+    "https://docs.nestjs.com/security/helmet",
+    "https://docs.nestjs.com/security/cors",
+    "https://docs.nestjs.com/security/csrf",
+    "https://docs.nestjs.com/security/rate-limiting",
+    "https://docs.nestjs.com/graphql/quick-start",
+    "https://docs.nestjs.com/graphql/resolvers",
+    "https://docs.nestjs.com/graphql/mutations",
+    "https://docs.nestjs.com/graphql/subscriptions",
+    "https://docs.nestjs.com/graphql/scalars",
+    "https://docs.nestjs.com/graphql/directives",
+    "https://docs.nestjs.com/graphql/interfaces",
+    "https://docs.nestjs.com/graphql/unions-and-enums",
+    "https://docs.nestjs.com/graphql/field-middleware",
+    "https://docs.nestjs.com/graphql/mapped-types",
+    "https://docs.nestjs.com/graphql/plugins",
+    "https://docs.nestjs.com/graphql/complexity",
+    "https://docs.nestjs.com/graphql/extensions",
+    "https://docs.nestjs.com/graphql/cli-plugin",
+    "https://docs.nestjs.com/graphql/generating-sdl",
+    "https://docs.nestjs.com/graphql/sharing-models",
+    "https://docs.nestjs.com/graphql/other-features",
+    "https://docs.nestjs.com/graphql/federation",
+    "https://docs.nestjs.com/websockets/gateways",
+    "https://docs.nestjs.com/websockets/exception-filters",
+    "https://docs.nestjs.com/websockets/pipes",
+    "https://docs.nestjs.com/websockets/guards",
+    "https://docs.nestjs.com/websockets/interceptors",
+    "https://docs.nestjs.com/websockets/adapter",
+    "https://docs.nestjs.com/microservices/basics",
+    "https://docs.nestjs.com/microservices/redis",
+    "https://docs.nestjs.com/microservices/mqtt",
+    "https://docs.nestjs.com/microservices/nats",
+    "https://docs.nestjs.com/microservices/rabbitmq",
+    "https://docs.nestjs.com/microservices/kafka",
+    "https://docs.nestjs.com/microservices/grpc",
+    "https://docs.nestjs.com/microservices/custom-transport",
+    "https://docs.nestjs.com/microservices/exception-filters",
+    "https://docs.nestjs.com/microservices/pipes",
+    "https://docs.nestjs.com/microservices/guards",
+    "https://docs.nestjs.com/microservices/interceptors",
+    "https://docs.nestjs.com/standalone-applications",
+    "https://docs.nestjs.com/cli/overview",
+    "https://docs.nestjs.com/cli/monorepo",
+    "https://docs.nestjs.com/cli/libraries",
+    "https://docs.nestjs.com/cli/usages",
+    "https://docs.nestjs.com/cli/scripts",
+    "https://docs.nestjs.com/openapi/introduction",
+    "https://docs.nestjs.com/openapi/types-and-parameters",
+    "https://docs.nestjs.com/openapi/operations",
+    "https://docs.nestjs.com/openapi/security",
+    "https://docs.nestjs.com/openapi/mapped-types",
+    "https://docs.nestjs.com/openapi/decorators",
+    "https://docs.nestjs.com/openapi/cli-plugin",
+    "https://docs.nestjs.com/openapi/other-features",
+    "https://docs.nestjs.com/recipes/repl",
+    "https://docs.nestjs.com/recipes/crud-generator",
+    "https://docs.nestjs.com/recipes/swc",
+    "https://docs.nestjs.com/recipes/passport",
+    "https://docs.nestjs.com/recipes/hot-reload",
+    "https://docs.nestjs.com/recipes/mikroorm",
+    "https://docs.nestjs.com/recipes/sql-typeorm",
+    "https://docs.nestjs.com/recipes/mongodb",
+    "https://docs.nestjs.com/recipes/sql-sequelize",
+    "https://docs.nestjs.com/recipes/router-module",
+    "https://docs.nestjs.com/recipes/swagger",
+    "https://docs.nestjs.com/recipes/terminus",
+    "https://docs.nestjs.com/recipes/cqrs",
+    "https://docs.nestjs.com/recipes/documentation",
+    "https://docs.nestjs.com/recipes/prisma",
+    "https://docs.nestjs.com/recipes/sentry",
+    "https://docs.nestjs.com/recipes/serve-static",
+    "https://docs.nestjs.com/recipes/nest-commander",
+    "https://docs.nestjs.com/recipes/async-local-storage",
+    "https://docs.nestjs.com/recipes/necord",
+    "https://docs.nestjs.com/recipes/suites",
+    "https://docs.nestjs.com/faq/serverless",
+    "https://docs.nestjs.com/faq/http-adapter",
+    "https://docs.nestjs.com/faq/keep-alive-connections",
+    "https://docs.nestjs.com/faq/global-prefix",
+    "https://docs.nestjs.com/faq/raw-body",
+    "https://docs.nestjs.com/faq/hybrid-application",
+    "https://docs.nestjs.com/faq/multiple-servers",
+    "https://docs.nestjs.com/faq/request-lifecycle",
+    "https://docs.nestjs.com/faq/common-errors",
+    "https://docs.nestjs.com/techniques/techniques/task-scheduling"
+  ]
+}

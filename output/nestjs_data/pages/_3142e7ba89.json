@@ -1,0 +1,356 @@
+{
+  "url": "https://docs.nestjs.com/recipes/cqrs",
+  "title": "",
+  "content": "The flow of simple CRUD (Create, Read, Update and Delete) applications can be described as follows:\n\nWhile this pattern is usually sufficient for small and medium-sized applications, it may not be the best choice for larger, more complex applications. In such cases, the CQRS (Command and Query Responsibility Segregation) model may be more appropriate and scalable (depending on the application's requirements). Benefits of this model include:\n\nTo facilitate that model, Nest provides a lightweight CQRS module. This chapter describes how to use it.\n\nFirst install the required package:\n\nOnce the installation is complete, navigate to the root module of your application (usually AppModule), and import the CqrsModule.forRoot():\n\nThis module accepts an optional configuration object. The following options are available:\n\nCommands are used to change the application state. They should be task-based, rather than data centric. When a command is dispatched, it is handled by a corresponding Command Handler. The handler is responsible for updating the application state.\n\nIn the code snippet above, we instantiate the KillDragonCommand class and pass it to the CommandBus's execute() method. This is the demonstrated command class:\n\nAs you can see, the KillDragonCommand class extends the Command class. The Command class is a simple utility class exported from the @nestjs/cqrs package that lets you define the command's return type. In this case, the return type is an object with an actionId property. Now, whenever the KillDragonCommand command is dispatched, the CommandBus#execute() method return-type will be inferred as Promise<{ actionId: string }>. This is useful when you want to return some data from the command handler.\n\nThe CommandBus represents a stream of commands. It is responsible for dispatching commands to the appropriate handlers. The execute() method returns a promise, which resolves to the value returned by the handler.\n\nLet's create a handler for the KillDragonCommand command.\n\nThis handler retrieves the Hero entity from the repository, calls the killEnemy() method, and then persists the changes. The KillDragonHandler class implements the ICommandHandler interface, which requires the implementation of the execute() method. The execute() method receives the command object as an argument.\n\nNote that ICommandHandler<KillDragonCommand> forces you to return a value that matches the command's return type. In this case, the return type is an object with an actionId property. This only applies to commands that inherit from the Command class. Otherwise, you can return whatever you want.\n\nLastly, make sure to register the KillDragonHandler as a provider in a module:\n\nQueries are used to retrieve data from the application state. They should be data centric, rather than task-based. When a query is dispatched, it is handled by a corresponding Query Handler. The handler is responsible for retrieving the data.\n\nThe QueryBus follows the same pattern as the CommandBus. Query handlers should implement the IQueryHandler interface and be annotated with the @QueryHandler() decorator. See the following example:\n\nSimilar to the Command class, the Query class is a simple utility class exported from the @nestjs/cqrs package that lets you define the query's return type. In this case, the return type is a Hero object. Now, whenever the GetHeroQuery query is dispatched, the QueryBus#execute() method return-type will be inferred as Promise<Hero>.\n\nTo retrieve the hero, we need to create a query handler:\n\nThe GetHeroHandler class implements the IQueryHandler interface, which requires the implementation of the execute() method. The execute() method receives the query object as an argument, and must return the data that matches the query's return type (in this case, a Hero object).\n\nLastly, make sure to register the GetHeroHandler as a provider in a module:\n\nNow, to dispatch the query, use the QueryBus:\n\nEvents are used to notify other parts of the application about changes in the application state. They are dispatched by models or directly using the EventBus. When an event is dispatched, it is handled by corresponding Event Handlers. Handlers can then, for example, update the read model.\n\nFor demonstration purposes, let's create an event class:\n\nNow while events can be dispatched directly using the EventBus.publish() method, we can also dispatch them from the model. Let's update the Hero model to dispatch the HeroKilledDragonEvent event when the killEnemy() method is called.\n\nThe apply() method is used to dispatch events. It accepts an event object as an argument. However, since our model is not aware of the EventBus, we need to associate it with the model. We can do that by using the EventPublisher class.\n\nThe EventPublisher#mergeObjectContext method merges the event publisher into the provided object, which means that the object will now be able to publish events to the events stream.\n\nNotice that in this example we also call the commit() method on the model. This method is used to dispatch any outstanding events. To automatically dispatch events, we can set the autoCommit property to true:\n\nIn case we want to merge the event publisher into a non-existing object, but rather into a class, we can use the EventPublisher#mergeClassContext method:\n\nNow every instance of the HeroModel class will be able to publish events without using mergeObjectContext() method.\n\nAdditionally, we can emit events manually using EventBus:\n\nEach event can have multiple Event Handlers.\n\nAs with commands and queries, make sure to register the HeroKilledDragonHandler as a provider in a module:\n\nSaga is a long-running process that listens to events and may trigger new commands. It is usually used to manage complex workflows in the application. For example, when a user signs up, a saga may listen to the UserRegisteredEvent and send a welcome email to the user.\n\nSagas are an extremely powerful feature. A single saga may listen for 1..* events. Using the RxJS library, we can filter, map, fork, and merge event streams to create sophisticated workflows. Each saga returns an Observable which produces a command instance. This command is then dispatched asynchronously by the CommandBus.\n\nLet's create a saga that listens to the HeroKilledDragonEvent and dispatches the DropAncientItemCommand command.\n\nThe @Saga() decorator marks the method as a saga. The events$ argument is an Observable stream of all events. The ofType operator filters the stream by the specified event type. The map operator maps the event to a new command instance.\n\nIn this example, we map the HeroKilledDragonEvent to the DropAncientItemCommand command. The DropAncientItemCommand command is then auto-dispatched by the CommandBus.\n\nAs with query, command, and event handlers, make sure to register the HeroesGameSagas as a provider in a module:\n\nEvent handlers are executed asynchronously, so they must always handle exceptions properly to prevent the application from entering an inconsistent state. If an exception is not handled, the EventBus will create an UnhandledExceptionInfo object and push it to the UnhandledExceptionBus stream. This stream is an Observable that can be used to process unhandled exceptions.\n\nTo filter out exceptions, we can use the ofType operator, as follows:\n\nWhere TransactionNotAllowedException is the exception we want to filter out.\n\nThe UnhandledExceptionInfo object contains the following properties:\n\nCommandBus, QueryBus and EventBus are all Observables. This means that we can subscribe to the entire stream and, for example, process all events. For example, we can log all events to the console, or save them to the event store.\n\nFor those coming from different programming language backgrounds, it may be surprising to learn that in Nest, most things are shared across incoming requests. This includes a connection pool to the database, singleton services with global state, and more. Keep in mind that Node.js does not follow the request/response multi-threaded stateless model, where each request is processed by a separate thread. As a result, using singleton instances is safe for our applications.\n\nHowever, there are edge cases where a request-based lifetime for the handler might be desirable. This could include scenarios like per-request caching in GraphQL applications, request tracking, or multi-tenancy. You can learn more about how to control scopes here.\n\nUsing request-scoped providers alongside CQRS can be complex because the CommandBus, QueryBus, and EventBus are singletons. Thankfully, the @nestjs/cqrs package simplifies this by automatically creating a new instance of request-scoped handlers for each processed command, query, or event.\n\nTo make a handler request-scoped, you can either:\n\nTo inject the request payload into any request-scoped provider, you use the @Inject(REQUEST) decorator. However, the nature of the request payload in CQRS depends on the context—it could be an HTTP request, a scheduled job, or any other operation that triggers a command.\n\nThe payload must be an instance of a class extending AsyncContext (provided by @nestjs/cqrs), which acts as the request context and holds data accessible throughout the request lifecycle.\n\nWhen executing a command, pass the custom request context as the second argument to the CommandBus#execute method:\n\nThis makes the MyRequest instance available as the REQUEST provider to the corresponding handler:\n\nYou can follow the same approach for queries:\n\nAnd in the query handler:\n\nFor events, while you can pass the request provider to EventBus#publish, this is less common. Instead, use EventPublisher to merge the request provider into a model:\n\nRequest-scoped event handlers subscribing to these events will have access to the request provider.\n\nSagas are always singleton instances because they manage long-running processes. However, you can retrieve the request provider from event objects:\n\nAlternatively, use the request.attachTo(command) method to tie the request context to the command.\n\nA working example is available here.",
+  "headings": [
+    {
+      "level": "h3",
+      "text": "CQRS",
+      "id": "cqrs"
+    },
+    {
+      "level": "h4",
+      "text": "Installation#",
+      "id": "installation"
+    },
+    {
+      "level": "h4",
+      "text": "Commands#",
+      "id": "commands"
+    },
+    {
+      "level": "h4",
+      "text": "Queries#",
+      "id": "queries"
+    },
+    {
+      "level": "h4",
+      "text": "Events#",
+      "id": "events"
+    },
+    {
+      "level": "h4",
+      "text": "Sagas#",
+      "id": "sagas"
+    },
+    {
+      "level": "h4",
+      "text": "Unhandled exceptions#",
+      "id": "unhandled-exceptions"
+    },
+    {
+      "level": "h4",
+      "text": "Subscribing to all events#",
+      "id": "subscribing-to-all-events"
+    },
+    {
+      "level": "h4",
+      "text": "Request-scoping#",
+      "id": "request-scoping"
+    },
+    {
+      "level": "h4",
+      "text": "Example#",
+      "id": "example"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "$ npm install --save @nestjs/cqrs",
+      "language": "bash"
+    },
+    {
+      "code": "import { Module } from '@nestjs/common';\nimport { CqrsModule } from '@nestjs/cqrs';\n\n@Module({\n  imports: [CqrsModule.forRoot()],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\nexport class HeroesGameService {\n  constructor(private commandBus: CommandBus) {}\n\n  async killDragon(heroId: string, killDragonDto: KillDragonDto) {\n    return this.commandBus.execute(\n      new KillDragonCommand(heroId, killDragonDto.dragonId)\n    );\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\n@Dependencies(CommandBus)\nexport class HeroesGameService {\n  constructor(commandBus) {\n    this.commandBus = commandBus;\n  }\n\n  async killDragon(heroId, killDragonDto) {\n    return this.commandBus.execute(\n      new KillDragonCommand(heroId, killDragonDto.dragonId)\n    );\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "export class KillDragonCommand extends Command<{\n  actionId: string // This type represents the command execution result\n}> {\n  constructor(\n    public readonly heroId: string,\n    public readonly dragonId: string,\n  ) {\n    super();\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "export class KillDragonCommand extends Command {\n  constructor(heroId, dragonId) {\n    this.heroId = heroId;\n    this.dragonId = dragonId;\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@CommandHandler(KillDragonCommand)\nexport class KillDragonHandler implements ICommandHandler<KillDragonCommand> {\n  constructor(private repository: HeroesRepository) {}\n\n  async execute(command: KillDragonCommand) {\n    const { heroId, dragonId } = command;\n    const hero = this.repository.findOneById(+heroId);\n\n    hero.killEnemy(dragonId);\n    await this.repository.persist(hero);\n\n    // \"ICommandHandler<KillDragonCommand>\" forces you to return a value that matches the command's return type\n    return {\n      actionId: crypto.randomUUID(), // This value will be returned to the caller\n    }\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@CommandHandler(KillDragonCommand)\n@Dependencies(HeroesRepository)\nexport class KillDragonHandler {\n  constructor(repository) {\n    this.repository = repository;\n  }\n\n  async execute(command) {\n    const { heroId, dragonId } = command;\n    const hero = this.repository.findOneById(+heroId);\n\n    hero.killEnemy(dragonId);\n    await this.repository.persist(hero);\n\n    // \"ICommandHandler<KillDragonCommand>\" forces you to return a value that matches the command's return type\n    return {\n      actionId: crypto.randomUUID(), // This value will be returned to the caller\n    }\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "providers: [KillDragonHandler];",
+      "language": "typescript"
+    },
+    {
+      "code": "export class GetHeroQuery extends Query<Hero> {\n  constructor(public readonly heroId: string) {}\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@QueryHandler(GetHeroQuery)\nexport class GetHeroHandler implements IQueryHandler<GetHeroQuery> {\n  constructor(private repository: HeroesRepository) {}\n\n  async execute(query: GetHeroQuery) {\n    return this.repository.findOneById(query.heroId);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@QueryHandler(GetHeroQuery)\n@Dependencies(HeroesRepository)\nexport class GetHeroHandler {\n  constructor(repository) {\n    this.repository = repository;\n  }\n\n  async execute(query) {\n    return this.repository.findOneById(query.hero);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "providers: [GetHeroHandler];",
+      "language": "typescript"
+    },
+    {
+      "code": "const hero = await this.queryBus.execute(new GetHeroQuery(heroId)); // \"hero\" will be auto-inferred as \"Hero\" type",
+      "language": "typescript"
+    },
+    {
+      "code": "export class HeroKilledDragonEvent {\n  constructor(\n    public readonly heroId: string,\n    public readonly dragonId: string,\n  ) {}\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "export class HeroKilledDragonEvent {\n  constructor(heroId, dragonId) {\n    this.heroId = heroId;\n    this.dragonId = dragonId;\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "export class Hero extends AggregateRoot {\n  constructor(private id: string) {\n    super();\n  }\n\n  killEnemy(enemyId: string) {\n    // Business logic\n    this.apply(new HeroKilledDragonEvent(this.id, enemyId));\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "export class Hero extends AggregateRoot {\n  constructor(id) {\n    super();\n    this.id = id;\n  }\n\n  killEnemy(enemyId) {\n    // Business logic\n    this.apply(new HeroKilledDragonEvent(this.id, enemyId));\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@CommandHandler(KillDragonCommand)\nexport class KillDragonHandler implements ICommandHandler<KillDragonCommand> {\n  constructor(\n    private repository: HeroesRepository,\n    private publisher: EventPublisher,\n  ) {}\n\n  async execute(command: KillDragonCommand) {\n    const { heroId, dragonId } = command;\n    const hero = this.publisher.mergeObjectContext(\n      await this.repository.findOneById(+heroId),\n    );\n    hero.killEnemy(dragonId);\n    hero.commit();\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@CommandHandler(KillDragonCommand)\n@Dependencies(HeroesRepository, EventPublisher)\nexport class KillDragonHandler {\n  constructor(repository, publisher) {\n    this.repository = repository;\n    this.publisher = publisher;\n  }\n\n  async execute(command) {\n    const { heroId, dragonId } = command;\n    const hero = this.publisher.mergeObjectContext(\n      await this.repository.findOneById(+heroId),\n    );\n    hero.killEnemy(dragonId);\n    hero.commit();\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "export class Hero extends AggregateRoot {\n  constructor(private id: string) {\n    super();\n    this.autoCommit = true;\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "const HeroModel = this.publisher.mergeClassContext(Hero);\nconst hero = new HeroModel('id'); // <-- HeroModel is a class",
+      "language": "typescript"
+    },
+    {
+      "code": "this.eventBus.publish(new HeroKilledDragonEvent());",
+      "language": "typescript"
+    },
+    {
+      "code": "@EventsHandler(HeroKilledDragonEvent)\nexport class HeroKilledDragonHandler implements IEventHandler<HeroKilledDragonEvent> {\n  constructor(private repository: HeroesRepository) {}\n\n  handle(event: HeroKilledDragonEvent) {\n    // Business logic\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "providers: [HeroKilledDragonHandler];",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\nexport class HeroesGameSagas {\n  @Saga()\n  dragonKilled = (events$: Observable<any>): Observable<ICommand> => {\n    return events$.pipe(\n      ofType(HeroKilledDragonEvent),\n      map((event) => new DropAncientItemCommand(event.heroId, fakeItemID)),\n    );\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\nexport class HeroesGameSagas {\n  @Saga()\n  dragonKilled = (events$) => {\n    return events$.pipe(\n      ofType(HeroKilledDragonEvent),\n      map((event) => new DropAncientItemCommand(event.heroId, fakeItemID)),\n    );\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "providers: [HeroesGameSagas];",
+      "language": "typescript"
+    },
+    {
+      "code": "private destroy$ = new Subject<void>();\n\nconstructor(private unhandledExceptionsBus: UnhandledExceptionBus) {\n  this.unhandledExceptionsBus\n    .pipe(takeUntil(this.destroy$))\n    .subscribe((exceptionInfo) => {\n      // Handle exception here\n      // e.g. send it to external service, terminate process, or publish a new event\n    });\n}\n\nonModuleDestroy() {\n  this.destroy$.next();\n  this.destroy$.complete();\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "this.unhandledExceptionsBus\n  .pipe(\n    takeUntil(this.destroy$),\n    UnhandledExceptionBus.ofType(TransactionNotAllowedException),\n  )\n  .subscribe((exceptionInfo) => {\n    // Handle exception here\n  });",
+      "language": "typescript"
+    },
+    {
+      "code": "export interface UnhandledExceptionInfo<\n  Cause = IEvent | ICommand,\n  Exception = any,\n> {\n  /**\n   * The exception that was thrown.\n   */\n  exception: Exception;\n  /**\n   * The cause of the exception (event or command reference).\n   */\n  cause: Cause;\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "private destroy$ = new Subject<void>();\n\nconstructor(private eventBus: EventBus) {\n  this.eventBus\n    .pipe(takeUntil(this.destroy$))\n    .subscribe((event) => {\n      // Save events to database\n    });\n}\n\nonModuleDestroy() {\n  this.destroy$.next();\n  this.destroy$.complete();\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@CommandHandler(KillDragonCommand, {\n  scope: Scope.REQUEST,\n})\nexport class KillDragonHandler {\n  // Implementation here\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { AsyncContext } from '@nestjs/cqrs';\n\nexport class MyRequest extends AsyncContext {\n  constructor(public readonly user: User) {\n    super();\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "const myRequest = new MyRequest(user);\nawait this.commandBus.execute(\n  new KillDragonCommand(heroId, killDragonDto.dragonId),\n  myRequest,\n);",
+      "language": "typescript"
+    },
+    {
+      "code": "@CommandHandler(KillDragonCommand, {\n  scope: Scope.REQUEST,\n})\nexport class KillDragonHandler {\n  constructor(\n    @Inject(REQUEST) private request: MyRequest, // Inject the request context\n  ) {}\n\n  // Handler implementation here\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "const myRequest = new MyRequest(user);\nconst hero = await this.queryBus.execute(new GetHeroQuery(heroId), myRequest);",
+      "language": "typescript"
+    },
+    {
+      "code": "@QueryHandler(GetHeroQuery, {\n  scope: Scope.REQUEST,\n})\nexport class GetHeroHandler {\n  constructor(\n    @Inject(REQUEST) private request: MyRequest, // Inject the request context\n  ) {}\n\n  // Handler implementation here\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "const hero = this.publisher.mergeObjectContext(\n  await this.repository.findOneById(+heroId),\n  this.request, // Inject the request context here\n);",
+      "language": "typescript"
+    },
+    {
+      "code": "@Saga()\ndragonKilled = (events$: Observable<any>): Observable<ICommand> => {\n  return events$.pipe(\n    ofType(HeroKilledDragonEvent),\n    map((event) => {\n      const request = AsyncContext.of(event); // Retrieve the request context\n      const command = new DropAncientItemCommand(event.heroId, fakeItemID);\n\n      AsyncContext.merge(request, command); // Merge the request context into the command\n      return command;\n    }),\n  );\n}",
+      "language": "typescript"
+    }
+  ],
+  "patterns": [
+    {
+      "description": "The QueryBus follows the same pattern as the CommandBus. Query handlers should implement the IQueryHandler interface and be annotated with the @QueryHandler() decorator. See the following example:",
+      "code": "QueryBus"
+    }
+  ],
+  "links": [
+    "https://docs.nestjs.com/first-steps",
+    "https://docs.nestjs.com/controllers",
+    "https://docs.nestjs.com/providers",
+    "https://docs.nestjs.com/modules",
+    "https://docs.nestjs.com/middleware",
+    "https://docs.nestjs.com/exception-filters",
+    "https://docs.nestjs.com/pipes",
+    "https://docs.nestjs.com/guards",
+    "https://docs.nestjs.com/interceptors",
+    "https://docs.nestjs.com/custom-decorators",
+    "https://docs.nestjs.com/fundamentals/custom-providers",
+    "https://docs.nestjs.com/fundamentals/async-providers",
+    "https://docs.nestjs.com/fundamentals/dynamic-modules",
+    "https://docs.nestjs.com/fundamentals/injection-scopes",
+    "https://docs.nestjs.com/fundamentals/circular-dependency",
+    "https://docs.nestjs.com/fundamentals/module-ref",
+    "https://docs.nestjs.com/fundamentals/lazy-loading-modules",
+    "https://docs.nestjs.com/fundamentals/execution-context",
+    "https://docs.nestjs.com/fundamentals/lifecycle-events",
+    "https://docs.nestjs.com/fundamentals/discovery-service",
+    "https://docs.nestjs.com/fundamentals/platform-agnosticism",
+    "https://docs.nestjs.com/fundamentals/testing",
+    "https://docs.nestjs.com/techniques/configuration",
+    "https://docs.nestjs.com/techniques/database",
+    "https://docs.nestjs.com/techniques/mongodb",
+    "https://docs.nestjs.com/techniques/validation",
+    "https://docs.nestjs.com/techniques/caching",
+    "https://docs.nestjs.com/techniques/serialization",
+    "https://docs.nestjs.com/techniques/versioning",
+    "https://docs.nestjs.com/techniques/task-scheduling",
+    "https://docs.nestjs.com/techniques/queues",
+    "https://docs.nestjs.com/techniques/logger",
+    "https://docs.nestjs.com/techniques/cookies",
+    "https://docs.nestjs.com/techniques/events",
+    "https://docs.nestjs.com/techniques/compression",
+    "https://docs.nestjs.com/techniques/file-upload",
+    "https://docs.nestjs.com/techniques/streaming-files",
+    "https://docs.nestjs.com/techniques/http-module",
+    "https://docs.nestjs.com/techniques/session",
+    "https://docs.nestjs.com/techniques/mvc",
+    "https://docs.nestjs.com/techniques/performance",
+    "https://docs.nestjs.com/techniques/server-sent-events",
+    "https://docs.nestjs.com/security/authentication",
+    "https://docs.nestjs.com/security/authorization",
+    "https://docs.nestjs.com/security/encryption-and-hashing",
+    "https://docs.nestjs.com/security/helmet",
+    "https://docs.nestjs.com/security/cors",
+    "https://docs.nestjs.com/security/csrf",
+    "https://docs.nestjs.com/security/rate-limiting",
+    "https://docs.nestjs.com/graphql/quick-start",
+    "https://docs.nestjs.com/graphql/resolvers",
+    "https://docs.nestjs.com/graphql/mutations",
+    "https://docs.nestjs.com/graphql/subscriptions",
+    "https://docs.nestjs.com/graphql/scalars",
+    "https://docs.nestjs.com/graphql/directives",
+    "https://docs.nestjs.com/graphql/interfaces",
+    "https://docs.nestjs.com/graphql/unions-and-enums",
+    "https://docs.nestjs.com/graphql/field-middleware",
+    "https://docs.nestjs.com/graphql/mapped-types",
+    "https://docs.nestjs.com/graphql/plugins",
+    "https://docs.nestjs.com/graphql/complexity",
+    "https://docs.nestjs.com/graphql/extensions",
+    "https://docs.nestjs.com/graphql/cli-plugin",
+    "https://docs.nestjs.com/graphql/generating-sdl",
+    "https://docs.nestjs.com/graphql/sharing-models",
+    "https://docs.nestjs.com/graphql/other-features",
+    "https://docs.nestjs.com/graphql/federation",
+    "https://docs.nestjs.com/websockets/gateways",
+    "https://docs.nestjs.com/websockets/exception-filters",
+    "https://docs.nestjs.com/websockets/pipes",
+    "https://docs.nestjs.com/websockets/guards",
+    "https://docs.nestjs.com/websockets/interceptors",
+    "https://docs.nestjs.com/websockets/adapter",
+    "https://docs.nestjs.com/microservices/basics",
+    "https://docs.nestjs.com/microservices/redis",
+    "https://docs.nestjs.com/microservices/mqtt",
+    "https://docs.nestjs.com/microservices/nats",
+    "https://docs.nestjs.com/microservices/rabbitmq",
+    "https://docs.nestjs.com/microservices/kafka",
+    "https://docs.nestjs.com/microservices/grpc",
+    "https://docs.nestjs.com/microservices/custom-transport",
+    "https://docs.nestjs.com/microservices/exception-filters",
+    "https://docs.nestjs.com/microservices/pipes",
+    "https://docs.nestjs.com/microservices/guards",
+    "https://docs.nestjs.com/microservices/interceptors",
+    "https://docs.nestjs.com/standalone-applications",
+    "https://docs.nestjs.com/cli/overview",
+    "https://docs.nestjs.com/cli/monorepo",
+    "https://docs.nestjs.com/cli/libraries",
+    "https://docs.nestjs.com/cli/usages",
+    "https://docs.nestjs.com/cli/scripts",
+    "https://docs.nestjs.com/openapi/introduction",
+    "https://docs.nestjs.com/openapi/types-and-parameters",
+    "https://docs.nestjs.com/openapi/operations",
+    "https://docs.nestjs.com/openapi/security",
+    "https://docs.nestjs.com/openapi/mapped-types",
+    "https://docs.nestjs.com/openapi/decorators",
+    "https://docs.nestjs.com/openapi/cli-plugin",
+    "https://docs.nestjs.com/openapi/other-features",
+    "https://docs.nestjs.com/recipes/repl",
+    "https://docs.nestjs.com/recipes/crud-generator",
+    "https://docs.nestjs.com/recipes/swc",
+    "https://docs.nestjs.com/recipes/passport",
+    "https://docs.nestjs.com/recipes/hot-reload",
+    "https://docs.nestjs.com/recipes/mikroorm",
+    "https://docs.nestjs.com/recipes/sql-typeorm",
+    "https://docs.nestjs.com/recipes/mongodb",
+    "https://docs.nestjs.com/recipes/sql-sequelize",
+    "https://docs.nestjs.com/recipes/router-module",
+    "https://docs.nestjs.com/recipes/swagger",
+    "https://docs.nestjs.com/recipes/terminus",
+    "https://docs.nestjs.com/recipes/cqrs",
+    "https://docs.nestjs.com/recipes/documentation",
+    "https://docs.nestjs.com/recipes/prisma",
+    "https://docs.nestjs.com/recipes/sentry",
+    "https://docs.nestjs.com/recipes/serve-static",
+    "https://docs.nestjs.com/recipes/nest-commander",
+    "https://docs.nestjs.com/recipes/async-local-storage",
+    "https://docs.nestjs.com/recipes/necord",
+    "https://docs.nestjs.com/recipes/suites",
+    "https://docs.nestjs.com/faq/serverless",
+    "https://docs.nestjs.com/faq/http-adapter",
+    "https://docs.nestjs.com/faq/keep-alive-connections",
+    "https://docs.nestjs.com/faq/global-prefix",
+    "https://docs.nestjs.com/faq/raw-body",
+    "https://docs.nestjs.com/faq/hybrid-application",
+    "https://docs.nestjs.com/faq/multiple-servers",
+    "https://docs.nestjs.com/faq/request-lifecycle",
+    "https://docs.nestjs.com/faq/common-errors"
+  ]
+}

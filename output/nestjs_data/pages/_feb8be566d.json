@@ -1,0 +1,221 @@
+{
+  "url": "https://docs.nestjs.com/recipes/async-local-storage",
+  "title": "",
+  "content": "AsyncLocalStorage is a Node.js API (based on the async_hooks API) that provides an alternative way of propagating local state through the application without the need to explicitly pass it as a function parameter. It is similar to a thread-local storage in other languages.\n\nThe main idea of Async Local Storage is that we can wrap some function call with the AsyncLocalStorage#run call. All code that is invoked within the wrapped call gets access to the same store, which will be unique to each call chain.\n\nIn the context of NestJS, that means if we can find a place within the request's lifecycle where we can wrap the rest of the request's code, we will be able to access and modify state visible only to that request, which may serve as an alternative to REQUEST-scoped providers and some of their limitations.\n\nAlternatively, we can use ALS to propagate context for only a part of the system (for example the transaction object) without passing it around explicitly across services, which can increase isolation and encapsulation.\n\nNestJS itself does not provide any built-in abstraction for AsyncLocalStorage, so let's walk through how we could implement it ourselves for the simplest HTTP case to get a better understanding of the whole concept:\n\nThe nestjs-cls package provides several DX improvements over using plain AsyncLocalStorage (CLS is an abbreviation of the term continuation-local storage). It abstracts the implementation into a ClsModule that offers various ways of initializing the store for different transports (not only HTTP), as well as a strong-typing support.\n\nThe store can then be accessed with an injectable ClsService, or entirely abstracted away from the business logic by using Proxy Providers.\n\nApart from a peer dependency on the @nestjs libs, it only uses the built-in Node.js API. Install it as any other package.\n\nA similar functionality as described above can be implemented using nestjs-cls as follows:\n\nSince the ClsService is just another injectable provider, it can be entirely mocked out in unit tests.\n\nHowever, in certain integration tests, we might still want to use the real ClsService implementation. In that case, we will need to wrap the context-aware piece of code with a call to ClsService#run or ClsService#runWith.\n\nVisit the NestJS CLS GitHub Page for the full API documentation and more code examples.",
+  "headings": [
+    {
+      "level": "h3",
+      "text": "Async Local Storage",
+      "id": "async-local-storage"
+    },
+    {
+      "level": "h4",
+      "text": "Custom implementation#",
+      "id": "custom-implementation"
+    },
+    {
+      "level": "h3",
+      "text": "NestJS CLS",
+      "id": "nestjs-cls"
+    },
+    {
+      "level": "h4",
+      "text": "Installation#",
+      "id": "installation"
+    },
+    {
+      "level": "h4",
+      "text": "Usage#",
+      "id": "usage"
+    },
+    {
+      "level": "h4",
+      "text": "Testing#",
+      "id": "testing"
+    },
+    {
+      "level": "h4",
+      "text": "More information#",
+      "id": "more-information"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "@Module({\n  providers: [\n    {\n      provide: AsyncLocalStorage,\n      useValue: new AsyncLocalStorage(),\n    },\n  ],\n  exports: [AsyncLocalStorage],\n})\nexport class AlsModule {}",
+      "language": "json"
+    },
+    {
+      "code": "@Module({\n  imports: [AlsModule],\n  providers: [CatsService],\n  controllers: [CatsController],\n})\nexport class AppModule implements NestModule {\n  constructor(\n    // inject the AsyncLocalStorage in the module constructor,\n    private readonly als: AsyncLocalStorage\n  ) {}\n\n  configure(consumer: MiddlewareConsumer) {\n    // bind the middleware,\n    consumer\n      .apply((req, res, next) => {\n        // populate the store with some default values\n        // based on the request,\n        const store = {\n          userId: req.headers['x-user-id'],\n        };\n        // and pass the \"next\" function as callback\n        // to the \"als.run\" method together with the store.\n        this.als.run(store, () => next());\n      })\n      .forRoutes('*path');\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Module({\n  imports: [AlsModule],\n  providers: [CatsService],\n  controllers: [CatsController],\n})\n@Dependencies(AsyncLocalStorage)\nexport class AppModule {\n  constructor(als) {\n    // inject the AsyncLocalStorage in the module constructor,\n    this.als = als\n  }\n\n  configure(consumer) {\n    // bind the middleware,\n    consumer\n      .apply((req, res, next) => {\n        // populate the store with some default values\n        // based on the request,\n        const store = {\n          userId: req.headers['x-user-id'],\n        };\n        // and pass the \"next\" function as callback\n        // to the \"als.run\" method together with the store.\n        this.als.run(store, () => next());\n      })\n      .forRoutes('*path');\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\nexport class CatsService {\n  constructor(\n    // We can inject the provided ALS instance.\n    private readonly als: AsyncLocalStorage,\n    private readonly catsRepository: CatsRepository,\n  ) {}\n\n  getCatForUser() {\n    // The \"getStore\" method will always return the\n    // store instance associated with the given request.\n    const userId = this.als.getStore()[\"userId\"] as number;\n    return this.catsRepository.getForUser(userId);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\n@Dependencies(AsyncLocalStorage, CatsRepository)\nexport class CatsService {\n  constructor(als, catsRepository) {\n    // We can inject the provided ALS instance.\n    this.als = als\n    this.catsRepository = catsRepository\n  }\n\n  getCatForUser() {\n    // The \"getStore\" method will always return the\n    // store instance associated with the given request.\n    const userId = this.als.getStore()[\"userId\"] as number;\n    return this.catsRepository.getForUser(userId);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "npm i nestjs-cls",
+      "language": "bash"
+    },
+    {
+      "code": "@Module({\n  imports: [\n    // Register the ClsModule,\n    ClsModule.forRoot({\n      middleware: {\n        // automatically mount the\n        // ClsMiddleware for all routes\n        mount: true,\n        // and use the setup method to\n        // provide default store values.\n        setup: (cls, req) => {\n          cls.set('userId', req.headers['x-user-id']);\n        },\n      },\n    }),\n  ],\n  providers: [CatsService],\n  controllers: [CatsController],\n})\nexport class AppModule {}",
+      "language": "php"
+    },
+    {
+      "code": "@Injectable()\nexport class CatsService {\n  constructor(\n    // We can inject the provided ClsService instance,\n    private readonly cls: ClsService,\n    private readonly catsRepository: CatsRepository,\n  ) {}\n\n  getCatForUser() {\n    // and use the \"get\" method to retrieve any stored value.\n    const userId = this.cls.get('userId');\n    return this.catsRepository.getForUser(userId);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\n@Dependencies(AsyncLocalStorage, CatsRepository)\nexport class CatsService {\n  constructor(cls, catsRepository) {\n    // We can inject the provided ClsService instance,\n    this.cls = cls\n    this.catsRepository = catsRepository\n  }\n\n  getCatForUser() {\n    // and use the \"get\" method to retrieve any stored value.\n    const userId = this.cls.get('userId');\n    return this.catsRepository.getForUser(userId);\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "export interface MyClsStore extends ClsStore {\n  userId: number;\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "describe('CatsService', () => {\n  let service: CatsService\n  let cls: ClsService\n  const mockCatsRepository = createMock<CatsRepository>()\n\n  beforeEach(async () => {\n    const module = await Test.createTestingModule({\n      // Set up most of the testing module as we normally would.\n      providers: [\n        CatsService,\n        {\n          provide: CatsRepository\n          useValue: mockCatsRepository\n        }\n      ],\n      imports: [\n        // Import the static version of ClsModule which only provides\n        // the ClsService, but does not set up the store in any way.\n        ClsModule\n      ],\n    }).compile()\n\n    service = module.get(CatsService)\n\n    // Also retrieve the ClsService for later use.\n    cls = module.get(ClsService)\n  })\n\n  describe('getCatForUser', () => {\n    it('retrieves cat based on user id', async () => {\n      const expectedUserId = 42\n      mocksCatsRepository.getForUser.mockImplementationOnce(\n        (id) => ({ userId: id })\n      )\n\n      // Wrap the test call in the `runWith` method\n      // in which we can pass hand-crafted store values.\n      const cat = await cls.runWith(\n        { userId: expectedUserId },\n        () => service.getCatForUser()\n      )\n\n      expect(cat.userId).toEqual(expectedUserId)\n    })\n  })\n})",
+      "language": "typescript"
+    }
+  ],
+  "patterns": [],
+  "links": [
+    "https://docs.nestjs.com/first-steps",
+    "https://docs.nestjs.com/controllers",
+    "https://docs.nestjs.com/providers",
+    "https://docs.nestjs.com/modules",
+    "https://docs.nestjs.com/middleware",
+    "https://docs.nestjs.com/exception-filters",
+    "https://docs.nestjs.com/pipes",
+    "https://docs.nestjs.com/guards",
+    "https://docs.nestjs.com/interceptors",
+    "https://docs.nestjs.com/custom-decorators",
+    "https://docs.nestjs.com/fundamentals/custom-providers",
+    "https://docs.nestjs.com/fundamentals/async-providers",
+    "https://docs.nestjs.com/fundamentals/dynamic-modules",
+    "https://docs.nestjs.com/fundamentals/injection-scopes",
+    "https://docs.nestjs.com/fundamentals/circular-dependency",
+    "https://docs.nestjs.com/fundamentals/module-ref",
+    "https://docs.nestjs.com/fundamentals/lazy-loading-modules",
+    "https://docs.nestjs.com/fundamentals/execution-context",
+    "https://docs.nestjs.com/fundamentals/lifecycle-events",
+    "https://docs.nestjs.com/fundamentals/discovery-service",
+    "https://docs.nestjs.com/fundamentals/platform-agnosticism",
+    "https://docs.nestjs.com/fundamentals/testing",
+    "https://docs.nestjs.com/techniques/configuration",
+    "https://docs.nestjs.com/techniques/database",
+    "https://docs.nestjs.com/techniques/mongodb",
+    "https://docs.nestjs.com/techniques/validation",
+    "https://docs.nestjs.com/techniques/caching",
+    "https://docs.nestjs.com/techniques/serialization",
+    "https://docs.nestjs.com/techniques/versioning",
+    "https://docs.nestjs.com/techniques/task-scheduling",
+    "https://docs.nestjs.com/techniques/queues",
+    "https://docs.nestjs.com/techniques/logger",
+    "https://docs.nestjs.com/techniques/cookies",
+    "https://docs.nestjs.com/techniques/events",
+    "https://docs.nestjs.com/techniques/compression",
+    "https://docs.nestjs.com/techniques/file-upload",
+    "https://docs.nestjs.com/techniques/streaming-files",
+    "https://docs.nestjs.com/techniques/http-module",
+    "https://docs.nestjs.com/techniques/session",
+    "https://docs.nestjs.com/techniques/mvc",
+    "https://docs.nestjs.com/techniques/performance",
+    "https://docs.nestjs.com/techniques/server-sent-events",
+    "https://docs.nestjs.com/security/authentication",
+    "https://docs.nestjs.com/security/authorization",
+    "https://docs.nestjs.com/security/encryption-and-hashing",
+    "https://docs.nestjs.com/security/helmet",
+    "https://docs.nestjs.com/security/cors",
+    "https://docs.nestjs.com/security/csrf",
+    "https://docs.nestjs.com/security/rate-limiting",
+    "https://docs.nestjs.com/graphql/quick-start",
+    "https://docs.nestjs.com/graphql/resolvers",
+    "https://docs.nestjs.com/graphql/mutations",
+    "https://docs.nestjs.com/graphql/subscriptions",
+    "https://docs.nestjs.com/graphql/scalars",
+    "https://docs.nestjs.com/graphql/directives",
+    "https://docs.nestjs.com/graphql/interfaces",
+    "https://docs.nestjs.com/graphql/unions-and-enums",
+    "https://docs.nestjs.com/graphql/field-middleware",
+    "https://docs.nestjs.com/graphql/mapped-types",
+    "https://docs.nestjs.com/graphql/plugins",
+    "https://docs.nestjs.com/graphql/complexity",
+    "https://docs.nestjs.com/graphql/extensions",
+    "https://docs.nestjs.com/graphql/cli-plugin",
+    "https://docs.nestjs.com/graphql/generating-sdl",
+    "https://docs.nestjs.com/graphql/sharing-models",
+    "https://docs.nestjs.com/graphql/other-features",
+    "https://docs.nestjs.com/graphql/federation",
+    "https://docs.nestjs.com/websockets/gateways",
+    "https://docs.nestjs.com/websockets/exception-filters",
+    "https://docs.nestjs.com/websockets/pipes",
+    "https://docs.nestjs.com/websockets/guards",
+    "https://docs.nestjs.com/websockets/interceptors",
+    "https://docs.nestjs.com/websockets/adapter",
+    "https://docs.nestjs.com/microservices/basics",
+    "https://docs.nestjs.com/microservices/redis",
+    "https://docs.nestjs.com/microservices/mqtt",
+    "https://docs.nestjs.com/microservices/nats",
+    "https://docs.nestjs.com/microservices/rabbitmq",
+    "https://docs.nestjs.com/microservices/kafka",
+    "https://docs.nestjs.com/microservices/grpc",
+    "https://docs.nestjs.com/microservices/custom-transport",
+    "https://docs.nestjs.com/microservices/exception-filters",
+    "https://docs.nestjs.com/microservices/pipes",
+    "https://docs.nestjs.com/microservices/guards",
+    "https://docs.nestjs.com/microservices/interceptors",
+    "https://docs.nestjs.com/standalone-applications",
+    "https://docs.nestjs.com/cli/overview",
+    "https://docs.nestjs.com/cli/monorepo",
+    "https://docs.nestjs.com/cli/libraries",
+    "https://docs.nestjs.com/cli/usages",
+    "https://docs.nestjs.com/cli/scripts",
+    "https://docs.nestjs.com/openapi/introduction",
+    "https://docs.nestjs.com/openapi/types-and-parameters",
+    "https://docs.nestjs.com/openapi/operations",
+    "https://docs.nestjs.com/openapi/security",
+    "https://docs.nestjs.com/openapi/mapped-types",
+    "https://docs.nestjs.com/openapi/decorators",
+    "https://docs.nestjs.com/openapi/cli-plugin",
+    "https://docs.nestjs.com/openapi/other-features",
+    "https://docs.nestjs.com/recipes/repl",
+    "https://docs.nestjs.com/recipes/crud-generator",
+    "https://docs.nestjs.com/recipes/swc",
+    "https://docs.nestjs.com/recipes/passport",
+    "https://docs.nestjs.com/recipes/hot-reload",
+    "https://docs.nestjs.com/recipes/mikroorm",
+    "https://docs.nestjs.com/recipes/sql-typeorm",
+    "https://docs.nestjs.com/recipes/mongodb",
+    "https://docs.nestjs.com/recipes/sql-sequelize",
+    "https://docs.nestjs.com/recipes/router-module",
+    "https://docs.nestjs.com/recipes/swagger",
+    "https://docs.nestjs.com/recipes/terminus",
+    "https://docs.nestjs.com/recipes/cqrs",
+    "https://docs.nestjs.com/recipes/documentation",
+    "https://docs.nestjs.com/recipes/prisma",
+    "https://docs.nestjs.com/recipes/sentry",
+    "https://docs.nestjs.com/recipes/serve-static",
+    "https://docs.nestjs.com/recipes/nest-commander",
+    "https://docs.nestjs.com/recipes/async-local-storage",
+    "https://docs.nestjs.com/recipes/necord",
+    "https://docs.nestjs.com/recipes/suites",
+    "https://docs.nestjs.com/faq/serverless",
+    "https://docs.nestjs.com/faq/http-adapter",
+    "https://docs.nestjs.com/faq/keep-alive-connections",
+    "https://docs.nestjs.com/faq/global-prefix",
+    "https://docs.nestjs.com/faq/raw-body",
+    "https://docs.nestjs.com/faq/hybrid-application",
+    "https://docs.nestjs.com/faq/multiple-servers",
+    "https://docs.nestjs.com/faq/request-lifecycle",
+    "https://docs.nestjs.com/faq/common-errors",
+    "https://docs.nestjs.com/recipes/recipes/async-local-storage"
+  ]
+}

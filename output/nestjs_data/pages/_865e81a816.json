@@ -1,0 +1,252 @@
+{
+  "url": "https://docs.nestjs.com/security/rate-limiting",
+  "title": "",
+  "content": "A common technique to protect applications from brute-force attacks is rate-limiting. To get started, you'll need to install the @nestjs/throttler package.\n\nOnce the installation is complete, the ThrottlerModule can be configured as any other Nest package with forRoot or forRootAsync methods.\n\nThe above will set the global options for the ttl, the time to live in milliseconds, and the limit, the maximum number of requests within the ttl, for the routes of your application that are guarded.\n\nOnce the module has been imported, you can then choose how you would like to bind the ThrottlerGuard. Any kind of binding as mentioned in the guards section is fine. If you wanted to bind the guard globally, for example, you could do so by adding this provider to any module:\n\nThere may come upon times where you want to set up multiple throttling definitions, like no more than 3 calls in a second, 20 calls in 10 seconds, and 100 calls in a minute. To do so, you can set up your definitions in the array with named options, that can later be referenced in the @SkipThrottle() and @Throttle() decorators to change the options again.\n\nThere may be a time where you want to bind the guard to a controller or globally, but want to disable rate limiting for one or more of your endpoints. For that, you can use the @SkipThrottle() decorator, to negate the throttler for an entire class or a single route. The @SkipThrottle() decorator can also take in an object of string keys with boolean values for if there is a case where you want to exclude most of a controller, but not every route, and configure it per throttler set if you have more than one. If you do not pass an object, the default is to use { default: true }\n\nThis @SkipThrottle() decorator can be used to skip a route or a class or to negate the skipping of a route in a class that is skipped.\n\nThere is also the @Throttle() decorator which can be used to override the limit and ttl set in the global module, to give tighter or looser security options. This decorator can be used on a class or a function as well. With version 5 and onwards, the decorator takes in an object with the string relating to the name of the throttler set, and an object with the limit and ttl keys and integer values, similar to the options passed to the root module. If you do not have a name set in your original options, use the string default. You have to configure it like this:\n\nIf your application is running behind a proxy server, it’s essential to configure the HTTP adapter to trust the proxy. You can refer to the specific HTTP adapter options for Express and Fastify to enable the trust proxy setting.\n\nHere's an example that demonstrates how to enable trust proxy for the Express adapter:\n\nEnabling trust proxy allows you to retrieve the original IP address from the X-Forwarded-For header. You can also customize the behavior of your application by overriding the getTracker() method to extract the IP address from this header instead of relying on req.ip. The following example demonstrates how to achieve this for both Express and Fastify:\n\nThis module can work with websockets, but it requires some class extension. You can extend the ThrottlerGuard and override the handleRequest method like so:\n\nThere's a few things to keep in mind when working with WebSockets:\n\nThe ThrottlerGuard can also be used to work with GraphQL requests. Again, the guard can be extended, but this time the getRequestResponse method will be overridden\n\nThe following options are valid for the object passed to the array of the ThrottlerModule's options:\n\nIf you need to set up storage instead, or want to use some of the above options in a more global sense, applying to each throttler set, you can pass the options above via the throttlers option key and use the below table\n\nYou may want to get your rate-limiting configuration asynchronously instead of synchronously. You can use the forRootAsync() method, which allows for dependency injection and async methods.\n\nOne approach would be to use a factory function:\n\nYou can also use the useClass syntax:\n\nThis is doable, as long as ThrottlerConfigService implements the interface ThrottlerOptionsFactory.\n\nThe built in storage is an in memory cache that keeps track of the requests made until they have passed the TTL set by the global options. You can drop in your own storage option to the storage option of the ThrottlerModule so long as the class implements the ThrottlerStorage interface.\n\nFor distributed servers you could use the community storage provider for Redis to have a single source of truth.\n\nThere are a couple of helper methods to make the timings more readable if you prefer to use them over the direct definition. @nestjs/throttler exports five different helpers, seconds, minutes, hours, days, and weeks. To use them, simply call seconds(5) or any of the other helpers, and the correct number of milliseconds will be returned.\n\nFor most people, wrapping your options in an array will be enough.\n\nIf you are using a custom storage, you should wrap your ttl and limit in an array and assign it to the throttlers property of the options object.\n\nAny @SkipThrottle() decorator can be used to bypass throttling for specific routes or methods. It accepts an optional boolean parameter, which defaults to true. This is useful when you want to skip rate limiting on particular endpoints.\n\nAny @Throttle() decorators should also now take in an object with string keys, relating to the names of the throttler contexts (again, 'default' if no name) and values of objects that have limit and ttl keys.\n\nFor more info, see the Changelog",
+  "headings": [
+    {
+      "level": "h3",
+      "text": "Rate Limiting",
+      "id": "rate-limiting"
+    },
+    {
+      "level": "h4",
+      "text": "Multiple Throttler Definitions#",
+      "id": "multiple-throttler-definitions"
+    },
+    {
+      "level": "h4",
+      "text": "Customization#",
+      "id": "customization"
+    },
+    {
+      "level": "h4",
+      "text": "Proxies#",
+      "id": "proxies"
+    },
+    {
+      "level": "h4",
+      "text": "Websockets#",
+      "id": "websockets"
+    },
+    {
+      "level": "h4",
+      "text": "GraphQL#",
+      "id": "graphql"
+    },
+    {
+      "level": "h4",
+      "text": "Configuration#",
+      "id": "configuration"
+    },
+    {
+      "level": "h4",
+      "text": "Async Configuration#",
+      "id": "async-configuration"
+    },
+    {
+      "level": "h4",
+      "text": "Storages#",
+      "id": "storages"
+    },
+    {
+      "level": "h4",
+      "text": "Time Helpers#",
+      "id": "time-helpers"
+    },
+    {
+      "level": "h4",
+      "text": "Migration Guide#",
+      "id": "migration-guide"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "$ npm i --save @nestjs/throttler",
+      "language": "bash"
+    },
+    {
+      "code": "@Module({\n  imports: [\n     ThrottlerModule.forRoot({\n      throttlers: [\n        {\n          ttl: 60000,\n          limit: 10,\n        },\n      ],\n    }),\n  ],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "{\n  provide: APP_GUARD,\n  useClass: ThrottlerGuard\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Module({\n  imports: [\n    ThrottlerModule.forRoot([\n      {\n        name: 'short',\n        ttl: 1000,\n        limit: 3,\n      },\n      {\n        name: 'medium',\n        ttl: 10000,\n        limit: 20\n      },\n      {\n        name: 'long',\n        ttl: 60000,\n        limit: 100\n      }\n    ]),\n  ],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "@SkipThrottle()\n@Controller('users')\nexport class UsersController {}",
+      "language": "typescript"
+    },
+    {
+      "code": "@SkipThrottle()\n@Controller('users')\nexport class UsersController {\n  // Rate limiting is applied to this route.\n  @SkipThrottle({ default: false })\n  dontSkip() {\n    return 'List users work with Rate limiting.';\n  }\n  // This route will skip rate limiting.\n  doSkip() {\n    return 'List users work without Rate limiting.';\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "// Override default configuration for Rate limiting and duration.\n@Throttle({ default: { limit: 3, ttl: 60000 } })\n@Get()\nfindAll() {\n  return \"List users works with custom rate limiting.\";\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { NestFactory } from '@nestjs/core';\nimport { AppModule } from './app.module';\nimport { NestExpressApplication } from '@nestjs/platform-express';\n\nasync function bootstrap() {\n  const app = await NestFactory.create<NestExpressApplication>(AppModule);\n  app.set('trust proxy', 'loopback'); // Trust requests from the loopback address\n  await app.listen(3000);\n}\n\nbootstrap();",
+      "language": "typescript"
+    },
+    {
+      "code": "import { NestFactory } from '@nestjs/core';\nimport { AppModule } from './app.module';\nimport { NestExpressApplication } from '@nestjs/platform-express';\n\nasync function bootstrap() {\n  const app = await NestFactory.create(AppModule);\n  app.set('trust proxy', 'loopback'); // Trust requests from the loopback address\n  await app.listen(3000);\n}\n\nbootstrap();",
+      "language": "typescript"
+    },
+    {
+      "code": "import { ThrottlerGuard } from '@nestjs/throttler';\nimport { Injectable } from '@nestjs/common';\n\n@Injectable()\nexport class ThrottlerBehindProxyGuard extends ThrottlerGuard {\n  protected async getTracker(req: Record<string, any>): Promise<string> {\n    return req.ips.length ? req.ips[0] : req.ip; // individualize IP extraction to meet your own needs\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\nexport class WsThrottlerGuard extends ThrottlerGuard {\n  async handleRequest(requestProps: ThrottlerRequest): Promise<boolean> {\n    const {\n      context,\n      limit,\n      ttl,\n      throttler,\n      blockDuration,\n      getTracker,\n      generateKey,\n    } = requestProps;\n\n    const client = context.switchToWs().getClient();\n    const tracker = client._socket.remoteAddress;\n    const key = generateKey(context, tracker, throttler.name);\n    const { totalHits, timeToExpire, isBlocked, timeToBlockExpire } =\n      await this.storageService.increment(\n        key,\n        ttl,\n        limit,\n        blockDuration,\n        throttler.name,\n      );\n\n    const getThrottlerSuffix = (name: string) =>\n      name === 'default' ? '' : `-${name}`;\n\n    // Throw an error when the user reached their limit.\n    if (isBlocked) {\n      await this.throwThrottlingException(context, {\n        limit,\n        ttl,\n        key,\n        tracker,\n        totalHits,\n        timeToExpire,\n        isBlocked,\n        timeToBlockExpire,\n      });\n    }\n\n    return true;\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\nexport class GqlThrottlerGuard extends ThrottlerGuard {\n  getRequestResponse(context: ExecutionContext) {\n    const gqlCtx = GqlExecutionContext.create(context);\n    const ctx = gqlCtx.getContext();\n    return { req: ctx.req, res: ctx.res };\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Module({\n  imports: [\n    ThrottlerModule.forRootAsync({\n      imports: [ConfigModule],\n      inject: [ConfigService],\n      useFactory: (config: ConfigService) => [\n        {\n          ttl: config.get('THROTTLE_TTL'),\n          limit: config.get('THROTTLE_LIMIT'),\n        },\n      ],\n    }),\n  ],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Module({\n  imports: [\n    ThrottlerModule.forRootAsync({\n      imports: [ConfigModule],\n      useClass: ThrottlerConfigService,\n    }),\n  ],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    }
+  ],
+  "patterns": [],
+  "links": [
+    "https://docs.nestjs.com/first-steps",
+    "https://docs.nestjs.com/controllers",
+    "https://docs.nestjs.com/providers",
+    "https://docs.nestjs.com/modules",
+    "https://docs.nestjs.com/middleware",
+    "https://docs.nestjs.com/exception-filters",
+    "https://docs.nestjs.com/pipes",
+    "https://docs.nestjs.com/guards",
+    "https://docs.nestjs.com/interceptors",
+    "https://docs.nestjs.com/custom-decorators",
+    "https://docs.nestjs.com/fundamentals/custom-providers",
+    "https://docs.nestjs.com/fundamentals/async-providers",
+    "https://docs.nestjs.com/fundamentals/dynamic-modules",
+    "https://docs.nestjs.com/fundamentals/injection-scopes",
+    "https://docs.nestjs.com/fundamentals/circular-dependency",
+    "https://docs.nestjs.com/fundamentals/module-ref",
+    "https://docs.nestjs.com/fundamentals/lazy-loading-modules",
+    "https://docs.nestjs.com/fundamentals/execution-context",
+    "https://docs.nestjs.com/fundamentals/lifecycle-events",
+    "https://docs.nestjs.com/fundamentals/discovery-service",
+    "https://docs.nestjs.com/fundamentals/platform-agnosticism",
+    "https://docs.nestjs.com/fundamentals/testing",
+    "https://docs.nestjs.com/techniques/configuration",
+    "https://docs.nestjs.com/techniques/database",
+    "https://docs.nestjs.com/techniques/mongodb",
+    "https://docs.nestjs.com/techniques/validation",
+    "https://docs.nestjs.com/techniques/caching",
+    "https://docs.nestjs.com/techniques/serialization",
+    "https://docs.nestjs.com/techniques/versioning",
+    "https://docs.nestjs.com/techniques/task-scheduling",
+    "https://docs.nestjs.com/techniques/queues",
+    "https://docs.nestjs.com/techniques/logger",
+    "https://docs.nestjs.com/techniques/cookies",
+    "https://docs.nestjs.com/techniques/events",
+    "https://docs.nestjs.com/techniques/compression",
+    "https://docs.nestjs.com/techniques/file-upload",
+    "https://docs.nestjs.com/techniques/streaming-files",
+    "https://docs.nestjs.com/techniques/http-module",
+    "https://docs.nestjs.com/techniques/session",
+    "https://docs.nestjs.com/techniques/mvc",
+    "https://docs.nestjs.com/techniques/performance",
+    "https://docs.nestjs.com/techniques/server-sent-events",
+    "https://docs.nestjs.com/security/authentication",
+    "https://docs.nestjs.com/security/authorization",
+    "https://docs.nestjs.com/security/encryption-and-hashing",
+    "https://docs.nestjs.com/security/helmet",
+    "https://docs.nestjs.com/security/cors",
+    "https://docs.nestjs.com/security/csrf",
+    "https://docs.nestjs.com/security/rate-limiting",
+    "https://docs.nestjs.com/graphql/quick-start",
+    "https://docs.nestjs.com/graphql/resolvers",
+    "https://docs.nestjs.com/graphql/mutations",
+    "https://docs.nestjs.com/graphql/subscriptions",
+    "https://docs.nestjs.com/graphql/scalars",
+    "https://docs.nestjs.com/graphql/directives",
+    "https://docs.nestjs.com/graphql/interfaces",
+    "https://docs.nestjs.com/graphql/unions-and-enums",
+    "https://docs.nestjs.com/graphql/field-middleware",
+    "https://docs.nestjs.com/graphql/mapped-types",
+    "https://docs.nestjs.com/graphql/plugins",
+    "https://docs.nestjs.com/graphql/complexity",
+    "https://docs.nestjs.com/graphql/extensions",
+    "https://docs.nestjs.com/graphql/cli-plugin",
+    "https://docs.nestjs.com/graphql/generating-sdl",
+    "https://docs.nestjs.com/graphql/sharing-models",
+    "https://docs.nestjs.com/graphql/other-features",
+    "https://docs.nestjs.com/graphql/federation",
+    "https://docs.nestjs.com/websockets/gateways",
+    "https://docs.nestjs.com/websockets/exception-filters",
+    "https://docs.nestjs.com/websockets/pipes",
+    "https://docs.nestjs.com/websockets/guards",
+    "https://docs.nestjs.com/websockets/interceptors",
+    "https://docs.nestjs.com/websockets/adapter",
+    "https://docs.nestjs.com/microservices/basics",
+    "https://docs.nestjs.com/microservices/redis",
+    "https://docs.nestjs.com/microservices/mqtt",
+    "https://docs.nestjs.com/microservices/nats",
+    "https://docs.nestjs.com/microservices/rabbitmq",
+    "https://docs.nestjs.com/microservices/kafka",
+    "https://docs.nestjs.com/microservices/grpc",
+    "https://docs.nestjs.com/microservices/custom-transport",
+    "https://docs.nestjs.com/microservices/exception-filters",
+    "https://docs.nestjs.com/microservices/pipes",
+    "https://docs.nestjs.com/microservices/guards",
+    "https://docs.nestjs.com/microservices/interceptors",
+    "https://docs.nestjs.com/standalone-applications",
+    "https://docs.nestjs.com/cli/overview",
+    "https://docs.nestjs.com/cli/monorepo",
+    "https://docs.nestjs.com/cli/libraries",
+    "https://docs.nestjs.com/cli/usages",
+    "https://docs.nestjs.com/cli/scripts",
+    "https://docs.nestjs.com/openapi/introduction",
+    "https://docs.nestjs.com/openapi/types-and-parameters",
+    "https://docs.nestjs.com/openapi/operations",
+    "https://docs.nestjs.com/openapi/security",
+    "https://docs.nestjs.com/openapi/mapped-types",
+    "https://docs.nestjs.com/openapi/decorators",
+    "https://docs.nestjs.com/openapi/cli-plugin",
+    "https://docs.nestjs.com/openapi/other-features",
+    "https://docs.nestjs.com/recipes/repl",
+    "https://docs.nestjs.com/recipes/crud-generator",
+    "https://docs.nestjs.com/recipes/swc",
+    "https://docs.nestjs.com/recipes/passport",
+    "https://docs.nestjs.com/recipes/hot-reload",
+    "https://docs.nestjs.com/recipes/mikroorm",
+    "https://docs.nestjs.com/recipes/sql-typeorm",
+    "https://docs.nestjs.com/recipes/mongodb",
+    "https://docs.nestjs.com/recipes/sql-sequelize",
+    "https://docs.nestjs.com/recipes/router-module",
+    "https://docs.nestjs.com/recipes/swagger",
+    "https://docs.nestjs.com/recipes/terminus",
+    "https://docs.nestjs.com/recipes/cqrs",
+    "https://docs.nestjs.com/recipes/documentation",
+    "https://docs.nestjs.com/recipes/prisma",
+    "https://docs.nestjs.com/recipes/sentry",
+    "https://docs.nestjs.com/recipes/serve-static",
+    "https://docs.nestjs.com/recipes/nest-commander",
+    "https://docs.nestjs.com/recipes/async-local-storage",
+    "https://docs.nestjs.com/recipes/necord",
+    "https://docs.nestjs.com/recipes/suites",
+    "https://docs.nestjs.com/faq/serverless",
+    "https://docs.nestjs.com/faq/http-adapter",
+    "https://docs.nestjs.com/faq/keep-alive-connections",
+    "https://docs.nestjs.com/faq/global-prefix",
+    "https://docs.nestjs.com/faq/raw-body",
+    "https://docs.nestjs.com/faq/hybrid-application",
+    "https://docs.nestjs.com/faq/multiple-servers",
+    "https://docs.nestjs.com/faq/request-lifecycle",
+    "https://docs.nestjs.com/faq/common-errors"
+  ]
+}

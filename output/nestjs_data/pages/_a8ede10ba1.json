@@ -1,0 +1,316 @@
+{
+  "url": "https://docs.nestjs.com/recipes/swc",
+  "title": "",
+  "content": "SWC (Speedy Web Compiler) is an extensible Rust-based platform that can be used for both compilation and bundling. Using SWC with Nest CLI is a great and simple way to significantly speed up your development process.\n\nTo get started, first install a few packages:\n\nOnce the installation process is complete, you can use the swc builder with Nest CLI, as follows:\n\nInstead of passing the -b flag you can also just set the compilerOptions.builder property to \"swc\" in your nest-cli.json file, like so:\n\nTo customize builder's behavior, you can pass an object containing two attributes, type (\"swc\") and options, as follows:\n\nFor example, to make the swc compile .jsx and .tsx files, do:\n\nTo run the application in watch mode, use the following command:\n\nSWC does not perform any type checking itself (as opposed to the default TypeScript compiler), so to turn it on, you need to use the --type-check flag:\n\nThis command will instruct the Nest CLI to run tsc in noEmit mode alongside SWC, which will asynchronously perform type checking. Again, instead of passing the --type-check flag you can also just set the compilerOptions.typeCheck property to true in your nest-cli.json file, like so:\n\nThe --type-check flag will automatically execute NestJS CLI plugins and produce a serialized metadata file which then can be loaded by the application at runtime.\n\nSWC builder is pre-configured to match the requirements of NestJS applications. However, you can customize the configuration by creating a .swcrc file in the root directory and tweaking the options as you wish.\n\nIf your repository is a monorepo, then instead of using swc builder you have to configure webpack to use swc-loader.\n\nFirst, let's install the required package:\n\nOnce the installation is complete, create a webpack.config.js file in the root directory of your application with the following content:\n\nNow if you use CLI plugins, swc-loader will not load them automatically. Instead, you have to create a separate file that will load them manually. To do so, declare a generate-metadata.ts file near the main.ts file with the following content:\n\nThe generate() method accepts the following options:\n\nFinally, you can run the generate-metadata script in a separate terminal window with the following command:\n\nIf you use TypeORM/MikroORM or any other ORM in your application, you may stumble upon circular import issues. SWC doesn't handle circular imports well, so you should use the following workaround:\n\nDoing this prevents the type of the property from being saved in the transpiled code in the property metadata, preventing circular dependency issues.\n\nIf your ORM does not provide a similar workaround, you can define the wrapper type yourself:\n\nFor all circular dependency injections in your project, you will also need to use the custom wrapper type described above:\n\nTo use SWC with Jest, you need to install the following packages:\n\nOnce the installation is complete, update the package.json/jest.config.js file (depending on your configuration) with the following content:\n\nAdditionally you would need to add the following transform properties to your .swcrc file: legacyDecorator, decoratorMetadata:\n\nIf you use NestJS CLI Plugins in your project, you'll have to run PluginMetadataGenerator manually. Navigate to this section to learn more.\n\nVitest is a fast and lightweight test runner designed to work with Vite. It provides a modern, fast, and easy-to-use testing solution that can be integrated with NestJS projects.\n\nTo get started, first install the required packages:\n\nCreate a vitest.config.ts file in the root directory of your application with the following content:\n\nThis configuration file sets up the Vitest environment, root directory, and SWC plugin. You should also create a separate configuration file for e2e tests, with an additional include field that specifies the test path regex:\n\nAdditionally, you can set the alias options to support TypeScript paths in your tests:\n\nUnlike Jest, Vitest does not automatically resolve TypeScript path aliases like src/. This may lead to dependency resolution errors during testing. To resolve this issue, add the following resolve.alias configuration in your vitest.config.ts file:\n\nThis ensures that Vitest correctly resolves module imports, preventing errors related to missing dependencies.\n\nChange any E2E test imports using import * as request from 'supertest' to import request from 'supertest'. This is necessary because Vitest, when bundled with Vite, expects a default import for supertest. Using a namespace import may cause issues in this specific setup.\n\nLastly, update the test scripts in your package.json file to the following:\n\nThese scripts configure Vitest for running tests, watching for changes, generating code coverage reports, and debugging. The test:e2e script is specifically for running E2E tests with a custom configuration file.\n\nWith this setup, you can now enjoy the benefits of using Vitest in your NestJS project, including faster test execution and a more modern testing experience.",
+  "headings": [
+    {
+      "level": "h3",
+      "text": "SWC",
+      "id": "swc"
+    },
+    {
+      "level": "h4",
+      "text": "Installation#",
+      "id": "installation"
+    },
+    {
+      "level": "h4",
+      "text": "Getting started#",
+      "id": "getting-started"
+    },
+    {
+      "level": "h4",
+      "text": "Type checking#",
+      "id": "type-checking"
+    },
+    {
+      "level": "h4",
+      "text": "CLI Plugins (SWC)#",
+      "id": "cli-plugins-swc"
+    },
+    {
+      "level": "h4",
+      "text": "SWC configuration#",
+      "id": "swc-configuration"
+    },
+    {
+      "level": "h4",
+      "text": "Monorepo#",
+      "id": "monorepo"
+    },
+    {
+      "level": "h4",
+      "text": "Monorepo and CLI plugins#",
+      "id": "monorepo-and-cli-plugins"
+    },
+    {
+      "level": "h4",
+      "text": "Common pitfalls#",
+      "id": "common-pitfalls"
+    },
+    {
+      "level": "h3",
+      "text": "Jest + SWC",
+      "id": "jest--swc"
+    },
+    {
+      "level": "h3",
+      "text": "Vitest",
+      "id": "vitest"
+    },
+    {
+      "level": "h4",
+      "text": "Installation#",
+      "id": "installation-1"
+    },
+    {
+      "level": "h4",
+      "text": "Configuration#",
+      "id": "configuration"
+    },
+    {
+      "level": "h3",
+      "text": "Path aliases",
+      "id": "path-aliases"
+    },
+    {
+      "level": "h4",
+      "text": "Update imports in E2E tests#",
+      "id": "update-imports-in-e2e-tests"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "$ npm i --save-dev @swc/cli @swc/core",
+      "language": "bash"
+    },
+    {
+      "code": "$ nest start -b swc\n# OR nest start --builder swc",
+      "language": "bash"
+    },
+    {
+      "code": "{\n  \"compilerOptions\": {\n    \"builder\": \"swc\"\n  }\n}",
+      "language": "json"
+    },
+    {
+      "code": "{\n  \"compilerOptions\": {\n    \"builder\": {\n      \"type\": \"swc\",\n      \"options\": {\n        \"swcrcPath\": \"infrastructure/.swcrc\",\n      }\n    }\n  }\n}",
+      "language": "json"
+    },
+    {
+      "code": "{\n  \"compilerOptions\": {\n    \"builder\": {\n      \"type\": \"swc\",\n      \"options\": { \"extensions\": [\".ts\", \".tsx\", \".js\", \".jsx\"] }\n    },\n  }\n}",
+      "language": "json"
+    },
+    {
+      "code": "$ nest start -b swc -w\n# OR nest start --builder swc --watch",
+      "language": "bash"
+    },
+    {
+      "code": "$ nest start -b swc --type-check",
+      "language": "bash"
+    },
+    {
+      "code": "{\n  \"compilerOptions\": {\n    \"builder\": \"swc\",\n    \"typeCheck\": true\n  }\n}",
+      "language": "json"
+    },
+    {
+      "code": "{\n  \"$schema\": \"https://swc.rs/schema.json\",\n  \"sourceMaps\": true,\n  \"jsc\": {\n    \"parser\": {\n      \"syntax\": \"typescript\",\n      \"decorators\": true,\n      \"dynamicImport\": true\n    },\n    \"baseUrl\": \"./\"\n  },\n  \"minify\": false\n}",
+      "language": "json"
+    },
+    {
+      "code": "$ npm i --save-dev swc-loader",
+      "language": "bash"
+    },
+    {
+      "code": "const swcDefaultConfig = require('@nestjs/cli/lib/compiler/defaults/swc-defaults').swcDefaultsFactory().swcOptions;\n\nmodule.exports = {\n  module: {\n    rules: [\n      {\n        test: /\\.ts$/,\n        exclude: /node_modules/,\n        use: {\n          loader: 'swc-loader',\n          options: swcDefaultConfig,\n        },\n      },\n    ],\n  },\n};",
+      "language": "json"
+    },
+    {
+      "code": "import { PluginMetadataGenerator } from '@nestjs/cli/lib/compiler/plugins/plugin-metadata-generator';\nimport { ReadonlyVisitor } from '@nestjs/swagger/dist/plugin';\n\nconst generator = new PluginMetadataGenerator();\ngenerator.generate({\n  visitors: [new ReadonlyVisitor({ introspectComments: true, pathToSource: __dirname })],\n  outputDir: __dirname,\n  watch: true,\n  tsconfigPath: 'apps/<name>/tsconfig.app.json',\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "$ npx ts-node src/generate-metadata.ts\n# OR npx ts-node apps/{YOUR_APP}/src/generate-metadata.ts",
+      "language": "bash"
+    },
+    {
+      "code": "@Entity()\nexport class User {\n  @OneToOne(() => Profile, (profile) => profile.user)\n  profile: Relation<Profile>; // <--- see \"Relation<>\" type here instead of just \"Profile\"\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "/**\n * Wrapper type used to circumvent ESM modules circular dependency issue\n * caused by reflection metadata saving the type of the property.\n */\nexport type WrapperType<T> = T; // WrapperType === Relation",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\nexport class UsersService {\n  constructor(\n    @Inject(forwardRef(() => ProfileService))\n    private readonly profileService: WrapperType<ProfileService>,\n  ) {};\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "$ npm i --save-dev jest @swc/core @swc/jest",
+      "language": "bash"
+    },
+    {
+      "code": "{\n  \"jest\": {\n    \"transform\": {\n      \"^.+\\\\.(t|j)s?$\": [\"@swc/jest\"]\n    }\n  }\n}",
+      "language": "json"
+    },
+    {
+      "code": "{\n  \"$schema\": \"https://swc.rs/schema.json\",\n  \"sourceMaps\": true,\n  \"jsc\": {\n    \"parser\": {\n      \"syntax\": \"typescript\",\n      \"decorators\": true,\n      \"dynamicImport\": true\n    },\n    \"transform\": {\n      \"legacyDecorator\": true,\n      \"decoratorMetadata\": true\n    },\n    \"baseUrl\": \"./\"\n  },\n  \"minify\": false\n}",
+      "language": "json"
+    },
+    {
+      "code": "$ npm i --save-dev vitest unplugin-swc @swc/core @vitest/coverage-v8",
+      "language": "bash"
+    },
+    {
+      "code": "import swc from 'unplugin-swc';\nimport { defineConfig } from 'vitest/config';\n\nexport default defineConfig({\n  test: {\n    globals: true,\n    root: './',\n  },\n  plugins: [\n    // This is required to build the test files with SWC\n    swc.vite({\n      // Explicitly set the module type to avoid inheriting this value from a `.swcrc` config file\n      module: { type: 'es6' },\n    }),\n  ],\n  resolve: {\n    alias: {\n      // Ensure Vitest correctly resolves TypeScript path aliases\n      'src': resolve(__dirname, './src'),\n    },\n  },\n});",
+      "language": "julia"
+    },
+    {
+      "code": "import swc from 'unplugin-swc';\nimport { defineConfig } from 'vitest/config';\n\nexport default defineConfig({\n  test: {\n    include: ['**/*.e2e-spec.ts'],\n    globals: true,\n    root: './',\n  },\n  plugins: [swc.vite()],\n});",
+      "language": "sql"
+    },
+    {
+      "code": "import swc from 'unplugin-swc';\nimport { defineConfig } from 'vitest/config';\n\nexport default defineConfig({\n  test: {\n    include: ['**/*.e2e-spec.ts'],\n    globals: true,\n    alias: {\n      '@src': './src',\n      '@test': './test',\n    },\n    root: './',\n  },\n  resolve: {\n    alias: {\n      '@src': './src',\n      '@test': './test',\n    },\n  },\n  plugins: [swc.vite()],\n});",
+      "language": "python"
+    },
+    {
+      "code": "import { resolve } from 'path';\n\nexport default defineConfig({\n  resolve: {\n    alias: {\n      'src': resolve(__dirname, './src'),\n    },\n  },\n});",
+      "language": "sql"
+    },
+    {
+      "code": "{\n  \"scripts\": {\n    \"test\": \"vitest run\",\n    \"test:watch\": \"vitest\",\n    \"test:cov\": \"vitest run --coverage\",\n    \"test:debug\": \"vitest --inspect-brk --inspect --logHeapUsage --threads=false\",\n    \"test:e2e\": \"vitest run --config ./vitest.config.e2e.ts\"\n  }\n}",
+      "language": "json"
+    }
+  ],
+  "patterns": [],
+  "links": [
+    "https://docs.nestjs.com/first-steps",
+    "https://docs.nestjs.com/controllers",
+    "https://docs.nestjs.com/providers",
+    "https://docs.nestjs.com/modules",
+    "https://docs.nestjs.com/middleware",
+    "https://docs.nestjs.com/exception-filters",
+    "https://docs.nestjs.com/pipes",
+    "https://docs.nestjs.com/guards",
+    "https://docs.nestjs.com/interceptors",
+    "https://docs.nestjs.com/custom-decorators",
+    "https://docs.nestjs.com/fundamentals/custom-providers",
+    "https://docs.nestjs.com/fundamentals/async-providers",
+    "https://docs.nestjs.com/fundamentals/dynamic-modules",
+    "https://docs.nestjs.com/fundamentals/injection-scopes",
+    "https://docs.nestjs.com/fundamentals/circular-dependency",
+    "https://docs.nestjs.com/fundamentals/module-ref",
+    "https://docs.nestjs.com/fundamentals/lazy-loading-modules",
+    "https://docs.nestjs.com/fundamentals/execution-context",
+    "https://docs.nestjs.com/fundamentals/lifecycle-events",
+    "https://docs.nestjs.com/fundamentals/discovery-service",
+    "https://docs.nestjs.com/fundamentals/platform-agnosticism",
+    "https://docs.nestjs.com/fundamentals/testing",
+    "https://docs.nestjs.com/techniques/configuration",
+    "https://docs.nestjs.com/techniques/database",
+    "https://docs.nestjs.com/techniques/mongodb",
+    "https://docs.nestjs.com/techniques/validation",
+    "https://docs.nestjs.com/techniques/caching",
+    "https://docs.nestjs.com/techniques/serialization",
+    "https://docs.nestjs.com/techniques/versioning",
+    "https://docs.nestjs.com/techniques/task-scheduling",
+    "https://docs.nestjs.com/techniques/queues",
+    "https://docs.nestjs.com/techniques/logger",
+    "https://docs.nestjs.com/techniques/cookies",
+    "https://docs.nestjs.com/techniques/events",
+    "https://docs.nestjs.com/techniques/compression",
+    "https://docs.nestjs.com/techniques/file-upload",
+    "https://docs.nestjs.com/techniques/streaming-files",
+    "https://docs.nestjs.com/techniques/http-module",
+    "https://docs.nestjs.com/techniques/session",
+    "https://docs.nestjs.com/techniques/mvc",
+    "https://docs.nestjs.com/techniques/performance",
+    "https://docs.nestjs.com/techniques/server-sent-events",
+    "https://docs.nestjs.com/security/authentication",
+    "https://docs.nestjs.com/security/authorization",
+    "https://docs.nestjs.com/security/encryption-and-hashing",
+    "https://docs.nestjs.com/security/helmet",
+    "https://docs.nestjs.com/security/cors",
+    "https://docs.nestjs.com/security/csrf",
+    "https://docs.nestjs.com/security/rate-limiting",
+    "https://docs.nestjs.com/graphql/quick-start",
+    "https://docs.nestjs.com/graphql/resolvers",
+    "https://docs.nestjs.com/graphql/mutations",
+    "https://docs.nestjs.com/graphql/subscriptions",
+    "https://docs.nestjs.com/graphql/scalars",
+    "https://docs.nestjs.com/graphql/directives",
+    "https://docs.nestjs.com/graphql/interfaces",
+    "https://docs.nestjs.com/graphql/unions-and-enums",
+    "https://docs.nestjs.com/graphql/field-middleware",
+    "https://docs.nestjs.com/graphql/mapped-types",
+    "https://docs.nestjs.com/graphql/plugins",
+    "https://docs.nestjs.com/graphql/complexity",
+    "https://docs.nestjs.com/graphql/extensions",
+    "https://docs.nestjs.com/graphql/cli-plugin",
+    "https://docs.nestjs.com/graphql/generating-sdl",
+    "https://docs.nestjs.com/graphql/sharing-models",
+    "https://docs.nestjs.com/graphql/other-features",
+    "https://docs.nestjs.com/graphql/federation",
+    "https://docs.nestjs.com/websockets/gateways",
+    "https://docs.nestjs.com/websockets/exception-filters",
+    "https://docs.nestjs.com/websockets/pipes",
+    "https://docs.nestjs.com/websockets/guards",
+    "https://docs.nestjs.com/websockets/interceptors",
+    "https://docs.nestjs.com/websockets/adapter",
+    "https://docs.nestjs.com/microservices/basics",
+    "https://docs.nestjs.com/microservices/redis",
+    "https://docs.nestjs.com/microservices/mqtt",
+    "https://docs.nestjs.com/microservices/nats",
+    "https://docs.nestjs.com/microservices/rabbitmq",
+    "https://docs.nestjs.com/microservices/kafka",
+    "https://docs.nestjs.com/microservices/grpc",
+    "https://docs.nestjs.com/microservices/custom-transport",
+    "https://docs.nestjs.com/microservices/exception-filters",
+    "https://docs.nestjs.com/microservices/pipes",
+    "https://docs.nestjs.com/microservices/guards",
+    "https://docs.nestjs.com/microservices/interceptors",
+    "https://docs.nestjs.com/standalone-applications",
+    "https://docs.nestjs.com/cli/overview",
+    "https://docs.nestjs.com/cli/monorepo",
+    "https://docs.nestjs.com/cli/libraries",
+    "https://docs.nestjs.com/cli/usages",
+    "https://docs.nestjs.com/cli/scripts",
+    "https://docs.nestjs.com/openapi/introduction",
+    "https://docs.nestjs.com/openapi/types-and-parameters",
+    "https://docs.nestjs.com/openapi/operations",
+    "https://docs.nestjs.com/openapi/security",
+    "https://docs.nestjs.com/openapi/mapped-types",
+    "https://docs.nestjs.com/openapi/decorators",
+    "https://docs.nestjs.com/openapi/cli-plugin",
+    "https://docs.nestjs.com/openapi/other-features",
+    "https://docs.nestjs.com/recipes/repl",
+    "https://docs.nestjs.com/recipes/crud-generator",
+    "https://docs.nestjs.com/recipes/swc",
+    "https://docs.nestjs.com/recipes/passport",
+    "https://docs.nestjs.com/recipes/hot-reload",
+    "https://docs.nestjs.com/recipes/mikroorm",
+    "https://docs.nestjs.com/recipes/sql-typeorm",
+    "https://docs.nestjs.com/recipes/mongodb",
+    "https://docs.nestjs.com/recipes/sql-sequelize",
+    "https://docs.nestjs.com/recipes/router-module",
+    "https://docs.nestjs.com/recipes/swagger",
+    "https://docs.nestjs.com/recipes/terminus",
+    "https://docs.nestjs.com/recipes/cqrs",
+    "https://docs.nestjs.com/recipes/documentation",
+    "https://docs.nestjs.com/recipes/prisma",
+    "https://docs.nestjs.com/recipes/sentry",
+    "https://docs.nestjs.com/recipes/serve-static",
+    "https://docs.nestjs.com/recipes/nest-commander",
+    "https://docs.nestjs.com/recipes/async-local-storage",
+    "https://docs.nestjs.com/recipes/necord",
+    "https://docs.nestjs.com/recipes/suites",
+    "https://docs.nestjs.com/faq/serverless",
+    "https://docs.nestjs.com/faq/http-adapter",
+    "https://docs.nestjs.com/faq/keep-alive-connections",
+    "https://docs.nestjs.com/faq/global-prefix",
+    "https://docs.nestjs.com/faq/raw-body",
+    "https://docs.nestjs.com/faq/hybrid-application",
+    "https://docs.nestjs.com/faq/multiple-servers",
+    "https://docs.nestjs.com/faq/request-lifecycle",
+    "https://docs.nestjs.com/faq/common-errors"
+  ]
+}

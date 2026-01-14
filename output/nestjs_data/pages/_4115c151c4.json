@@ -1,0 +1,517 @@
+{
+  "url": "https://docs.nestjs.com/techniques/queues",
+  "title": "",
+  "content": "Queues are a powerful design pattern that help you deal with common application scaling and performance challenges. Some examples of problems that Queues can help you solve are:\n\nNest provides the @nestjs/bullmq package for BullMQ integration and @nestjs/bull package for Bull integration. Both packages are abstractions/wrappers on top of their respective libraries, which were developed by the same team. Bull is currently in maintenance mode, with the team focusing on fixing bugs, while BullMQ is actively developed, featuring a modern TypeScript implementation and a different set of features. If Bull meets your requirements, it remains a reliable and battle-tested choice. The Nest packages make it easy to integrate both, BullMQ or Bull Queues, into your Nest application in a friendly way.\n\nBoth BullMQ and Bull use Redis to persist job data, so you'll need to have Redis installed on your system. Because they are Redis-backed, your Queue architecture can be completely distributed and platform-independent. For example, you can have some Queue producers and consumers and listeners running in Nest on one (or several) nodes, and other producers, consumers and listeners running on other Node.js platforms on other network nodes.\n\nThis chapter covers the @nestjs/bullmq and @nestjs/bull packages. We also recommend reading the BullMQ and Bull documentation for more background and specific implementation details.\n\nTo begin using BullMQ, we first install the required dependencies.\n\nOnce the installation process is complete, we can import the BullModule into the root AppModule.\n\nThe forRoot() method is used to register a bullmq package configuration object that will be used by all queues registered in the application (unless specified otherwise). For your reference, the following are a few of the properties within a configuration object:\n\nAll the options are optional, providing detailed control over queue behavior. These are passed directly to the BullMQ Queue constructor. Read more about these options and other options here.\n\nTo register a queue, import the BullModule.registerQueue() dynamic module, as follows:\n\nThe registerQueue() method is used to instantiate and/or register queues. Queues are shared across modules and processes that connect to the same underlying Redis database with the same credentials. Each queue is unique by its name property. A queue name is used as both an injection token (for injecting the queue into controllers/providers), and as an argument to decorators to associate consumer classes and listeners with queues.\n\nYou can also override some of the pre-configured options for a specific queue, as follows:\n\nBullMQ also supports parent - child relationships between jobs. This functionality enables the creation of flows where jobs are the node of trees of arbitrary depth. To read more about them check here.\n\nTo add a flow, you can do the following:\n\nSince jobs are persisted in Redis, each time a specific named queue is instantiated (e.g., when an app is started/restarted), it attempts to process any old jobs that may exist from a previous unfinished session.\n\nEach queue can have one or many producers, consumers, and listeners. Consumers retrieve jobs from the queue in a specific order: FIFO (the default), LIFO, or according to priorities. Controlling queue processing order is discussed here.\n\nOfficial enterprise support Providing technical guidance Performing in-depth code reviews Mentoring team members Advising best practices Explore more\n\nIf your queues connect to multiple different Redis instances, you can use a technique called named configurations. This feature allows you to register several configurations under specified keys, which then you can refer to in the queue options.\n\nFor example, assuming that you have an additional Redis instance (apart from the default one) used by a few queues registered in your application, you can register its configuration as follows:\n\nIn the example above, 'alternative-config' is just a configuration key (it can be any arbitrary string).\n\nWith this in place, you can now point to this configuration in the registerQueue() options object:\n\nJob producers add jobs to queues. Producers are typically application services (Nest providers). To add jobs to a queue, first inject the queue into the service as follows:\n\nNow, add a job by calling the queue's add() method, passing a user-defined job object. Jobs are represented as serializable JavaScript objects (since that is how they are stored in the Redis database). The shape of the job you pass is arbitrary; use it to represent the semantics of your job object. You also need to give it a name. This allows you to create specialized consumers that will only process jobs with a given name.\n\nJobs can have additional options associated with them. Pass an options object after the job argument in the Queue.add() method. Some of the job options properties are:\n\nHere are a few examples of customizing jobs with job options.\n\nTo delay the start of a job, use the delay configuration property.\n\nTo add a job to the right end of the queue (process the job as LIFO (Last In First Out)), set the lifo property of the configuration object to true.\n\nTo prioritize a job, use the priority property.\n\nFor a full list of options, check the API documentation here and here.\n\nA consumer is a class defining methods that either process jobs added into the queue, or listen for events on the queue, or both. Declare a consumer class using the @Processor() decorator as follows:\n\nWhere the decorator's string argument (e.g., 'audio') is the name of the queue to be associated with the class methods.\n\nThe process method is called whenever the worker is idle and there are jobs to process in the queue. This handler method receives the job object as its only argument. The value returned by the handler method is stored in the job object and can be accessed later on, for example in a listener for the completed event.\n\nJob objects have multiple methods that allow you to interact with their state. For example, the above code uses the updateProgress() method to update the job's progress. See here for the complete Job object API reference.\n\nIn the older version, Bull, you could designate that a job handler method will handle only jobs of a certain type (jobs with a specific name) by passing that name to the @Process() decorator as shown below.\n\nThis behavior is not supported in BullMQ due to confusions it generated. Instead, you need switch cases to call different services or logic for each job name:\n\nThis is covered in the named processor section of the BullMQ documentation.\n\nWhen a consumer is flagged as request-scoped (learn more about the injection scopes here), a new instance of the class will be created exclusively for each job. The instance will be garbage-collected after the job has completed.\n\nSince request-scoped consumer classes are instantiated dynamically and scoped to a single job, you can inject a JOB_REF through the constructor using a standard approach.\n\nBullMQ generates a set of useful events when queue and/or job state changes occur. These events can be subscribed to at the Worker level using the @OnWorkerEvent(event) decorator, or at the Queue level with a dedicated listener class and the @OnQueueEvent(event) decorator.\n\nWorker events must be declared within a consumer class (i.e., within a class decorated with the @Processor() decorator). To listen for an event, use the @OnWorkerEvent(event) decorator with the event you want to be handled. For example, to listen to the event emitted when a job enters the active state in the audio queue, use the following construct:\n\nYou can see the complete list of events and their arguments as properties of WorkerListener here.\n\nQueueEvent listeners must use the @QueueEventsListener(queue) decorator and extend the QueueEventsHost class provided by @nestjs/bullmq. To listen for an event, use the @OnQueueEvent(event) decorator with the event you want to be handled. For example, to listen to the event emitted when a job enters the active state in the audio queue, use the following construct:\n\nYou can see the complete list of events and their arguments as properties of QueueEventsListener here.\n\nQueues have an API that allows you to perform management functions like pausing and resuming, retrieving the count of jobs in various states, and several more. You can find the full queue API here. Invoke any of these methods directly on the Queue object, as shown below with the pause/resume examples.\n\nPause a queue with the pause() method call. A paused queue will not process new jobs until resumed, but current jobs being processed will continue until they are finalized.\n\nTo resume a paused queue, use the resume() method, as follows:\n\nJob handlers can also be run in a separate (forked) process (source). This has several advantages:\n\nYou may want to pass bullmq options asynchronously instead of statically. In this case, use the forRootAsync() method which provides several ways to deal with async configuration. Likewise, if you want to pass queue options asynchronously, use the registerQueueAsync() method.\n\nOne approach is to use a factory function:\n\nOur factory behaves like any other asynchronous provider (e.g., it can be async and it's able to inject dependencies through inject).\n\nAlternatively, you can use the useClass syntax:\n\nThe construction above will instantiate BullConfigService inside BullModule and use it to provide an options object by calling createSharedConfiguration(). Note that this means that the BullConfigService has to implement the SharedBullConfigurationFactory interface, as shown below:\n\nIn order to prevent the creation of BullConfigService inside BullModule and use a provider imported from a different module, you can use the useExisting syntax.\n\nThis construction works the same as useClass with one critical difference - BullModule will lookup imported modules to reuse an existing ConfigService instead of instantiating a new one.\n\nLikewise, if you want to pass queue options asynchronously, use the registerQueueAsync() method, just keep in mind to specify the name attribute outside the factory function.\n\nBy default, BullModule automatically registers BullMQ components (queues, processors, and event listener services) in the onModuleInit lifecycle function. However, in some cases, this behavior may not be ideal. To prevent automatic registration, enable manualRegistration in BullModule like this:\n\nTo register these components manually, inject BullRegistrar and call the register function, ideally within OnModuleInit or OnApplicationBootstrap.\n\nUnless you call the BullRegistrar#register function, no BullMQ components will work—meaning no jobs will be processed.\n\nTo begin using Bull, we first install the required dependencies.\n\nOnce the installation process is complete, we can import the BullModule into the root AppModule.\n\nThe forRoot() method is used to register a bull package configuration object that will be used by all queues registered in the application (unless specified otherwise). A configuration object consists of the following properties:\n\nAll the options are optional, providing detailed control over queue behavior. These are passed directly to the Bull Queue constructor. Read more about these options here.\n\nTo register a queue, import the BullModule.registerQueue() dynamic module, as follows:\n\nThe registerQueue() method is used to instantiate and/or register queues. Queues are shared across modules and processes that connect to the same underlying Redis database with the same credentials. Each queue is unique by its name property. A queue name is used as both an injection token (for injecting the queue into controllers/providers), and as an argument to decorators to associate consumer classes and listeners with queues.\n\nYou can also override some of the pre-configured options for a specific queue, as follows:\n\nSince jobs are persisted in Redis, each time a specific named queue is instantiated (e.g., when an app is started/restarted), it attempts to process any old jobs that may exist from a previous unfinished session.\n\nEach queue can have one or many producers, consumers, and listeners. Consumers retrieve jobs from the queue in a specific order: FIFO (the default), LIFO, or according to priorities. Controlling queue processing order is discussed here.\n\nOfficial enterprise support Providing technical guidance Performing in-depth code reviews Mentoring team members Advising best practices Explore more\n\nIf your queues connect to multiple Redis instances, you can use a technique called named configurations. This feature allows you to register several configurations under specified keys, which then you can refer to in the queue options.\n\nFor example, assuming that you have an additional Redis instance (apart from the default one) used by a few queues registered in your application, you can register its configuration as follows:\n\nIn the example above, 'alternative-config' is just a configuration key (it can be any arbitrary string).\n\nWith this in place, you can now point to this configuration in the registerQueue() options object:\n\nJob producers add jobs to queues. Producers are typically application services (Nest providers). To add jobs to a queue, first inject the queue into the service as follows:\n\nNow, add a job by calling the queue's add() method, passing a user-defined job object. Jobs are represented as serializable JavaScript objects (since that is how they are stored in the Redis database). The shape of the job you pass is arbitrary; use it to represent the semantics of your job object.\n\nJobs may have unique names. This allows you to create specialized consumers that will only process jobs with a given name.\n\nJobs can have additional options associated with them. Pass an options object after the job argument in the Queue.add() method. Job options properties are:\n\nHere are a few examples of customizing jobs with job options.\n\nTo delay the start of a job, use the delay configuration property.\n\nTo add a job to the right end of the queue (process the job as LIFO (Last In First Out)), set the lifo property of the configuration object to true.\n\nTo prioritize a job, use the priority property.\n\nA consumer is a class defining methods that either process jobs added into the queue, or listen for events on the queue, or both. Declare a consumer class using the @Processor() decorator as follows:\n\nWhere the decorator's string argument (e.g., 'audio') is the name of the queue to be associated with the class methods.\n\nWithin a consumer class, declare job handlers by decorating handler methods with the @Process() decorator.\n\nThe decorated method (e.g., transcode()) is called whenever the worker is idle and there are jobs to process in the queue. This handler method receives the job object as its only argument. The value returned by the handler method is stored in the job object and can be accessed later on, for example in a listener for the completed event.\n\nJob objects have multiple methods that allow you to interact with their state. For example, the above code uses the progress() method to update the job's progress. See here for the complete Job object API reference.\n\nYou can designate that a job handler method will handle only jobs of a certain type (jobs with a specific name) by passing that name to the @Process() decorator as shown below. You can have multiple @Process() handlers in a given consumer class, corresponding to each job type (name). When you use named jobs, be sure to have a handler corresponding to each name.\n\nWhen a consumer is flagged as request-scoped (learn more about the injection scopes here), a new instance of the class will be created exclusively for each job. The instance will be garbage-collected after the job has completed.\n\nSince request-scoped consumer classes are instantiated dynamically and scoped to a single job, you can inject a JOB_REF through the constructor using a standard approach.\n\nBull generates a set of useful events when queue and/or job state changes occur. Nest provides a set of decorators that allow subscribing to a core set of standard events. These are exported from the @nestjs/bull package.\n\nEvent listeners must be declared within a consumer class (i.e., within a class decorated with the @Processor() decorator). To listen for an event, use one of the decorators in the table below to declare a handler for the event. For example, to listen to the event emitted when a job enters the active state in the audio queue, use the following construct:\n\nSince Bull operates in a distributed (multi-node) environment, it defines the concept of event locality. This concept recognizes that events may be triggered either entirely within a single process, or on shared queues from different processes. A local event is one that is produced when an action or state change is triggered on a queue in the local process. In other words, when your event producers and consumers are local to a single process, all events happening on queues are local.\n\nWhen a queue is shared across multiple processes, we encounter the possibility of global events. For a listener in one process to receive an event notification triggered by another process, it must register for a global event.\n\nEvent handlers are invoked whenever their corresponding event is emitted. The handler is called with the signature shown in the table below, providing access to information relevant to the event. We discuss one key difference between local and global event handler signatures below.\n\nWhen listening for global events, the method signatures can be slightly different from their local counterpart. Specifically, any method signature that receives job objects in the local version, instead receives a jobId (number) in the global version. To get a reference to the actual job object in such a case, use the Queue#getJob method. This call should be awaited, and therefore the handler should be declared async. For example:\n\nIn addition to the specific event listener decorators, you can also use the generic @OnQueueEvent() decorator in combination with either BullQueueEvents or BullQueueGlobalEvents enums. Read more about events here.\n\nQueue's have an API that allows you to perform management functions like pausing and resuming, retrieving the count of jobs in various states, and several more. You can find the full queue API here. Invoke any of these methods directly on the Queue object, as shown below with the pause/resume examples.\n\nPause a queue with the pause() method call. A paused queue will not process new jobs until resumed, but current jobs being processed will continue until they are finalized.\n\nTo resume a paused queue, use the resume() method, as follows:\n\nJob handlers can also be run in a separate (forked) process (source). This has several advantages:\n\nPlease note that because your function is being executed in a forked process, Dependency Injection (and IoC container) won't be available. That means that your processor function will need to contain (or create) all instances of external dependencies it needs.\n\nYou may want to pass bull options asynchronously instead of statically. In this case, use the forRootAsync() method which provides several ways to deal with async configuration.\n\nOne approach is to use a factory function:\n\nOur factory behaves like any other asynchronous provider (e.g., it can be async and it's able to inject dependencies through inject).\n\nAlternatively, you can use the useClass syntax:\n\nThe construction above will instantiate BullConfigService inside BullModule and use it to provide an options object by calling createSharedConfiguration(). Note that this means that the BullConfigService has to implement the SharedBullConfigurationFactory interface, as shown below:\n\nIn order to prevent the creation of BullConfigService inside BullModule and use a provider imported from a different module, you can use the useExisting syntax.\n\nThis construction works the same as useClass with one critical difference - BullModule will lookup imported modules to reuse an existing ConfigService instead of instantiating a new one.\n\nLikewise, if you want to pass queue options asynchronously, use the registerQueueAsync() method, just keep in mind to specify the name attribute outside the factory function.\n\nA working example is available here.",
+  "headings": [
+    {
+      "level": "h3",
+      "text": "Queues",
+      "id": "queues"
+    },
+    {
+      "level": "h4",
+      "text": "BullMQ installation#",
+      "id": "bullmq-installation"
+    },
+    {
+      "level": "h2",
+      "text": "Official enterprise support",
+      "id": ""
+    },
+    {
+      "level": "h4",
+      "text": "Named configurations#",
+      "id": "named-configurations"
+    },
+    {
+      "level": "h4",
+      "text": "Producers#",
+      "id": "producers"
+    },
+    {
+      "level": "h4",
+      "text": "Job options#",
+      "id": "job-options"
+    },
+    {
+      "level": "h4",
+      "text": "Consumers#",
+      "id": "consumers"
+    },
+    {
+      "level": "h4",
+      "text": "Request-scoped consumers#",
+      "id": "request-scoped-consumers"
+    },
+    {
+      "level": "h4",
+      "text": "Event listeners#",
+      "id": "event-listeners"
+    },
+    {
+      "level": "h4",
+      "text": "Queue management#",
+      "id": "queue-management"
+    },
+    {
+      "level": "h4",
+      "text": "Separate processes#",
+      "id": "separate-processes"
+    },
+    {
+      "level": "h4",
+      "text": "Async configuration#",
+      "id": "async-configuration"
+    },
+    {
+      "level": "h4",
+      "text": "Manual registration#",
+      "id": "manual-registration"
+    },
+    {
+      "level": "h4",
+      "text": "Bull installation#",
+      "id": "bull-installation"
+    },
+    {
+      "level": "h2",
+      "text": "Official enterprise support",
+      "id": ""
+    },
+    {
+      "level": "h4",
+      "text": "Named configurations#",
+      "id": "named-configurations-1"
+    },
+    {
+      "level": "h4",
+      "text": "Producers#",
+      "id": "producers-1"
+    },
+    {
+      "level": "h4",
+      "text": "Named jobs#",
+      "id": "named-jobs"
+    },
+    {
+      "level": "h4",
+      "text": "Job options#",
+      "id": "job-options-1"
+    },
+    {
+      "level": "h4",
+      "text": "Consumers#",
+      "id": "consumers-1"
+    },
+    {
+      "level": "h4",
+      "text": "Request-scoped consumers#",
+      "id": "request-scoped-consumers-1"
+    },
+    {
+      "level": "h4",
+      "text": "Event listeners#",
+      "id": "event-listeners-1"
+    },
+    {
+      "level": "h4",
+      "text": "Queue management#",
+      "id": "queue-management-1"
+    },
+    {
+      "level": "h4",
+      "text": "Separate processes#",
+      "id": "separate-processes-1"
+    },
+    {
+      "level": "h4",
+      "text": "Async configuration#",
+      "id": "async-configuration-1"
+    },
+    {
+      "level": "h4",
+      "text": "Example#",
+      "id": "example"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "$ npm install --save @nestjs/bullmq bullmq",
+      "language": "bash"
+    },
+    {
+      "code": "import { Module } from '@nestjs/common';\nimport { BullModule } from '@nestjs/bullmq';\n\n@Module({\n  imports: [\n    BullModule.forRoot({\n      connection: {\n        host: 'localhost',\n        port: 6379,\n      },\n    }),\n  ],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "BullModule.registerQueue({\n  name: 'audio',\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "BullModule.registerQueue({\n  name: 'audio',\n  connection: {\n    port: 6380,\n  },\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "BullModule.registerFlowProducer({\n  name: 'flowProducerName',\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "BullModule.forRoot('alternative-config', {\n  connection: {\n    port: 6381,\n  },\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "BullModule.registerQueue({\n  configKey: 'alternative-config',\n  name: 'video',\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Injectable } from '@nestjs/common';\nimport { Queue } from 'bullmq';\nimport { InjectQueue } from '@nestjs/bullmq';\n\n@Injectable()\nexport class AudioService {\n  constructor(@InjectQueue('audio') private audioQueue: Queue) {}\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "const job = await this.audioQueue.add('transcode', {\n  foo: 'bar',\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "const job = await this.audioQueue.add(\n  'transcode',\n  {\n    foo: 'bar',\n  },\n  { delay: 3000 }, // 3 seconds delayed\n);",
+      "language": "typescript"
+    },
+    {
+      "code": "const job = await this.audioQueue.add(\n  'transcode',\n  {\n    foo: 'bar',\n  },\n  { lifo: true },\n);",
+      "language": "typescript"
+    },
+    {
+      "code": "const job = await this.audioQueue.add(\n  'transcode',\n  {\n    foo: 'bar',\n  },\n  { priority: 2 },\n);",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Processor } from '@nestjs/bullmq';\n\n@Processor('audio')\nexport class AudioConsumer {}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Processor, WorkerHost } from '@nestjs/bullmq';\nimport { Job } from 'bullmq';\n\n@Processor('audio')\nexport class AudioConsumer extends WorkerHost {\n  async process(job: Job<any, any, string>): Promise<any> {\n    let progress = 0;\n    for (let i = 0; i < 100; i++) {\n      await doSomething(job.data);\n      progress += 1;\n      await job.updateProgress(progress);\n    }\n    return {};\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Process('transcode')\nasync transcode(job: Job<unknown>) { ... }",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Processor, WorkerHost } from '@nestjs/bullmq';\nimport { Job } from 'bullmq';\n\n@Processor('audio')\nexport class AudioConsumer extends WorkerHost {\n  async process(job: Job<any, any, string>): Promise<any> {\n    switch (job.name) {\n      case 'transcode': {\n        let progress = 0;\n        for (i = 0; i < 100; i++) {\n          await doSomething(job.data);\n          progress += 1;\n          await job.progress(progress);\n        }\n        return {};\n      }\n      case 'concatenate': {\n        await doSomeLogic2();\n        break;\n      }\n    }\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Processor({\n  name: 'audio',\n  scope: Scope.REQUEST,\n})",
+      "language": "typescript"
+    },
+    {
+      "code": "constructor(@Inject(JOB_REF) jobRef: Job) {\n  console.log(jobRef);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Processor, Process, OnWorkerEvent } from '@nestjs/bullmq';\nimport { Job } from 'bullmq';\n\n@Processor('audio')\nexport class AudioConsumer {\n  @OnWorkerEvent('active')\n  onActive(job: Job) {\n    console.log(\n      `Processing job ${job.id} of type ${job.name} with data ${job.data}...`,\n    );\n  }\n\n  // ...\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import {\n  QueueEventsHost,\n  QueueEventsListener,\n  OnQueueEvent,\n} from '@nestjs/bullmq';\n\n@QueueEventsListener('audio')\nexport class AudioEventsListener extends QueueEventsHost {\n  @OnQueueEvent('active')\n  onActive(job: { jobId: string; prev?: string }) {\n    console.log(`Processing job ${job.jobId}...`);\n  }\n\n  // ...\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "await audioQueue.pause();",
+      "language": "typescript"
+    },
+    {
+      "code": "await audioQueue.resume();",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Module } from '@nestjs/common';\nimport { BullModule } from '@nestjs/bullmq';\nimport { join } from 'node:path';\n\n@Module({\n  imports: [\n    BullModule.registerQueue({\n      name: 'audio',\n      processors: [join(__dirname, 'processor.js')],\n    }),\n  ],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "BullModule.forRootAsync({\n  useFactory: () => ({\n    connection: {\n      host: 'localhost',\n      port: 6379,\n    },\n  }),\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "BullModule.forRootAsync({\n  imports: [ConfigModule],\n  useFactory: async (configService: ConfigService) => ({\n    connection: {\n      host: configService.get('QUEUE_HOST'),\n      port: configService.get('QUEUE_PORT'),\n    },\n  }),\n  inject: [ConfigService],\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "BullModule.forRootAsync({\n  useClass: BullConfigService,\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\nclass BullConfigService implements SharedBullConfigurationFactory {\n  createSharedConfiguration(): BullModuleOptions {\n    return {\n      connection: {\n        host: 'localhost',\n        port: 6379,\n      },\n    };\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "BullModule.forRootAsync({\n  imports: [ConfigModule],\n  useExisting: ConfigService,\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "BullModule.registerQueueAsync({\n  name: 'audio',\n  useFactory: () => ({\n    redis: {\n      host: 'localhost',\n      port: 6379,\n    },\n  }),\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "BullModule.forRoot({\n  extraOptions: {\n    manualRegistration: true,\n  },\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Injectable, OnModuleInit } from '@nestjs/common';\nimport { BullRegistrar } from '@nestjs/bullmq';\n\n@Injectable()\nexport class AudioService implements OnModuleInit {\n  constructor(private bullRegistrar: BullRegistrar) {}\n\n  onModuleInit() {\n    if (yourConditionHere) {\n      this.bullRegistrar.register();\n    }\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "$ npm install --save @nestjs/bull bull",
+      "language": "bash"
+    },
+    {
+      "code": "import { Module } from '@nestjs/common';\nimport { BullModule } from '@nestjs/bull';\n\n@Module({\n  imports: [\n    BullModule.forRoot({\n      redis: {\n        host: 'localhost',\n        port: 6379,\n      },\n    }),\n  ],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "BullModule.registerQueue({\n  name: 'audio',\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "BullModule.registerQueue({\n  name: 'audio',\n  redis: {\n    port: 6380,\n  },\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "BullModule.forRoot('alternative-config', {\n  redis: {\n    port: 6381,\n  },\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "BullModule.registerQueue({\n  configKey: 'alternative-config',\n  name: 'video',\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Injectable } from '@nestjs/common';\nimport { Queue } from 'bull';\nimport { InjectQueue } from '@nestjs/bull';\n\n@Injectable()\nexport class AudioService {\n  constructor(@InjectQueue('audio') private audioQueue: Queue) {}\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "const job = await this.audioQueue.add({\n  foo: 'bar',\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "const job = await this.audioQueue.add('transcode', {\n  foo: 'bar',\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "const job = await this.audioQueue.add(\n  {\n    foo: 'bar',\n  },\n  { delay: 3000 }, // 3 seconds delayed\n);",
+      "language": "typescript"
+    },
+    {
+      "code": "const job = await this.audioQueue.add(\n  {\n    foo: 'bar',\n  },\n  { lifo: true },\n);",
+      "language": "typescript"
+    },
+    {
+      "code": "const job = await this.audioQueue.add(\n  {\n    foo: 'bar',\n  },\n  { priority: 2 },\n);",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Processor } from '@nestjs/bull';\n\n@Processor('audio')\nexport class AudioConsumer {}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Processor, Process } from '@nestjs/bull';\nimport { Job } from 'bull';\n\n@Processor('audio')\nexport class AudioConsumer {\n  @Process()\n  async transcode(job: Job<unknown>) {\n    let progress = 0;\n    for (let i = 0; i < 100; i++) {\n      await doSomething(job.data);\n      progress += 1;\n      await job.progress(progress);\n    }\n    return {};\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Process('transcode')\nasync transcode(job: Job<unknown>) { ... }",
+      "language": "typescript"
+    },
+    {
+      "code": "@Processor({\n  name: 'audio',\n  scope: Scope.REQUEST,\n})",
+      "language": "typescript"
+    },
+    {
+      "code": "constructor(@Inject(JOB_REF) jobRef: Job) {\n  console.log(jobRef);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Processor, Process, OnQueueActive } from '@nestjs/bull';\nimport { Job } from 'bull';\n\n@Processor('audio')\nexport class AudioConsumer {\n\n  @OnQueueActive()\n  onActive(job: Job) {\n    console.log(\n      `Processing job ${job.id} of type ${job.name} with data ${job.data}...`,\n    );\n  }\n  ...",
+      "language": "typescript"
+    },
+    {
+      "code": "@OnGlobalQueueCompleted()\nasync onGlobalCompleted(jobId: number, result: any) {\n  const job = await this.immediateQueue.getJob(jobId);\n  console.log('(Global) on completed: job ', job.id, ' -> result: ', result);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "await audioQueue.pause();",
+      "language": "typescript"
+    },
+    {
+      "code": "await audioQueue.resume();",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Module } from '@nestjs/common';\nimport { BullModule } from '@nestjs/bull';\nimport { join } from 'path';\n\n@Module({\n  imports: [\n    BullModule.registerQueue({\n      name: 'audio',\n      processors: [join(__dirname, 'processor.js')],\n    }),\n  ],\n})\nexport class AppModule {}",
+      "language": "sql"
+    },
+    {
+      "code": "import { Job, DoneCallback } from 'bull';\n\nexport default function (job: Job, cb: DoneCallback) {\n  console.log(`[${process.pid}] ${JSON.stringify(job.data)}`);\n  cb(null, 'It works');\n}",
+      "language": "javascript"
+    },
+    {
+      "code": "BullModule.forRootAsync({\n  useFactory: () => ({\n    redis: {\n      host: 'localhost',\n      port: 6379,\n    },\n  }),\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "BullModule.forRootAsync({\n  imports: [ConfigModule],\n  useFactory: async (configService: ConfigService) => ({\n    redis: {\n      host: configService.get('QUEUE_HOST'),\n      port: configService.get('QUEUE_PORT'),\n    },\n  }),\n  inject: [ConfigService],\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "BullModule.forRootAsync({\n  useClass: BullConfigService,\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\nclass BullConfigService implements SharedBullConfigurationFactory {\n  createSharedConfiguration(): BullModuleOptions {\n    return {\n      redis: {\n        host: 'localhost',\n        port: 6379,\n      },\n    };\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "BullModule.forRootAsync({\n  imports: [ConfigModule],\n  useExisting: ConfigService,\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "BullModule.registerQueueAsync({\n  name: 'audio',\n  useFactory: () => ({\n    redis: {\n      host: 'localhost',\n      port: 6379,\n    },\n  }),\n});",
+      "language": "typescript"
+    }
+  ],
+  "patterns": [
+    {
+      "description": "When listening for global events, the method signatures can be slightly different from their local counterpart. Specifically, any method signature that receives job objects in the local version, instead receives a jobId (number) in the global version. To get a reference to the actual job object in such a case, use the Queue#getJob method. This call should be awaited, and therefore the handler should be declared async. For example:",
+      "code": "job"
+    }
+  ],
+  "links": [
+    "https://docs.nestjs.com/first-steps",
+    "https://docs.nestjs.com/controllers",
+    "https://docs.nestjs.com/providers",
+    "https://docs.nestjs.com/modules",
+    "https://docs.nestjs.com/middleware",
+    "https://docs.nestjs.com/exception-filters",
+    "https://docs.nestjs.com/pipes",
+    "https://docs.nestjs.com/guards",
+    "https://docs.nestjs.com/interceptors",
+    "https://docs.nestjs.com/custom-decorators",
+    "https://docs.nestjs.com/fundamentals/custom-providers",
+    "https://docs.nestjs.com/fundamentals/async-providers",
+    "https://docs.nestjs.com/fundamentals/dynamic-modules",
+    "https://docs.nestjs.com/fundamentals/injection-scopes",
+    "https://docs.nestjs.com/fundamentals/circular-dependency",
+    "https://docs.nestjs.com/fundamentals/module-ref",
+    "https://docs.nestjs.com/fundamentals/lazy-loading-modules",
+    "https://docs.nestjs.com/fundamentals/execution-context",
+    "https://docs.nestjs.com/fundamentals/lifecycle-events",
+    "https://docs.nestjs.com/fundamentals/discovery-service",
+    "https://docs.nestjs.com/fundamentals/platform-agnosticism",
+    "https://docs.nestjs.com/fundamentals/testing",
+    "https://docs.nestjs.com/techniques/configuration",
+    "https://docs.nestjs.com/techniques/database",
+    "https://docs.nestjs.com/techniques/mongodb",
+    "https://docs.nestjs.com/techniques/validation",
+    "https://docs.nestjs.com/techniques/caching",
+    "https://docs.nestjs.com/techniques/serialization",
+    "https://docs.nestjs.com/techniques/versioning",
+    "https://docs.nestjs.com/techniques/task-scheduling",
+    "https://docs.nestjs.com/techniques/queues",
+    "https://docs.nestjs.com/techniques/logger",
+    "https://docs.nestjs.com/techniques/cookies",
+    "https://docs.nestjs.com/techniques/events",
+    "https://docs.nestjs.com/techniques/compression",
+    "https://docs.nestjs.com/techniques/file-upload",
+    "https://docs.nestjs.com/techniques/streaming-files",
+    "https://docs.nestjs.com/techniques/http-module",
+    "https://docs.nestjs.com/techniques/session",
+    "https://docs.nestjs.com/techniques/mvc",
+    "https://docs.nestjs.com/techniques/performance",
+    "https://docs.nestjs.com/techniques/server-sent-events",
+    "https://docs.nestjs.com/security/authentication",
+    "https://docs.nestjs.com/security/authorization",
+    "https://docs.nestjs.com/security/encryption-and-hashing",
+    "https://docs.nestjs.com/security/helmet",
+    "https://docs.nestjs.com/security/cors",
+    "https://docs.nestjs.com/security/csrf",
+    "https://docs.nestjs.com/security/rate-limiting",
+    "https://docs.nestjs.com/graphql/quick-start",
+    "https://docs.nestjs.com/graphql/resolvers",
+    "https://docs.nestjs.com/graphql/mutations",
+    "https://docs.nestjs.com/graphql/subscriptions",
+    "https://docs.nestjs.com/graphql/scalars",
+    "https://docs.nestjs.com/graphql/directives",
+    "https://docs.nestjs.com/graphql/interfaces",
+    "https://docs.nestjs.com/graphql/unions-and-enums",
+    "https://docs.nestjs.com/graphql/field-middleware",
+    "https://docs.nestjs.com/graphql/mapped-types",
+    "https://docs.nestjs.com/graphql/plugins",
+    "https://docs.nestjs.com/graphql/complexity",
+    "https://docs.nestjs.com/graphql/extensions",
+    "https://docs.nestjs.com/graphql/cli-plugin",
+    "https://docs.nestjs.com/graphql/generating-sdl",
+    "https://docs.nestjs.com/graphql/sharing-models",
+    "https://docs.nestjs.com/graphql/other-features",
+    "https://docs.nestjs.com/graphql/federation",
+    "https://docs.nestjs.com/websockets/gateways",
+    "https://docs.nestjs.com/websockets/exception-filters",
+    "https://docs.nestjs.com/websockets/pipes",
+    "https://docs.nestjs.com/websockets/guards",
+    "https://docs.nestjs.com/websockets/interceptors",
+    "https://docs.nestjs.com/websockets/adapter",
+    "https://docs.nestjs.com/microservices/basics",
+    "https://docs.nestjs.com/microservices/redis",
+    "https://docs.nestjs.com/microservices/mqtt",
+    "https://docs.nestjs.com/microservices/nats",
+    "https://docs.nestjs.com/microservices/rabbitmq",
+    "https://docs.nestjs.com/microservices/kafka",
+    "https://docs.nestjs.com/microservices/grpc",
+    "https://docs.nestjs.com/microservices/custom-transport",
+    "https://docs.nestjs.com/microservices/exception-filters",
+    "https://docs.nestjs.com/microservices/pipes",
+    "https://docs.nestjs.com/microservices/guards",
+    "https://docs.nestjs.com/microservices/interceptors",
+    "https://docs.nestjs.com/standalone-applications",
+    "https://docs.nestjs.com/cli/overview",
+    "https://docs.nestjs.com/cli/monorepo",
+    "https://docs.nestjs.com/cli/libraries",
+    "https://docs.nestjs.com/cli/usages",
+    "https://docs.nestjs.com/cli/scripts",
+    "https://docs.nestjs.com/openapi/introduction",
+    "https://docs.nestjs.com/openapi/types-and-parameters",
+    "https://docs.nestjs.com/openapi/operations",
+    "https://docs.nestjs.com/openapi/security",
+    "https://docs.nestjs.com/openapi/mapped-types",
+    "https://docs.nestjs.com/openapi/decorators",
+    "https://docs.nestjs.com/openapi/cli-plugin",
+    "https://docs.nestjs.com/openapi/other-features",
+    "https://docs.nestjs.com/recipes/repl",
+    "https://docs.nestjs.com/recipes/crud-generator",
+    "https://docs.nestjs.com/recipes/swc",
+    "https://docs.nestjs.com/recipes/passport",
+    "https://docs.nestjs.com/recipes/hot-reload",
+    "https://docs.nestjs.com/recipes/mikroorm",
+    "https://docs.nestjs.com/recipes/sql-typeorm",
+    "https://docs.nestjs.com/recipes/mongodb",
+    "https://docs.nestjs.com/recipes/sql-sequelize",
+    "https://docs.nestjs.com/recipes/router-module",
+    "https://docs.nestjs.com/recipes/swagger",
+    "https://docs.nestjs.com/recipes/terminus",
+    "https://docs.nestjs.com/recipes/cqrs",
+    "https://docs.nestjs.com/recipes/documentation",
+    "https://docs.nestjs.com/recipes/prisma",
+    "https://docs.nestjs.com/recipes/sentry",
+    "https://docs.nestjs.com/recipes/serve-static",
+    "https://docs.nestjs.com/recipes/nest-commander",
+    "https://docs.nestjs.com/recipes/async-local-storage",
+    "https://docs.nestjs.com/recipes/necord",
+    "https://docs.nestjs.com/recipes/suites",
+    "https://docs.nestjs.com/faq/serverless",
+    "https://docs.nestjs.com/faq/http-adapter",
+    "https://docs.nestjs.com/faq/keep-alive-connections",
+    "https://docs.nestjs.com/faq/global-prefix",
+    "https://docs.nestjs.com/faq/raw-body",
+    "https://docs.nestjs.com/faq/hybrid-application",
+    "https://docs.nestjs.com/faq/multiple-servers",
+    "https://docs.nestjs.com/faq/request-lifecycle",
+    "https://docs.nestjs.com/faq/common-errors",
+    "https://docs.nestjs.com/techniques/techniques/queues"
+  ]
+}

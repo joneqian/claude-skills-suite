@@ -1,0 +1,314 @@
+{
+  "url": "https://docs.nestjs.com/techniques/caching",
+  "title": "",
+  "content": "Caching is a powerful and straightforward technique for enhancing your application's performance. By acting as a temporary storage layer, it allows for quicker access to frequently used data, reducing the need to repeatedly fetch or compute the same information. This results in faster response times and improved overall efficiency.\n\nTo get started with caching in Nest, you need to install the @nestjs/cache-manager package along with the cache-manager package.\n\nBy default, everything is stored in memory; Since cache-manager uses Keyv under the hood, you can easily switch to a more advanced storage solution, such as Redis, by installing the appropriate package. We'll cover this in more detail later.\n\nTo enable caching in your application, import the CacheModule and configure it using the register() method:\n\nThis setup initializes in-memory caching with default settings, allowing you to start caching data immediately.\n\nTo interact with the cache manager instance, inject it to your class using the CACHE_MANAGER token, as follows:\n\nThe get method on the Cache instance (from the cache-manager package) is used to retrieve items from the cache. If the item does not exist in the cache, null will be returned.\n\nTo add an item to the cache, use the set method:\n\nYou can manually specify a TTL (expiration time in milliseconds) for this specific key, as follows:\n\nWhere 1000 is the TTL in milliseconds - in this case, the cache item will expire after one second.\n\nTo disable expiration of the cache, set the ttl configuration property to 0:\n\nTo remove an item from the cache, use the del method:\n\nTo clear the entire cache, use the clear method:\n\nTo enable auto-caching responses, just tie the CacheInterceptor where you want to cache data.\n\nTo reduce the amount of required boilerplate, you can bind CacheInterceptor to all endpoints globally:\n\nThe default value for ttl is 0, meaning the cache will never expire. To specify a custom TTL, you can provide the ttl option in the register() method, as demonstrated below:\n\nWhen you want to use CacheModule in other modules, you'll need to import it (as is standard with any Nest module). Alternatively, declare it as a global module by setting the options object's isGlobal property to true, as shown below. In that case, you will not need to import CacheModule in other modules once it's been loaded in the root module (e.g., AppModule).\n\nWhile global cache is enabled, cache entries are stored under a CacheKey that is auto-generated based on the route path. You may override certain cache settings (@CacheKey() and @CacheTTL()) on a per-method basis, allowing customized caching strategies for individual controller methods. This may be most relevant while using different cache stores.\n\nYou can apply the @CacheTTL() decorator on a per-controller basis to set a caching TTL for the entire controller. In situations where both controller-level and method-level cache TTL settings are defined, the cache TTL settings specified at the method level will take priority over the ones set at the controller level.\n\nThe @CacheKey() decorator may be used with or without a corresponding @CacheTTL() decorator and vice versa. One may choose to override only the @CacheKey() or only the @CacheTTL(). Settings that are not overridden with a decorator will use the default values as registered globally (see Customize caching).\n\nYou can also apply the CacheInterceptor to WebSocket subscribers as well as Microservice's patterns (regardless of the transport method that is being used).\n\nHowever, the additional @CacheKey() decorator is required in order to specify a key used to subsequently store and retrieve cached data. Also, please note that you shouldn't cache everything. Actions which perform some business operations rather than simply querying the data should never be cached.\n\nAdditionally, you may specify a cache expiration time (TTL) by using the @CacheTTL() decorator, which will override the global default TTL value.\n\nBy default, Nest uses the request URL (in an HTTP app) or cache key (in websockets and microservices apps, set through the @CacheKey() decorator) to associate cache records with your endpoints. Nevertheless, sometimes you might want to set up tracking based on different factors, for example, using HTTP headers (e.g. Authorization to properly identify profile endpoints).\n\nIn order to accomplish that, create a subclass of CacheInterceptor and override the trackBy() method.\n\nSwitching to a different cache store is straightforward. First, install the appropriate package. For example, to use Redis, install the @keyv/redis package:\n\nWith this in place, you can register the CacheModule with multiple stores as shown below:\n\nIn this example, we've registered two stores: CacheableMemory and KeyvRedis. The CacheableMemory store is a simple in-memory store, while KeyvRedis is a Redis store. The stores array is used to specify the stores you want to use. The first store in the array is the default store, and the rest are fallback stores.\n\nCheck out the Keyv documentation for more information on available stores.\n\nYou may want to asynchronously pass in module options instead of passing them statically at compile time. In this case, use the registerAsync() method, which provides several ways to deal with async configuration.\n\nOne approach is to use a factory function:\n\nOur factory behaves like all other asynchronous module factories (it can be async and is able to inject dependencies through inject).\n\nAlternatively, you can use the useClass method:\n\nThe above construction will instantiate CacheConfigService inside CacheModule and will use it to get the options object. The CacheConfigService has to implement the CacheOptionsFactory interface in order to provide the configuration options:\n\nIf you wish to use an existing configuration provider imported from a different module, use the useExisting syntax:\n\nThis works the same as useClass with one critical difference - CacheModule will lookup imported modules to reuse any already-created ConfigService, instead of instantiating its own.\n\nYou can also pass so-called extraProviders to the registerAsync() method. These providers will be merged with the module providers.\n\nThis is useful when you want to provide additional dependencies to the factory function or the class constructor.\n\nA working example is available here.",
+  "headings": [
+    {
+      "level": "h3",
+      "text": "Caching",
+      "id": "caching"
+    },
+    {
+      "level": "h4",
+      "text": "Installation#",
+      "id": "installation"
+    },
+    {
+      "level": "h4",
+      "text": "In-memory cache#",
+      "id": "in-memory-cache"
+    },
+    {
+      "level": "h4",
+      "text": "Interacting with the Cache store#",
+      "id": "interacting-with-the-cache-store"
+    },
+    {
+      "level": "h4",
+      "text": "Auto-caching responses#",
+      "id": "auto-caching-responses"
+    },
+    {
+      "level": "h4",
+      "text": "Time-to-live (TTL)#",
+      "id": "time-to-live-ttl"
+    },
+    {
+      "level": "h4",
+      "text": "Use module globally#",
+      "id": "use-module-globally"
+    },
+    {
+      "level": "h4",
+      "text": "Global cache overrides#",
+      "id": "global-cache-overrides"
+    },
+    {
+      "level": "h4",
+      "text": "WebSockets and Microservices#",
+      "id": "websockets-and-microservices"
+    },
+    {
+      "level": "h4",
+      "text": "Adjust tracking#",
+      "id": "adjust-tracking"
+    },
+    {
+      "level": "h4",
+      "text": "Using alternative Cache stores#",
+      "id": "using-alternative-cache-stores"
+    },
+    {
+      "level": "h4",
+      "text": "Async configuration#",
+      "id": "async-configuration"
+    },
+    {
+      "level": "h4",
+      "text": "Example#",
+      "id": "example"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "$ npm install @nestjs/cache-manager cache-manager",
+      "language": "bash"
+    },
+    {
+      "code": "import { Module } from '@nestjs/common';\nimport { CacheModule } from '@nestjs/cache-manager';\nimport { AppController } from './app.controller';\n\n@Module({\n  imports: [CacheModule.register()],\n  controllers: [AppController],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}",
+      "language": "typescript"
+    },
+    {
+      "code": "const value = await this.cacheManager.get('key');",
+      "language": "typescript"
+    },
+    {
+      "code": "await this.cacheManager.set('key', 'value');",
+      "language": "typescript"
+    },
+    {
+      "code": "await this.cacheManager.set('key', 'value', 1000);",
+      "language": "typescript"
+    },
+    {
+      "code": "await this.cacheManager.set('key', 'value', 0);",
+      "language": "typescript"
+    },
+    {
+      "code": "await this.cacheManager.del('key');",
+      "language": "typescript"
+    },
+    {
+      "code": "await this.cacheManager.clear();",
+      "language": "typescript"
+    },
+    {
+      "code": "@Controller()\n@UseInterceptors(CacheInterceptor)\nexport class AppController {\n  @Get()\n  findAll(): string[] {\n    return [];\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Module } from '@nestjs/common';\nimport { CacheModule, CacheInterceptor } from '@nestjs/cache-manager';\nimport { AppController } from './app.controller';\nimport { APP_INTERCEPTOR } from '@nestjs/core';\n\n@Module({\n  imports: [CacheModule.register()],\n  controllers: [AppController],\n  providers: [\n    {\n      provide: APP_INTERCEPTOR,\n      useClass: CacheInterceptor,\n    },\n  ],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "CacheModule.register({\n  ttl: 5000, // milliseconds\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "CacheModule.register({\n  isGlobal: true,\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "@Controller()\n@CacheTTL(50)\nexport class AppController {\n  @CacheKey('custom_key')\n  @CacheTTL(20)\n  findAll(): string[] {\n    return [];\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@CacheKey('events')\n@UseInterceptors(CacheInterceptor)\n@SubscribeMessage('events')\nhandleEvent(client: Client, data: string[]): Observable<string[]> {\n  return [];\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@CacheKey('events')\n@UseInterceptors(CacheInterceptor)\n@SubscribeMessage('events')\nhandleEvent(client, data) {\n  return [];\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@CacheTTL(10)\n@UseInterceptors(CacheInterceptor)\n@SubscribeMessage('events')\nhandleEvent(client: Client, data: string[]): Observable<string[]> {\n  return [];\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@CacheTTL(10)\n@UseInterceptors(CacheInterceptor)\n@SubscribeMessage('events')\nhandleEvent(client, data) {\n  return [];\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\nclass HttpCacheInterceptor extends CacheInterceptor {\n  trackBy(context: ExecutionContext): string | undefined {\n    return 'key';\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "$ npm install @keyv/redis",
+      "language": "bash"
+    },
+    {
+      "code": "import { Module } from '@nestjs/common';\nimport { CacheModule } from '@nestjs/cache-manager';\nimport { AppController } from './app.controller';\nimport KeyvRedis from '@keyv/redis';\nimport { Keyv } from 'keyv';\nimport { CacheableMemory } from 'cacheable';\n\n@Module({\n  imports: [\n    CacheModule.registerAsync({\n      useFactory: async () => {\n        return {\n          stores: [\n            new Keyv({\n              store: new CacheableMemory({ ttl: 60000, lruSize: 5000 }),\n            }),\n            new KeyvRedis('redis://localhost:6379'),\n          ],\n        };\n      },\n    }),\n  ],\n  controllers: [AppController],\n})\nexport class AppModule {}",
+      "language": "typescript"
+    },
+    {
+      "code": "CacheModule.registerAsync({\n  useFactory: () => ({\n    ttl: 5,\n  }),\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "CacheModule.registerAsync({\n  imports: [ConfigModule],\n  useFactory: async (configService: ConfigService) => ({\n    ttl: configService.get('CACHE_TTL'),\n  }),\n  inject: [ConfigService],\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "CacheModule.registerAsync({\n  useClass: CacheConfigService,\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "@Injectable()\nclass CacheConfigService implements CacheOptionsFactory {\n  createCacheOptions(): CacheModuleOptions {\n    return {\n      ttl: 5,\n    };\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "CacheModule.registerAsync({\n  imports: [ConfigModule],\n  useExisting: ConfigService,\n});",
+      "language": "typescript"
+    },
+    {
+      "code": "CacheModule.registerAsync({\n  imports: [ConfigModule],\n  useClass: ConfigService,\n  extraProviders: [MyAdditionalProvider],\n});",
+      "language": "typescript"
+    }
+  ],
+  "patterns": [],
+  "links": [
+    "https://docs.nestjs.com/first-steps",
+    "https://docs.nestjs.com/controllers",
+    "https://docs.nestjs.com/providers",
+    "https://docs.nestjs.com/modules",
+    "https://docs.nestjs.com/middleware",
+    "https://docs.nestjs.com/exception-filters",
+    "https://docs.nestjs.com/pipes",
+    "https://docs.nestjs.com/guards",
+    "https://docs.nestjs.com/interceptors",
+    "https://docs.nestjs.com/custom-decorators",
+    "https://docs.nestjs.com/fundamentals/custom-providers",
+    "https://docs.nestjs.com/fundamentals/async-providers",
+    "https://docs.nestjs.com/fundamentals/dynamic-modules",
+    "https://docs.nestjs.com/fundamentals/injection-scopes",
+    "https://docs.nestjs.com/fundamentals/circular-dependency",
+    "https://docs.nestjs.com/fundamentals/module-ref",
+    "https://docs.nestjs.com/fundamentals/lazy-loading-modules",
+    "https://docs.nestjs.com/fundamentals/execution-context",
+    "https://docs.nestjs.com/fundamentals/lifecycle-events",
+    "https://docs.nestjs.com/fundamentals/discovery-service",
+    "https://docs.nestjs.com/fundamentals/platform-agnosticism",
+    "https://docs.nestjs.com/fundamentals/testing",
+    "https://docs.nestjs.com/techniques/configuration",
+    "https://docs.nestjs.com/techniques/database",
+    "https://docs.nestjs.com/techniques/mongodb",
+    "https://docs.nestjs.com/techniques/validation",
+    "https://docs.nestjs.com/techniques/caching",
+    "https://docs.nestjs.com/techniques/serialization",
+    "https://docs.nestjs.com/techniques/versioning",
+    "https://docs.nestjs.com/techniques/task-scheduling",
+    "https://docs.nestjs.com/techniques/queues",
+    "https://docs.nestjs.com/techniques/logger",
+    "https://docs.nestjs.com/techniques/cookies",
+    "https://docs.nestjs.com/techniques/events",
+    "https://docs.nestjs.com/techniques/compression",
+    "https://docs.nestjs.com/techniques/file-upload",
+    "https://docs.nestjs.com/techniques/streaming-files",
+    "https://docs.nestjs.com/techniques/http-module",
+    "https://docs.nestjs.com/techniques/session",
+    "https://docs.nestjs.com/techniques/mvc",
+    "https://docs.nestjs.com/techniques/performance",
+    "https://docs.nestjs.com/techniques/server-sent-events",
+    "https://docs.nestjs.com/security/authentication",
+    "https://docs.nestjs.com/security/authorization",
+    "https://docs.nestjs.com/security/encryption-and-hashing",
+    "https://docs.nestjs.com/security/helmet",
+    "https://docs.nestjs.com/security/cors",
+    "https://docs.nestjs.com/security/csrf",
+    "https://docs.nestjs.com/security/rate-limiting",
+    "https://docs.nestjs.com/graphql/quick-start",
+    "https://docs.nestjs.com/graphql/resolvers",
+    "https://docs.nestjs.com/graphql/mutations",
+    "https://docs.nestjs.com/graphql/subscriptions",
+    "https://docs.nestjs.com/graphql/scalars",
+    "https://docs.nestjs.com/graphql/directives",
+    "https://docs.nestjs.com/graphql/interfaces",
+    "https://docs.nestjs.com/graphql/unions-and-enums",
+    "https://docs.nestjs.com/graphql/field-middleware",
+    "https://docs.nestjs.com/graphql/mapped-types",
+    "https://docs.nestjs.com/graphql/plugins",
+    "https://docs.nestjs.com/graphql/complexity",
+    "https://docs.nestjs.com/graphql/extensions",
+    "https://docs.nestjs.com/graphql/cli-plugin",
+    "https://docs.nestjs.com/graphql/generating-sdl",
+    "https://docs.nestjs.com/graphql/sharing-models",
+    "https://docs.nestjs.com/graphql/other-features",
+    "https://docs.nestjs.com/graphql/federation",
+    "https://docs.nestjs.com/websockets/gateways",
+    "https://docs.nestjs.com/websockets/exception-filters",
+    "https://docs.nestjs.com/websockets/pipes",
+    "https://docs.nestjs.com/websockets/guards",
+    "https://docs.nestjs.com/websockets/interceptors",
+    "https://docs.nestjs.com/websockets/adapter",
+    "https://docs.nestjs.com/microservices/basics",
+    "https://docs.nestjs.com/microservices/redis",
+    "https://docs.nestjs.com/microservices/mqtt",
+    "https://docs.nestjs.com/microservices/nats",
+    "https://docs.nestjs.com/microservices/rabbitmq",
+    "https://docs.nestjs.com/microservices/kafka",
+    "https://docs.nestjs.com/microservices/grpc",
+    "https://docs.nestjs.com/microservices/custom-transport",
+    "https://docs.nestjs.com/microservices/exception-filters",
+    "https://docs.nestjs.com/microservices/pipes",
+    "https://docs.nestjs.com/microservices/guards",
+    "https://docs.nestjs.com/microservices/interceptors",
+    "https://docs.nestjs.com/standalone-applications",
+    "https://docs.nestjs.com/cli/overview",
+    "https://docs.nestjs.com/cli/monorepo",
+    "https://docs.nestjs.com/cli/libraries",
+    "https://docs.nestjs.com/cli/usages",
+    "https://docs.nestjs.com/cli/scripts",
+    "https://docs.nestjs.com/openapi/introduction",
+    "https://docs.nestjs.com/openapi/types-and-parameters",
+    "https://docs.nestjs.com/openapi/operations",
+    "https://docs.nestjs.com/openapi/security",
+    "https://docs.nestjs.com/openapi/mapped-types",
+    "https://docs.nestjs.com/openapi/decorators",
+    "https://docs.nestjs.com/openapi/cli-plugin",
+    "https://docs.nestjs.com/openapi/other-features",
+    "https://docs.nestjs.com/recipes/repl",
+    "https://docs.nestjs.com/recipes/crud-generator",
+    "https://docs.nestjs.com/recipes/swc",
+    "https://docs.nestjs.com/recipes/passport",
+    "https://docs.nestjs.com/recipes/hot-reload",
+    "https://docs.nestjs.com/recipes/mikroorm",
+    "https://docs.nestjs.com/recipes/sql-typeorm",
+    "https://docs.nestjs.com/recipes/mongodb",
+    "https://docs.nestjs.com/recipes/sql-sequelize",
+    "https://docs.nestjs.com/recipes/router-module",
+    "https://docs.nestjs.com/recipes/swagger",
+    "https://docs.nestjs.com/recipes/terminus",
+    "https://docs.nestjs.com/recipes/cqrs",
+    "https://docs.nestjs.com/recipes/documentation",
+    "https://docs.nestjs.com/recipes/prisma",
+    "https://docs.nestjs.com/recipes/sentry",
+    "https://docs.nestjs.com/recipes/serve-static",
+    "https://docs.nestjs.com/recipes/nest-commander",
+    "https://docs.nestjs.com/recipes/async-local-storage",
+    "https://docs.nestjs.com/recipes/necord",
+    "https://docs.nestjs.com/recipes/suites",
+    "https://docs.nestjs.com/faq/serverless",
+    "https://docs.nestjs.com/faq/http-adapter",
+    "https://docs.nestjs.com/faq/keep-alive-connections",
+    "https://docs.nestjs.com/faq/global-prefix",
+    "https://docs.nestjs.com/faq/raw-body",
+    "https://docs.nestjs.com/faq/hybrid-application",
+    "https://docs.nestjs.com/faq/multiple-servers",
+    "https://docs.nestjs.com/faq/request-lifecycle",
+    "https://docs.nestjs.com/faq/common-errors"
+  ]
+}

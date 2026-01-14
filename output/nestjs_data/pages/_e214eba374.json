@@ -1,0 +1,219 @@
+{
+  "url": "https://docs.nestjs.com/techniques/mvc",
+  "title": "",
+  "content": "Nest, by default, makes use of the Express library under the hood. Hence, every technique for using the MVC (Model-View-Controller) pattern in Express applies to Nest as well.\n\nFirst, let's scaffold a simple Nest application using the CLI tool:\n\nIn order to create an MVC app, we also need a template engine to render our HTML views:\n\nWe've used the hbs (Handlebars) engine, though you can use whatever fits your requirements. Once the installation process is complete, we need to configure the express instance using the following code:\n\nWe told Express that the public directory will be used for storing static assets, views will contain templates, and the hbs template engine should be used to render HTML output.\n\nNow, let's create a views directory and index.hbs template inside it. In the template, we'll print a message passed from the controller:\n\nNext, open the app.controller file and replace the root() method with the following code:\n\nIn this code, we are specifying the template to use in the @Render() decorator, and the return value of the route handler method is passed to the template for rendering. Notice that the return value is an object with a property message, matching the message placeholder we created in the template.\n\nWhile the application is running, open your browser and navigate to http://localhost:3000. You should see the Hello world! message.\n\nIf the application logic must dynamically decide which template to render, then we should use the @Res() decorator, and supply the view name in our route handler, rather than in the @Render() decorator:\n\nA working example is available here.\n\nAs mentioned in this chapter, we are able to use any compatible HTTP provider together with Nest. One such library is Fastify. In order to create an MVC application with Fastify, we have to install the following packages:\n\nThe next steps cover almost the same process used with Express, with minor differences specific to the platform. Once the installation process is complete, open the main.ts file and update its contents:\n\nThe Fastify API has a few differences, but the end result of these method calls is the same. One notable difference is that when using Fastify, the template name you pass into the @Render() decorator must include the file extension.\n\nHere’s how you can set it up:\n\nAlternatively, you can use the @Res() decorator to directly inject the response and specify the view you want to render, as shown below:\n\nWhile the application is running, open your browser and navigate to http://localhost:3000. You should see the Hello world! message.\n\nA working example is available here.",
+  "headings": [
+    {
+      "level": "h3",
+      "text": "Model-View-Controller",
+      "id": "model-view-controller"
+    },
+    {
+      "level": "h4",
+      "text": "Template rendering#",
+      "id": "template-rendering"
+    },
+    {
+      "level": "h4",
+      "text": "Dynamic template rendering#",
+      "id": "dynamic-template-rendering"
+    },
+    {
+      "level": "h4",
+      "text": "Example#",
+      "id": "example"
+    },
+    {
+      "level": "h4",
+      "text": "Fastify#",
+      "id": "fastify"
+    },
+    {
+      "level": "h4",
+      "text": "Example#",
+      "id": "example-1"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "$ npm i -g @nestjs/cli\n$ nest new project",
+      "language": "bash"
+    },
+    {
+      "code": "$ npm install --save hbs",
+      "language": "bash"
+    },
+    {
+      "code": "import { NestFactory } from '@nestjs/core';\nimport { NestExpressApplication } from '@nestjs/platform-express';\nimport { join } from 'node:path';\nimport { AppModule } from './app.module';\n\nasync function bootstrap() {\n  const app = await NestFactory.create<NestExpressApplication>(\n    AppModule,\n  );\n\n  app.useStaticAssets(join(__dirname, '..', 'public'));\n  app.setBaseViewsDir(join(__dirname, '..', 'views'));\n  app.setViewEngine('hbs');\n\n  await app.listen(process.env.PORT ?? 3000);\n}\nbootstrap();",
+      "language": "typescript"
+    },
+    {
+      "code": "import { NestFactory } from '@nestjs/core';\nimport { join } from 'node:path';\nimport { AppModule } from './app.module';\n\nasync function bootstrap() {\n  const app = await NestFactory.create(\n    AppModule,\n  );\n\n  app.useStaticAssets(join(__dirname, '..', 'public'));\n  app.setBaseViewsDir(join(__dirname, '..', 'views'));\n  app.setViewEngine('hbs');\n\n  await app.listen(process.env.PORT ?? 3000);\n}\nbootstrap();",
+      "language": "typescript"
+    },
+    {
+      "code": "<!DOCTYPE html>\n<html>\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>App</title>\n  </head>\n  <body>\n    {{ message }}\n  </body>\n</html>",
+      "language": "html"
+    },
+    {
+      "code": "import { Get, Controller, Render } from '@nestjs/common';\n\n@Controller()\nexport class AppController {\n  @Get()\n  @Render('index')\n  root() {\n    return { message: 'Hello world!' };\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Get, Controller, Res, Render } from '@nestjs/common';\nimport { Response } from 'express';\nimport { AppService } from './app.service';\n\n@Controller()\nexport class AppController {\n  constructor(private appService: AppService) {}\n\n  @Get()\n  root(@Res() res: Response) {\n    return res.render(\n      this.appService.getViewName(),\n      { message: 'Hello world!' },\n    );\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "$ npm i --save @fastify/static @fastify/view handlebars",
+      "language": "bash"
+    },
+    {
+      "code": "import { NestFactory } from '@nestjs/core';\nimport { NestFastifyApplication, FastifyAdapter } from '@nestjs/platform-fastify';\nimport { AppModule } from './app.module';\nimport { join } from 'node:path';\n\nasync function bootstrap() {\n  const app = await NestFactory.create<NestFastifyApplication>(\n    AppModule,\n    new FastifyAdapter(),\n  );\n  app.useStaticAssets({\n    root: join(__dirname, '..', 'public'),\n    prefix: '/public/',\n  });\n  app.setViewEngine({\n    engine: {\n      handlebars: require('handlebars'),\n    },\n    templates: join(__dirname, '..', 'views'),\n  });\n  await app.listen(process.env.PORT ?? 3000);\n}\nbootstrap();",
+      "language": "typescript"
+    },
+    {
+      "code": "import { NestFactory } from '@nestjs/core';\nimport { FastifyAdapter } from '@nestjs/platform-fastify';\nimport { AppModule } from './app.module';\nimport { join } from 'node:path';\n\nasync function bootstrap() {\n  const app = await NestFactory.create(AppModule, new FastifyAdapter());\n  app.useStaticAssets({\n    root: join(__dirname, '..', 'public'),\n    prefix: '/public/',\n  });\n  app.setViewEngine({\n    engine: {\n      handlebars: require('handlebars'),\n    },\n    templates: join(__dirname, '..', 'views'),\n  });\n  await app.listen(process.env.PORT ?? 3000);\n}\nbootstrap();",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Get, Controller, Render } from '@nestjs/common';\n\n@Controller()\nexport class AppController {\n  @Get()\n  @Render('index.hbs')\n  root() {\n    return { message: 'Hello world!' };\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Res } from '@nestjs/common';\nimport { FastifyReply } from 'fastify';\n\n@Get()\nroot(@Res() res: FastifyReply) {\n  return res.view('index.hbs', { title: 'Hello world!' });\n}",
+      "language": "typescript"
+    }
+  ],
+  "patterns": [],
+  "links": [
+    "https://docs.nestjs.com/first-steps",
+    "https://docs.nestjs.com/controllers",
+    "https://docs.nestjs.com/providers",
+    "https://docs.nestjs.com/modules",
+    "https://docs.nestjs.com/middleware",
+    "https://docs.nestjs.com/exception-filters",
+    "https://docs.nestjs.com/pipes",
+    "https://docs.nestjs.com/guards",
+    "https://docs.nestjs.com/interceptors",
+    "https://docs.nestjs.com/custom-decorators",
+    "https://docs.nestjs.com/fundamentals/custom-providers",
+    "https://docs.nestjs.com/fundamentals/async-providers",
+    "https://docs.nestjs.com/fundamentals/dynamic-modules",
+    "https://docs.nestjs.com/fundamentals/injection-scopes",
+    "https://docs.nestjs.com/fundamentals/circular-dependency",
+    "https://docs.nestjs.com/fundamentals/module-ref",
+    "https://docs.nestjs.com/fundamentals/lazy-loading-modules",
+    "https://docs.nestjs.com/fundamentals/execution-context",
+    "https://docs.nestjs.com/fundamentals/lifecycle-events",
+    "https://docs.nestjs.com/fundamentals/discovery-service",
+    "https://docs.nestjs.com/fundamentals/platform-agnosticism",
+    "https://docs.nestjs.com/fundamentals/testing",
+    "https://docs.nestjs.com/techniques/configuration",
+    "https://docs.nestjs.com/techniques/database",
+    "https://docs.nestjs.com/techniques/mongodb",
+    "https://docs.nestjs.com/techniques/validation",
+    "https://docs.nestjs.com/techniques/caching",
+    "https://docs.nestjs.com/techniques/serialization",
+    "https://docs.nestjs.com/techniques/versioning",
+    "https://docs.nestjs.com/techniques/task-scheduling",
+    "https://docs.nestjs.com/techniques/queues",
+    "https://docs.nestjs.com/techniques/logger",
+    "https://docs.nestjs.com/techniques/cookies",
+    "https://docs.nestjs.com/techniques/events",
+    "https://docs.nestjs.com/techniques/compression",
+    "https://docs.nestjs.com/techniques/file-upload",
+    "https://docs.nestjs.com/techniques/streaming-files",
+    "https://docs.nestjs.com/techniques/http-module",
+    "https://docs.nestjs.com/techniques/session",
+    "https://docs.nestjs.com/techniques/mvc",
+    "https://docs.nestjs.com/techniques/performance",
+    "https://docs.nestjs.com/techniques/server-sent-events",
+    "https://docs.nestjs.com/security/authentication",
+    "https://docs.nestjs.com/security/authorization",
+    "https://docs.nestjs.com/security/encryption-and-hashing",
+    "https://docs.nestjs.com/security/helmet",
+    "https://docs.nestjs.com/security/cors",
+    "https://docs.nestjs.com/security/csrf",
+    "https://docs.nestjs.com/security/rate-limiting",
+    "https://docs.nestjs.com/graphql/quick-start",
+    "https://docs.nestjs.com/graphql/resolvers",
+    "https://docs.nestjs.com/graphql/mutations",
+    "https://docs.nestjs.com/graphql/subscriptions",
+    "https://docs.nestjs.com/graphql/scalars",
+    "https://docs.nestjs.com/graphql/directives",
+    "https://docs.nestjs.com/graphql/interfaces",
+    "https://docs.nestjs.com/graphql/unions-and-enums",
+    "https://docs.nestjs.com/graphql/field-middleware",
+    "https://docs.nestjs.com/graphql/mapped-types",
+    "https://docs.nestjs.com/graphql/plugins",
+    "https://docs.nestjs.com/graphql/complexity",
+    "https://docs.nestjs.com/graphql/extensions",
+    "https://docs.nestjs.com/graphql/cli-plugin",
+    "https://docs.nestjs.com/graphql/generating-sdl",
+    "https://docs.nestjs.com/graphql/sharing-models",
+    "https://docs.nestjs.com/graphql/other-features",
+    "https://docs.nestjs.com/graphql/federation",
+    "https://docs.nestjs.com/websockets/gateways",
+    "https://docs.nestjs.com/websockets/exception-filters",
+    "https://docs.nestjs.com/websockets/pipes",
+    "https://docs.nestjs.com/websockets/guards",
+    "https://docs.nestjs.com/websockets/interceptors",
+    "https://docs.nestjs.com/websockets/adapter",
+    "https://docs.nestjs.com/microservices/basics",
+    "https://docs.nestjs.com/microservices/redis",
+    "https://docs.nestjs.com/microservices/mqtt",
+    "https://docs.nestjs.com/microservices/nats",
+    "https://docs.nestjs.com/microservices/rabbitmq",
+    "https://docs.nestjs.com/microservices/kafka",
+    "https://docs.nestjs.com/microservices/grpc",
+    "https://docs.nestjs.com/microservices/custom-transport",
+    "https://docs.nestjs.com/microservices/exception-filters",
+    "https://docs.nestjs.com/microservices/pipes",
+    "https://docs.nestjs.com/microservices/guards",
+    "https://docs.nestjs.com/microservices/interceptors",
+    "https://docs.nestjs.com/standalone-applications",
+    "https://docs.nestjs.com/cli/overview",
+    "https://docs.nestjs.com/cli/monorepo",
+    "https://docs.nestjs.com/cli/libraries",
+    "https://docs.nestjs.com/cli/usages",
+    "https://docs.nestjs.com/cli/scripts",
+    "https://docs.nestjs.com/openapi/introduction",
+    "https://docs.nestjs.com/openapi/types-and-parameters",
+    "https://docs.nestjs.com/openapi/operations",
+    "https://docs.nestjs.com/openapi/security",
+    "https://docs.nestjs.com/openapi/mapped-types",
+    "https://docs.nestjs.com/openapi/decorators",
+    "https://docs.nestjs.com/openapi/cli-plugin",
+    "https://docs.nestjs.com/openapi/other-features",
+    "https://docs.nestjs.com/recipes/repl",
+    "https://docs.nestjs.com/recipes/crud-generator",
+    "https://docs.nestjs.com/recipes/swc",
+    "https://docs.nestjs.com/recipes/passport",
+    "https://docs.nestjs.com/recipes/hot-reload",
+    "https://docs.nestjs.com/recipes/mikroorm",
+    "https://docs.nestjs.com/recipes/sql-typeorm",
+    "https://docs.nestjs.com/recipes/mongodb",
+    "https://docs.nestjs.com/recipes/sql-sequelize",
+    "https://docs.nestjs.com/recipes/router-module",
+    "https://docs.nestjs.com/recipes/swagger",
+    "https://docs.nestjs.com/recipes/terminus",
+    "https://docs.nestjs.com/recipes/cqrs",
+    "https://docs.nestjs.com/recipes/documentation",
+    "https://docs.nestjs.com/recipes/prisma",
+    "https://docs.nestjs.com/recipes/sentry",
+    "https://docs.nestjs.com/recipes/serve-static",
+    "https://docs.nestjs.com/recipes/nest-commander",
+    "https://docs.nestjs.com/recipes/async-local-storage",
+    "https://docs.nestjs.com/recipes/necord",
+    "https://docs.nestjs.com/recipes/suites",
+    "https://docs.nestjs.com/faq/serverless",
+    "https://docs.nestjs.com/faq/http-adapter",
+    "https://docs.nestjs.com/faq/keep-alive-connections",
+    "https://docs.nestjs.com/faq/global-prefix",
+    "https://docs.nestjs.com/faq/raw-body",
+    "https://docs.nestjs.com/faq/hybrid-application",
+    "https://docs.nestjs.com/faq/multiple-servers",
+    "https://docs.nestjs.com/faq/request-lifecycle",
+    "https://docs.nestjs.com/faq/common-errors"
+  ]
+}

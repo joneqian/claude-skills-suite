@@ -1,0 +1,314 @@
+{
+  "url": "https://docs.nestjs.com/techniques/validation",
+  "title": "",
+  "content": "It is best practice to validate the correctness of any data sent into a web application. To automatically validate incoming requests, Nest provides several pipes available right out-of-the-box:\n\nThe ValidationPipe makes use of the powerful class-validator package and its declarative validation decorators. The ValidationPipe provides a convenient approach to enforce validation rules for all incoming client payloads, where the specific rules are declared with simple annotations in local class/DTO declarations in each module.\n\nIn the Pipes chapter, we went through the process of building simple pipes and binding them to controllers, methods or to the global app to demonstrate how the process works. Be sure to review that chapter to best understand the topics of this chapter. Here, we'll focus on various real world use cases of the ValidationPipe, and show how to use some of its advanced customization features.\n\nTo begin using it, we first install the required dependency.\n\nBecause this pipe uses the class-validator and class-transformer libraries, there are many options available. You configure these settings via a configuration object passed to the pipe. Following are the built-in options:\n\nIn addition to these, all class-validator options (inherited from the ValidatorOptions interface) are available:\n\nWe'll start by binding ValidationPipe at the application level, thus ensuring all endpoints are protected from receiving incorrect data.\n\nTo test our pipe, let's create a basic endpoint.\n\nNow we can add a few validation rules in our CreateUserDto. We do this using decorators provided by the class-validator package, described in detail here. In this fashion, any route that uses the CreateUserDto will automatically enforce these validation rules.\n\nWith these rules in place, if a request hits our endpoint with an invalid email property in the request body, the application will automatically respond with a 400 Bad Request code, along with the following response body:\n\nIn addition to validating request bodies, the ValidationPipe can be used with other request object properties as well. Imagine that we would like to accept :id in the endpoint path. To ensure that only numbers are accepted for this request parameter, we can use the following construct:\n\nFindOneParams, like a DTO, is simply a class that defines validation rules using class-validator. It would look like this:\n\nError messages can be helpful to explain what was incorrect in a request. However, some production environments prefer to disable detailed errors. Do this by passing an options object to the ValidationPipe:\n\nAs a result, detailed error messages won't be displayed in the response body.\n\nOur ValidationPipe can also filter out properties that should not be received by the method handler. In this case, we can whitelist the acceptable properties, and any property not included in the whitelist is automatically stripped from the resulting object. For example, if our handler expects email and password properties, but a request also includes an age property, this property can be automatically removed from the resulting DTO. To enable such behavior, set whitelist to true.\n\nWhen set to true, this will automatically remove non-whitelisted properties (those without any decorator in the validation class).\n\nAlternatively, you can stop the request from processing when non-whitelisted properties are present, and return an error response to the user. To enable this, set the forbidNonWhitelisted option property to true, in combination with setting whitelist to true.\n\nLearn the right way! 80+ chapters 5+ hours of videos Official certificate Deep-dive sessions Explore official courses\n\nPayloads coming in over the network are plain JavaScript objects. The ValidationPipe can automatically transform payloads to be objects typed according to their DTO classes. To enable auto-transformation, set transform to true. This can be done at a method level:\n\nTo enable this behavior globally, set the option on a global pipe:\n\nWith the auto-transformation option enabled, the ValidationPipe will also perform conversion of primitive types. In the following example, the findOne() method takes one argument which represents an extracted id path parameter:\n\nBy default, every path parameter and query parameter comes over the network as a string. In the above example, we specified the id type as a number (in the method signature). Therefore, the ValidationPipe will try to automatically convert a string identifier to a number.\n\nIn the above section, we showed how the ValidationPipe can implicitly transform query and path parameters based on the expected type. However, this feature requires having auto-transformation enabled.\n\nAlternatively (with auto-transformation disabled), you can explicitly cast values using the ParseIntPipe or ParseBoolPipe (note that ParseStringPipe is not needed because, as mentioned earlier, every path parameter and query parameter comes over the network as a string by default).\n\nAs you build out features like CRUD (Create/Read/Update/Delete) it's often useful to construct variants on a base entity type. Nest provides several utility functions that perform type transformations to make this task more convenient.\n\nWhen building input validation types (also called DTOs), it's often useful to build create and update variations on the same type. For example, the create variant may require all fields, while the update variant may make all fields optional.\n\nNest provides the PartialType() utility function to make this task easier and minimize boilerplate.\n\nThe PartialType() function returns a type (class) with all the properties of the input type set to optional. For example, suppose we have a create type as follows:\n\nBy default, all of these fields are required. To create a type with the same fields, but with each one optional, use PartialType() passing the class reference (CreateCatDto) as an argument:\n\nThe PickType() function constructs a new type (class) by picking a set of properties from an input type. For example, suppose we start with a type like:\n\nWe can pick a set of properties from this class using the PickType() utility function:\n\nThe OmitType() function constructs a type by picking all properties from an input type and then removing a particular set of keys. For example, suppose we start with a type like:\n\nWe can generate a derived type that has every property exceptname as shown below. In this construct, the second argument to OmitType is an array of property names.\n\nThe IntersectionType() function combines two types into one new type (class). For example, suppose we start with two types like:\n\nWe can generate a new type that combines all properties in both types.\n\nThe type mapping utility functions are composable. For example, the following will produce a type (class) that has all of the properties of the CreateCatDto type except for name, and those properties will be set to optional:\n\nTypeScript does not store metadata about generics or interfaces, so when you use them in your DTOs, ValidationPipe may not be able to properly validate incoming data. For instance, in the following code, createUserDtos won't be correctly validated:\n\nTo validate the array, create a dedicated class which contains a property that wraps the array, or use the ParseArrayPipe.\n\nIn addition, the ParseArrayPipe may come in handy when parsing query parameters. Let's consider a findByIds() method that returns users based on identifiers passed as query parameters.\n\nThis construction validates the incoming query parameters from an HTTP GET request like the following:\n\nWhile this chapter shows examples using HTTP style applications (e.g., Express or Fastify), the ValidationPipe works the same for WebSockets and microservices, regardless of the transport method that is used.\n\nRead more about custom validators, error messages, and available decorators as provided by the class-validator package here.",
+  "headings": [
+    {
+      "level": "h3",
+      "text": "Validation",
+      "id": "validation"
+    },
+    {
+      "level": "h4",
+      "text": "Overview#",
+      "id": "overview"
+    },
+    {
+      "level": "h4",
+      "text": "Using the built-in ValidationPipe#",
+      "id": "using-the-built-in-validationpipe"
+    },
+    {
+      "level": "h4",
+      "text": "Auto-validation#",
+      "id": "auto-validation"
+    },
+    {
+      "level": "h4",
+      "text": "Disable detailed errors#",
+      "id": "disable-detailed-errors"
+    },
+    {
+      "level": "h4",
+      "text": "Stripping properties#",
+      "id": "stripping-properties"
+    },
+    {
+      "level": "h2",
+      "text": "Learn the right way!",
+      "id": ""
+    },
+    {
+      "level": "h4",
+      "text": "Transform payload objects#",
+      "id": "transform-payload-objects"
+    },
+    {
+      "level": "h4",
+      "text": "Explicit conversion#",
+      "id": "explicit-conversion"
+    },
+    {
+      "level": "h4",
+      "text": "Mapped types#",
+      "id": "mapped-types"
+    },
+    {
+      "level": "h4",
+      "text": "Parsing and validating arrays#",
+      "id": "parsing-and-validating-arrays"
+    },
+    {
+      "level": "h4",
+      "text": "WebSockets and Microservices#",
+      "id": "websockets-and-microservices"
+    },
+    {
+      "level": "h4",
+      "text": "Learn more#",
+      "id": "learn-more"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "$ npm i --save class-validator class-transformer",
+      "language": "bash"
+    },
+    {
+      "code": "export interface ValidationPipeOptions extends ValidatorOptions {\n  transform?: boolean;\n  disableErrorMessages?: boolean;\n  exceptionFactory?: (errors: ValidationError[]) => any;\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "async function bootstrap() {\n  const app = await NestFactory.create(AppModule);\n  app.useGlobalPipes(new ValidationPipe());\n  await app.listen(process.env.PORT ?? 3000);\n}\nbootstrap();",
+      "language": "typescript"
+    },
+    {
+      "code": "@Post()\ncreate(@Body() createUserDto: CreateUserDto) {\n  return 'This action adds a new user';\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { IsEmail, IsNotEmpty } from 'class-validator';\n\nexport class CreateUserDto {\n  @IsEmail()\n  email: string;\n\n  @IsNotEmpty()\n  password: string;\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "{\n  \"statusCode\": 400,\n  \"error\": \"Bad Request\",\n  \"message\": [\"email must be an email\"]\n}",
+      "language": "json"
+    },
+    {
+      "code": "@Get(':id')\nfindOne(@Param() params: FindOneParams) {\n  return 'This action returns a user';\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { IsNumberString } from 'class-validator';\n\nexport class FindOneParams {\n  @IsNumberString()\n  id: string;\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "app.useGlobalPipes(\n  new ValidationPipe({\n    disableErrorMessages: true,\n  }),\n);",
+      "language": "typescript"
+    },
+    {
+      "code": "app.useGlobalPipes(\n  new ValidationPipe({\n    whitelist: true,\n  }),\n);",
+      "language": "typescript"
+    },
+    {
+      "code": "@Post()\n@UsePipes(new ValidationPipe({ transform: true }))\nasync create(@Body() createCatDto: CreateCatDto) {\n  this.catsService.create(createCatDto);\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "app.useGlobalPipes(\n  new ValidationPipe({\n    transform: true,\n  }),\n);",
+      "language": "typescript"
+    },
+    {
+      "code": "@Get(':id')\nfindOne(@Param('id') id: number) {\n  console.log(typeof id === 'number'); // true\n  return 'This action returns a user';\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Get(':id')\nfindOne(\n  @Param('id', ParseIntPipe) id: number,\n  @Query('sort', ParseBoolPipe) sort: boolean,\n) {\n  console.log(typeof id === 'number'); // true\n  console.log(typeof sort === 'boolean'); // true\n  return 'This action returns a user';\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "export class CreateCatDto {\n  name: string;\n  age: number;\n  breed: string;\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "export class UpdateCatDto extends PartialType(CreateCatDto) {}",
+      "language": "typescript"
+    },
+    {
+      "code": "export class CreateCatDto {\n  name: string;\n  age: number;\n  breed: string;\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "export class UpdateCatAgeDto extends PickType(CreateCatDto, ['age'] as const) {}",
+      "language": "typescript"
+    },
+    {
+      "code": "export class CreateCatDto {\n  name: string;\n  age: number;\n  breed: string;\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "export class UpdateCatDto extends OmitType(CreateCatDto, ['name'] as const) {}",
+      "language": "typescript"
+    },
+    {
+      "code": "export class CreateCatDto {\n  name: string;\n  breed: string;\n}\n\nexport class AdditionalCatInfo {\n  color: string;\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "export class UpdateCatDto extends IntersectionType(\n  CreateCatDto,\n  AdditionalCatInfo,\n) {}",
+      "language": "typescript"
+    },
+    {
+      "code": "export class UpdateCatDto extends PartialType(\n  OmitType(CreateCatDto, ['name'] as const),\n) {}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Post()\ncreateBulk(@Body() createUserDtos: CreateUserDto[]) {\n  return 'This action adds new users';\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Post()\ncreateBulk(\n  @Body(new ParseArrayPipe({ items: CreateUserDto }))\n  createUserDtos: CreateUserDto[],\n) {\n  return 'This action adds new users';\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "@Get()\nfindByIds(\n  @Query('ids', new ParseArrayPipe({ items: Number, separator: ',' }))\n  ids: number[],\n) {\n  return 'This action returns users by ids';\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "GET /?ids=1,2,3",
+      "language": "bash"
+    }
+  ],
+  "patterns": [],
+  "links": [
+    "https://docs.nestjs.com/first-steps",
+    "https://docs.nestjs.com/controllers",
+    "https://docs.nestjs.com/providers",
+    "https://docs.nestjs.com/modules",
+    "https://docs.nestjs.com/middleware",
+    "https://docs.nestjs.com/exception-filters",
+    "https://docs.nestjs.com/pipes",
+    "https://docs.nestjs.com/guards",
+    "https://docs.nestjs.com/interceptors",
+    "https://docs.nestjs.com/custom-decorators",
+    "https://docs.nestjs.com/fundamentals/custom-providers",
+    "https://docs.nestjs.com/fundamentals/async-providers",
+    "https://docs.nestjs.com/fundamentals/dynamic-modules",
+    "https://docs.nestjs.com/fundamentals/injection-scopes",
+    "https://docs.nestjs.com/fundamentals/circular-dependency",
+    "https://docs.nestjs.com/fundamentals/module-ref",
+    "https://docs.nestjs.com/fundamentals/lazy-loading-modules",
+    "https://docs.nestjs.com/fundamentals/execution-context",
+    "https://docs.nestjs.com/fundamentals/lifecycle-events",
+    "https://docs.nestjs.com/fundamentals/discovery-service",
+    "https://docs.nestjs.com/fundamentals/platform-agnosticism",
+    "https://docs.nestjs.com/fundamentals/testing",
+    "https://docs.nestjs.com/techniques/configuration",
+    "https://docs.nestjs.com/techniques/database",
+    "https://docs.nestjs.com/techniques/mongodb",
+    "https://docs.nestjs.com/techniques/validation",
+    "https://docs.nestjs.com/techniques/caching",
+    "https://docs.nestjs.com/techniques/serialization",
+    "https://docs.nestjs.com/techniques/versioning",
+    "https://docs.nestjs.com/techniques/task-scheduling",
+    "https://docs.nestjs.com/techniques/queues",
+    "https://docs.nestjs.com/techniques/logger",
+    "https://docs.nestjs.com/techniques/cookies",
+    "https://docs.nestjs.com/techniques/events",
+    "https://docs.nestjs.com/techniques/compression",
+    "https://docs.nestjs.com/techniques/file-upload",
+    "https://docs.nestjs.com/techniques/streaming-files",
+    "https://docs.nestjs.com/techniques/http-module",
+    "https://docs.nestjs.com/techniques/session",
+    "https://docs.nestjs.com/techniques/mvc",
+    "https://docs.nestjs.com/techniques/performance",
+    "https://docs.nestjs.com/techniques/server-sent-events",
+    "https://docs.nestjs.com/security/authentication",
+    "https://docs.nestjs.com/security/authorization",
+    "https://docs.nestjs.com/security/encryption-and-hashing",
+    "https://docs.nestjs.com/security/helmet",
+    "https://docs.nestjs.com/security/cors",
+    "https://docs.nestjs.com/security/csrf",
+    "https://docs.nestjs.com/security/rate-limiting",
+    "https://docs.nestjs.com/graphql/quick-start",
+    "https://docs.nestjs.com/graphql/resolvers",
+    "https://docs.nestjs.com/graphql/mutations",
+    "https://docs.nestjs.com/graphql/subscriptions",
+    "https://docs.nestjs.com/graphql/scalars",
+    "https://docs.nestjs.com/graphql/directives",
+    "https://docs.nestjs.com/graphql/interfaces",
+    "https://docs.nestjs.com/graphql/unions-and-enums",
+    "https://docs.nestjs.com/graphql/field-middleware",
+    "https://docs.nestjs.com/graphql/mapped-types",
+    "https://docs.nestjs.com/graphql/plugins",
+    "https://docs.nestjs.com/graphql/complexity",
+    "https://docs.nestjs.com/graphql/extensions",
+    "https://docs.nestjs.com/graphql/cli-plugin",
+    "https://docs.nestjs.com/graphql/generating-sdl",
+    "https://docs.nestjs.com/graphql/sharing-models",
+    "https://docs.nestjs.com/graphql/other-features",
+    "https://docs.nestjs.com/graphql/federation",
+    "https://docs.nestjs.com/websockets/gateways",
+    "https://docs.nestjs.com/websockets/exception-filters",
+    "https://docs.nestjs.com/websockets/pipes",
+    "https://docs.nestjs.com/websockets/guards",
+    "https://docs.nestjs.com/websockets/interceptors",
+    "https://docs.nestjs.com/websockets/adapter",
+    "https://docs.nestjs.com/microservices/basics",
+    "https://docs.nestjs.com/microservices/redis",
+    "https://docs.nestjs.com/microservices/mqtt",
+    "https://docs.nestjs.com/microservices/nats",
+    "https://docs.nestjs.com/microservices/rabbitmq",
+    "https://docs.nestjs.com/microservices/kafka",
+    "https://docs.nestjs.com/microservices/grpc",
+    "https://docs.nestjs.com/microservices/custom-transport",
+    "https://docs.nestjs.com/microservices/exception-filters",
+    "https://docs.nestjs.com/microservices/pipes",
+    "https://docs.nestjs.com/microservices/guards",
+    "https://docs.nestjs.com/microservices/interceptors",
+    "https://docs.nestjs.com/standalone-applications",
+    "https://docs.nestjs.com/cli/overview",
+    "https://docs.nestjs.com/cli/monorepo",
+    "https://docs.nestjs.com/cli/libraries",
+    "https://docs.nestjs.com/cli/usages",
+    "https://docs.nestjs.com/cli/scripts",
+    "https://docs.nestjs.com/openapi/introduction",
+    "https://docs.nestjs.com/openapi/types-and-parameters",
+    "https://docs.nestjs.com/openapi/operations",
+    "https://docs.nestjs.com/openapi/security",
+    "https://docs.nestjs.com/openapi/mapped-types",
+    "https://docs.nestjs.com/openapi/decorators",
+    "https://docs.nestjs.com/openapi/cli-plugin",
+    "https://docs.nestjs.com/openapi/other-features",
+    "https://docs.nestjs.com/recipes/repl",
+    "https://docs.nestjs.com/recipes/crud-generator",
+    "https://docs.nestjs.com/recipes/swc",
+    "https://docs.nestjs.com/recipes/passport",
+    "https://docs.nestjs.com/recipes/hot-reload",
+    "https://docs.nestjs.com/recipes/mikroorm",
+    "https://docs.nestjs.com/recipes/sql-typeorm",
+    "https://docs.nestjs.com/recipes/mongodb",
+    "https://docs.nestjs.com/recipes/sql-sequelize",
+    "https://docs.nestjs.com/recipes/router-module",
+    "https://docs.nestjs.com/recipes/swagger",
+    "https://docs.nestjs.com/recipes/terminus",
+    "https://docs.nestjs.com/recipes/cqrs",
+    "https://docs.nestjs.com/recipes/documentation",
+    "https://docs.nestjs.com/recipes/prisma",
+    "https://docs.nestjs.com/recipes/sentry",
+    "https://docs.nestjs.com/recipes/serve-static",
+    "https://docs.nestjs.com/recipes/nest-commander",
+    "https://docs.nestjs.com/recipes/async-local-storage",
+    "https://docs.nestjs.com/recipes/necord",
+    "https://docs.nestjs.com/recipes/suites",
+    "https://docs.nestjs.com/faq/serverless",
+    "https://docs.nestjs.com/faq/http-adapter",
+    "https://docs.nestjs.com/faq/keep-alive-connections",
+    "https://docs.nestjs.com/faq/global-prefix",
+    "https://docs.nestjs.com/faq/raw-body",
+    "https://docs.nestjs.com/faq/hybrid-application",
+    "https://docs.nestjs.com/faq/multiple-servers",
+    "https://docs.nestjs.com/faq/request-lifecycle",
+    "https://docs.nestjs.com/faq/common-errors"
+  ]
+}

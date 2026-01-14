@@ -1,0 +1,341 @@
+{
+  "url": "https://docs.nestjs.com/recipes/prisma",
+  "title": "",
+  "content": "Prisma is an open-source ORM for Node.js and TypeScript. It is used as an alternative to writing plain SQL, or using another database access tool such as SQL query builders (like knex.js) or ORMs (like TypeORM and Sequelize). Prisma currently supports PostgreSQL, MySQL, SQL Server, SQLite, MongoDB and CockroachDB (Preview).\n\nWhile Prisma can be used with plain JavaScript, it embraces TypeScript and provides a level to type-safety that goes beyond the guarantees other ORMs in the TypeScript ecosystem. You can find an in-depth comparison of the type-safety guarantees of Prisma and TypeORM here.\n\nIn this recipe, you'll learn how to get started with NestJS and Prisma from scratch. You are going to build a sample NestJS application with a REST API that can read and write data in a database.\n\nFor the purpose of this guide, you'll use a SQLite database to save the overhead of setting up a database server. Note that you can still follow this guide, even if you're using PostgreSQL or MySQL – you'll get extra instructions for using these databases at the right places.\n\nTo get started, install the NestJS CLI and create your app skeleton with the following commands:\n\nSee the First steps page to learn more about the project files created by this command. Note also that you can now run npm start to start your application. The REST API running at http://localhost:3000/ currently serves a single route that's implemented in src/app.controller.ts. Over the course of this guide, you'll implement additional routes to store and retrieve data about users and posts.\n\nStart by installing the Prisma CLI as a development dependency in your project:\n\nIn the following steps, we'll be utilizing the Prisma CLI. As a best practice, it's recommended to invoke the CLI locally by prefixing it with npx:\n\nIf you're using Yarn, then you can install the Prisma CLI as follows:\n\nOnce installed, you can invoke it by prefixing it with yarn:\n\nNow create your initial Prisma setup using the init command of the Prisma CLI:\n\nThis command creates a new prisma directory with the following contents:\n\nSpecify your output path for the generated Prisma client either by passing --output ../src/generated/prisma during prisma init, or directly in your Prisma schema:\n\nSet moduleFormat in the generator to cjs:\n\nYour database connection is configured in the datasource block in your schema.prisma file. By default it's set to postgresql, but since you're using a SQLite database in this guide you need to adjust the provider field of the datasource block to sqlite:\n\nNow, open up .env and adjust the DATABASE_URL environment variable to look as follows:\n\nMake sure you have a ConfigModule configured, otherwise the DATABASE_URL variable will not be picked up from .env.\n\nSQLite databases are simple files; no server is required to use a SQLite database. So instead of configuring a connection URL with a host and port, you can just point it to a local file which in this case is called dev.db. This file will be created in the next step.\n\nWith PostgreSQL and MySQL, you need to configure the connection URL to point to the database server. You can learn more about the required connection URL format here.\n\nIf you're using PostgreSQL, you have to adjust the schema.prisma and .env files as follows:\n\nReplace the placeholders spelled in all uppercase letters with your database credentials. Note that if you're unsure what to provide for the SCHEMA placeholder, it's most likely the default value public:\n\nIf you want to learn how to set up a PostgreSQL database, you can follow this guide on setting up a free PostgreSQL database on Heroku.\n\nIf you're using MySQL, you have to adjust the schema.prisma and .env files as follows:\n\nReplace the placeholders spelled in all uppercase letters with your database credentials.\n\nMicrosoft SQL Server / Azure SQL Server\n\nIf you're using Microsoft SQL Server or Azure SQL Server, you have to adjust the schema.prisma and .env files as follows:\n\nReplace the placeholders spelled in all uppercase letters with your database credentials. Note that if you're unsure what to provide for the encrypt placeholder, it's most likely the default value true:\n\nIn this section, you'll create two new tables in your database using Prisma Migrate. Prisma Migrate generates SQL migration files for your declarative data model definition in the Prisma schema. These migration files are fully customizable so that you can configure any additional features of the underlying database or include additional commands, e.g. for seeding.\n\nAdd the following two models to your schema.prisma file:\n\nWith your Prisma models in place, you can generate your SQL migration files and run them against the database. Run the following commands in your terminal:\n\nThis prisma migrate dev command generates SQL files and directly runs them against the database. In this case, the following migration files was created in the existing prisma directory:\n\nThe following tables were created in your SQLite database:\n\nPrisma Client is a type-safe database client that's generated from your Prisma model definition. Because of this approach, Prisma Client can expose CRUD operations that are tailored specifically to your models.\n\nTo install Prisma Client in your project, run the following command in your terminal:\n\nOnce installed, you can run the generate command to generate the types and Client needed for your project. If any changes are made to your schema, you will need to rerun the generate command to keep those types in sync.\n\nIn addition to Prisma Client, you also need to a driver adapter for the type of database you are working with. For SQLite, you can install the @prisma/adapter-better-sqlite3 driver.\n\nYou're now able to send database queries with Prisma Client. If you want to learn more about building queries with Prisma Client, check out the API documentation.\n\nWhen setting up your NestJS application, you'll want to abstract away the Prisma Client API for database queries within a service. To get started, you can create a new PrismaService that takes care of instantiating PrismaClient and connecting to your database.\n\nInside the src directory, create a new file called prisma.service.ts and add the following code to it:\n\nNext, you can write services that you can use to make database calls for the User and Post models from your Prisma schema.\n\nStill inside the src directory, create a new file called user.service.ts and add the following code to it:\n\nNotice how you're using Prisma Client's generated types to ensure that the methods that are exposed by your service are properly typed. You therefore save the boilerplate of typing your models and creating additional interface or DTO files.\n\nNow do the same for the Post model.\n\nStill inside the src directory, create a new file called post.service.ts and add the following code to it:\n\nYour UsersService and PostsService currently wrap the CRUD queries that are available in Prisma Client. In a real world application, the service would also be the place to add business logic to your application. For example, you could have a method called updatePassword inside the UsersService that would be responsible for updating the password of a user.\n\nRemember to register the new services in the app module.\n\nFinally, you'll use the services you created in the previous sections to implement the different routes of your app. For the purpose of this guide, you'll put all your routes into the already existing AppController class.\n\nReplace the contents of the app.controller.ts file with the following code:\n\nThis controller implements the following routes:\n\nIn this recipe, you learned how to use Prisma along with NestJS to implement a REST API. The controller that implements the routes of the API is calling a PrismaService which in turn uses Prisma Client to send queries to a database to fulfill the data needs of incoming requests.\n\nIf you want to learn more about using NestJS with Prisma, be sure to check out the following resources:",
+  "headings": [
+    {
+      "level": "h3",
+      "text": "Prisma",
+      "id": "prisma"
+    },
+    {
+      "level": "h4",
+      "text": "Getting started#",
+      "id": "getting-started"
+    },
+    {
+      "level": "h4",
+      "text": "Create your NestJS project#",
+      "id": "create-your-nestjs-project"
+    },
+    {
+      "level": "h4",
+      "text": "Set up Prisma#",
+      "id": "set-up-prisma"
+    },
+    {
+      "level": "h4",
+      "text": "Set the generator output path#",
+      "id": "set-the-generator-output-path"
+    },
+    {
+      "level": "h4",
+      "text": "Configure the module format#",
+      "id": "configure-the-module-format"
+    },
+    {
+      "level": "h4",
+      "text": "Set the database connection#",
+      "id": "set-the-database-connection"
+    },
+    {
+      "level": "h4",
+      "text": "Create two database tables with Prisma Migrate#",
+      "id": "create-two-database-tables-with-prisma-migrate"
+    },
+    {
+      "level": "h4",
+      "text": "Install and generate Prisma Client#",
+      "id": "install-and-generate-prisma-client"
+    },
+    {
+      "level": "h4",
+      "text": "Use Prisma Client in your NestJS services#",
+      "id": "use-prisma-client-in-your-nestjs-services"
+    },
+    {
+      "level": "h5",
+      "text": "Implement your REST API routes in the main app controller",
+      "id": "implement-your-rest-api-routes-in-the-main-app-controller"
+    },
+    {
+      "level": "h6",
+      "text": "GET",
+      "id": "get"
+    },
+    {
+      "level": "h6",
+      "text": "POST",
+      "id": "post"
+    },
+    {
+      "level": "h6",
+      "text": "PUT",
+      "id": "put"
+    },
+    {
+      "level": "h6",
+      "text": "DELETE",
+      "id": "delete"
+    },
+    {
+      "level": "h4",
+      "text": "Summary#",
+      "id": "summary"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "$ npm install -g @nestjs/cli\n$ nest new hello-prisma",
+      "language": "bash"
+    },
+    {
+      "code": "$ cd hello-prisma\n$ npm install prisma --save-dev",
+      "language": "bash"
+    },
+    {
+      "code": "$ npx prisma",
+      "language": "bash"
+    },
+    {
+      "code": "$ yarn add prisma --dev",
+      "language": "bash"
+    },
+    {
+      "code": "$ yarn prisma",
+      "language": "bash"
+    },
+    {
+      "code": "$ npx prisma init",
+      "language": "bash"
+    },
+    {
+      "code": "generator client {\n  provider        = \"prisma-client\"\n  output          = \"../src/generated/prisma\"\n}",
+      "language": "unknown"
+    },
+    {
+      "code": "generator client {\n  provider        = \"prisma-client\"\n  output          = \"../src/generated/prisma\"\n  moduleFormat    = \"cjs\"\n}",
+      "language": "unknown"
+    },
+    {
+      "code": "datasource db {\n  provider = \"sqlite\"\n}\n\ngenerator client {\n  provider      = \"prisma-client\"\n  output        = \"../src/generated/prisma\"\n  moduleFormat  = \"cjs\"\n}",
+      "language": "unknown"
+    },
+    {
+      "code": "DATABASE_URL=\"file:./dev.db\"",
+      "language": "bash"
+    },
+    {
+      "code": "datasource db {\n  provider = \"postgresql\"\n}\n\ngenerator client {\n  provider = \"prisma-client\"\n  output          = \"../src/generated/prisma\"\n  moduleFormat  = \"cjs\"\n}",
+      "language": "unknown"
+    },
+    {
+      "code": "DATABASE_URL=\"postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=SCHEMA\"",
+      "language": "bash"
+    },
+    {
+      "code": "DATABASE_URL=\"postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=public\"",
+      "language": "bash"
+    },
+    {
+      "code": "datasource db {\n  provider = \"mysql\"\n}\n\ngenerator client {\n  provider = \"prisma-client\"\n  output          = \"../src/generated/prisma\"\n  moduleFormat  = \"cjs\"\n}",
+      "language": "unknown"
+    },
+    {
+      "code": "DATABASE_URL=\"mysql://USER:PASSWORD@HOST:PORT/DATABASE\"",
+      "language": "bash"
+    },
+    {
+      "code": "datasource db {\n  provider = \"sqlserver\"\n}\n\ngenerator client {\n  provider = \"prisma-client\"\n  output          = \"../src/generated/prisma\"\n  moduleFormat  = \"cjs\"\n}",
+      "language": "unknown"
+    },
+    {
+      "code": "DATABASE_URL=\"sqlserver://HOST:PORT;database=DATABASE;user=USER;password=PASSWORD;encrypt=true\"",
+      "language": "bash"
+    },
+    {
+      "code": "model User {\n  id    Int     @default(autoincrement()) @id\n  email String  @unique\n  name  String?\n  posts Post[]\n}\n\nmodel Post {\n  id        Int      @default(autoincrement()) @id\n  title     String\n  content   String?\n  published Boolean? @default(false)\n  author    User?    @relation(fields: [authorId], references: [id])\n  authorId  Int?\n}",
+      "language": "python"
+    },
+    {
+      "code": "$ npx prisma migrate dev --name init",
+      "language": "bash"
+    },
+    {
+      "code": "$ tree prisma\nprisma\n├── dev.db\n├── migrations\n│   └── 20201207100915_init\n│       └── migration.sql\n└── schema.prisma",
+      "language": "bash"
+    },
+    {
+      "code": "-- CreateTable\nCREATE TABLE \"User\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n    \"email\" TEXT NOT NULL,\n    \"name\" TEXT\n);\n\n-- CreateTable\nCREATE TABLE \"Post\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n    \"title\" TEXT NOT NULL,\n    \"content\" TEXT,\n    \"published\" BOOLEAN DEFAULT false,\n    \"authorId\" INTEGER,\n\n    FOREIGN KEY (\"authorId\") REFERENCES \"User\"(\"id\") ON DELETE SET NULL ON UPDATE CASCADE\n);\n\n-- CreateIndex\nCREATE UNIQUE INDEX \"User.email_unique\" ON \"User\"(\"email\");",
+      "language": "sql"
+    },
+    {
+      "code": "$ npm install @prisma/client",
+      "language": "bash"
+    },
+    {
+      "code": "$ npx prisma generate",
+      "language": "bash"
+    },
+    {
+      "code": "npm install @prisma/adapter-better-sqlite3",
+      "language": "bash"
+    },
+    {
+      "code": "npm install @prisma/adapter-pg",
+      "language": "bash"
+    },
+    {
+      "code": "npm install @prisma/adapter-mariadb",
+      "language": "bash"
+    },
+    {
+      "code": "import { Injectable } from '@nestjs/common';\nimport { PrismaClient } from './generated/prisma/client';\nimport { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';\n\n@Injectable()\nexport class PrismaService extends PrismaClient {\n  constructor() {\n    const adapter = new PrismaBetterSqlite3({ url: process.env.DATABASE_URL });\n    super({ adapter });\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Injectable } from '@nestjs/common';\nimport { PrismaService } from './prisma.service';\nimport { User, Prisma } from 'generated/prisma';\n\n@Injectable()\nexport class UsersService {\n  constructor(private prisma: PrismaService) {}\n\n  async user(\n    userWhereUniqueInput: Prisma.UserWhereUniqueInput,\n  ): Promise<User | null> {\n    return this.prisma.user.findUnique({\n      where: userWhereUniqueInput,\n    });\n  }\n\n  async users(params: {\n    skip?: number;\n    take?: number;\n    cursor?: Prisma.UserWhereUniqueInput;\n    where?: Prisma.UserWhereInput;\n    orderBy?: Prisma.UserOrderByWithRelationInput;\n  }): Promise<User[]> {\n    const { skip, take, cursor, where, orderBy } = params;\n    return this.prisma.user.findMany({\n      skip,\n      take,\n      cursor,\n      where,\n      orderBy,\n    });\n  }\n\n  async createUser(data: Prisma.UserCreateInput): Promise<User> {\n    return this.prisma.user.create({\n      data,\n    });\n  }\n\n  async updateUser(params: {\n    where: Prisma.UserWhereUniqueInput;\n    data: Prisma.UserUpdateInput;\n  }): Promise<User> {\n    const { where, data } = params;\n    return this.prisma.user.update({\n      data,\n      where,\n    });\n  }\n\n  async deleteUser(where: Prisma.UserWhereUniqueInput): Promise<User> {\n    return this.prisma.user.delete({\n      where,\n    });\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import { Injectable } from '@nestjs/common';\nimport { PrismaService } from './prisma.service';\nimport { Post, Prisma } from 'generated/prisma';\n\n@Injectable()\nexport class PostsService {\n  constructor(private prisma: PrismaService) {}\n\n  async post(\n    postWhereUniqueInput: Prisma.PostWhereUniqueInput,\n  ): Promise<Post | null> {\n    return this.prisma.post.findUnique({\n      where: postWhereUniqueInput,\n    });\n  }\n\n  async posts(params: {\n    skip?: number;\n    take?: number;\n    cursor?: Prisma.PostWhereUniqueInput;\n    where?: Prisma.PostWhereInput;\n    orderBy?: Prisma.PostOrderByWithRelationInput;\n  }): Promise<Post[]> {\n    const { skip, take, cursor, where, orderBy } = params;\n    return this.prisma.post.findMany({\n      skip,\n      take,\n      cursor,\n      where,\n      orderBy,\n    });\n  }\n\n  async createPost(data: Prisma.PostCreateInput): Promise<Post> {\n    return this.prisma.post.create({\n      data,\n    });\n  }\n\n  async updatePost(params: {\n    where: Prisma.PostWhereUniqueInput;\n    data: Prisma.PostUpdateInput;\n  }): Promise<Post> {\n    const { data, where } = params;\n    return this.prisma.post.update({\n      data,\n      where,\n    });\n  }\n\n  async deletePost(where: Prisma.PostWhereUniqueInput): Promise<Post> {\n    return this.prisma.post.delete({\n      where,\n    });\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "code": "import {\n  Controller,\n  Get,\n  Param,\n  Post,\n  Body,\n  Put,\n  Delete,\n} from '@nestjs/common';\nimport { UsersService } from './user.service';\nimport { PostsService } from './post.service';\nimport { User as UserModel, Post as PostModel } from 'generated/prisma';\n\n@Controller()\nexport class AppController {\n  constructor(\n    private readonly userService: UsersService,\n    private readonly postService: PostsService,\n  ) {}\n\n  @Get('post/:id')\n  async getPostById(@Param('id') id: string): Promise<PostModel> {\n    return this.postService.post({ id: Number(id) });\n  }\n\n  @Get('feed')\n  async getPublishedPosts(): Promise<PostModel[]> {\n    return this.postService.posts({\n      where: { published: true },\n    });\n  }\n\n  @Get('filtered-posts/:searchString')\n  async getFilteredPosts(\n    @Param('searchString') searchString: string,\n  ): Promise<PostModel[]> {\n    return this.postService.posts({\n      where: {\n        OR: [\n          {\n            title: { contains: searchString },\n          },\n          {\n            content: { contains: searchString },\n          },\n        ],\n      },\n    });\n  }\n\n  @Post('post')\n  async createDraft(\n    @Body() postData: { title: string; content?: string; authorEmail: string },\n  ): Promise<PostModel> {\n    const { title, content, authorEmail } = postData;\n    return this.postService.createPost({\n      title,\n      content,\n      author: {\n        connect: { email: authorEmail },\n      },\n    });\n  }\n\n  @Post('user')\n  async signupUser(\n    @Body() userData: { name?: string; email: string },\n  ): Promise<UserModel> {\n    return this.userService.createUser(userData);\n  }\n\n  @Put('publish/:id')\n  async publishPost(@Param('id') id: string): Promise<PostModel> {\n    return this.postService.updatePost({\n      where: { id: Number(id) },\n      data: { published: true },\n    });\n  }\n\n  @Delete('post/:id')\n  async deletePost(@Param('id') id: string): Promise<PostModel> {\n    return this.postService.deletePost({ id: Number(id) });\n  }\n}",
+      "language": "typescript"
+    }
+  ],
+  "patterns": [],
+  "links": [
+    "https://docs.nestjs.com/first-steps",
+    "https://docs.nestjs.com/controllers",
+    "https://docs.nestjs.com/providers",
+    "https://docs.nestjs.com/modules",
+    "https://docs.nestjs.com/middleware",
+    "https://docs.nestjs.com/exception-filters",
+    "https://docs.nestjs.com/pipes",
+    "https://docs.nestjs.com/guards",
+    "https://docs.nestjs.com/interceptors",
+    "https://docs.nestjs.com/custom-decorators",
+    "https://docs.nestjs.com/fundamentals/custom-providers",
+    "https://docs.nestjs.com/fundamentals/async-providers",
+    "https://docs.nestjs.com/fundamentals/dynamic-modules",
+    "https://docs.nestjs.com/fundamentals/injection-scopes",
+    "https://docs.nestjs.com/fundamentals/circular-dependency",
+    "https://docs.nestjs.com/fundamentals/module-ref",
+    "https://docs.nestjs.com/fundamentals/lazy-loading-modules",
+    "https://docs.nestjs.com/fundamentals/execution-context",
+    "https://docs.nestjs.com/fundamentals/lifecycle-events",
+    "https://docs.nestjs.com/fundamentals/discovery-service",
+    "https://docs.nestjs.com/fundamentals/platform-agnosticism",
+    "https://docs.nestjs.com/fundamentals/testing",
+    "https://docs.nestjs.com/techniques/configuration",
+    "https://docs.nestjs.com/techniques/database",
+    "https://docs.nestjs.com/techniques/mongodb",
+    "https://docs.nestjs.com/techniques/validation",
+    "https://docs.nestjs.com/techniques/caching",
+    "https://docs.nestjs.com/techniques/serialization",
+    "https://docs.nestjs.com/techniques/versioning",
+    "https://docs.nestjs.com/techniques/task-scheduling",
+    "https://docs.nestjs.com/techniques/queues",
+    "https://docs.nestjs.com/techniques/logger",
+    "https://docs.nestjs.com/techniques/cookies",
+    "https://docs.nestjs.com/techniques/events",
+    "https://docs.nestjs.com/techniques/compression",
+    "https://docs.nestjs.com/techniques/file-upload",
+    "https://docs.nestjs.com/techniques/streaming-files",
+    "https://docs.nestjs.com/techniques/http-module",
+    "https://docs.nestjs.com/techniques/session",
+    "https://docs.nestjs.com/techniques/mvc",
+    "https://docs.nestjs.com/techniques/performance",
+    "https://docs.nestjs.com/techniques/server-sent-events",
+    "https://docs.nestjs.com/security/authentication",
+    "https://docs.nestjs.com/security/authorization",
+    "https://docs.nestjs.com/security/encryption-and-hashing",
+    "https://docs.nestjs.com/security/helmet",
+    "https://docs.nestjs.com/security/cors",
+    "https://docs.nestjs.com/security/csrf",
+    "https://docs.nestjs.com/security/rate-limiting",
+    "https://docs.nestjs.com/graphql/quick-start",
+    "https://docs.nestjs.com/graphql/resolvers",
+    "https://docs.nestjs.com/graphql/mutations",
+    "https://docs.nestjs.com/graphql/subscriptions",
+    "https://docs.nestjs.com/graphql/scalars",
+    "https://docs.nestjs.com/graphql/directives",
+    "https://docs.nestjs.com/graphql/interfaces",
+    "https://docs.nestjs.com/graphql/unions-and-enums",
+    "https://docs.nestjs.com/graphql/field-middleware",
+    "https://docs.nestjs.com/graphql/mapped-types",
+    "https://docs.nestjs.com/graphql/plugins",
+    "https://docs.nestjs.com/graphql/complexity",
+    "https://docs.nestjs.com/graphql/extensions",
+    "https://docs.nestjs.com/graphql/cli-plugin",
+    "https://docs.nestjs.com/graphql/generating-sdl",
+    "https://docs.nestjs.com/graphql/sharing-models",
+    "https://docs.nestjs.com/graphql/other-features",
+    "https://docs.nestjs.com/graphql/federation",
+    "https://docs.nestjs.com/websockets/gateways",
+    "https://docs.nestjs.com/websockets/exception-filters",
+    "https://docs.nestjs.com/websockets/pipes",
+    "https://docs.nestjs.com/websockets/guards",
+    "https://docs.nestjs.com/websockets/interceptors",
+    "https://docs.nestjs.com/websockets/adapter",
+    "https://docs.nestjs.com/microservices/basics",
+    "https://docs.nestjs.com/microservices/redis",
+    "https://docs.nestjs.com/microservices/mqtt",
+    "https://docs.nestjs.com/microservices/nats",
+    "https://docs.nestjs.com/microservices/rabbitmq",
+    "https://docs.nestjs.com/microservices/kafka",
+    "https://docs.nestjs.com/microservices/grpc",
+    "https://docs.nestjs.com/microservices/custom-transport",
+    "https://docs.nestjs.com/microservices/exception-filters",
+    "https://docs.nestjs.com/microservices/pipes",
+    "https://docs.nestjs.com/microservices/guards",
+    "https://docs.nestjs.com/microservices/interceptors",
+    "https://docs.nestjs.com/standalone-applications",
+    "https://docs.nestjs.com/cli/overview",
+    "https://docs.nestjs.com/cli/monorepo",
+    "https://docs.nestjs.com/cli/libraries",
+    "https://docs.nestjs.com/cli/usages",
+    "https://docs.nestjs.com/cli/scripts",
+    "https://docs.nestjs.com/openapi/introduction",
+    "https://docs.nestjs.com/openapi/types-and-parameters",
+    "https://docs.nestjs.com/openapi/operations",
+    "https://docs.nestjs.com/openapi/security",
+    "https://docs.nestjs.com/openapi/mapped-types",
+    "https://docs.nestjs.com/openapi/decorators",
+    "https://docs.nestjs.com/openapi/cli-plugin",
+    "https://docs.nestjs.com/openapi/other-features",
+    "https://docs.nestjs.com/recipes/repl",
+    "https://docs.nestjs.com/recipes/crud-generator",
+    "https://docs.nestjs.com/recipes/swc",
+    "https://docs.nestjs.com/recipes/passport",
+    "https://docs.nestjs.com/recipes/hot-reload",
+    "https://docs.nestjs.com/recipes/mikroorm",
+    "https://docs.nestjs.com/recipes/sql-typeorm",
+    "https://docs.nestjs.com/recipes/mongodb",
+    "https://docs.nestjs.com/recipes/sql-sequelize",
+    "https://docs.nestjs.com/recipes/router-module",
+    "https://docs.nestjs.com/recipes/swagger",
+    "https://docs.nestjs.com/recipes/terminus",
+    "https://docs.nestjs.com/recipes/cqrs",
+    "https://docs.nestjs.com/recipes/documentation",
+    "https://docs.nestjs.com/recipes/prisma",
+    "https://docs.nestjs.com/recipes/sentry",
+    "https://docs.nestjs.com/recipes/serve-static",
+    "https://docs.nestjs.com/recipes/nest-commander",
+    "https://docs.nestjs.com/recipes/async-local-storage",
+    "https://docs.nestjs.com/recipes/necord",
+    "https://docs.nestjs.com/recipes/suites",
+    "https://docs.nestjs.com/faq/serverless",
+    "https://docs.nestjs.com/faq/http-adapter",
+    "https://docs.nestjs.com/faq/keep-alive-connections",
+    "https://docs.nestjs.com/faq/global-prefix",
+    "https://docs.nestjs.com/faq/raw-body",
+    "https://docs.nestjs.com/faq/hybrid-application",
+    "https://docs.nestjs.com/faq/multiple-servers",
+    "https://docs.nestjs.com/faq/request-lifecycle",
+    "https://docs.nestjs.com/faq/common-errors"
+  ]
+}
