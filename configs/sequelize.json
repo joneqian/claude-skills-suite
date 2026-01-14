@@ -1,0 +1,123 @@
+{
+  "name": "sequelize",
+  "description": "Sequelize Node.js ORM for SQL databases. Use for database models, migrations, associations, queries, transactions, validations, hooks, and working with PostgreSQL, MySQL, MariaDB, SQLite, SQL Server.",
+  "base_url": "https://sequelize.org/",
+  "start_urls": [
+    "https://sequelize.org/docs/v6/",
+    "https://sequelize.org/docs/v6/getting-started/",
+    "https://sequelize.org/docs/v6/core-concepts/model-basics/",
+    "https://sequelize.org/docs/v6/core-concepts/model-instances/",
+    "https://sequelize.org/docs/v6/core-concepts/model-querying-basics/",
+    "https://sequelize.org/docs/v6/core-concepts/model-querying-finders/",
+    "https://sequelize.org/docs/v6/core-concepts/getters-setters-virtuals/",
+    "https://sequelize.org/docs/v6/core-concepts/validations-and-constraints/",
+    "https://sequelize.org/docs/v6/core-concepts/raw-queries/",
+    "https://sequelize.org/docs/v6/core-concepts/assocs/",
+    "https://sequelize.org/docs/v6/core-concepts/paranoid/",
+    "https://sequelize.org/docs/v6/advanced-association-concepts/eager-loading/",
+    "https://sequelize.org/docs/v6/advanced-association-concepts/creating-with-associations/",
+    "https://sequelize.org/docs/v6/advanced-association-concepts/advanced-many-to-many/",
+    "https://sequelize.org/docs/v6/advanced-association-concepts/association-scopes/",
+    "https://sequelize.org/docs/v6/advanced-association-concepts/polymorphic-associations/",
+    "https://sequelize.org/docs/v6/other-topics/other-data-types/",
+    "https://sequelize.org/docs/v6/other-topics/aws-lambda/",
+    "https://sequelize.org/docs/v6/other-topics/connection-pool/",
+    "https://sequelize.org/docs/v6/other-topics/constraints-and-circularities/",
+    "https://sequelize.org/docs/v6/other-topics/dialect-specific-things/",
+    "https://sequelize.org/docs/v6/other-topics/extending-data-types/",
+    "https://sequelize.org/docs/v6/other-topics/hooks/",
+    "https://sequelize.org/docs/v6/other-topics/indexes/",
+    "https://sequelize.org/docs/v6/other-topics/legacy/",
+    "https://sequelize.org/docs/v6/other-topics/migrations/",
+    "https://sequelize.org/docs/v6/other-topics/naming-strategies/",
+    "https://sequelize.org/docs/v6/other-topics/optimistic-locking/",
+    "https://sequelize.org/docs/v6/other-topics/query-interface/",
+    "https://sequelize.org/docs/v6/other-topics/read-replication/",
+    "https://sequelize.org/docs/v6/other-topics/resources/",
+    "https://sequelize.org/docs/v6/other-topics/scopes/",
+    "https://sequelize.org/docs/v6/other-topics/sub-queries/",
+    "https://sequelize.org/docs/v6/other-topics/transactions/",
+    "https://sequelize.org/docs/v6/other-topics/typescript/"
+  ],
+  "selectors": {
+    "main_content": "article",
+    "title": "h1",
+    "code_blocks": "pre code"
+  },
+  "url_patterns": {
+    "include": [
+      "/docs/v6/",
+      "/docs/v6/getting-started/",
+      "/docs/v6/core-concepts/",
+      "/docs/v6/advanced-association-concepts/",
+      "/docs/v6/other-topics/"
+    ],
+    "exclude": [
+      "/docs/v6/other-topics/legal/",
+      "/docs/v6/other-topics/upgrade/",
+      "/docs/v6/category/",
+      "/api/v6/",
+      "/api/v7/"
+    ]
+  },
+  "categories": {
+    "getting_started": [
+      "getting-started",
+      "introduction"
+    ],
+    "models": [
+      "model-basics",
+      "model-instances",
+      "getters-setters-virtuals",
+      "validations-and-constraints",
+      "paranoid"
+    ],
+    "querying": [
+      "model-querying-basics",
+      "model-querying-finders",
+      "raw-queries",
+      "sub-queries",
+      "scopes"
+    ],
+    "associations": [
+      "assocs",
+      "eager-loading",
+      "creating-with-associations",
+      "advanced-many-to-many",
+      "association-scopes",
+      "polymorphic-associations"
+    ],
+    "data_types": [
+      "other-data-types",
+      "extending-data-types"
+    ],
+    "database": [
+      "connection-pool",
+      "dialect-specific-things",
+      "read-replication",
+      "indexes",
+      "constraints-and-circularities"
+    ],
+    "advanced": [
+      "hooks",
+      "transactions",
+      "optimistic-locking",
+      "query-interface",
+      "naming-strategies"
+    ],
+    "migrations": [
+      "migrations",
+      "legacy"
+    ],
+    "typescript": [
+      "typescript"
+    ],
+    "deployment": [
+      "aws-lambda"
+    ]
+  },
+  "rate_limit": 0.5,
+  "max_pages": 100,
+  "use_playwright": true,
+  "skip_llms_txt": true
+}
