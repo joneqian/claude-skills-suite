@@ -1,0 +1,370 @@
+{
+  "url": "https://fastapi.tiangolo.com/python-types/",
+  "title": "Python Types Intro¶",
+  "content": "Python has support for optional \"type hints\" (also called \"type annotations\").\n\nThese \"type hints\" or annotations are a special syntax that allow declaring the type of a variable.\n\nBy declaring types for your variables, editors and tools can give you better support.\n\nThis is just a quick tutorial / refresher about Python type hints. It covers only the minimum necessary to use them with FastAPI... which is actually very little.\n\nFastAPI is all based on these type hints, they give it many advantages and benefits.\n\nBut even if you never use FastAPI, you would benefit from learning a bit about them.\n\nIf you are a Python expert, and you already know everything about type hints, skip to the next chapter.\n\nLet's start with a simple example:\n\nCalling this program outputs:\n\nThe function does the following:\n\nIt's a very simple program.\n\nBut now imagine that you were writing it from scratch.\n\nAt some point you would have started the definition of the function, you had the parameters ready...\n\nBut then you have to call \"that method that converts the first letter to upper case\".\n\nWas it upper? Was it uppercase? first_uppercase? capitalize?\n\nThen, you try with the old programmer's friend, editor autocompletion.\n\nYou type the first parameter of the function, first_name, then a dot (.) and then hit Ctrl+Space to trigger the completion.\n\nBut, sadly, you get nothing useful:\n\nLet's modify a single line from the previous version.\n\nWe will change exactly this fragment, the parameters of the function, from:\n\nThose are the \"type hints\":\n\nThat is not the same as declaring default values like would be with:\n\nIt's a different thing.\n\nWe are using colons (:), not equals (=).\n\nAnd adding type hints normally doesn't change what happens from what would happen without them.\n\nBut now, imagine you are again in the middle of creating that function, but with type hints.\n\nAt the same point, you try to trigger the autocomplete with Ctrl+Space and you see:\n\nWith that, you can scroll, seeing the options, until you find the one that \"rings a bell\":\n\nCheck this function, it already has type hints:\n\nBecause the editor knows the types of the variables, you don't only get completion, you also get error checks:\n\nNow you know that you have to fix it, convert age to a string with str(age):\n\nYou just saw the main place to declare type hints. As function parameters.\n\nThis is also the main place you would use them with FastAPI.\n\nYou can declare all the standard Python types, not only str.\n\nYou can use, for example:\n\nThere are some data structures that can contain other values, like dict, list, set and tuple. And the internal values can have their own type too.\n\nThese types that have internal types are called \"generic\" types. And it's possible to declare them, even with their internal types.\n\nTo declare those types and the internal types, you can use the standard Python module typing. It exists specifically to support these type hints.\n\nThe syntax using typing is compatible with all versions, from Python 3.6 to the latest ones, including Python 3.9, Python 3.10, etc.\n\nAs Python advances, newer versions come with improved support for these type annotations and in many cases you won't even need to import and use the typing module to declare the type annotations.\n\nIf you can choose a more recent version of Python for your project, you will be able to take advantage of that extra simplicity.\n\nIn all the docs there are examples compatible with each version of Python (when there's a difference).\n\nFor example \"Python 3.6+\" means it's compatible with Python 3.6 or above (including 3.7, 3.8, 3.9, 3.10, etc). And \"Python 3.9+\" means it's compatible with Python 3.9 or above (including 3.10, etc).\n\nIf you can use the latest versions of Python, use the examples for the latest version, those will have the best and simplest syntax, for example, \"Python 3.10+\".\n\nFor example, let's define a variable to be a list of str.\n\nDeclare the variable, with the same colon (:) syntax.\n\nAs the type, put list.\n\nAs the list is a type that contains some internal types, you put them in square brackets:\n\nThose internal types in the square brackets are called \"type parameters\".\n\nIn this case, str is the type parameter passed to list.\n\nThat means: \"the variable items is a list, and each of the items in this list is a str\".\n\nBy doing that, your editor can provide support even while processing items from the list:\n\nWithout types, that's almost impossible to achieve.\n\nNotice that the variable item is one of the elements in the list items.\n\nAnd still, the editor knows it is a str, and provides support for that.\n\nYou would do the same to declare tuples and sets:\n\nTo define a dict, you pass 2 type parameters, separated by commas.\n\nThe first type parameter is for the keys of the dict.\n\nThe second type parameter is for the values of the dict:\n\nYou can declare that a variable can be any of several types, for example, an int or a str.\n\nIn Python 3.6 and above (including Python 3.10) you can use the Union type from typing and put inside the square brackets the possible types to accept.\n\nIn Python 3.10 there's also a new syntax where you can put the possible types separated by a vertical bar (|).\n\nIn both cases this means that item could be an int or a str.\n\nYou can declare that a value could have a type, like str, but that it could also be None.\n\nIn Python 3.6 and above (including Python 3.10) you can declare it by importing and using Optional from the typing module.\n\nUsing Optional[str] instead of just str will let the editor help you detect errors where you could be assuming that a value is always a str, when it could actually be None too.\n\nOptional[Something] is actually a shortcut for Union[Something, None], they are equivalent.\n\nThis also means that in Python 3.10, you can use Something | None:\n\nIf you are using a Python version below 3.10, here's a tip from my very subjective point of view:\n\nBoth are equivalent and underneath they are the same, but I would recommend Union instead of Optional because the word \"optional\" would seem to imply that the value is optional, and it actually means \"it can be None\", even if it's not optional and is still required.\n\nI think Union[SomeType, None] is more explicit about what it means.\n\nIt's just about the words and names. But those words can affect how you and your teammates think about the code.\n\nAs an example, let's take this function:\n\nThe parameter name is defined as Optional[str], but it is not optional, you cannot call the function without the parameter:\n\nThe name parameter is still required (not optional) because it doesn't have a default value. Still, name accepts None as the value:\n\nThe good news is, once you are on Python 3.10 you won't have to worry about that, as you will be able to simply use | to define unions of types:\n\nAnd then you won't have to worry about names like Optional and Union. 😎\n\nThese types that take type parameters in square brackets are called Generic types or Generics, for example:\n\nYou can use the same builtin types as generics (with square brackets and types inside):\n\nAnd the same as with previous Python versions, from the typing module:\n\nIn Python 3.10, as an alternative to using the generics Union and Optional, you can use the vertical bar (|) to declare unions of types, that's a lot better and simpler.\n\nYou can use the same builtin types as generics (with square brackets and types inside):\n\nAnd generics from the typing module:\n\nYou can also declare a class as the type of a variable.\n\nLet's say you have a class Person, with a name:\n\nThen you can declare a variable to be of type Person:\n\nAnd then, again, you get all the editor support:\n\nNotice that this means \"one_person is an instance of the class Person\".\n\nIt doesn't mean \"one_person is the class called Person\".\n\nPydantic is a Python library to perform data validation.\n\nYou declare the \"shape\" of the data as classes with attributes.\n\nAnd each attribute has a type.\n\nThen you create an instance of that class with some values and it will validate the values, convert them to the appropriate type (if that's the case) and give you an object with all the data.\n\nAnd you get all the editor support with that resulting object.\n\nAn example from the official Pydantic docs:\n\nTo learn more about Pydantic, check its docs.\n\nFastAPI is all based on Pydantic.\n\nYou will see a lot more of all this in practice in the Tutorial - User Guide.\n\nPydantic has a special behavior when you use Optional or Union[Something, None] without a default value, you can read more about it in the Pydantic docs about Required Optional fields.\n\nPython also has a feature that allows putting additional metadata in these type hints using Annotated.\n\nSince Python 3.9, Annotated is a part of the standard library, so you can import it from typing.\n\nPython itself doesn't do anything with this Annotated. And for editors and other tools, the type is still str.\n\nBut you can use this space in Annotated to provide FastAPI with additional metadata about how you want your application to behave.\n\nThe important thing to remember is that the first type parameter you pass to Annotated is the actual type. The rest, is just metadata for other tools.\n\nFor now, you just need to know that Annotated exists, and that it's standard Python. 😎\n\nLater you will see how powerful it can be.\n\nThe fact that this is standard Python means that you will still get the best possible developer experience in your editor, with the tools you use to analyze and refactor your code, etc. ✨\n\nAnd also that your code will be very compatible with many other Python tools and libraries. 🚀\n\nFastAPI takes advantage of these type hints to do several things.\n\nWith FastAPI you declare parameters with type hints and you get:\n\n...and FastAPI uses the same declarations to:\n\nThis might all sound abstract. Don't worry. You'll see all this in action in the Tutorial - User Guide.\n\nThe important thing is that by using standard Python types, in a single place (instead of adding more classes, decorators, etc), FastAPI will do a lot of the work for you.\n\nIf you already went through all the tutorial and came back to see more about types, a good resource is the \"cheat sheet\" from mypy.",
+  "headings": [
+    {
+      "level": "h1",
+      "text": "Python Types Intro¶",
+      "id": "python-types-intro"
+    },
+    {
+      "level": "h2",
+      "text": "Motivation¶",
+      "id": "motivation"
+    },
+    {
+      "level": "h3",
+      "text": "Edit it¶",
+      "id": "edit-it"
+    },
+    {
+      "level": "h3",
+      "text": "Add types¶",
+      "id": "add-types"
+    },
+    {
+      "level": "h2",
+      "text": "More motivation¶",
+      "id": "more-motivation"
+    },
+    {
+      "level": "h2",
+      "text": "Declaring types¶",
+      "id": "declaring-types"
+    },
+    {
+      "level": "h3",
+      "text": "Simple types¶",
+      "id": "simple-types"
+    },
+    {
+      "level": "h3",
+      "text": "Generic types with type parameters¶",
+      "id": "generic-types-with-type-parameters"
+    },
+    {
+      "level": "h4",
+      "text": "Newer versions of Python¶",
+      "id": "newer-versions-of-python"
+    },
+    {
+      "level": "h4",
+      "text": "List¶",
+      "id": "list"
+    },
+    {
+      "level": "h4",
+      "text": "Tuple and Set¶",
+      "id": "tuple-and-set"
+    },
+    {
+      "level": "h4",
+      "text": "Dict¶",
+      "id": "dict"
+    },
+    {
+      "level": "h4",
+      "text": "Union¶",
+      "id": "union"
+    },
+    {
+      "level": "h4",
+      "text": "Possibly None¶",
+      "id": "possibly-none"
+    },
+    {
+      "level": "h4",
+      "text": "Using Union or Optional¶",
+      "id": "using-union-or-optional"
+    },
+    {
+      "level": "h4",
+      "text": "Generic types¶",
+      "id": "generic-types"
+    },
+    {
+      "level": "h3",
+      "text": "Classes as types¶",
+      "id": "classes-as-types"
+    },
+    {
+      "level": "h2",
+      "text": "Pydantic models¶",
+      "id": "pydantic-models"
+    },
+    {
+      "level": "h2",
+      "text": "Type Hints with Metadata Annotations¶",
+      "id": "type-hints-with-metadata-annotations"
+    },
+    {
+      "level": "h2",
+      "text": "Type hints in FastAPI¶",
+      "id": "type-hints-in-fastapi"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "def get_full_name(first_name, last_name):\n    full_name = first_name.title() + \" \" + last_name.title()\n    return full_name\n\n\nprint(get_full_name(\"john\", \"doe\"))",
+      "language": "python"
+    },
+    {
+      "code": "def get_full_name(first_name, last_name):\n    full_name = first_name.title() + \" \" + last_name.title()\n    return full_name\n\n\nprint(get_full_name(\"john\", \"doe\"))",
+      "language": "python"
+    },
+    {
+      "code": "first_name, last_name",
+      "language": "unknown"
+    },
+    {
+      "code": "first_name: str, last_name: str",
+      "language": "yaml"
+    },
+    {
+      "code": "def get_full_name(first_name: str, last_name: str):\n    full_name = first_name.title() + \" \" + last_name.title()\n    return full_name\n\n\nprint(get_full_name(\"john\", \"doe\"))",
+      "language": "python"
+    },
+    {
+      "code": "first_name=\"john\", last_name=\"doe\"",
+      "language": "unknown"
+    },
+    {
+      "code": "def get_name_with_age(name: str, age: int):\n    name_with_age = name + \" is this old: \" + age\n    return name_with_age",
+      "language": "python"
+    },
+    {
+      "code": "def get_name_with_age(name: str, age: int):\n    name_with_age = name + \" is this old: \" + str(age)\n    return name_with_age",
+      "language": "python"
+    },
+    {
+      "code": "def get_items(item_a: str, item_b: int, item_c: float, item_d: bool, item_e: bytes):\n    return item_a, item_b, item_c, item_d, item_e",
+      "language": "python"
+    },
+    {
+      "code": "def process_items(items: list[str]):\n    for item in items:\n        print(item)",
+      "language": "python"
+    },
+    {
+      "code": "def process_items(items_t: tuple[int, int, str], items_s: set[bytes]):\n    return items_t, items_s",
+      "language": "python"
+    },
+    {
+      "code": "def process_items(prices: dict[str, float]):\n    for item_name, item_price in prices.items():\n        print(item_name)\n        print(item_price)",
+      "language": "python"
+    },
+    {
+      "code": "def process_item(item: int | str):\n    print(item)",
+      "language": "python"
+    },
+    {
+      "code": "from typing import Union\n\n\ndef process_item(item: Union[int, str]):\n    print(item)",
+      "language": "python"
+    },
+    {
+      "code": "from typing import Optional\n\n\ndef say_hi(name: Optional[str] = None):\n    if name is not None:\n        print(f\"Hey {name}!\")\n    else:\n        print(\"Hello World\")",
+      "language": "python"
+    },
+    {
+      "code": "def say_hi(name: str | None = None):\n    if name is not None:\n        print(f\"Hey {name}!\")\n    else:\n        print(\"Hello World\")",
+      "language": "python"
+    },
+    {
+      "code": "from typing import Optional\n\n\ndef say_hi(name: Optional[str] = None):\n    if name is not None:\n        print(f\"Hey {name}!\")\n    else:\n        print(\"Hello World\")",
+      "language": "python"
+    },
+    {
+      "code": "from typing import Union\n\n\ndef say_hi(name: Union[str, None] = None):\n    if name is not None:\n        print(f\"Hey {name}!\")\n    else:\n        print(\"Hello World\")",
+      "language": "python"
+    },
+    {
+      "code": "from typing import Optional\n\n\ndef say_hi(name: Optional[str]):\n    print(f\"Hey {name}!\")",
+      "language": "python"
+    },
+    {
+      "code": "def say_hi(name: str | None):\n    print(f\"Hey {name}!\")",
+      "language": "python"
+    },
+    {
+      "code": "say_hi()  # Oh, no, this throws an error! 😱",
+      "language": "unknown"
+    },
+    {
+      "code": "say_hi(name=None)  # This works, None is valid 🎉",
+      "language": "rust"
+    },
+    {
+      "code": "def say_hi(name: str | None):\n    print(f\"Hey {name}!\")",
+      "language": "python"
+    },
+    {
+      "code": "from typing import Optional\n\n\ndef say_hi(name: Optional[str]):\n    print(f\"Hey {name}!\")",
+      "language": "python"
+    },
+    {
+      "code": "class Person:\n    def __init__(self, name: str):\n        self.name = name\n\n\ndef get_person_name(one_person: Person):\n    return one_person.name",
+      "language": "python"
+    },
+    {
+      "code": "class Person:\n    def __init__(self, name: str):\n        self.name = name\n\n\ndef get_person_name(one_person: Person):\n    return one_person.name",
+      "language": "python"
+    },
+    {
+      "code": "from datetime import datetime\n\nfrom pydantic import BaseModel\n\n\nclass User(BaseModel):\n    id: int\n    name: str = \"John Doe\"\n    signup_ts: datetime | None = None\n    friends: list[int] = []\n\n\nexternal_data = {\n    \"id\": \"123\",\n    \"signup_ts\": \"2017-06-01 12:22\",\n    \"friends\": [1, \"2\", b\"3\"],\n}\nuser = User(**external_data)\nprint(user)\n# > User id=123 name='John Doe' signup_ts=datetime.datetime(2017, 6, 1, 12, 22) friends=[1, 2, 3]\nprint(user.id)\n# > 123",
+      "language": "python"
+    },
+    {
+      "code": "from datetime import datetime\nfrom typing import Union\n\nfrom pydantic import BaseModel\n\n\nclass User(BaseModel):\n    id: int\n    name: str = \"John Doe\"\n    signup_ts: Union[datetime, None] = None\n    friends: list[int] = []\n\n\nexternal_data = {\n    \"id\": \"123\",\n    \"signup_ts\": \"2017-06-01 12:22\",\n    \"friends\": [1, \"2\", b\"3\"],\n}\nuser = User(**external_data)\nprint(user)\n# > User id=123 name='John Doe' signup_ts=datetime.datetime(2017, 6, 1, 12, 22) friends=[1, 2, 3]\nprint(user.id)\n# > 123",
+      "language": "python"
+    },
+    {
+      "code": "from typing import Annotated\n\n\ndef say_hello(name: Annotated[str, \"this is just metadata\"]) -> str:\n    return f\"Hello {name}\"",
+      "language": "python"
+    }
+  ],
+  "patterns": [
+    {
+      "description": "Let's start with a simple example:",
+      "code": "def get_full_name(first_name, last_name):\n    full_name = first_name.title() + \" \" + last_name.title()\n    return full_name\n\n\nprint(get_full_name(\"john\", \"doe\"))"
+    },
+    {
+      "description": "You can use, for example:",
+      "code": "int"
+    },
+    {
+      "description": "These types that take type parameters in square brackets are called Generic types or Generics, for example:",
+      "code": "list"
+    }
+  ],
+  "links": [
+    "https://fastapi.tiangolo.com/python-types/",
+    "https://fastapi.tiangolo.com/python-types/?q=",
+    "https://fastapi.tiangolo.com/features/",
+    "https://fastapi.tiangolo.com/reference/",
+    "https://fastapi.tiangolo.com/async/",
+    "https://fastapi.tiangolo.com/environment-variables/",
+    "https://fastapi.tiangolo.com/virtual-environments/",
+    "https://fastapi.tiangolo.com/tutorial/",
+    "https://fastapi.tiangolo.com/tutorial/first-steps/",
+    "https://fastapi.tiangolo.com/tutorial/path-params/",
+    "https://fastapi.tiangolo.com/tutorial/query-params/",
+    "https://fastapi.tiangolo.com/tutorial/body/",
+    "https://fastapi.tiangolo.com/tutorial/query-params-str-validations/",
+    "https://fastapi.tiangolo.com/tutorial/path-params-numeric-validations/",
+    "https://fastapi.tiangolo.com/tutorial/query-param-models/",
+    "https://fastapi.tiangolo.com/tutorial/body-multiple-params/",
+    "https://fastapi.tiangolo.com/tutorial/body-fields/",
+    "https://fastapi.tiangolo.com/tutorial/body-nested-models/",
+    "https://fastapi.tiangolo.com/tutorial/schema-extra-example/",
+    "https://fastapi.tiangolo.com/tutorial/extra-data-types/",
+    "https://fastapi.tiangolo.com/tutorial/cookie-params/",
+    "https://fastapi.tiangolo.com/tutorial/header-params/",
+    "https://fastapi.tiangolo.com/tutorial/cookie-param-models/",
+    "https://fastapi.tiangolo.com/tutorial/header-param-models/",
+    "https://fastapi.tiangolo.com/tutorial/response-model/",
+    "https://fastapi.tiangolo.com/tutorial/extra-models/",
+    "https://fastapi.tiangolo.com/tutorial/response-status-code/",
+    "https://fastapi.tiangolo.com/tutorial/request-forms/",
+    "https://fastapi.tiangolo.com/tutorial/request-form-models/",
+    "https://fastapi.tiangolo.com/tutorial/request-files/",
+    "https://fastapi.tiangolo.com/tutorial/request-forms-and-files/",
+    "https://fastapi.tiangolo.com/tutorial/handling-errors/",
+    "https://fastapi.tiangolo.com/tutorial/path-operation-configuration/",
+    "https://fastapi.tiangolo.com/tutorial/encoder/",
+    "https://fastapi.tiangolo.com/tutorial/body-updates/",
+    "https://fastapi.tiangolo.com/tutorial/dependencies/",
+    "https://fastapi.tiangolo.com/tutorial/dependencies/classes-as-dependencies/",
+    "https://fastapi.tiangolo.com/tutorial/dependencies/sub-dependencies/",
+    "https://fastapi.tiangolo.com/tutorial/dependencies/dependencies-in-path-operation-decorators/",
+    "https://fastapi.tiangolo.com/tutorial/dependencies/global-dependencies/",
+    "https://fastapi.tiangolo.com/tutorial/dependencies/dependencies-with-yield/",
+    "https://fastapi.tiangolo.com/tutorial/security/",
+    "https://fastapi.tiangolo.com/tutorial/security/first-steps/",
+    "https://fastapi.tiangolo.com/tutorial/security/get-current-user/",
+    "https://fastapi.tiangolo.com/tutorial/security/simple-oauth2/",
+    "https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/",
+    "https://fastapi.tiangolo.com/tutorial/middleware/",
+    "https://fastapi.tiangolo.com/tutorial/cors/",
+    "https://fastapi.tiangolo.com/tutorial/sql-databases/",
+    "https://fastapi.tiangolo.com/tutorial/bigger-applications/",
+    "https://fastapi.tiangolo.com/tutorial/background-tasks/",
+    "https://fastapi.tiangolo.com/tutorial/metadata/",
+    "https://fastapi.tiangolo.com/tutorial/static-files/",
+    "https://fastapi.tiangolo.com/tutorial/testing/",
+    "https://fastapi.tiangolo.com/tutorial/debugging/",
+    "https://fastapi.tiangolo.com/advanced/",
+    "https://fastapi.tiangolo.com/advanced/path-operation-advanced-configuration/",
+    "https://fastapi.tiangolo.com/advanced/additional-status-codes/",
+    "https://fastapi.tiangolo.com/advanced/response-directly/",
+    "https://fastapi.tiangolo.com/advanced/custom-response/",
+    "https://fastapi.tiangolo.com/advanced/additional-responses/",
+    "https://fastapi.tiangolo.com/advanced/response-cookies/",
+    "https://fastapi.tiangolo.com/advanced/response-headers/",
+    "https://fastapi.tiangolo.com/advanced/response-change-status-code/",
+    "https://fastapi.tiangolo.com/advanced/advanced-dependencies/",
+    "https://fastapi.tiangolo.com/advanced/security/",
+    "https://fastapi.tiangolo.com/advanced/security/oauth2-scopes/",
+    "https://fastapi.tiangolo.com/advanced/security/http-basic-auth/",
+    "https://fastapi.tiangolo.com/advanced/using-request-directly/",
+    "https://fastapi.tiangolo.com/advanced/dataclasses/",
+    "https://fastapi.tiangolo.com/advanced/middleware/",
+    "https://fastapi.tiangolo.com/advanced/sub-applications/",
+    "https://fastapi.tiangolo.com/advanced/behind-a-proxy/",
+    "https://fastapi.tiangolo.com/advanced/templates/",
+    "https://fastapi.tiangolo.com/advanced/websockets/",
+    "https://fastapi.tiangolo.com/advanced/events/",
+    "https://fastapi.tiangolo.com/advanced/testing-websockets/",
+    "https://fastapi.tiangolo.com/advanced/testing-events/",
+    "https://fastapi.tiangolo.com/advanced/testing-dependencies/",
+    "https://fastapi.tiangolo.com/advanced/async-tests/",
+    "https://fastapi.tiangolo.com/advanced/settings/",
+    "https://fastapi.tiangolo.com/advanced/openapi-callbacks/",
+    "https://fastapi.tiangolo.com/advanced/openapi-webhooks/",
+    "https://fastapi.tiangolo.com/advanced/wsgi/",
+    "https://fastapi.tiangolo.com/advanced/generate-clients/",
+    "https://fastapi.tiangolo.com/fastapi-cli/",
+    "https://fastapi.tiangolo.com/deployment/",
+    "https://fastapi.tiangolo.com/deployment/versions/",
+    "https://fastapi.tiangolo.com/deployment/fastapicloud/",
+    "https://fastapi.tiangolo.com/deployment/https/",
+    "https://fastapi.tiangolo.com/deployment/manually/",
+    "https://fastapi.tiangolo.com/deployment/concepts/",
+    "https://fastapi.tiangolo.com/deployment/cloud/",
+    "https://fastapi.tiangolo.com/deployment/server-workers/",
+    "https://fastapi.tiangolo.com/deployment/docker/",
+    "https://fastapi.tiangolo.com/how-to/",
+    "https://fastapi.tiangolo.com/how-to/general/",
+    "https://fastapi.tiangolo.com/how-to/migrate-from-pydantic-v1-to-pydantic-v2/",
+    "https://fastapi.tiangolo.com/how-to/graphql/",
+    "https://fastapi.tiangolo.com/how-to/custom-request-and-route/",
+    "https://fastapi.tiangolo.com/how-to/conditional-openapi/",
+    "https://fastapi.tiangolo.com/how-to/extending-openapi/",
+    "https://fastapi.tiangolo.com/how-to/separate-openapi-schemas/",
+    "https://fastapi.tiangolo.com/how-to/custom-docs-ui-assets/",
+    "https://fastapi.tiangolo.com/how-to/configure-swagger-ui/",
+    "https://fastapi.tiangolo.com/how-to/testing-database/",
+    "https://fastapi.tiangolo.com/how-to/authentication-error-status-code/",
+    "https://fastapi.tiangolo.com/reference/fastapi/",
+    "https://fastapi.tiangolo.com/reference/parameters/",
+    "https://fastapi.tiangolo.com/reference/status/",
+    "https://fastapi.tiangolo.com/reference/uploadfile/",
+    "https://fastapi.tiangolo.com/reference/exceptions/",
+    "https://fastapi.tiangolo.com/reference/dependencies/",
+    "https://fastapi.tiangolo.com/reference/apirouter/",
+    "https://fastapi.tiangolo.com/reference/background/",
+    "https://fastapi.tiangolo.com/reference/request/",
+    "https://fastapi.tiangolo.com/reference/websockets/",
+    "https://fastapi.tiangolo.com/reference/httpconnection/",
+    "https://fastapi.tiangolo.com/reference/response/",
+    "https://fastapi.tiangolo.com/reference/responses/",
+    "https://fastapi.tiangolo.com/reference/middleware/",
+    "https://fastapi.tiangolo.com/reference/openapi/",
+    "https://fastapi.tiangolo.com/reference/openapi/docs/",
+    "https://fastapi.tiangolo.com/reference/openapi/models/",
+    "https://fastapi.tiangolo.com/reference/security/",
+    "https://fastapi.tiangolo.com/reference/encoders/",
+    "https://fastapi.tiangolo.com/reference/staticfiles/",
+    "https://fastapi.tiangolo.com/reference/templating/",
+    "https://fastapi.tiangolo.com/reference/testclient/"
+  ]
+}

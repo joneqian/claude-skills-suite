@@ -1,0 +1,297 @@
+{
+  "url": "https://fastapi.tiangolo.com/virtual-environments/",
+  "title": "Virtual Environments¶",
+  "content": "When you work in Python projects you probably should use a virtual environment (or a similar mechanism) to isolate the packages you install for each project.\n\nIf you already know about virtual environments, how to create them and use them, you might want to skip this section. 🤓\n\nA virtual environment is different than an environment variable.\n\nAn environment variable is a variable in the system that can be used by programs.\n\nA virtual environment is a directory with some files in it.\n\nThis page will teach you how to use virtual environments and how they work.\n\nIf you are ready to adopt a tool that manages everything for you (including installing Python), try uv.\n\nFirst, create a directory for your project.\n\nWhat I normally do is that I create a directory named code inside my home/user directory.\n\nAnd inside of that I create one directory per project.\n\nWhen you start working on a Python project for the first time, create a virtual environment inside your project.\n\nYou only need to do this once per project, not every time you work.\n\nTo create a virtual environment, you can use the venv module that comes with Python.\n\nIf you have uv installed, you can use it to create a virtual environment.\n\nBy default, uv will create a virtual environment in a directory called .venv.\n\nBut you could customize it passing an additional argument with the directory name.\n\nThat command creates a new virtual environment in a directory called .venv.\n\nYou could create the virtual environment in a different directory, but there's a convention of calling it .venv.\n\nActivate the new virtual environment so that any Python command you run or package you install uses it.\n\nDo this every time you start a new terminal session to work on the project.\n\nOr if you use Bash for Windows (e.g. Git Bash):\n\nEvery time you install a new package in that environment, activate the environment again.\n\nThis makes sure that if you use a terminal (CLI) program installed by that package, you use the one from your virtual environment and not any other that could be installed globally, probably with a different version than what you need.\n\nCheck that the virtual environment is active (the previous command worked).\n\nThis is optional, but it's a good way to check that everything is working as expected and you are using the virtual environment you intended.\n\nIf it shows the python binary at .venv/bin/python, inside of your project (in this case awesome-project), then it worked. 🎉\n\nIf it shows the python binary at .venv\\Scripts\\python, inside of your project (in this case awesome-project), then it worked. 🎉\n\nIf you use uv you would use it to install things instead of pip, so you don't need to upgrade pip. 😎\n\nIf you are using pip to install packages (it comes by default with Python), you should upgrade it to the latest version.\n\nMany exotic errors while installing a package are solved by just upgrading pip first.\n\nYou would normally do this once, right after you create the virtual environment.\n\nMake sure the virtual environment is active (with the command above) and then run:\n\nSometimes, you might get a No module named pip error when trying to upgrade pip.\n\nIf this happens, install and upgrade pip using the command below:\n\nThis command will install pip if it is not already installed and also ensures that the installed version of pip is at least as recent as the one available in ensurepip.\n\nIf you are using Git (you should), add a .gitignore file to exclude everything in your .venv from Git.\n\nIf you used uv to create the virtual environment, it already did this for you, you can skip this step. 😎\n\nDo this once, right after you create the virtual environment.\n\nAnd * for Git means \"everything\". So, it will ignore everything in the .venv directory.\n\nThat command will create a file .gitignore with the content:\n\nAfter activating the environment, you can install packages in it.\n\nDo this once when installing or upgrading the packages your project needs.\n\nIf you need to upgrade a version or add a new package you would do this again.\n\nIf you're in a hurry and don't want to use a file to declare your project's package requirements, you can install them directly.\n\nIt's a (very) good idea to put the packages and versions your program needs in a file (for example requirements.txt or pyproject.toml).\n\nIf you have a requirements.txt, you can now use it to install its packages.\n\nA requirements.txt with some packages could look like:\n\nAfter you activated the virtual environment, you can run your program, and it will use the Python inside of your virtual environment with the packages you installed there.\n\nYou would probably use an editor, make sure you configure it to use the same virtual environment you created (it will probably autodetect it) so that you can get autocompletion and inline errors.\n\nYou normally have to do this only once, when you create the virtual environment.\n\nOnce you are done working on your project you can deactivate the virtual environment.\n\nThis way, when you run python it won't try to run it from that virtual environment with the packages installed there.\n\nNow you're ready to start working on your project.\n\nDo you want to understand what's all that above?\n\nTo work with FastAPI you need to install Python.\n\nAfter that, you would need to install FastAPI and any other packages you want to use.\n\nTo install packages you would normally use the pip command that comes with Python (or similar alternatives).\n\nNevertheless, if you just use pip directly, the packages would be installed in your global Python environment (the global installation of Python).\n\nSo, what's the problem with installing packages in the global Python environment?\n\nAt some point, you will probably end up writing many different programs that depend on different packages. And some of these projects you work on will depend on different versions of the same package. 😱\n\nFor example, you could create a project called philosophers-stone, this program depends on another package called harry, using the version 1. So, you need to install harry.\n\nThen, at some point later, you create another project called prisoner-of-azkaban, and this project also depends on harry, but this project needs harry version 3.\n\nBut now the problem is, if you install the packages globally (in the global environment) instead of in a local virtual environment, you will have to choose which version of harry to install.\n\nIf you want to run philosophers-stone you will need to first install harry version 1, for example with:\n\nAnd then you would end up with harry version 1 installed in your global Python environment.\n\nBut then if you want to run prisoner-of-azkaban, you will need to uninstall harry version 1 and install harry version 3 (or just installing version 3 would automatically uninstall version 1).\n\nAnd then you would end up with harry version 3 installed in your global Python environment.\n\nAnd if you try to run philosophers-stone again, there's a chance it would not work because it needs harry version 1.\n\nIt's very common in Python packages to try the best to avoid breaking changes in new versions, but it's better to be safe, and install newer versions intentionally and when you can run the tests to check everything is working correctly.\n\nNow, imagine that with many other packages that all your projects depend on. That's very difficult to manage. And you would probably end up running some projects with some incompatible versions of the packages, and not knowing why something isn't working.\n\nAlso, depending on your operating system (e.g. Linux, Windows, macOS), it could have come with Python already installed. And in that case it probably had some packages pre-installed with some specific versions needed by your system. If you install packages in the global Python environment, you could end up breaking some of the programs that came with your operating system.\n\nWhen you install Python, it creates some directories with some files in your computer.\n\nSome of these directories are the ones in charge of having all the packages you install.\n\nThat will download a compressed file with the FastAPI code, normally from PyPI.\n\nIt will also download files for other packages that FastAPI depends on.\n\nThen it will extract all those files and put them in a directory in your computer.\n\nBy default, it will put those files downloaded and extracted in the directory that comes with your Python installation, that's the global environment.\n\nThe solution to the problems of having all the packages in the global environment is to use a virtual environment for each project you work on.\n\nA virtual environment is a directory, very similar to the global one, where you can install the packages for a project.\n\nThis way, each project will have its own virtual environment (.venv directory) with its own packages.\n\nWhen you activate a virtual environment, for example with:\n\nOr if you use Bash for Windows (e.g. Git Bash):\n\nThat command will create or modify some environment variables that will be available for the next commands.\n\nOne of those variables is the PATH variable.\n\nYou can learn more about the PATH environment variable in the Environment Variables section.\n\nActivating a virtual environment adds its path .venv/bin (on Linux and macOS) or .venv\\Scripts (on Windows) to the PATH environment variable.\n\nLet's say that before activating the environment, the PATH variable looked like this:\n\nThat means that the system would look for programs in:\n\nThat means that the system would look for programs in:\n\nAfter activating the virtual environment, the PATH variable would look something like this:\n\nThat means that the system will now start looking first for programs in:\n\nbefore looking in the other directories.\n\nSo, when you type python in the terminal, the system will find the Python program in\n\nThat means that the system will now start looking first for programs in:\n\nbefore looking in the other directories.\n\nSo, when you type python in the terminal, the system will find the Python program in\n\nAn important detail is that it will put the virtual environment path at the beginning of the PATH variable. The system will find it before finding any other Python available. This way, when you run python, it will use the Python from the virtual environment instead of any other python (for example, a python from a global environment).\n\nActivating a virtual environment also changes a couple of other things, but this is one of the most important things it does.\n\nWhen you check if a virtual environment is active, for example with:\n\nThat means that the python program that will be used is the one in the virtual environment.\n\nYou use which in Linux and macOS and Get-Command in Windows PowerShell.\n\nThe way that command works is that it will go and check in the PATH environment variable, going through each path in order, looking for the program called python. Once it finds it, it will show you the path to that program.\n\nThe most important part is that when you call python, that is the exact \"python\" that will be executed.\n\nSo, you can confirm if you are in the correct virtual environment.\n\nIt's easy to activate one virtual environment, get one Python, and then go to another project.\n\nAnd the second project wouldn't work because you are using the incorrect Python, from a virtual environment for another project.\n\nIt's useful being able to check what python is being used. 🤓\n\nFor example, you could be working on a project philosophers-stone, activate that virtual environment, install packages and work with that environment.\n\nAnd then you want to work on another project prisoner-of-azkaban.\n\nYou go to that project:\n\nIf you don't deactivate the virtual environment for philosophers-stone, when you run python in the terminal, it will try to use the Python from philosophers-stone.\n\nBut if you deactivate the virtual environment and activate the new one for prisoner-of-askaban then when you run python it will use the Python from the virtual environment in prisoner-of-azkaban.\n\nThis is a simple guide to get you started and teach you how everything works underneath.\n\nThere are many alternatives to managing virtual environments, package dependencies (requirements), projects.\n\nOnce you are ready and want to use a tool to manage the entire project, packages dependencies, virtual environments, etc. I would suggest you try uv.\n\nuv can do a lot of things, it can:\n\nIf you read and understood all this, now you know much more about virtual environments than many developers out there. 🤓\n\nKnowing these details will most probably be useful in a future time when you are debugging something that seems complex, but you will know how it all works underneath. 😎",
+  "headings": [
+    {
+      "level": "h1",
+      "text": "Virtual Environments¶",
+      "id": "virtual-environments"
+    },
+    {
+      "level": "h2",
+      "text": "Create a Project¶",
+      "id": "create-a-project"
+    },
+    {
+      "level": "h2",
+      "text": "Create a Virtual Environment¶",
+      "id": "create-a-virtual-environment"
+    },
+    {
+      "level": "h2",
+      "text": "Activate the Virtual Environment¶",
+      "id": "activate-the-virtual-environment"
+    },
+    {
+      "level": "h2",
+      "text": "Check the Virtual Environment is Active¶",
+      "id": "check-the-virtual-environment-is-active"
+    },
+    {
+      "level": "h2",
+      "text": "Upgrade pip¶",
+      "id": "upgrade-pip"
+    },
+    {
+      "level": "h2",
+      "text": "Add .gitignore¶",
+      "id": "add-gitignore"
+    },
+    {
+      "level": "h2",
+      "text": "Install Packages¶",
+      "id": "install-packages"
+    },
+    {
+      "level": "h3",
+      "text": "Install Packages Directly¶",
+      "id": "install-packages-directly"
+    },
+    {
+      "level": "h3",
+      "text": "Install from requirements.txt¶",
+      "id": "install-from-requirements-txt"
+    },
+    {
+      "level": "h2",
+      "text": "Run Your Program¶",
+      "id": "run-your-program"
+    },
+    {
+      "level": "h2",
+      "text": "Configure Your Editor¶",
+      "id": "configure-your-editor"
+    },
+    {
+      "level": "h2",
+      "text": "Deactivate the Virtual Environment¶",
+      "id": "deactivate-the-virtual-environment"
+    },
+    {
+      "level": "h2",
+      "text": "Ready to Work¶",
+      "id": "ready-to-work"
+    },
+    {
+      "level": "h2",
+      "text": "Why Virtual Environments¶",
+      "id": "why-virtual-environments"
+    },
+    {
+      "level": "h3",
+      "text": "The Problem¶",
+      "id": "the-problem"
+    },
+    {
+      "level": "h2",
+      "text": "Where are Packages Installed¶",
+      "id": "where-are-packages-installed"
+    },
+    {
+      "level": "h2",
+      "text": "What are Virtual Environments¶",
+      "id": "what-are-virtual-environments"
+    },
+    {
+      "level": "h2",
+      "text": "What Does Activating a Virtual Environment Mean¶",
+      "id": "what-does-activating-a-virtual-environment-mean"
+    },
+    {
+      "level": "h2",
+      "text": "Checking a Virtual Environment¶",
+      "id": "checking-a-virtual-environment"
+    },
+    {
+      "level": "h2",
+      "text": "Why Deactivate a Virtual Environment¶",
+      "id": "why-deactivate-a-virtual-environment"
+    },
+    {
+      "level": "h2",
+      "text": "Alternatives¶",
+      "id": "alternatives"
+    },
+    {
+      "level": "h2",
+      "text": "Conclusion¶",
+      "id": "conclusion"
+    }
+  ],
+  "code_samples": [
+    {
+      "code": "fastapi[standard]==0.113.0\npydantic==2.8.0",
+      "language": "unknown"
+    },
+    {
+      "code": "/usr/bin:/bin:/usr/sbin:/sbin",
+      "language": "unknown"
+    },
+    {
+      "code": "C:\\Windows\\System32",
+      "language": "yaml"
+    },
+    {
+      "code": "/home/user/code/awesome-project/.venv/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+      "language": "unknown"
+    },
+    {
+      "code": "/home/user/code/awesome-project/.venv/bin",
+      "language": "unknown"
+    },
+    {
+      "code": "/home/user/code/awesome-project/.venv/bin/python",
+      "language": "unknown"
+    },
+    {
+      "code": "C:\\Users\\user\\code\\awesome-project\\.venv\\Scripts;C:\\Windows\\System32",
+      "language": "yaml"
+    },
+    {
+      "code": "C:\\Users\\user\\code\\awesome-project\\.venv\\Scripts",
+      "language": "yaml"
+    },
+    {
+      "code": "C:\\Users\\user\\code\\awesome-project\\.venv\\Scripts\\python",
+      "language": "yaml"
+    }
+  ],
+  "patterns": [
+    {
+      "description": "For example:",
+      "code": "fast →deactivaterestart ↻"
+    }
+  ],
+  "links": [
+    "https://fastapi.tiangolo.com/virtual-environments/",
+    "https://fastapi.tiangolo.com/virtual-environments/?q=",
+    "https://fastapi.tiangolo.com/features/",
+    "https://fastapi.tiangolo.com/reference/",
+    "https://fastapi.tiangolo.com/python-types/",
+    "https://fastapi.tiangolo.com/async/",
+    "https://fastapi.tiangolo.com/environment-variables/",
+    "https://fastapi.tiangolo.com/tutorial/",
+    "https://fastapi.tiangolo.com/tutorial/first-steps/",
+    "https://fastapi.tiangolo.com/tutorial/path-params/",
+    "https://fastapi.tiangolo.com/tutorial/query-params/",
+    "https://fastapi.tiangolo.com/tutorial/body/",
+    "https://fastapi.tiangolo.com/tutorial/query-params-str-validations/",
+    "https://fastapi.tiangolo.com/tutorial/path-params-numeric-validations/",
+    "https://fastapi.tiangolo.com/tutorial/query-param-models/",
+    "https://fastapi.tiangolo.com/tutorial/body-multiple-params/",
+    "https://fastapi.tiangolo.com/tutorial/body-fields/",
+    "https://fastapi.tiangolo.com/tutorial/body-nested-models/",
+    "https://fastapi.tiangolo.com/tutorial/schema-extra-example/",
+    "https://fastapi.tiangolo.com/tutorial/extra-data-types/",
+    "https://fastapi.tiangolo.com/tutorial/cookie-params/",
+    "https://fastapi.tiangolo.com/tutorial/header-params/",
+    "https://fastapi.tiangolo.com/tutorial/cookie-param-models/",
+    "https://fastapi.tiangolo.com/tutorial/header-param-models/",
+    "https://fastapi.tiangolo.com/tutorial/response-model/",
+    "https://fastapi.tiangolo.com/tutorial/extra-models/",
+    "https://fastapi.tiangolo.com/tutorial/response-status-code/",
+    "https://fastapi.tiangolo.com/tutorial/request-forms/",
+    "https://fastapi.tiangolo.com/tutorial/request-form-models/",
+    "https://fastapi.tiangolo.com/tutorial/request-files/",
+    "https://fastapi.tiangolo.com/tutorial/request-forms-and-files/",
+    "https://fastapi.tiangolo.com/tutorial/handling-errors/",
+    "https://fastapi.tiangolo.com/tutorial/path-operation-configuration/",
+    "https://fastapi.tiangolo.com/tutorial/encoder/",
+    "https://fastapi.tiangolo.com/tutorial/body-updates/",
+    "https://fastapi.tiangolo.com/tutorial/dependencies/",
+    "https://fastapi.tiangolo.com/tutorial/dependencies/classes-as-dependencies/",
+    "https://fastapi.tiangolo.com/tutorial/dependencies/sub-dependencies/",
+    "https://fastapi.tiangolo.com/tutorial/dependencies/dependencies-in-path-operation-decorators/",
+    "https://fastapi.tiangolo.com/tutorial/dependencies/global-dependencies/",
+    "https://fastapi.tiangolo.com/tutorial/dependencies/dependencies-with-yield/",
+    "https://fastapi.tiangolo.com/tutorial/security/",
+    "https://fastapi.tiangolo.com/tutorial/security/first-steps/",
+    "https://fastapi.tiangolo.com/tutorial/security/get-current-user/",
+    "https://fastapi.tiangolo.com/tutorial/security/simple-oauth2/",
+    "https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/",
+    "https://fastapi.tiangolo.com/tutorial/middleware/",
+    "https://fastapi.tiangolo.com/tutorial/cors/",
+    "https://fastapi.tiangolo.com/tutorial/sql-databases/",
+    "https://fastapi.tiangolo.com/tutorial/bigger-applications/",
+    "https://fastapi.tiangolo.com/tutorial/background-tasks/",
+    "https://fastapi.tiangolo.com/tutorial/metadata/",
+    "https://fastapi.tiangolo.com/tutorial/static-files/",
+    "https://fastapi.tiangolo.com/tutorial/testing/",
+    "https://fastapi.tiangolo.com/tutorial/debugging/",
+    "https://fastapi.tiangolo.com/advanced/",
+    "https://fastapi.tiangolo.com/advanced/path-operation-advanced-configuration/",
+    "https://fastapi.tiangolo.com/advanced/additional-status-codes/",
+    "https://fastapi.tiangolo.com/advanced/response-directly/",
+    "https://fastapi.tiangolo.com/advanced/custom-response/",
+    "https://fastapi.tiangolo.com/advanced/additional-responses/",
+    "https://fastapi.tiangolo.com/advanced/response-cookies/",
+    "https://fastapi.tiangolo.com/advanced/response-headers/",
+    "https://fastapi.tiangolo.com/advanced/response-change-status-code/",
+    "https://fastapi.tiangolo.com/advanced/advanced-dependencies/",
+    "https://fastapi.tiangolo.com/advanced/security/",
+    "https://fastapi.tiangolo.com/advanced/security/oauth2-scopes/",
+    "https://fastapi.tiangolo.com/advanced/security/http-basic-auth/",
+    "https://fastapi.tiangolo.com/advanced/using-request-directly/",
+    "https://fastapi.tiangolo.com/advanced/dataclasses/",
+    "https://fastapi.tiangolo.com/advanced/middleware/",
+    "https://fastapi.tiangolo.com/advanced/sub-applications/",
+    "https://fastapi.tiangolo.com/advanced/behind-a-proxy/",
+    "https://fastapi.tiangolo.com/advanced/templates/",
+    "https://fastapi.tiangolo.com/advanced/websockets/",
+    "https://fastapi.tiangolo.com/advanced/events/",
+    "https://fastapi.tiangolo.com/advanced/testing-websockets/",
+    "https://fastapi.tiangolo.com/advanced/testing-events/",
+    "https://fastapi.tiangolo.com/advanced/testing-dependencies/",
+    "https://fastapi.tiangolo.com/advanced/async-tests/",
+    "https://fastapi.tiangolo.com/advanced/settings/",
+    "https://fastapi.tiangolo.com/advanced/openapi-callbacks/",
+    "https://fastapi.tiangolo.com/advanced/openapi-webhooks/",
+    "https://fastapi.tiangolo.com/advanced/wsgi/",
+    "https://fastapi.tiangolo.com/advanced/generate-clients/",
+    "https://fastapi.tiangolo.com/fastapi-cli/",
+    "https://fastapi.tiangolo.com/deployment/",
+    "https://fastapi.tiangolo.com/deployment/versions/",
+    "https://fastapi.tiangolo.com/deployment/fastapicloud/",
+    "https://fastapi.tiangolo.com/deployment/https/",
+    "https://fastapi.tiangolo.com/deployment/manually/",
+    "https://fastapi.tiangolo.com/deployment/concepts/",
+    "https://fastapi.tiangolo.com/deployment/cloud/",
+    "https://fastapi.tiangolo.com/deployment/server-workers/",
+    "https://fastapi.tiangolo.com/deployment/docker/",
+    "https://fastapi.tiangolo.com/how-to/",
+    "https://fastapi.tiangolo.com/how-to/general/",
+    "https://fastapi.tiangolo.com/how-to/migrate-from-pydantic-v1-to-pydantic-v2/",
+    "https://fastapi.tiangolo.com/how-to/graphql/",
+    "https://fastapi.tiangolo.com/how-to/custom-request-and-route/",
+    "https://fastapi.tiangolo.com/how-to/conditional-openapi/",
+    "https://fastapi.tiangolo.com/how-to/extending-openapi/",
+    "https://fastapi.tiangolo.com/how-to/separate-openapi-schemas/",
+    "https://fastapi.tiangolo.com/how-to/custom-docs-ui-assets/",
+    "https://fastapi.tiangolo.com/how-to/configure-swagger-ui/",
+    "https://fastapi.tiangolo.com/how-to/testing-database/",
+    "https://fastapi.tiangolo.com/how-to/authentication-error-status-code/",
+    "https://fastapi.tiangolo.com/reference/fastapi/",
+    "https://fastapi.tiangolo.com/reference/parameters/",
+    "https://fastapi.tiangolo.com/reference/status/",
+    "https://fastapi.tiangolo.com/reference/uploadfile/",
+    "https://fastapi.tiangolo.com/reference/exceptions/",
+    "https://fastapi.tiangolo.com/reference/dependencies/",
+    "https://fastapi.tiangolo.com/reference/apirouter/",
+    "https://fastapi.tiangolo.com/reference/background/",
+    "https://fastapi.tiangolo.com/reference/request/",
+    "https://fastapi.tiangolo.com/reference/websockets/",
+    "https://fastapi.tiangolo.com/reference/httpconnection/",
+    "https://fastapi.tiangolo.com/reference/response/",
+    "https://fastapi.tiangolo.com/reference/responses/",
+    "https://fastapi.tiangolo.com/reference/middleware/",
+    "https://fastapi.tiangolo.com/reference/openapi/",
+    "https://fastapi.tiangolo.com/reference/openapi/docs/",
+    "https://fastapi.tiangolo.com/reference/openapi/models/",
+    "https://fastapi.tiangolo.com/reference/security/",
+    "https://fastapi.tiangolo.com/reference/encoders/",
+    "https://fastapi.tiangolo.com/reference/staticfiles/",
+    "https://fastapi.tiangolo.com/reference/templating/",
+    "https://fastapi.tiangolo.com/reference/testclient/"
+  ]
+}
