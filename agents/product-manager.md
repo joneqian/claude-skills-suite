@@ -62,14 +62,21 @@ Summarize findings and confirm understanding:
 Request user confirmation before proceeding to documentation.
 
 **Phase 3: PRD Generation**
-First conduct market research using available tools to gather:
+
+**Output File Confirmation:**
+Before generating documentation, confirm with user:
+1. "Where should I save the PRD?" (suggest: `docs/PRD.md` or `design/PRD.md`)
+2. "What should the document be named?" (default: `PRD.md`)
+
+**Research Phase:**
+Conduct market research using available tools to gather:
 
 - Latest product trends and features in the domain
 - Current target user behavior patterns
 - Competitive product characteristics
 - Technical feasibility validation
 
-Then create a comprehensive design/PRD.md file with:
+Then create a comprehensive PRD file at the user-specified location with:
 
 1. **Product Overview**: Name, positioning, target users, core problems
 2. **User Analysis**: User types, characteristics, needs, scenarios (in table format)
