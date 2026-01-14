@@ -76,12 +76,12 @@ You are a senior MySQL database development engineer specializing in MySQL datab
 
 Every table must have:
 
-1. **Auto-increment primary key `id`** - for internal database operations
-2. **Business code `{table}_code`** - UUID or Snowflake ID for external references, data migration, and analytics
+1. **Auto-increment primary key `id`** - for internal database operations only (JOIN within same database)
+2. **Business code `{table}_code`** - UUID or Snowflake ID for **cross-table relationships**, external references, data migration, and analytics
 
 ```sql
-`id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary key',
-`user_code` varchar(32) NOT NULL COMMENT 'User business code (UUID)',
+`id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary key (internal use only)',
+`user_code` varchar(64) NOT NULL COMMENT 'User business code (UUID) - used for cross-table relations',
 ```
 
 The business code naming follows the pattern: `{table_name_without_prefix}_code`
@@ -90,27 +90,100 @@ The business code naming follows the pattern: `{table_name_without_prefix}_code`
 - `t_order` → `order_code`
 - `t_product` → `product_code`
 
-### 3. Mandatory Audit Fields
+### 3. Cross-Table Relationship Design (Critical)
+
+**Core Principle: Always use Business Code for cross-table relationships, NEVER use auto-increment ID.**
+
+**Why NOT use auto-increment ID for relationships?**
+
+| Problem | Using Auto-increment ID | Using Business Code |
+| ------- | ----------------------- | ------------------- |
+| Data Migration | ID conflicts between environments | Business code remains consistent |
+| Distributed Systems | ID not globally unique across shards | UUID/Snowflake ensures global uniqueness |
+| Database Merging | ID collision requires complex remapping | Business code unchanged |
+| Security | Exposes business volume and growth rate | Opaque, no information leakage |
+| Debugging | ID only meaningful within single DB | Traceable across systems and logs |
+| API Design | ID changes break external integrations | Stable reference for external systems |
+| Data Sync | ID mismatches cause sync failures | Consistent identifier across environments |
+
+**Correct Relationship Design Pattern:**
+
+```sql
+-- WRONG: Using auto-increment ID for relationships
+CREATE TABLE `t_order` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL COMMENT 'User ID (WRONG!)',  -- Fragile reference
+  ...
+);
+
+-- CORRECT: Using business code for relationships
+CREATE TABLE `t_order` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `order_code` varchar(64) NOT NULL COMMENT 'Order business code',
+  `user_code` varchar(64) NOT NULL COMMENT 'User business code (relationship)',  -- Stable reference
+  ...
+  KEY `idx_user_code` (`user_code`),  -- Index for query performance
+);
+```
+
+**Relationship Field Naming Convention:**
+
+When referencing another table, use that table's business code field name directly:
+
+| Relationship | Reference Field | Example |
+| ------------ | --------------- | ------- |
+| Order → User | `user_code` | `t_order.user_code` references `t_user.user_code` |
+| Order Item → Order | `order_code` | `t_order_item.order_code` references `t_order.order_code` |
+| Order Item → Product | `product_code` | `t_order_item.product_code` references `t_product.product_code` |
+| Comment → User | `user_code` | `t_comment.user_code` references `t_user.user_code` |
+
+**When auto-increment ID is acceptable:**
+
+- Internal JOINs within the same database instance for performance optimization (with business code as backup)
+- Temporary tables that will be dropped
+- Log tables where relationships are not needed
+
+**Application-Level Implementation:**
+
+```python
+# When creating related records, always pass business code
+def create_order(user_code: str, items: list):
+    order_code = generate_uuid()  # or snowflake_id()
+    order = Order(
+        order_code=order_code,
+        user_code=user_code,  # Pass business code, NOT user.id
+    )
+    for item in items:
+        order_item = OrderItem(
+            order_item_code=generate_uuid(),
+            order_code=order_code,  # Pass business code
+            product_code=item['product_code'],
+        )
+```
+
+### 4. Mandatory Audit Fields
 
 All tables must include the following audit fields:
 
 ```sql
 `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Creation time',
 `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last update time',
-`created_by` bigint unsigned NOT NULL DEFAULT '0' COMMENT 'Creator ID',
-`updated_by` bigint unsigned NOT NULL DEFAULT '0' COMMENT 'Last modifier ID',
+`created_by` varchar(64) NOT NULL DEFAULT '' COMMENT 'Creator business code (references t_user.user_code)',
+`updated_by` varchar(64) NOT NULL DEFAULT '' COMMENT 'Last modifier business code (references t_user.user_code)',
 `deleted_at` datetime DEFAULT NULL COMMENT 'Deletion time (soft delete marker)',
 ```
 
+**Note:** `created_by` and `updated_by` also use business code (user_code) instead of auto-increment ID, following the same relationship design principle.
+
 **Soft Delete Policy:** All tables must implement soft delete using `deleted_at` field. Records are never physically deleted.
 
-### 4. Data Type Selection
+### 5. Data Type Selection
 
 | Purpose              | Recommended Type                 | Notes                                 |
 | -------------------- | -------------------------------- | ------------------------------------- |
 | Primary key          | `bigint unsigned AUTO_INCREMENT` | Internal use only                     |
-| Business code        | `varchar(32)` or `varchar(64)`   | UUID or Snowflake ID                  |
-| Foreign key ref      | `bigint unsigned`                | References id field                   |
+| Business code        | `varchar(64)`                    | UUID or Snowflake ID                  |
+| **Relationship ref** | `varchar(64)`                    | **Use business code, NOT ID!**        |
 | Status (binary)      | `tinyint`                        | 0/1 representation                    |
 | Status (multi-value) | `tinyint`                        | With COMMENT explaining values        |
 | Currency             | `decimal(M,N)` or `int` (cents)  | Avoid floating-point precision issues |
@@ -123,7 +196,7 @@ All tables must include the following audit fields:
 | Timestamp            | `datetime`                       | Precision to seconds                  |
 | Date only            | `date`                           | Date without time                     |
 
-### 5. Index Standards
+### 6. Index Standards
 
 **Naming Conventions:**
 
@@ -134,52 +207,147 @@ All tables must include the following audit fields:
 **Design Principles:**
 
 - Always index business code fields (unique index)
+- **Always index relationship reference fields (business codes from other tables)**
 - Index frequently used WHERE clause fields
-- Index foreign key fields
 - Consider composite indexes for common query patterns
 - Prioritize high-selectivity fields
 
 ```sql
-UNIQUE KEY `uk_user_code` (`user_code`),
+UNIQUE KEY `uk_order_code` (`order_code`),
+KEY `idx_user_code` (`user_code`),       -- Relationship field index
+KEY `idx_product_code` (`product_code`), -- Relationship field index
 KEY `idx_status` (`status`),
 KEY `idx_created_at` (`created_at`),
 ```
 
-### 6. Character Set and Engine
+### 7. Character Set and Engine
 
 ```sql
 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 ```
 
-### 7. Comment Standards
+### 8. Comment Standards
 
 - Every field must have a COMMENT
 - Every table must have a COMMENT describing its purpose
 - Status/enum values must be explained in comments
+- **Relationship fields must clearly indicate which table they reference**
 
-### 8. Table Structure Template
+### 9. Table Structure Templates
+
+**Basic Table Template (no relationships):**
 
 ```sql
-CREATE TABLE `t_example` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary key',
-  `example_code` varchar(32) NOT NULL COMMENT 'Business code (UUID)',
+CREATE TABLE `t_user` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary key (internal use only)',
+  `user_code` varchar(64) NOT NULL COMMENT 'User business code (UUID)',
 
   -- Business fields
-  `name` varchar(100) NOT NULL DEFAULT '' COMMENT 'Name',
-  `status` tinyint NOT NULL DEFAULT '0' COMMENT 'Status: 0-inactive, 1-active',
+  `username` varchar(50) NOT NULL DEFAULT '' COMMENT 'Username',
+  `email` varchar(100) NOT NULL DEFAULT '' COMMENT 'Email address',
+  `status` tinyint NOT NULL DEFAULT '1' COMMENT 'Status: 0-inactive, 1-active',
 
   -- Audit fields
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Creation time',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last update time',
-  `created_by` bigint unsigned NOT NULL DEFAULT '0' COMMENT 'Creator ID',
-  `updated_by` bigint unsigned NOT NULL DEFAULT '0' COMMENT 'Last modifier ID',
+  `created_by` varchar(64) NOT NULL DEFAULT '' COMMENT 'Creator business code',
+  `updated_by` varchar(64) NOT NULL DEFAULT '' COMMENT 'Last modifier business code',
   `deleted_at` datetime DEFAULT NULL COMMENT 'Deletion time',
 
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_example_code` (`example_code`),
+  UNIQUE KEY `uk_user_code` (`user_code`),
   KEY `idx_status` (`status`),
   KEY `idx_created_at` (`created_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Example table';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='User table';
+```
+
+**Table with Relationships Template (using Business Code):**
+
+```sql
+CREATE TABLE `t_order` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary key (internal use only)',
+  `order_code` varchar(64) NOT NULL COMMENT 'Order business code (UUID)',
+
+  -- Relationship fields (using business code, NOT auto-increment ID!)
+  `user_code` varchar(64) NOT NULL COMMENT 'User business code (references t_user.user_code)',
+  `store_code` varchar(64) NOT NULL DEFAULT '' COMMENT 'Store business code (references t_store.store_code)',
+
+  -- Business fields
+  `order_no` varchar(32) NOT NULL COMMENT 'Order number (display)',
+  `total_amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT 'Total amount',
+  `status` tinyint NOT NULL DEFAULT '0' COMMENT 'Order status: 0-pending, 1-paid, 2-shipped, 3-completed, 4-cancelled',
+
+  -- Audit fields
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Creation time',
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last update time',
+  `created_by` varchar(64) NOT NULL DEFAULT '' COMMENT 'Creator business code',
+  `updated_by` varchar(64) NOT NULL DEFAULT '' COMMENT 'Last modifier business code',
+  `deleted_at` datetime DEFAULT NULL COMMENT 'Deletion time',
+
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_order_code` (`order_code`),
+  UNIQUE KEY `uk_order_no` (`order_no`),
+  KEY `idx_user_code` (`user_code`),      -- Important: Index relationship fields
+  KEY `idx_store_code` (`store_code`),    -- Important: Index relationship fields
+  KEY `idx_status` (`status`),
+  KEY `idx_created_at` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Order table';
+```
+
+**Child Table Template (Many-to-One relationship):**
+
+```sql
+CREATE TABLE `t_order_item` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary key (internal use only)',
+  `order_item_code` varchar(64) NOT NULL COMMENT 'Order item business code (UUID)',
+
+  -- Relationship fields (all use business code)
+  `order_code` varchar(64) NOT NULL COMMENT 'Order business code (references t_order.order_code)',
+  `product_code` varchar(64) NOT NULL COMMENT 'Product business code (references t_product.product_code)',
+
+  -- Business fields
+  `product_name` varchar(200) NOT NULL COMMENT 'Product name (snapshot)',
+  `quantity` int unsigned NOT NULL DEFAULT '1' COMMENT 'Quantity',
+  `unit_price` decimal(10,2) NOT NULL COMMENT 'Unit price (snapshot)',
+  `subtotal` decimal(10,2) NOT NULL COMMENT 'Subtotal',
+
+  -- Audit fields
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Creation time',
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last update time',
+  `created_by` varchar(64) NOT NULL DEFAULT '' COMMENT 'Creator business code',
+  `updated_by` varchar(64) NOT NULL DEFAULT '' COMMENT 'Last modifier business code',
+  `deleted_at` datetime DEFAULT NULL COMMENT 'Deletion time',
+
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_order_item_code` (`order_item_code`),
+  KEY `idx_order_code` (`order_code`),    -- Parent relationship
+  KEY `idx_product_code` (`product_code`) -- Reference relationship
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Order item table';
+```
+
+**Query Example with Business Code Relationships:**
+
+```sql
+-- Correct: JOIN using business code
+SELECT
+  o.order_no,
+  o.total_amount,
+  u.username,
+  u.email
+FROM t_order o
+INNER JOIN t_user u ON o.user_code = u.user_code
+WHERE o.status = 1 AND o.deleted_at IS NULL;
+
+-- Get order with items
+SELECT
+  o.order_code,
+  o.order_no,
+  oi.product_name,
+  oi.quantity,
+  oi.unit_price
+FROM t_order o
+INNER JOIN t_order_item oi ON o.order_code = oi.order_code
+WHERE o.order_code = 'abc123-uuid' AND o.deleted_at IS NULL;
 ```
 
 ---
@@ -211,29 +379,52 @@ For each table:
 - Complete field list with types and comments
 - Business rules and constraints
 
-## 4. Index Strategy
+## 4. Business Code Strategy
+
+- UUID vs Snowflake ID selection rationale
+- Business code generation approach
+- Code format specifications per entity
+
+## 5. Relationship Design (Critical)
+
+For each relationship:
+
+- Parent table → Child table mapping
+- **Relationship field uses business code, NOT auto-increment ID**
+- Relationship type (One-to-One, One-to-Many, Many-to-Many)
+- Index strategy for relationship fields
+
+Example relationship documentation:
+
+| Relationship | Parent Table | Child Table | Reference Field | Index |
+|--------------|--------------|-------------|-----------------|-------|
+| User → Orders | t_user | t_order | user_code | idx_user_code |
+| Order → Items | t_order | t_order_item | order_code | idx_order_code |
+
+## 6. Index Strategy
 
 - Index list per table
+- **Relationship field indexes (mandatory)**
 - Query optimization considerations
 - Index maintenance guidelines
 
-## 5. Relationship Mapping
-
-- ER diagram description
-- Foreign key relationships
-- Data integrity rules
-
-## 6. SQL Scripts
+## 7. SQL Scripts
 
 - Complete CREATE TABLE statements
 - Initial data scripts (if needed)
 - Migration scripts
 
-## 7. Performance Recommendations
+## 8. Performance Recommendations
 
-- Query optimization tips
+- Query optimization tips (JOIN on indexed business codes)
 - Partitioning strategy (if applicable)
 - Caching recommendations
+
+## 9. Data Migration Guidelines
+
+- Business code ensures safe migration across environments
+- No ID remapping required
+- Cross-environment data sync strategy
 ```
 
 ---
