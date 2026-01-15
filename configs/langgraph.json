@@ -1,0 +1,94 @@
+{
+  "name": "langgraph",
+  "description": "LangGraph Python framework for building stateful, multi-actor LLM applications. Use for agent workflows, persistence, durable execution, streaming, interrupts, time travel, memory, subgraphs, and production deployment.",
+  "base_url": "https://docs.langchain.com/",
+  "start_urls": [
+    "https://docs.langchain.com/oss/python/langgraph/overview",
+    "https://docs.langchain.com/oss/python/langgraph/install",
+    "https://docs.langchain.com/oss/python/langgraph/quickstart",
+    "https://docs.langchain.com/oss/python/langgraph/thinking-in-langgraph",
+    "https://docs.langchain.com/oss/python/langgraph/workflows-agents",
+    "https://docs.langchain.com/oss/python/langgraph/persistence",
+    "https://docs.langchain.com/oss/python/langgraph/durable-execution",
+    "https://docs.langchain.com/oss/python/langgraph/streaming",
+    "https://docs.langchain.com/oss/python/langgraph/interrupts",
+    "https://docs.langchain.com/oss/python/langgraph/use-time-travel",
+    "https://docs.langchain.com/oss/python/langgraph/add-memory",
+    "https://docs.langchain.com/oss/python/langgraph/use-subgraphs",
+    "https://docs.langchain.com/oss/python/langgraph/application-structure",
+    "https://docs.langchain.com/oss/python/langgraph/test",
+    "https://docs.langchain.com/oss/python/langgraph/studio",
+    "https://docs.langchain.com/oss/python/langgraph/ui",
+    "https://docs.langchain.com/oss/python/langgraph/deploy",
+    "https://docs.langchain.com/oss/python/langgraph/observability",
+    "https://docs.langchain.com/oss/python/langgraph/pregel",
+    "https://docs.langchain.com/oss/python/langgraph/local-server"
+  ],
+  "selectors": {
+    "main_content": "#content, .prose, [class*='content']",
+    "title": "h1",
+    "code_blocks": "pre code"
+  },
+  "url_patterns": {
+    "include": ["/oss/python/langgraph/"],
+    "exclude": [
+      "/oss/javascript/",
+      "/oss/python/langchain/",
+      "/oss/python/deep-agents/",
+      "/langsmith/",
+      "/changelog",
+      "/contribute",
+      "/reference",
+      "/api-reference"
+    ]
+  },
+  "categories": {
+    "getting_started": [
+      "overview",
+      "install",
+      "quickstart",
+      "thinking-in-langgraph",
+      "workflows-agents"
+    ],
+    "capabilities": [
+      "persistence",
+      "durable-execution",
+      "streaming",
+      "interrupts",
+      "time-travel",
+      "memory",
+      "subgraph"
+    ],
+    "production": [
+      "application-structure",
+      "test",
+      "studio",
+      "ui",
+      "deploy",
+      "observability"
+    ],
+    "apis": [
+      "graph-api",
+      "functional-api",
+      "pregel",
+      "runtime"
+    ],
+    "advanced": [
+      "local-server",
+      "checkpoint",
+      "state",
+      "node",
+      "edge"
+    ]
+  },
+  "rate_limit": 10,
+  "max_pages": 100,
+  "use_playwright": true,
+  "skip_llms_txt": true,
+  "playwright_config": {
+    "wait_until": "domcontentloaded",
+    "timeout": 120000,
+    "extra_wait": 3000,
+    "max_retries": 5
+  }
+}

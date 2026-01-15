@@ -1,0 +1,93 @@
+{
+  "name": "langchain",
+  "description": "LangChain Python framework for building LLM applications. Use for chains, agents, memory, document loaders, text splitters, vector stores, retrievers, and LLM integrations like OpenAI, Anthropic, and Google.",
+  "base_url": "https://docs.langchain.com/",
+  "start_urls": [
+    "https://docs.langchain.com/oss/python/langchain/overview",
+    "https://docs.langchain.com/oss/python/langchain/install",
+    "https://docs.langchain.com/oss/python/langchain/quickstart",
+    "https://docs.langchain.com/oss/python/langchain/philosophy",
+    "https://docs.langchain.com/oss/python/langchain/agents",
+    "https://docs.langchain.com/oss/python/langchain/models",
+    "https://docs.langchain.com/oss/python/langchain/messages",
+    "https://docs.langchain.com/oss/python/langchain/tools",
+    "https://docs.langchain.com/oss/python/langchain/short-term-memory",
+    "https://docs.langchain.com/oss/python/langchain/streaming/overview",
+    "https://docs.langchain.com/oss/python/langchain/structured-output",
+    "https://docs.langchain.com/oss/python/langchain/middleware/overview",
+    "https://docs.langchain.com/oss/python/langchain/middleware/built-in",
+    "https://docs.langchain.com/oss/python/langchain/middleware/custom",
+    "https://docs.langchain.com/oss/python/langchain/guardrails",
+    "https://docs.langchain.com/oss/python/langchain/runtime",
+    "https://docs.langchain.com/oss/python/langchain/context-engineering",
+    "https://docs.langchain.com/oss/python/langchain/mcp",
+    "https://docs.langchain.com/oss/python/langchain/human-in-the-loop",
+    "https://docs.langchain.com/oss/python/langchain/multi-agent/index",
+    "https://docs.langchain.com/oss/python/langchain/retrieval",
+    "https://docs.langchain.com/oss/python/langchain/long-term-memory",
+    "https://docs.langchain.com/oss/python/integrations/providers/overview",
+    "https://docs.langchain.com/oss/python/integrations/providers/openai",
+    "https://docs.langchain.com/oss/python/integrations/providers/anthropic",
+    "https://docs.langchain.com/oss/python/integrations/providers/google",
+    "https://docs.langchain.com/oss/python/integrations/chat/index",
+    "https://docs.langchain.com/oss/python/integrations/tools/index",
+    "https://docs.langchain.com/oss/python/integrations/vectorstores/index"
+  ],
+  "selectors": {
+    "main_content": "#content, .prose, [class*='content']",
+    "title": "h1",
+    "code_blocks": "pre code"
+  },
+  "url_patterns": {
+    "include": ["/oss/python/langchain/", "/oss/python/integrations/"],
+    "exclude": [
+      "/oss/javascript/",
+      "/oss/python/langgraph/",
+      "/oss/python/deep-agents/",
+      "/langsmith/",
+      "/changelog",
+      "/contribute",
+      "/reference"
+    ]
+  },
+  "categories": {
+    "getting_started": [
+      "overview",
+      "install",
+      "quickstart",
+      "concepts",
+      "philosophy"
+    ],
+    "chains": ["chain", "lcel", "runnable", "sequence"],
+    "agents": ["agent", "tool", "toolkit", "react"],
+    "memory": ["memory", "history", "buffer", "conversation"],
+    "retrieval": [
+      "retriever",
+      "vectorstore",
+      "embedding",
+      "document",
+      "loader",
+      "splitter"
+    ],
+    "llm": ["llm", "chat", "model", "prompt", "template"],
+    "integrations": [
+      "openai",
+      "anthropic",
+      "google",
+      "azure",
+      "bedrock",
+      "ollama"
+    ],
+    "advanced": ["callbacks", "streaming", "caching", "tracing"]
+  },
+  "rate_limit": 10,
+  "max_pages": 300,
+  "use_playwright": true,
+  "skip_llms_txt": true,
+  "playwright_config": {
+    "wait_until": "domcontentloaded",
+    "timeout": 120000,
+    "extra_wait": 3000,
+    "max_retries": 5
+  }
+}
