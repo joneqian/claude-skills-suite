@@ -515,7 +515,7 @@ your-project/
 ---
 name: skill-name
 description: 技能的简短描述，说明何时使用此技能
-allowed-tools: Read, Write, Bash, AskUserQuestion
+tools: Read, Write, Bash, AskUserQuestion
 ---
 
 # 技能名称
@@ -527,7 +527,7 @@ allowed-tools: Read, Write, Bash, AskUserQuestion
 
 - `name`: 技能的唯一标识符
 - `description`: 简短描述，帮助 Claude 决定何时使用此技能
-- `allowed-tools`: 该技能可以使用的 Claude Code 工具列表
+- `tools`: 该技能可以使用的 Claude Code 工具列表
 
 ### 使用技能
 
@@ -652,7 +652,7 @@ my-custom-skill/
 ---
 name: my-custom-skill
 description: 简短描述技能的功能和使用场景。当用户请求 X 功能时使用此技能。
-allowed-tools: Read, Write, Bash, Glob, Grep, AskUserQuestion
+tools: Read, Write, Bash, Glob, Grep, AskUserQuestion
 ---
 
 # My Custom Skill

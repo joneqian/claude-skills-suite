@@ -125,7 +125,7 @@ python -m skill_seekers.mcp.server_fastmcp --http   # HTTP mode
 
 Each skill follows the Claude Code skill structure:
 
-- `SKILL.md` - Required: YAML frontmatter (name, description, allowed-tools) + documentation
+- `SKILL.md` - Required: YAML frontmatter (name, description, tools) + documentation
 - Supporting scripts and dependencies
 
 ## Configuration Format
