@@ -1,0 +1,70 @@
+{
+  "name": "deepagents",
+  "description": "LangChain Deep Agents framework for building autonomous coding agents. Use for agent harness, backends, subagents, human-in-the-loop, long-term memory, middleware, and CLI-based agent development.",
+  "base_url": "https://docs.langchain.com/",
+  "start_urls": [
+    "https://docs.langchain.com/oss/python/deepagents/overview",
+    "https://docs.langchain.com/oss/python/deepagents/quickstart",
+    "https://docs.langchain.com/oss/python/deepagents/customization",
+    "https://docs.langchain.com/oss/python/deepagents/harness",
+    "https://docs.langchain.com/oss/python/deepagents/backends",
+    "https://docs.langchain.com/oss/python/deepagents/subagents",
+    "https://docs.langchain.com/oss/python/deepagents/human-in-the-loop",
+    "https://docs.langchain.com/oss/python/deepagents/long-term-memory",
+    "https://docs.langchain.com/oss/python/deepagents/middleware",
+    "https://docs.langchain.com/oss/python/deepagents/cli"
+  ],
+  "selectors": {
+    "main_content": "#content, .prose, [class*='content']",
+    "title": "h1",
+    "code_blocks": "pre code"
+  },
+  "url_patterns": {
+    "include": ["/oss/python/deepagents/"],
+    "exclude": [
+      "/oss/javascript/",
+      "/oss/python/langchain/",
+      "/oss/python/langgraph/",
+      "/langsmith/",
+      "/changelog",
+      "/contribute",
+      "/reference",
+      "/api-reference"
+    ]
+  },
+  "categories": {
+    "getting_started": [
+      "overview",
+      "quickstart",
+      "customization"
+    ],
+    "core": [
+      "harness",
+      "backends",
+      "subagents"
+    ],
+    "capabilities": [
+      "human-in-the-loop",
+      "long-term-memory",
+      "middleware"
+    ],
+    "tools": [
+      "cli",
+      "write_todos",
+      "read_file",
+      "write_file",
+      "edit_file",
+      "task"
+    ]
+  },
+  "rate_limit": 10,
+  "max_pages": 50,
+  "use_playwright": true,
+  "skip_llms_txt": true,
+  "playwright_config": {
+    "wait_until": "domcontentloaded",
+    "timeout": 120000,
+    "extra_wait": 3000,
+    "max_retries": 5
+  }
+}
