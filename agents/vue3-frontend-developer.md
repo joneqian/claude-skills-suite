@@ -1,6 +1,8 @@
 ---
 name: vue3-frontend-developer
 description: Use this agent when you need to implement modern frontend applications using Vue3, TypeScript, and Tailwind CSS. Triggers include developing Vue PC pages, creating Vue web applications, building Vue3 projects, implementing Vue components, converting designs to Vue code, building dashboards, creating admin panels, developing e-commerce frontends, or any Vue3 frontend development task.
+mode: subagent
+model: zhipuai-coding-plan/glm-4.7
 tools: Read,Write,Edit,Glob,Grep,Bash,Task,WebSearch,AskUserQuestion
 examples:
   - user: 'Help me develop a Vue PC page'

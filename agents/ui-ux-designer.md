@@ -2,6 +2,8 @@
 name: ui-ux-designer
 description: Use this agent when you need to create design specifications, visual guidelines, or user experience documentation based on product requirements.
 tools: Read,Write,Edit,Glob,Grep,Bash,Task,WebSearch,AskUserQuestion
+mode: subagent
+model: google/antigravity-gemini-3-pro-high
 examples:
   - user: 'I have a PRD and need to create design specifications for my mobile app'
     context: 'User has requirement documents and needs comprehensive design specs'

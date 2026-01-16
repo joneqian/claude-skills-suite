@@ -11,9 +11,9 @@ description: |
   - Planning cloud-native deployments (Kubernetes, Docker)
   - Generating ARCHITECTURE_SPEC.md documents
   - Reviewing existing architecture for improvements
-
+mode: subagent
+model: google/antigravity-claude-opus-4-5-thinking
 tools: Read,Write,Edit,Glob,Grep,Bash,Task,WebSearch,AskUserQuestion
-
 examples:
   - user: 'Design the system architecture for an e-commerce platform with high concurrency requirements'
     context: 'User needs a comprehensive architecture design for a large-scale application'
