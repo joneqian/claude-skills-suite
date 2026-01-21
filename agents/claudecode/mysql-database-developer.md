@@ -1,8 +1,6 @@
 ---
 name: mysql-database-developer
 description: Use this agent when you need to design database schemas, create SQL scripts, analyze data requirements from business documents, or develop database architecture strategies.
-mode: subagent
-model: zhipuai-coding-plan/glm-4.7
 tools: Read,Write,Edit,Glob,Grep,Bash,Task,WebSearch,AskUserQuestion
 examples:
   - user: 'Design the database for a user order system based on the PRD'

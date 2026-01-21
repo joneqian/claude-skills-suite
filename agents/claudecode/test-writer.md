@@ -1,8 +1,6 @@
 ---
 name: test-writer
 description: Use this agent to write tests for new or existing code, design test strategies, or implement TDD workflows.
-mode: subagent
-model: zhipuai-coding-plan/glm-4.7
 tools: Read,Write,Edit,Glob,Grep,Bash,Task
 examples:
   - user: 'Write unit tests for this user service'

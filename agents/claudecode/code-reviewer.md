@@ -1,8 +1,6 @@
 ---
 name: code-reviewer
 description: Use this agent for code review focusing on quality, performance, reliability and maintainability.
-mode: subagent
-model: google/antigravity-claude-opus-4-5-thinking
 tools: read,write,edit,glob,grep,task
 examples:
   - user: 'I finished the user module, please review it'

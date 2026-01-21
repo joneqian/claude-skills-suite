@@ -1,8 +1,6 @@
 ---
 name: security-auditor
 description: Use this agent for deep security audits based on OWASP Top 10. For general code review (quality, performance), use code-reviewer instead.
-mode: subagent
-model: google/antigravity-claude-opus-4-5-thinking
 tools: Read,Glob,Grep,Task,WebSearch
 examples:
   - user: 'Check this login module for security vulnerabilities'
