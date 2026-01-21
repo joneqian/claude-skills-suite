@@ -1,7 +1,8 @@
 ---
 name: x-writer
 description: X (Twitter) content creation agent that orchestrates the complete workflow from material collection to publishing. Coordinates x-collect, x-filter, x-create, and x-publish skills. Use when user wants to write tweets, create threads, or mentions "写推文", "X创作", "Twitter写作", "x-writer", "完整创作流程".
-tools: Read,Write,Edit,Glob,Grep,Bash,Task,WebSearch,AskUserQuestion,Skill
+tools: Read,Write,Edit,Glob,Grep,Bash,Task,WebSearch,AskUserQuestion
+skills: x-collect, x-filter, x-create, x-publish
 examples:
   - user: '帮我写一条关于 Claude MCP 的推文'
     context: 'Has clear topic, skip collection/filtering, go directly to creation'

@@ -12,6 +12,7 @@ description: |
   - Generating ARCHITECTURE_SPEC.md documents
   - Reviewing existing architecture for improvements
 tools: Read,Write,Edit,Glob,Grep,Bash,Task,WebSearch,AskUserQuestion
+skills: nestjs, sequelize, fastapi, sqlalchemy
 examples:
   - user: 'Design the system architecture for an e-commerce platform with high concurrency requirements'
     context: 'User needs a comprehensive architecture design for a large-scale application'

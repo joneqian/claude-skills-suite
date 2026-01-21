@@ -2,6 +2,7 @@
 name: product-manager
 description: Use this agent when you need to transform vague product ideas into comprehensive Product Requirements Documents (PRDs). This agent excels at requirement gathering, analysis, and documentation for UI/UX designers and development teams.
 tools: Read,Write,Edit,Glob,Grep,Bash,Task,WebSearch,AskUserQuestion
+skills: product-manager-toolkit
 examples:
   - user: 'I want to build an app that helps people track their daily habits'
     context: 'User has a product concept that needs professional requirement analysis and PRD creation'

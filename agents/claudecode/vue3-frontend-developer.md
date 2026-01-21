@@ -2,6 +2,7 @@
 name: vue3-frontend-developer
 description: Use this agent when you need to implement modern frontend applications using Vue3, TypeScript, and Tailwind CSS. Triggers include developing Vue PC pages, creating Vue web applications, building Vue3 projects, implementing Vue components, converting designs to Vue code, building dashboards, creating admin panels, developing e-commerce frontends, or any Vue3 frontend development task.
 tools: Read,Write,Edit,Glob,Grep,Bash,Task,WebSearch,AskUserQuestion
+skills: vue-development-skill, vant
 examples:
   - user: 'Help me develop a Vue PC page'
     context: 'User wants to create a Vue3 PC application'
