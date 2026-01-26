@@ -1,5 +1,5 @@
 ---
-name: nestjs
+name: nestjs-skill
 description: NestJS progressive Node.js framework. Use for building scalable server-side applications, TypeScript backend development, dependency injection, modules, controllers, providers, middleware, guards, interceptors, pipes, and microservices architecture.
 ---
 
@@ -10,6 +10,7 @@ Nestjs progressive node.js framework. use for building scalable server-side appl
 ## When to Use This Skill
 
 This skill should be triggered when:
+
 - Working with nestjs
 - Asking about nestjs features or APIs
 - Implementing nestjs solutions
@@ -80,11 +81,13 @@ article.authorId === userId
 ### Example Code Patterns
 
 **Example 1** (typescript):
+
 ```typescript
 const user = req.user;
 ```
 
 **Example 2** (typescript):
+
 ```typescript
 @ObjectType()
 export class Recipe {
@@ -94,6 +97,7 @@ export class Recipe {
 ```
 
 **Example 3** (typescript):
+
 ```typescript
 import { Injectable, Scope } from '@nestjs/common';
 
@@ -102,6 +106,7 @@ export class CatsService {}
 ```
 
 **Example 4** (typescript):
+
 ```typescript
 {
   provide: 'CACHE_MANAGER',
@@ -111,6 +116,7 @@ export class CatsService {}
 ```
 
 **Example 5** (bash):
+
 ```bash
 $ npm i --save-dev @nestjs/testing
 ```
@@ -136,27 +142,34 @@ Use `view` to read specific reference files when detailed information is needed.
 ## Working with This Skill
 
 ### For Beginners
+
 Start with the getting_started or tutorials reference files for foundational concepts.
 
 ### For Specific Features
+
 Use the appropriate category reference file (api, guides, etc.) for detailed information.
 
 ### For Code Examples
+
 The quick reference section above contains common patterns extracted from the official docs.
 
 ## Resources
 
 ### references/
+
 Organized documentation extracted from official sources. These files contain:
+
 - Detailed explanations
 - Code examples with language annotations
 - Links to original documentation
 - Table of contents for quick navigation
 
 ### scripts/
+
 Add helper scripts here for common automation tasks.
 
 ### assets/
+
 Add templates, boilerplate, or example projects here.
 
 ## Notes
@@ -169,5 +182,10 @@ Add templates, boilerplate, or example projects here.
 ## Updating
 
 To refresh this skill with updated documentation:
+
 1. Re-run the scraper with the same configuration
 2. The skill will be rebuilt with the latest information
+
+## Related Skills
+
+- **SQL Database/ORM**: Use the `sequelize-skill` skill for models, migrations, associations, queries, transactions
