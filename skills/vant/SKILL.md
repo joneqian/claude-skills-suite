@@ -215,4 +215,4 @@ showImagePreview(['url1', 'url2']);
 ## Related
 
 - Agent: `vue3-frontend-developer` - Full Vue3 + TypeScript + Tailwind CSS development workflow
-- Skill: `vue-development-skill` - Vue.js framework fundamentals (Composition API, reactivity, components)
+- Skill: `vue-best-practices` - Vue 3 best practices
