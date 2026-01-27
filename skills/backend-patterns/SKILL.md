@@ -11,11 +11,11 @@ Backend architecture patterns and best practices for scalable server-side applic
 
 When working with specific frameworks, combine this skill with framework-specific skills:
 
-| Framework       | Additional Skill               | When to Use                                                      |
-| --------------- | ------------------------------ | ---------------------------------------------------------------- |
-| **NestJS**      | `nestjs-best-practices` skill  | Modules, Controllers, Providers, Guards, Interceptors, Pipes, DI |
-| **FastAPI**     | `fastapi-best-practices` skill | Routes, Decorators, DI, GraphQL, Microservices                   |
-| **Next.js API** | This skill only                | Serverless API routes                                            |
+| Framework       | Additional Skill              | When to Use                                                      |
+| --------------- | ----------------------------- | ---------------------------------------------------------------- |
+| **NestJS**      | `nestjs-best-practices` skill | Modules, Controllers, Providers, Guards, Interceptors, Pipes, DI |
+| **FastAPI**     | `fastapi-templates` skill     | Routes, Decorators, DI, GraphQL, Microservices                   |
+| **Next.js API** | This skill only               | Serverless API routes                                            |
 
 ### NestJS Integration
 
@@ -680,6 +680,6 @@ export async function GET(request: Request) {
 ## Related Skills
 
 - **NestJS Projects**: Use the `nestjs-best-practices` skill for framework-specific features (modules, decorators, DI, GraphQL, microservices)
-- ** FastAPI Projects**: Use the `fastapi-best-practices` skill for framework-specific features (routes, decorators, DI, GraphQL, microservices)
-- **Database Design**: Use `postgres-patterns` or `sequelize-patterns` or `sqlalchemy-patterns` for database-specific patterns
+- ** FastAPI Projects**: Use the `fastapi-templates` skill for framework-specific features (routes, decorators, DI, GraphQL, microservices)
+- **Database Design**: Use `postgres-patterns` or `sequelize-patterns` or `sqlalchemy-orm` for database-specific patterns
 - **API Testing**: Use `playwright-skill` for end-to-end API testing
