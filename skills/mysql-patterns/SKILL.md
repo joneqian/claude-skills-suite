@@ -208,7 +208,6 @@ EXPLAIN ANALYZE SELECT * FROM t_order WHERE user_code = 'u123';
 ## Related
 
 - Agent: `mysql-database-reviewer` - Full database review workflow
-- Skill: `postgres-patterns` - PostgreSQL patterns (similar structure)
 
 ---
 
