@@ -11,11 +11,11 @@ Backend architecture patterns and best practices for scalable server-side applic
 
 When working with specific frameworks, combine this skill with framework-specific skills:
 
-| Framework       | Additional Skill     | When to Use                                                      |
-| --------------- | -------------------- | ---------------------------------------------------------------- |
-| **NestJS**      | `nestjs-skill` skill | Modules, Controllers, Providers, Guards, Interceptors, Pipes, DI |
-| **Express**     | This skill only      | Lightweight REST APIs                                            |
-| **Next.js API** | This skill only      | Serverless API routes                                            |
+| Framework       | Additional Skill              | When to Use                                                      |
+| --------------- | ----------------------------- | ---------------------------------------------------------------- |
+| **NestJS**      | `nestjs-best-practices` skill | Modules, Controllers, Providers, Guards, Interceptors, Pipes, DI |
+| **Express**     | This skill only               | Lightweight REST APIs                                            |
+| **Next.js API** | This skill only               | Serverless API routes                                            |
 
 ### NestJS Integration
 
@@ -679,6 +679,6 @@ export async function GET(request: Request) {
 
 ## Related Skills
 
-- **NestJS Projects**: Use the `nestjs-skill` skill for framework-specific features (modules, decorators, DI, GraphQL, microservices)
+- **NestJS Projects**: Use the `nestjs-best-practices` skill for framework-specific features (modules, decorators, DI, GraphQL, microservices)
 - **Database Design**: Use `postgres-patterns` or `mysql-database-developer` for database-specific patterns
 - **API Testing**: Use `playwright-skill` for end-to-end API testing
