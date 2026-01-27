@@ -1,6 +1,6 @@
 ---
 name: backend-patterns
-description: Backend architecture patterns, API design, database optimization, and server-side best practices for Node.js, Express, NestJS, and Next.js API routes.
+description: Backend architecture patterns, API design, database optimization, and server-side best practices for Node.js, Express, NestJS, FastAPI, and Next.js API routes.
 ---
 
 # Backend Development Patterns
@@ -11,11 +11,11 @@ Backend architecture patterns and best practices for scalable server-side applic
 
 When working with specific frameworks, combine this skill with framework-specific skills:
 
-| Framework       | Additional Skill              | When to Use                                                      |
-| --------------- | ----------------------------- | ---------------------------------------------------------------- |
-| **NestJS**      | `nestjs-best-practices` skill | Modules, Controllers, Providers, Guards, Interceptors, Pipes, DI |
-| **Express**     | This skill only               | Lightweight REST APIs                                            |
-| **Next.js API** | This skill only               | Serverless API routes                                            |
+| Framework       | Additional Skill               | When to Use                                                      |
+| --------------- | ------------------------------ | ---------------------------------------------------------------- |
+| **NestJS**      | `nestjs-best-practices` skill  | Modules, Controllers, Providers, Guards, Interceptors, Pipes, DI |
+| **FastAPI**     | `fastapi-best-practices` skill | Routes, Decorators, DI, GraphQL, Microservices                   |
+| **Next.js API** | This skill only                | Serverless API routes                                            |
 
 ### NestJS Integration
 
@@ -680,5 +680,6 @@ export async function GET(request: Request) {
 ## Related Skills
 
 - **NestJS Projects**: Use the `nestjs-best-practices` skill for framework-specific features (modules, decorators, DI, GraphQL, microservices)
-- **Database Design**: Use `postgres-patterns` or `mysql-database-developer` for database-specific patterns
+- ** FastAPI Projects**: Use the `fastapi-best-practices` skill for framework-specific features (routes, decorators, DI, GraphQL, microservices)
+- **Database Design**: Use `postgres-patterns` or `sequelize-patterns` or `sqlalchemy-patterns` for database-specific patterns
 - **API Testing**: Use `playwright-skill` for end-to-end API testing
