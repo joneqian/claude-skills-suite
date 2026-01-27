@@ -1,4 +1,4 @@
-# Code Review
+# Pre-commit Review
 
 Comprehensive security and quality review of uncommitted changes:
 
