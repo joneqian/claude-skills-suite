@@ -60,3 +60,5 @@ skill-seekers-configs/
 # PID
 .mcp-server.pid
 .mcp-server.port
+
+CLAUDE.md
